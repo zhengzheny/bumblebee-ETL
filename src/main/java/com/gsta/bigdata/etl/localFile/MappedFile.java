@@ -131,7 +131,6 @@ public class MappedFile {
 			this.mappedByteBuffer.force();
 			AccessController.doPrivileged(new PrivilegedAction<Object>() {
 				@Override
-				@SuppressWarnings("restriction")
 				public Object run() {
 					try {
 						Method getCleanerMethod = mappedByteBuffer.getClass()
