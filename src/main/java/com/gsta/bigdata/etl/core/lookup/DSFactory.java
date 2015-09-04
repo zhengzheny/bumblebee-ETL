@@ -1,0 +1,34 @@
+package com.gsta.bigdata.etl.core.lookup;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import com.gsta.bigdata.etl.core.Constants;
+
+/**
+ * 
+ * @author Shine
+ * 
+ */
+@SuppressWarnings("rawtypes")
+public class DSFactory {
+	private static Map<String, Class> datasources = new HashMap<String, Class>();
+
+	static {
+		datasources.put(Constants.LKP_MYSQL_TYPE_DS,MySQLDS.class);
+		datasources.put(Constants.LKP_FLAT_TYPE_DS, FlatDS.class);
+		datasources.put(Constants.LKP_HDFS_TYPE_DS, HdfsDS.class);
+	}
+
+	public static AbstractDataSource getDataSourceByType(String type) {
+		AbstractDataSource datasource = null;
+
+		try {
+			datasource = (AbstractDataSource) Class.forName(datasources.get(type).getName()).newInstance();
+		} catch (InstantiationException | IllegalAccessException
+				| ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return datasource;
+	}
+}

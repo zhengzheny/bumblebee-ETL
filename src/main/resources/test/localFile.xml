@@ -1,0 +1,40 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>	
+	<process id="slice" type="sliceLocalFileProcess">
+		<computingFrameworkConfigs>
+			<property key="localFileSliceThreadSize" value="100" />
+			<property key="errorRecordWriteThreshold" value="1000" />
+			<property key="localFileBufferSize" value="1048576" />
+			<property key="localFileDirMaxFile" value="1000" />
+			<property key="recordWriteThreshold" value="1000" />
+		</computingFrameworkConfigs>
+		<sourceMetaData type="noSettingFieldsFlat" delimiter="\|">
+			<paths>
+				<inputPath path="D:\data_sample\sourceFile"  fileSuffix="txt"/>
+			</paths>
+		</sourceMetaData>
+		<outputMetaData outputPath="D:\bigdata\test">
+			<values delimiter="*">
+				<field id="*" />
+			</values>
+		</outputMetaData>
+	</process>
+	<process id="zte" type="localFileProcess">
+		<computingFrameworkConfigs>
+			<property key="errorRecordWriteThreshold" value="1000" />
+			<property key="localFileBufferSize" value="1048576" />
+			<property key="localFileDirMaxFile" value="1000" />
+			<property key="recordWriteThreshold" value="1000" />
+		</computingFrameworkConfigs>
+		<sourceMetaData type="zteENODEBXML">
+			<paths>
+				<inputPath path="D:\data_sample\sourceFile"  fileSuffix="xml"/>
+			</paths>
+		</sourceMetaData>
+		<outputMetaData outputPath="D:\bigdata\test">
+			<values delimiter="|">
+				<field id="*" />
+			</values>
+		</outputMetaData>
+	</process>
+</etl>

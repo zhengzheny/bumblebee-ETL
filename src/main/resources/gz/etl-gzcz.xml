@@ -1,0 +1,28 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<writeLog property="conf/log/dblog.properties" />
+
+	<contextProperty location="etl-gzcz.properties" />
+	
+	<process id="gzcz">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" />
+		</computingFrameworkConfigs>
+		<sourceMetaData type="noSettingFieldsFlat" delimiter="\$" fieldNum="ge 63">
+			<paths>
+				<inputPath path="${inputPath}" />
+			</paths>
+			<fields>
+				<field id="_1" notNull="yes"/>
+				<field id="_16" notNull="yes"/>
+				
+			</fields>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
+			<values delimiter="$">
+				<field id="*" />
+			</values>
+		</outputMetaData>
+	</process>
+</etl>

@@ -1,0 +1,82 @@
+<etl>
+	<contextProperty location="lookup-demo.properties" />
+	<!-- 如果为了共用一个维表配置，可以采用import方式，lookup.xml中也以<etl><lookup></lookup></etl>为开始结束 -->
+	<lookup import="conf/gz/lookup.xml" />
+	<!-- 一般就在etl文件中配置即可 -->
+	<!-- <lookup>
+		数据源的定义放在公共地方定义，以便多个表引用
+		<datasources>
+			<datasource type="flat" id="ds1">
+				数据源的参数借鉴ibatis，都用property来描述
+				<property name="path" value="${filePath}" />
+				对于普通文件flat和hdfs文件，需要定义文件中的字段分隔符以及字段名称
+				<fields delimiter="\t">
+					<field id="f1" />
+					<field id="f2" />
+				</fields>
+			</datasource>
+			<datasource type="hdfs" id="ds2">
+				数据源的参数借鉴ibatis，都用property来描述
+				<property name="path" value="${hdfsPath}" />
+				对于普通文件flat和hdfs文件，需要定义文件中的字段分隔符以及字段名称
+				<fields delimiter="\|">
+					<field id="f1" />
+					<field id="f2" />
+				</fields>
+			</datasource>
+		</datasources>
+		每一个表必须有id，以便transform应用方便，表中存放就是map<key,value>，如 1 预付费 2 后付费 如果没有定义数据源，最简单都是在配置文件中定义维表
+		<table id="t0">
+			<map key="1" value="预付费" />
+			<map key="2" value="后付费" />
+		</table>
+		datasource可以引用dataSources中的定义。对于flat和hdfs，map中的key和value字段值来自于数据源定义的字段
+		<table id="t1">
+			<datasource ref="ds1" />
+			<map key="f1" value="f2" />
+		</table>
+		<table id="t3">
+			<datasource ref="ds2" />
+			<map key="f1" value="f2" />
+		</table>
+		暂时支持在配置文件定义维表，普通文件或者hdfs文件中读取，mysql中读取几种
+		<table id="t2">
+			<datasource type="mysql">
+				<property name="url" value="${url}" />
+				<property name="username" value="${username}" />
+				<property name="password" value="${password}" />
+				<fields>
+					<sql>select id,name from itcast_user</sql>
+				</fields>
+			</datasource>
+			map中的key和value值来自于sql语句字段，名称必须一致
+			<map key="id" value="name" />
+		</table>
+	</lookup> -->
+	<process id="lookup">
+		<computingFrameworkConfigs>
+<!-- 			<property key="errorRecordWriteThreshold" value="50"/> -->
+		</computingFrameworkConfigs>
+		<sourceMetaData type="noSettingFieldsFlat" delimiter="\|"  fieldNum="ge 9">
+			<paths>
+				<inputPath path="${inputPath}" />
+			</paths>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
+			<keys delimiter="$">
+				<field id="*" />
+			</keys>
+		</outputMetaData>
+		<transforms>
+			<transform scope="map,reduce">
+				<!-- 维表提供三种查询：1、看字段是否在键值列表中isExist(key)；2、根据key查询value getValue(key)；3、反查根据value查询key 
+					getValue(key,isReverse=true)。lookupTable是filter和function中需要查询的表名 -->
+				<filter name="dimensionCheck" input="_1" lookupTable="t2" />
+				<function name="dimensionQuery" input="_1" lookupTable="t0" />
+				<function name="dimensionQuery" input="_2" lookupTable="t1" />
+				<!-- 如果是反查，在字段后面增加/r 即可 -->
+<!-- 				<function name="transform1" input="f1" lookupTable="t2/r" /> -->
+			</transform>
+		</transforms>
+	</process>
+</etl>

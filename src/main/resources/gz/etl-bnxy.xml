@@ -1,0 +1,23 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<writeLog property="conf/log/dblog.properties" />
+
+	<contextProperty location="etl-bnxy.properties" />
+	
+	<process id="bnxy">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" />
+		</computingFrameworkConfigs>
+		<sourceMetaData type="noSettingFieldsFlat" delimiter="\$">
+			<paths>
+				<inputPath path="${inputPath}" />
+			</paths>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
+			<values delimiter="$">
+				<field id="*"/>
+			</values>
+		</outputMetaData>
+	</process>
+</etl>

@@ -1,0 +1,40 @@
+<etl>
+	<contextProperty location="etl-agg.properties" />
+	<lookup>
+	    <datasources>
+	    	<datasource type="hdfs" id="d1">
+				<property name="path" value="${hdfsPath}" />
+				<fields delimiter="\,">
+					<field id="f1" />
+					<field id="f2" />
+					<field id="f3" />
+					<field id="f4" />
+					<field id="f5" />
+					<field id="f6" />
+				</fields>
+			</datasource>
+	    </datasources>
+		<table id="dim_service">
+			<datasource ref="d1"/>
+			<map key="f6" value="f1" />
+		</table>
+	</lookup>
+	<process id="agg">
+		<sourceMetaData type="noSettingFieldsFlat" delimiter="\|"  fieldNum="ge 39">
+			<paths>
+				<inputPath path="${inputPath}" />
+			</paths>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
+			<values delimiter="|">
+				<field id="*" />
+				<field id="hostId"/>
+			</values>
+		</outputMetaData>
+		<transforms>
+			<transform scope="map">
+				<function name="hostQuery" input="_25" output="hostId" lookupTable="dim_service" />
+			</transform>
+		</transforms>
+	</process>
+</etl>

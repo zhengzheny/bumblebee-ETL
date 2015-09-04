@@ -1,0 +1,163 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>	
+	<contextProperty location="classpath:server.properties" />
+	<contextProperty location="classpath:server1.properties" />
+	<import resource="aaa.xml"/>
+	<import resource="bbb.xml"/>
+	
+	<common id="c1">
+		<transforms id="t1">
+			<transform id="t1" scope="map,reduce" type="list">
+				<filter id ="" type="in" filed="accnbr" list="a,b,c"/>
+				<function id="" type="singleField" input=""  output=""/>
+			</transform>	
+		</transforms>
+		<inputMetaData id=""/>
+		<hadoopConfigs id="default">
+			<property key="mapClass" value="com.gsta.bigdata.TransformMapper"/>
+		</hadoopConfigs>
+		<hadoopConfigs id="onlyMap">
+			<property key="mapClass" value="com.gsta.bigdata.TransformMapper"/>
+			<property key="defaultMapValueDelimiter" value="|"/>
+		</hadoopConfigs>
+		<hadoopConfigs id="mapReduce">
+			<property key="mapClass" value="com.gsta.bigdata.TransformMapper"/>
+		</hadoopConfigs>
+	</common>
+	
+	<process id="singleField" outputPath="hdfs://10.17.36.71:8020/user/chenc/tt/output" computingFramework="map/reduce">
+		<ComputingFrameworkConfigs ref="c1.onlyMap"/>
+		<sourceMetaData type="flat" delimiter=",">
+			<paths>
+				<inputPath path="hdfs://10.17.36.71:8020/user/chenc/tt"/>
+			</paths>
+			<fields>
+				<field id="f1" desc=""/>
+				<field id="f2" desc=""/>
+				<field id="f3" desc=""/>
+			</fields>
+		</sourceMetaData>
+		<!-- 如果没有定义mapOutPutMetaData,就会把sourceMetaData字段全部在value中输出 -->
+		<transforms>
+			<transform id="" scope="map">
+				<function type="delWrapper" input="f1" wrapperStr="'"/>
+				<function name="strReplace" input="f2" oldStr="," newStr="$"/>
+			</transform>
+		</transforms>
+	</process>
+	
+	<process id="ex0" outputPath="hdfs://10.17.36.71:8020/user/chenc/tt/output">
+		<hadoopConfigs ref="c1.onlyMap"/>
+		<!-- 如果给的目录，需要抽查某一个文件，在map的setup中计算好开始行，字段分割等内容 -->
+		<sourceMetaData type="flatFixedLenByBeginLine" beginAndFixedLenLine="--------- -------------------- ----------------------- ----------------------- ----------------------- -------------------- -------------------- -------- -------- ------------------------ -------------------- -------------------- --------------------">
+			<paths>
+				<inputPath path="hdfs://10.17.36.71:8020/user/chenc/tt"/>
+			</paths>
+			<fields>
+				<field id="id" desc=""/>
+				<field id="beginTime" desc=""/>
+				<field id="caller" desc=""/>
+				<field id="called" desc=""/>
+				<field id="orginal-called" desc=""/>
+				<field id="opc" desc=""/>
+				<field id="dpc" desc=""/>
+				<field id="pcm" desc=""/>
+				<field id="session" desc=""/>
+				<field id="lost" desc=""/>
+				<field id="session-second" desc=""/>
+				<field id="session-1" desc=""/>
+				<field id="session-2" desc=""/>
+			</fields>
+		</sourceMetaData>
+		<mapOutPutMetaData>
+			<values  delimiter="|">
+				<field id="id"/>
+				<field id="beginTime"/>
+				<field id="caller"/>
+				<field id="called"/>
+				<field id="orginal-called"/>
+				<field id="opc"/>
+			</values>
+		</mapOutPutMetaData>
+	</process>
+	
+	<process id="ex1" outputPath="hdfs://10.17.36.71:8020/user/chenc/tt/output">
+		<hadoopConfigs ref="c1.onlyMap"/>
+		<sourceMetaData type="flatOnlyOneField" delimiter="|">
+			<paths>
+				<inputPath path="hdfs://10.17.36.71:8020/user/chenc/tt"/>
+				<inputPath path="hdfs://10.17.36.71:8020/user/chenc/tt1"/>
+			</paths>
+			<fields>
+				<field id="t1" desc=""/>
+				<field id="ip" desc=""/>
+			</fields>
+		</sourceMetaData>
+		<mapMetaData>
+			<values  delimiter="|">
+				<field id="t1"/>
+				<field id="ip"/>
+				<field id="isHoliday"/>
+			</values>
+		</mapMetaData>
+		<transforms>
+			<transform scope="map">
+				<function name="unixTimeFormat" format="yyyy-mm-dd hh24:MM:ss" input="t1" />
+				<function name="longIp2Normal" input="ip" output="ip1"/>
+				<function type="holidayTag" output="isHoliday"/>
+				<function type="f2" input1="isHoliday" input2="t1"/>
+			</transform>
+		</transforms>
+	</process>
+	
+	<process id="" outputPath="">
+		<hadoopConfigs>
+			<property key="mapClass" value="com.gsta.bigdata.TransformMapper"/>
+			<property key="mapred.reduce.tasks" value="${reduce.tasks}"/>
+		</hadoopConfigs>
+		<sourceMetaData id="" type="flat" columnLength="8" delimiter="|" beginLine="">
+			<paths>
+				<inputPath id="" path="" beginLine=""/>
+			</paths>
+			<fields id="adsl_data" fieldNum="8" wrap="" beforeDelimiter="" afterDelimiter="" >
+					<field sequenceId="1"  enName="PRE_PAY_MARK" type="VARCHAR2" description="预付费标识"/>
+					<field sequenceId="2"  enName="PS" type="VARCHAR2" description="产品规格"/>	
+				  	<field sequenceId="3"  enName="ACCOUNT_NUM" type="VARCHAR2" description="帐号"/>
+					<field sequenceId="4"  enName="SURF_TIME" type="VARCHAR2" description="上网时长_秒"/>
+					<field sequenceId="5"  enName="SURF_TIMEPOIONT" type="VARCHAR2" description="上网时间"/>
+					<field sequenceId="6"  enName="DOWN_TIMEPOINT" type="VARCHAR2" description="下网时间"/>
+					<field sequenceId="7"  enName="UP_FLOW" type="VARCHAR2" description="上行流量_字节"/>
+					<field sequenceId="8"  enName="DOWN_FLOW" type="VARCHAR2" description="下行流量_字节"/>
+			</fields>
+		</sourceMetaData>
+		<mapMetaData id="">
+			<keys id="" delimiter="">
+				<field></field>
+			</keys>
+			<values id="" delimiter="">
+				<field></field>
+			</values>
+		</mapMetaData>
+		<reduceMetaData id="">
+			<fields id="etl_adsl_data" fieldNum="9" wrap=""  afterDelimiter=""  >
+					<field sequenceId="1"  enName="PRE_PAY_MARK" type="VARCHAR2" description="预付费标识"/>
+					<field sequenceId="2"  enName="PS" type="VARCHAR2" description="产品规格"/>	
+				  	<field sequenceId="3"  enName="ACCOUNT_NUM" type="VARCHAR2" description="帐号"/>
+					<field sequenceId="4"  enName="SURF_TIME" type="VARCHAR2" description="上网时长_秒"/>
+					<field sequenceId="5"  enName="SURF_TIMEPOIONT" type="VARCHAR2" description="上网时间"/>
+					<field sequenceId="6"  enName="DOWN_TIMEPOINT" type="VARCHAR2" description="下网时间"/>
+					<field sequenceId="7"  enName="UP_FLOW" type="VARCHAR2" description="上行流量_字节"/>
+					<field sequenceId="8"  enName="DOWN_FLOW" type="VARCHAR2" description="下行流量_字节"/>
+					<field sequenceId="9"  enName="isWorkday" type="VARCHAR2" description="休息日/工作日标记"/>
+			</fields>
+		</reduceMetaData>
+		<transforms id="">
+			<transform id="" scope="map,reduce" >
+					<filter id ="" type="in" filed="accnbr" list="a,b,c"/>
+					<function id="" type="func2(ACCOUNT_NUM,DOWN_TIMEPOINT)" output=""/>
+					<function id="" type="func1(a,${b},$constant.2)" output=""/>
+			</transform>
+			<transform ref="c1.t1" scope="map"/>
+		</transforms>
+	</process>
+</etl>

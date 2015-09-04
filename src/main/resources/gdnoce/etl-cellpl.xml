@@ -1,0 +1,83 @@
+<etl>
+	<process id="cellpl" type="localFileProcess">
+		<computingFrameworkConfigs>
+			<property key="localFileBufferSize" value="1048576"/>
+			<property key="localFileDirMaxFile" value="1000"/>
+		</computingFrameworkConfigs>
+		<sourceMetaData type="zteENODEBXML" >
+			<paths>
+				<inputPath path="${inputPath}" charset="GBK" fileSuffix="xml" fileNamePattern="CELLPL"/>
+			</paths>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${outputPath}" fileSuffix="txt" charset="utf-8">
+			<values delimiter="|">
+				<field id="COLLECTTIME" />
+				<field id="SBNID" />
+				<field id="ENODEBID" />
+				<field id="CellID" />
+				<field id="C373353900" />
+				<field id="C373353901" />
+				<field id="C373353902" />
+				<field id="C373353903" />
+				<field id="C373353904" />
+				<field id="C373353905" />
+				<field id="C373353906" />
+				<field id="C373353907" />
+				<field id="C373353908" />
+				<field id="C373353909" />
+				<field id="C373353910" />
+				<field id="C373353911" />
+				<field id="C373353912" />
+				<field id="C373353913" />
+				<field id="C373353914" />
+				<field id="C373353915" />
+				<field id="C373353916" />
+				<field id="C373353917" />
+				<field id="C373353918" />
+				<field id="C373353919" />
+				<field id="C373353920" />
+				<field id="C373353921" />
+				<field id="C373353922" />
+				<field id="C373353923" />
+				<field id="C373353924" />
+				<field id="C373353925" />
+				<field id="C373353926" />
+				<field id="C373353927" />
+				<field id="C373353928" />
+				<field id="C373353929" />
+				<field id="C373353930" />
+				<field id="C373353931" />
+				<field id="C373353932" />
+				<field id="C373353933" />
+				<field id="C373353934" />
+				<field id="C373353935" />
+				<field id="C373353936" />
+				<field id="C373353937" />
+				<field id="C373353938" />
+				<field id="C373353939" />
+				<field id="C373353940" />
+				<field id="C373353941" />
+				<field id="C373353942" />
+				<field id="C373353943" />
+				<field id="C373353944" />
+				<field id="C373353947" />
+				<field id="C373353948" />
+				<field id="C373353949" />
+				<field id="C373353950" />
+				<field id="C373353951" />
+				<field id="C373353952" />
+				<field id="C373353953" />
+				<field id="C373353954" />
+				<field id="C373353955" />
+				<field id="C373353956" />
+				<field id="C373353957" />
+				<field id="C373353958" />
+				<field id="C373353959" />
+				<field id="C373353960" />
+				<field id="C373353961" />
+				<field id="C373354022" />
+				<field id="C373354023" />
+			</values>
+		</outputMetaData>
+	</process>
+</etl>

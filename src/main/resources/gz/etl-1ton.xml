@@ -1,0 +1,28 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<writeLog property="conf/log/dblog.properties" />
+
+	<contextProperty location="etl-1ton.properties" />
+	
+	<process id="1ton">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" />
+		</computingFrameworkConfigs>
+		<sourceMetaData type="noSettingFieldsFlat" delimiter="\," fieldNum="ge 13">
+			<paths>
+				<inputPath path="${inputPath}" />
+			</paths>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
+			<values delimiter="|">
+				<field id="*"/>
+			</values>
+		</outputMetaData>
+		<transforms>
+			<transform scope="map">		
+				<function name="delWrapper" input="*" wrapper="&quot;"/>
+			</transform>
+		</transforms>
+	</process>
+</etl>

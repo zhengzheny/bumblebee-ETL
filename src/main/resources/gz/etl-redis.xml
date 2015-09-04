@@ -1,0 +1,77 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<process id="midCdrContactStat" outputPath="hdfs://10.17.36.71:8020/user/chenc/tt/output">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass" value="com.gsta.bigdata.etl.mapreduce.RedisProtocolOutputFormat"/>
+		</computingFrameworkConfigs>
+		<sourceMetaData type="simpleFlat" delimiter="\001" >
+			<paths>
+				<inputPath path="hdfs://10.17.36.71:8020/user/chenc/tt/set.data" />
+			</paths>
+			<fields>
+				<field id="CDMA_NBR" />
+				<field id="CALLED_NBR"  />
+				<field id="CONTACT_NBR" />
+				<field id="CONTACT_DUAL" />
+				<field id="CHARGE" />
+				<field id="CHARGE_DUAL" />
+			</fields>
+		</sourceMetaData>
+		<mapOutputMetaData>
+			<keys>
+				<field id="redis_protocol" />
+			</keys>
+		</mapOutputMetaData>
+		<transforms>
+			<transform scope="map">
+				<function name="redisSet" expireTime="90" output="redis_protocol">
+					<key fields="CDMA_NBR,CALLED_NBR" delimiter="+"/>
+					<value fields="CONTACT_NBR" /> 
+				</function>
+			</transform>
+		</transforms>
+	</process>
+	
+	<process id="appCSComCredit" outputPath="hdfs://10.17.36.71:8020/user/chenc/tt/output">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass" value="com.gsta.bigdata.etl.mapreduce.RedisProtocolOutputFormat"/>
+		</computingFrameworkConfigs>
+		<sourceMetaData type="simpleFlat" delimiter="\001" >
+			<paths>
+				<inputPath path="hdfs://10.17.36.71:8020/user/chenc/tt/hset.data" />
+			</paths>
+			<fields>
+				<field id="CDMA_NBR" />
+				<field id="i_shenfenzhen"  />
+				<field id="i_zaiwangshijian" />
+				<field id="i_shoujishu" />
+				<field id="i_guhuashu" />
+				<field id="zhangdan_1" />
+				<field id="zhangdan_2" />
+				<field id="zhangdan_3" />
+				<field id="zhangdan_4" />
+				<field id="zhangdan_5" />
+				<field id="zhangdan_6" />
+				<field id="liuliang_1" />
+				<field id="liuliang_2" />
+				<field id="liuliang_3" />
+				<field id="liuliang_4" />
+				<field id="liuliang_5" />
+				<field id="liuliang_6" />
+			</fields>
+		</sourceMetaData>
+		<mapOutputMetaData>
+			<keys>
+				<field id="redis_protocol" />
+			</keys>
+		</mapOutputMetaData>
+		<transforms>
+			<transform scope="map">
+				<function name="redisHSet" expireTime="45" output="redis_protocol">
+					<key fields="CDMA_NBR" />
+					<value fields="i_shenfenzhen,i_zaiwangshijian,i_shoujishu,i_guhuashu,zhangdan_1,zhangdan_2,zhangdan_3,zhangdan_4,zhangdan_5,zhangdan_6,liuliang_1,liuliang_2,liuliang_3,liuliang_4,liuliang_5,liuliang_6" /> 
+				</function>
+			</transform>
+		</transforms>
+	</process>
+</etl>

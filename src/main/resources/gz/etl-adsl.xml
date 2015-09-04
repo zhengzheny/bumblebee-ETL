@@ -1,0 +1,29 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<writeLog property="conf/log/dblog.properties" />
+
+	<contextProperty location="etl-adsl.properties" />
+	
+	<process id="adsl">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" errorPath="${errorPath}"/>
+		</computingFrameworkConfigs>
+		<sourceMetaData type="noSettingFieldsFlat" delimiter="\|" fieldNum="ge 9">
+			<paths>
+				<inputPath path="${inputPath}" />
+			</paths>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
+			<values delimiter="|">
+				<field id="*"/>
+				<field id="f9"></field>
+			</values>
+		</outputMetaData>
+		<transforms>
+			<transform scope="map">		
+				<function name="isHoliday" input="_5" output="f9" formatter="yyyy-MM-dd HH:mm:ss.SSS"/>
+			</transform>
+		</transforms>
+	</process>
+</etl>

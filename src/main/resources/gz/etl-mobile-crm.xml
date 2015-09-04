@@ -1,0 +1,31 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<writeLog property="conf/log/dblog.properties" />
+
+	<contextProperty location="etl-mobile-crm.properties" />
+	
+	<process id="mobile-crm">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass" value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat"/>
+		</computingFrameworkConfigs>
+		<sourceMetaData type="noSettingFieldsFlat" delimiter="," fieldNum="ge 35" wrapper="'">
+			<paths>
+				<inputPath path="${inputPath}" />
+			</paths>
+			<fields>
+				<field id="_2" notNull="yes"/>
+				<field id="_34" notNull="yes"/>
+			</fields>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
+			<values delimiter="$">
+				<field id="*"/>
+			</values>
+		</outputMetaData>
+		<transforms>
+			<transform scope="map">		
+				<function name="delWrapper" input="*" wrapper="'"/>
+			</transform>
+		</transforms>
+	</process>
+</etl>
