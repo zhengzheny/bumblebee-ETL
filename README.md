@@ -5,12 +5,37 @@ bumblebeeÊÇÒ»¸öETL³ÌÐò£¬JavaÓïÑÔ±àÐ´£¬Ö÷ÒªÉæ¼°µÄÊÇ³éÈ¡£¨extract£©¹ý³Ì£¬°ÑÕâ¸ö¹ý³
 ##Key Features:
 * ¶¨Òå²ÉÓÃxmlÎÄ¼þ½øÐÐÅäÖÃ£¬Ò×ÓÚ¶ÁÐ´
 * ³éÏóÁËextractÄ£ÐÍ£¬Ò×ÓÚÀ©Õ¹
-* Ö§³Ö¶àÖÖ¼ÆËãÄ£Ê½
-	* map/reduce£º°Ñ¶¨ÒåxmlÎÄ¼þ½âÎö³ÉextractÄ£ÐÍ£¬²¢°ÑÄ£ÐÍµÄjavaÀàÐòÁÐ»¯Îªjson×Ö·û´®£¬ÔÚmapper/reducerÖÐ·´ÐòÁÐ»¯ÎªjavaÀà£¬½øÐÐÏà¹Ø¼ÆËã
-	* localFile£ºÔÚ±¾µØ½øÐÐÊý¾ÝÔ´ÎÄ¼þµÄ×ª»»£¬Ã¿¸öÎÄ¼þÒ»¸öÏß³Ì£¬Ã¿´Î
+* Ö§³Ö¶àÖÖ¼ÆËãÄ£Ê½£º
+	* map/reduce£º°Ñ¶¨ÒåxmlÎÄ¼þ½âÎö³ÉextractÄ£ÐÍ£¬²¢°ÑÄ£ÐÍµÄjavaÀàÐòÁÐ»¯Îªjson×Ö·û´®£¬ÔÚmapper/reducerÖÐ·´ÐòÁÐ»¯ÎªjavaÀà£¬½øÐÐÏà¹Ø¼ÆËã¡£
+	* localFile£ºÔÚ±¾µØ½øÐÐÊý¾ÝÔ´ÎÄ¼þµÄ×ª»»£¬Ã¿¸öÎÄ¼þÒ»¸öÏß³Ì£¬ÎÄ¼þÍ¨¹ýjava nio½øÐÐÄÚ´æÓ³Éä£¬Ã¿´Î¶ÁÈ¡1M£¨¿ÉÉèÖÃ£©ÄÚÈÝ£¬½âÎö³ÉÒ»ÐÐÐÐÓÉhandlerÀà´¦Àí¡£
+	* sliceLocalFile:´¦Àí·½·¨ÀàËÆÓÚlocalFile£¬µ«Õë¶ÔÍ¬Ò»¸öÎÄ¼þ£¬ÓÖ·Ö³ÉÁË¶à¸öÏß³Ì½øÐÐ´¦Àí¡£ÕâÖÖÄ£Ê½Ö÷Òª´¦ÀíÃ¿Ò»ÐÐ¶¼ÊÇ¶ÀÁ¢µÄÄÚÈÝ¿é£¬Ïß³ÌÖ®¼ä¿ÉÒÔ·½±ã²ð·Ö£¬¶ølocalFile´¦ÀíÈçÊý¾ÝÔ´ÎªxmlµÄÄÚÈÝ¿é£¬²»Í¬Ïß³Ì²ð¼ä²ð·Ö±È½ÏÂé·³£¬¹ÊÔÚÍ¬Ò»¸öÏß³ÌÖÐ´¦Àí¡£
+	* spark:todo list
 
 ##Adventage
-
+* ¿ÉÒÔ¿ìËÙÀ©Õ¹Êý¾ÝÔ´£¬Êý¾ÝÔ´¿ÉÒÔÊÇµ¥¸öÎÄ¼þ£¬Ò²¿ÉÒÔÊÇÄ¿Â¼£¬Ä¿Ç°ÒÑ¾­Ö§³ÖµÄÊý¾ÝÔ´£º
+	* simpleFlat£º¼òµ¥·Ö¸ô·ûµÄÎÄ±¾ÎÄ¼þ£¬ÐèÒªÏêÏ¸¶¨ÒåÃ¿Ò»¸ö×Ö¶Î
+	* noSettingFieldsFlat£ºÎÞÐè¶¨ÒåÊý¾ÝÔ´×Ö¶Î£¬¿ò¼Ü×Ô¶¯°ÑÊý¾ÝÐÐ£¬°´ÕÕ·Ö¸î·û½âÎö³É¡°_n¡±×Ö¶Î£¬ÒâÎ¶×ÅµÚn¸ö×Ö¶Î¡£
+	* fixedLengthFlat£ºÎª×Ö¶Î³¤¶È¹Ì¶¨ÀàÐÍ£¬Ã¿Ò»¸ö×Ö¶Î³¤¶È¶¨ÒåºÃÊÇ¹Ì¶¨µÄ£¬ÔÚfieldµÄlengthÊôÐÔÖÐ¶¨Òå³¤¶È¡£
+	* fixedLengthByLineFlat:Ò²ÊÇ×Ö¶Î¹Ì¶¨³¤¶ÈÀàÐÍ£¬µ«ÊÇ¸ù¾ÝÊý¾ÝÔ´ÖÐµÄÄ³Ò»ÐÐ×ÔÐÐÅÐ¶ÏÃ¿Ò»¸ö×Ö¶ÎµÄ³¤¶È¡£
+* ¿ÉÒÔ¿ìËÙÀ©Õ¹¹ýÂËÆ÷ºÍ×ª»»º¯Êý
+	* ¹ýÂËÆ÷£ºÔÚ×ª»»º¯ÊýÖ®Ç°£¬Í¨¹ý¹ýÂËÌõ¼þ²Å¿ÉÒÔ½øÐÐº¯Êý×ª»»
+	* ×ª»»º¯Êý£ºÖ§³ÖÊä³öÖÐ¼ä½á¹û£¬Ö§³Ö±íÊ¾ËùÓÐ×Ö¶ÎµÄÍ¨Åä·û"*"
+	* Î¬±í²éÑ¯:
+		* À´Ô´£ºÖ÷ÒªÐÎÊ½ÎªKey-Value£¬ÓÃÀ´²éÑ¯ºÍ×ª»»Êý¾ÝÔ´ÖÐÏà¹Ø×Ö¶ÎµÄÖµ£¬À´Ô´¿ÉÒÔÊÇÔÚxmlÅäÖÃÖÐ×Ô¶¨Òå¡¢±¾µØÎÄ¼þ¡¢HDFSºÍÊý¾Ý¿â¡£
+		* ²éÑ¯£ºÖ§³ÖÈýÖÖ²éÑ¯£¬Î¬±íÊÇ·ñ´æÔÚ£¬¸ù¾Ýkey²éÑ¯value£¬¸ù¾Ývalue·´²ékey¡£
+* Êä³ö¸ñÊ½µÄ¿ìËÙ¶¨Òå
+* ×Ö¶ÎÐ£Ñé£º
+	* ÀàÐÍÐ£Ñé:Ö§³ÖµÄÀàÐÍ°üº¬byte, creditCard, double,email, float, int, long, short, string, idCard,ÆäÖÐcreditCardÎªÐÅÓÃ¿¨ºÅ£¬idCardÎªÉí·ÝÖ¤ºÅÐ£ÑéÊÇ·ñºÏ·¨¡£
+	* ×Ö¶Î³¤¶ÈÐ£Ñé:ÉèÖÃ×Ö¶ÎminLengthºÍmaxLengthÊôÐÔ£¬×Ö¶Î³¤¶ÈÐ¡ÓÚminLength£»»òÕß×Ö¶Î³¤¶È´óÓÚmaxLength£¬¶¼»á±¨´í¡£
+	* ×Ö¶ÎÊÇ·ñÎª¿Õ:Ä¬ÈÏÎª¿ÉÒÔÎª¿Õ£¬Èç¹ûÐèÒªÉèÖÃ²»Îª¿Õ£¬ÉèÖÃÖµÎªyes¡£
+	* ÊÇ·ñÑÏ¸ñ¼ì²é:ÉèÖÃfieldÊôÐÔstrictCheck£¬Ä¬ÈÏÎª²»ÑÏ¸ñ¼ì²é£¬Èç¹ûÐèÒªÑÏ¸ñ¼ì²é£¬ÉèÖÃÖµÎªyes¡£Èç¹û³öÏÖ×Ö¶ÎÐ£ÑéÒì³££¬ÑÏ¸ñ¼ì²éµÄ»°£¬¿ò¼Ü½«Ð´Ð£ÑéÒì³£ÎÄ¼þ£¬½«²»»á¼ÌÐø×öº¯Êý×ª»»¡£Èç¹û·ÇÑÏ¸ñ¼ì²é£¨¼´Ä¬ÈÏÇé¿ö£©£¬¿ò¼Ü»áÐ´Ð£ÑéÒì³£ÎÄ¼þ£¬²¢¼ÌÐø½øÐÐº¯Êý×ª»»£¬½ø¶øÊä³öµ½ÎÄ¼þÖÐ¡£·ÇÑÏ¸ñ¼ì²éµÄÄ¿µÄ£¬¿¼ÂÇÐ©×Ö¶ÎÐèÒª¼ìÑé³öÀ´£¬µ«Õâ¸öÊý¾Ý»¹ÊÇ¿ÉÒÔÓÃµÄ£¬¿ÉÒÔ×öÆäËû´¦ÀíµÄ£¬ÒòÎª¿Í»§µÈ×ÅÓÃÊý£¬ÐèÒª½øÈëÏÂÒ»»·½Ú´¦Àí¡£Èç¹ûÖ±½Ó³ö´í²»×öºóÐøµÄ×ª»»£¬ÄÇÃ´Êý¾Ý½«ÅÜ²»ÏÂÈ¥£¬±ØÐë×·Êý¾ÝÔ´°ÑÊý¾ÝÐ£ÕýÁË²ÅÐÐ£¬ÕâÑù»áÓ°Ïì¿Í»§ÓÃÊý¡£
+* ´íÎó¼ÇÂ¼´¦Àí£º
+	* »á°Ñ×Ö¶ÎÐ£ÑéºÍº¯Êý×ª»»Ê±ºòµÄ´íÎóÐ´Èëµ½ÎÞÐ§Êý¾ÝºÍ´íÎóÎÄ¼þÖÐ¡£
+	* Õë¶Ômap/reduceµÄ´íÎó¼ÇÂ¼£¬ÔÚ¿ØÖÆÌ¨ÎÞ·¨¿´µ½£¬²»ÀûÓÚÔËÎ¬£¬¿ò¼Ü»á¼ÇÂ¼Ã¿¸ömapperÖÐµÄ´íÎó£¬²¢ÔÚ¿ØÖÆÌ¨½øÐÐ¼¯ÖÐ´òÓ¡¡£
+* ±äÁ¿ÒýÓÃ£º
+	* .propertiesÎÄ¼þ¶¨Òå£ºÔÚxmlÅäÖÃÖÐ£¬ÓÐÐ©ÊôÐÔÖµÏ£ÍûÍ¨¹ý±äÁ¿·½Ê½ÒýÈë£¬ÈçÂ·¾¶ÊôÐÔ£º/data/etl/ /TB_CUST_INFO_M/YYYYMM/£¬YYYYMMÃ¿¸öÔÂ¶¼Òª±ä»¯£»ÁíÍâÓÐÐ©ÊôÐÔ·Ç³£³¤£¬·ÅÔÚxmlÖÐ¿É¶ÁÐÔ²î£»»¹ÓÐÒ»Ð©¾­³£±ä»¯µÄÊôÐÔ£¬Ï£ÍûÏñspringÒ»Ñù¼¯ÖÐÔÚÄ³Ò»¸ö*. propertiesÎÄ¼þÖÐ½øÐÐ¹ÜÀí£¬ÕâÑùÃ¿´ÎÐÞ¸Ä£¬Ö»ÐèÒªÐÞ¸Ä.propertiesÎÄ¼þ¡£
+	* shellÃüÁîÐÐµÄ±äÁ¿Ó¦ÓÃ£ºYYYYMM¿ÉÒÔÍ¨¹ýshellÃüÁîÐÐ´«µÝ²ÎÊý½øÈ¥£¬ÓÃ·¨ÈçÏÂ£ºbin/etl.sh configFile=conf/test/etl.xml  processId=ex1 YYYYMM=201505
+		
 ##Getting started
 * ÔËÐÐ»·¾³£ºjdk1.7+
 * release version,download
