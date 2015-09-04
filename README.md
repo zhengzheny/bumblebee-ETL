@@ -39,12 +39,15 @@ bumblebeeÊÇÒ»¸öETL³ÌĞò£¬JavaÓïÑÔ±àĞ´£¬Ö÷ÒªÉæ¼°µÄÊÇ³éÈ¡£¨extract£©¹ı³Ì£¬°ÑÕâ¸ö¹ı³
 ##Getting started
 * ÔËĞĞ»·¾³£ºjdk1.7+
 * release version,download
-* usage
-**
-* Ö§³Ö¹¦ÄÜ
-
+* usage£º
+	* bin/etl.sh configFile=conf/test/etl.xml  processId=ex1 YYYYMM=201505
 
 ##Performance 
-
+* map/reduceĞÔÄÜÈ¡¾öÓÚhadoop¼¯ÈºµÄĞÔÄÜ
+* slice local file¼ÆËãÄ£Ê½£¬¿ÉÒÔ´ïµ½124M/s´¦ÀíËÙ¶È
+	* cpu£ºIntel(R) Xeon(R) CPU E5-2630 v3 @ 2.40GHz £¬8¸öcpu£¬Ã¿¸öcpu4ºË£¬¹²¼Æ32core,132GÄÚ´æ
+	* 56.33 GBÎÄ¼ş£¬¼ÇÂ¼Êı5.6ÒÚ£¬×ö·Ö¸î·û×ª»»£¬ºÄÊ±465Ãë
 
 ##Contributors 
+	* ÌïÎõÇå  531013850@qq.com
+	* º«¶şÃ÷  283741965@qq.com
