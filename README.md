@@ -38,7 +38,7 @@ bumblebee是一个ETL程序，Java语言编写，主要涉及的是抽取（extr
 		
 ##Getting started
 * 运行环境：jdk1.7+
-* release version,![download](https://github.com/styg/bumblebee-ETL/blob/master/etl-1.0-linux.tar.gz?raw=true)
+* release version:![download](https://github.com/styg/bumblebee-ETL/blob/master/etl-1.0-linux.tar.gz?raw=true)
 * usage：
 	* bin/etl.sh configFile=conf/test/etl.xml  processId=ex1 YYYYMM=201505
 
@@ -49,5 +49,5 @@ bumblebee是一个ETL程序，Java语言编写，主要涉及的是抽取（extr
 	* 56.33 GB文件，记录数5.6亿，做分割符转换，耗时465秒
 
 ##Contributors 
-	* 田熙清  531013850@qq.com
-	* 韩二明  283741965@qq.com
+* 田熙清  531013850@qq.com
+* 韩二明  283741965@qq.com
