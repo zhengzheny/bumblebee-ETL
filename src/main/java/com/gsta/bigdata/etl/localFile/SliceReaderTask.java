@@ -47,6 +47,11 @@ public class SliceReaderTask implements Runnable {
 
 	@Override
 	public void run() {
+		if (this.sliceSize >= Integer.MAX_VALUE) {
+			logger.error("slice size can't exceed Integer.MAX_VALUE,you can increase thread size or cut file to more small file");
+			return;
+		}
+		
 		try {
 			logger.info("fileName " + handler.getInputFile().getFile().getName() +
 					" slice:start=" + this.start + ",end=" + this.end +
