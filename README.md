@@ -2,7 +2,7 @@ bumblebee
 =============
 bumblebee是一个ETL程序，Java语言编写，主要涉及的是抽取（extract）过程，把这个过程抽象为几部分：数据源定义、数据行的解析、转换函数定义及计算、输出文件定义及格式化输出等。
 
-##Key Features:
+##Key Features
 * 定义采用xml文件进行配置，易于读写
 * 抽象了extract模型，易于扩展
 * 支持多种计算模式：
