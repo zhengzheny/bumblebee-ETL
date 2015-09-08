@@ -16,8 +16,15 @@
 		</sourceMetaData>
 		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
 			<values delimiter="|">
-				<field id="*"/>
-				<field id="f9"></field>
+				<field id="_1"/>
+				<field id="_2"/>
+				<field id="_3"/>
+				<field id="_4"/>
+				<field id="_5"/>
+				<field id="_6"/>
+				<field id="_7"/>
+				<field id="_8"/>
+				<field id="f9"/>
 			</values>
 		</outputMetaData>
 		<transforms>

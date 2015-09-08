@@ -9,7 +9,7 @@
 			<property key="outputFormatClass"
 				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" />
 		</computingFrameworkConfigs>
-		<sourceMetaData type="noSettingFieldsFlat" delimiter="\$" fieldNum="ge 63">
+		<sourceMetaData type="noSettingFieldsFlat" delimiter="\$" fieldNum="ge 62">
 			<paths>
 				<inputPath path="${inputPath}" />
 			</paths>
