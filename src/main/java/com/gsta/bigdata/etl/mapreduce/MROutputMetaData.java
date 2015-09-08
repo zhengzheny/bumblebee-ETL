@@ -136,7 +136,8 @@ public class MROutputMetaData extends OutputMetaData  {
 		}
 		
 		if(nullFlag){
-			throw new ETLException(ETLException.NULL_FIELD_NAMES,nullFieldNames);
+			throw new ETLException(ETLException.NULL_FIELD_NAMES,
+					"field " + nullFieldNames + " get null value.");
 		}
 		
 		String ret = sb.toString();

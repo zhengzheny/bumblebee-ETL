@@ -1,3 +1,4 @@
+<?xml version = "1.0" encoding = "utf-8"?>
 <etl>
 	<contextProperty location="etl-agg.properties" />
 	<lookup>
@@ -20,20 +21,26 @@
 		</table>
 	</lookup>
 	<process id="agg">
-		<sourceMetaData type="noSettingFieldsFlat" delimiter="\|"  fieldNum="ge 39">
+		<computingFrameworkConfigs>
+			<property key="mapperClass" value="com.gsta.bigdata.etl.mapreduce.ETLMapper" />
+			<property key="errorRecordWriteThreshold" value="1000" />
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyKeyOutputFormat" />
+		</computingFrameworkConfigs>
+		<sourceMetaData type="noSettingFieldsFlat" delimiter="\001"  fieldNum="ge 21">
 			<paths>
 				<inputPath path="${inputPath}" />
 			</paths>
 		</sourceMetaData>
 		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
-			<values delimiter="|">
+			<keys delimiter="001">
 				<field id="*" />
 				<field id="hostId"/>
-			</values>
+			</keys>
 		</outputMetaData>
 		<transforms>
 			<transform scope="map">
-				<function name="hostQuery" input="_25" output="hostId" lookupTable="dim_service" />
+				<function name="hostQuery" input="_11" output="hostId" lookupTable="dim_service" />
 			</transform>
 		</transforms>
 	</process>
