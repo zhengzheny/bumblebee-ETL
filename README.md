@@ -39,8 +39,12 @@ bumblebee是一个ETL程序，Java语言编写，主要涉及的是抽取（extr
 ##Getting started
 * 运行环境：jdk1.7+
 * release version:![download](https://github.com/styg/bumblebee-ETL/releases)
+* 编译及部署：
+	*下载![Maven](http://maven.apache.org/)，并配置执行路径
+	*在源代码下执行mvn package，会在target目录下产生etl-1.0-linux.tar.gz文件，在linux下解压即可
 * usage：
 	* bin/etl.sh configFile=conf/test/etl.xml  processId=ex1 YYYYMM=201505
+	* 其中processId为执行的业务流程，YYYYMM为变量引用举例
 
 ##Performance 
 * map/reduce性能取决于hadoop集群的性能
