@@ -120,13 +120,16 @@ public class MROutputMetaData extends OutputMetaData  {
 				Iterator<String> iter = data.getFieldNames().iterator();
 				while(iter.hasNext()){
 					String fieldName = iter.next();
-					String dataValue = data.getData().get(fieldName);
-					sb.append(dataValue).append(this.keysDelimiter);
-					
-					if(dataValue == null){
-						nullFlag = true;
-						nullFieldNames = nullFieldNames + fieldName + ",";
+					String dataValue = data.getData().get(fieldName);					
+					if (dataValue == null) {
+						if (field.getDefaultValue() != null) {
+							dataValue = field.getDefaultValue();
+						} else {
+							nullFlag = true;
+							nullFieldNames = nullFieldNames + fieldName + ",";
+						}
 					}
+					sb.append(dataValue).append(this.keysDelimiter);
 				}
 			} else {
 				String dataValue = data.getData().get(field);

@@ -136,11 +136,16 @@ public class OutputMetaData extends AbstractETLObject {
 				while (iter.hasNext()) {
 					String fieldName = iter.next();
 					String dataValue = data.getData().get(fieldName);
-					sb.append(dataValue).append(this.valuesDelimiter);
+					
 					if(dataValue == null){
-						nullFlag = true;
-						nullFieldNames = nullFieldNames + fieldName + ",";
+						if(field.getDefaultValue() != null){
+							dataValue = field.getDefaultValue();
+						} else {
+							nullFlag = true;
+							nullFieldNames = nullFieldNames + fieldName + ",";
+						}
 					}
+					sb.append(dataValue).append(this.valuesDelimiter);
 				}
 			} else {
 				String dataValue = data.getData().get(field.getId());
