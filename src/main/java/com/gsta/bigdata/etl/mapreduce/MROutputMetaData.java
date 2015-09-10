@@ -94,8 +94,6 @@ public class MROutputMetaData extends OutputMetaData  {
 		// keys
 		if (element.getParentNode().getNodeName()
 				.matches(Constants.PATH_MAP_OUTPUT_METADATA_KEYS)) {
-			// String field = XmlTools.getNodeAttr((Element)element,Constants.ATTR_ID);
-			// field = Context.getValue(field);
 			Field field = new Field();
 			field.init((Element) element);
 
@@ -132,13 +130,13 @@ public class MROutputMetaData extends OutputMetaData  {
 					sb.append(dataValue).append(this.keysDelimiter);
 				}
 			} else {
-				String dataValue = data.getData().get(field);
+				String dataValue = data.getData().get(field.getId());
 				if (dataValue == null) {
 					if (field.getDefaultValue() != null) {
 						dataValue = field.getDefaultValue();
 					} else {
 						nullFlag = true;
-						nullFieldNames = nullFieldNames + field + ",";
+						nullFieldNames = nullFieldNames + field.getId() + ",";
 					}
 				}
 				sb.append(dataValue).append(this.keysDelimiter);

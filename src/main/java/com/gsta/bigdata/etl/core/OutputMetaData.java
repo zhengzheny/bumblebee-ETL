@@ -109,8 +109,6 @@ public class OutputMetaData extends AbstractETLObject {
 		// values
 		if (element.getParentNode().getNodeName()
 				.matches(Constants.PATH_OUTPUT_METADATA_VALUES)) {
-				//String field = XmlTools.getNodeAttr((Element) element,Constants.ATTR_ID);
-				//field = Context.getValue(field);
 				Field field = new Field();
 				field.init((Element) element);
 
@@ -154,7 +152,7 @@ public class OutputMetaData extends AbstractETLObject {
 						dataValue = field.getDefaultValue();
 					} else {
 						nullFlag = true;
-						nullFieldNames = nullFieldNames + field + ",";
+						nullFieldNames = nullFieldNames + field.getId() + ",";
 					}
 				}
 				sb.append(dataValue).append(this.valuesDelimiter);
