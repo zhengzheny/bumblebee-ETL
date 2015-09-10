@@ -53,4 +53,11 @@ public class IP2Long extends AbstractFunction {
 			return 0L;
 		}
 	}
+	
+	@Override
+	public Map<String, String> multiOutputOnCalculate(
+			Map<String, String> functionData, ShellContext context)
+			throws ETLException {
+		return null;
+	}
 }

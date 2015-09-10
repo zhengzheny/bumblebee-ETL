@@ -1,0 +1,121 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<writeLog property="conf/log/dblog.properties" />
+	<contextProperty location="etl-dpi.properties" />
+
+	<process id="gzdpi">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" />
+		</computingFrameworkConfigs>
+		<sourceMetaData type="simpleFlat" delimiter="\|">
+			<paths>
+				<inputPath path="${inputPath}" />
+			</paths>
+			<fields>
+				<field id="srcip" type="string" />
+				<field id="ad" type="string" />
+				<field id="ts" type="long" />
+				<field id="url" type="string" minLength="6" />
+				<field id="ref" type="string" minLength="6" />
+				<field id="ua" type="string" minLength="5" />
+				<field id="dstip" type="string" />
+				<field id="cookie" type="string" />
+				<field id="srcport" type="string" />
+				<field id="dstport" type="string" />
+			</fields>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
+			<values delimiter="|">
+				<!-- terminalInfo -->
+				<field id="appname" />
+				<field id="appversion" />
+				<field id="terminalbrand" />
+				<field id="terminaltype" />
+				<field id="charset" />
+				<field id="browser" />
+				<field id="osversion" />
+				<field id="os" />
+				<field id="terminalcategory" />
+				<field id="gsn" />
+				<field id="matchflag" />
+				<!-- urlInfo basic -->
+				<field id="urldomain" defaultValue="\\N" />
+				<field id="urlhost" defaultValue="\\N" />
+				<field id="urlpath" defaultValue="\\N" />
+				<field id="urlquery" defaultValue="\\N" />
+				<!-- refInfo -->
+				<field id="refdomain" defaultValue="\\N" />
+				<field id="refhost" defaultValue="\\N" />
+				<field id="refpath" defaultValue="\\N" />
+				<field id="refquery" defaultValue="\\N" />
+				<!-- urlInfo -->
+				<field id="searchkeywords" defaultValue="\\N" />
+				<field id="urlclassid" defaultValue="\\N" />
+				<field id="urlclassruleid" defaultValue="\\N" />
+				<!-- terminalInfo rule -->
+				<field id="useragentruleid" defaultValue="\\N" />
+				<!-- cookieInfo -->
+				<field id="cookiekey" defaultValue="\\N" />
+				<field id="fmtedsrcip" defaultValue="\\N" />
+				<field id="fmteddesip" defaultValue="\\N" />
+				<!-- from source -->
+				<field id="ts" desc="starttime" />
+				<field id="ad" desc="account" />
+				<field id="dstport" desc="protocol" />
+				<field id="srcip" desc="sourceip" />
+				<field id="srcport" desc="sourceport" />
+				<field id="dstip" desc="destinationip" />
+				<field id="dstport" desc="destinationport" />
+				<field id="url" desc="destinationurl" />
+				<field id="ua" desc="useragent" />
+				<field id="cookie" />
+				<field id="ref" desc="referer" />
+				<!-- from shell command line -->
+				<field id="city" defaultValue="gz" />
+				<field id="stat_day" defaultValue="${stat_day}" />
+			</values>
+		</outputMetaData>
+		<transforms>
+			<transform scope="map">
+				<function name="long2IP" input="srcip" />
+				<function name="long2IP" input="dstip" />
+				<function name="parseUserAgent" input="ua" ruleFile="uaRule.properties">
+					<output id="appname" />
+					<output id="appversion" />
+					<output id="terminalbrand" />
+					<output id="terminaltype" />
+					<output id="charset" />
+					<output id="browser" />
+					<output id="osversion" />
+					<output id="os" />
+					<output id="terminalcategory" />
+					<output id="gsn" />
+					<output id="matchflag" />
+					<output id="useragentruleid" />
+				</function>
+				<function name="parseCookie" input="cookie">
+					<output id="cookiekey" />
+					<output id="cookie" />
+				</function>
+				<function name="parseURL" input="url">
+					<output id="urldomain" />
+					<output id="urlhost" />
+					<output id="urlpath" />
+					<output id="urlquery" />
+				</function>
+				<function name="parseURL" input="ref">
+					<output id="refdomain" />
+					<output id="refhost" />
+					<output id="refpath" />
+					<output id="refquery" />
+				</function>
+				<function name="getURLClass" input="url" refUrl="ref" ruleFile="urlClassRule.txt">
+					<output id="urlclassid" />
+					<output id="urlclassruleid" />
+				</function>
+				<function name="parseSearchKeywords" input="url" output="searchkeywords" ruleFile="searchWordsRule.properties"/>
+			</transform>
+		</transforms>
+	</process>
+</etl>

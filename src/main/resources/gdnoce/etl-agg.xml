@@ -2,8 +2,8 @@
 <etl>
 	<contextProperty location="etl-agg.properties" />
 	<lookup>
-	    <datasources>
-	    	<datasource type="hdfs" id="d1">
+		<datasources>
+			<datasource type="hdfs" id="d1">
 				<property name="path" value="${hdfsPath}" />
 				<fields delimiter="\,">
 					<field id="f1" />
@@ -14,9 +14,9 @@
 					<field id="f6" />
 				</fields>
 			</datasource>
-	    </datasources>
+		</datasources>
 		<table id="dim_service">
-			<datasource ref="d1"/>
+			<datasource ref="d1" />
 			<map key="f6" value="f1" />
 		</table>
 	</lookup>
@@ -27,7 +27,8 @@
 			<property key="outputFormatClass"
 				value="com.gsta.bigdata.etl.mapreduce.OnlyKeyOutputFormat" />
 		</computingFrameworkConfigs>
-		<sourceMetaData type="noSettingFieldsFlat" delimiter="\001"  fieldNum="ge 21">
+		<sourceMetaData type="noSettingFieldsFlat" delimiter="\001"
+			fieldNum="ge 21">
 			<paths>
 				<inputPath path="${inputPath}" />
 			</paths>
@@ -35,12 +36,13 @@
 		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
 			<keys delimiter="001">
 				<field id="*" />
-				<field id="hostId"/>
+				<field id="hostId" />
 			</keys>
 		</outputMetaData>
 		<transforms>
 			<transform scope="map">
-				<function name="hostQuery" input="_11" output="hostId" lookupTable="dim_service" />
+				<function name="hostQuery" input="_11" output="hostId"
+					lookupTable="dim_service" />
 			</transform>
 		</transforms>
 	</process>

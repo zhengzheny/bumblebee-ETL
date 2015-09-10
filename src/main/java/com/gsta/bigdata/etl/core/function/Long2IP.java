@@ -59,4 +59,11 @@ public class Long2IP extends AbstractFunction {
 					+ " to ip occurs error.");
 		}
 	}
+	
+	@Override
+	public Map<String, String> multiOutputOnCalculate(
+			Map<String, String> functionData, ShellContext context)
+			throws ETLException {
+		return null;
+	}
 }

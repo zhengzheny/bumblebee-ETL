@@ -86,4 +86,11 @@ public class HostQuery extends AbstractFunction {
 		
 		return result;
 	}
+	
+	@Override
+	public Map<String, String> multiOutputOnCalculate(
+			Map<String, String> functionData, ShellContext context)
+			throws ETLException {
+		return null;
+	}
 }

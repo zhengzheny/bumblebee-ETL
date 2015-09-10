@@ -167,4 +167,11 @@ public class RedisSet extends AbstractRedisFunc {
 		
 		return sb.toString();	
 	}
+	
+	@Override
+	public Map<String, String> multiOutputOnCalculate(
+			Map<String, String> functionData, ShellContext context)
+			throws ETLException {
+		return null;
+	}
 }

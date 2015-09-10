@@ -1,6 +1,7 @@
 package com.gsta.bigdata.etl.core;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class OutputMetaData extends AbstractETLObject {
 	private String valuesDelimiter = "\\|";
 	protected static final String NotSeeCharDefineInConf = "001";
 	@JsonProperty
-	private List<String> valuesFields = new ArrayList<String>();
+	private List<Field> valuesFields = new ArrayList<Field>();
 
 	public OutputMetaData() {
 		super.tagName = Constants.PATH_OUTPUT_METADATA;
@@ -98,21 +99,22 @@ public class OutputMetaData extends AbstractETLObject {
 				createValuesField(element);
 			}
 		}
+		
+		if (this.valuesFields.size() > 0) {
+			Collections.sort(this.valuesFields);
+		}
 	}
 
 	private void createValuesField(Node element) {
 		// values
 		if (element.getParentNode().getNodeName()
 				.matches(Constants.PATH_OUTPUT_METADATA_VALUES)) {
-			try {
-				String field = XmlTools.getNodeAttr((Element) element,
-						Constants.ATTR_ID);
-				field = Context.getValue(field);
+				//String field = XmlTools.getNodeAttr((Element) element,Constants.ATTR_ID);
+				//field = Context.getValue(field);
+				Field field = new Field();
+				field.init((Element) element);
 
 				this.valuesFields.add(field);
-			} catch (XPathExpressionException e) {
-				throw new ParseException(e);
-			}
 		}
 	}
 
@@ -127,9 +129,9 @@ public class OutputMetaData extends AbstractETLObject {
 		// * means output all fields
 		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < this.valuesFields.size(); i++) {
-			String strField = this.valuesFields.get(i);
+			Field field = this.valuesFields.get(i);
 			// if field is *,means add all source fields to output
-			if ("*".equals(strField)) {
+			if ("*".equals(field.getId())) {
 				Iterator<String> iter = data.getFieldNames().iterator();
 				while (iter.hasNext()) {
 					String fieldName = iter.next();
@@ -141,12 +143,16 @@ public class OutputMetaData extends AbstractETLObject {
 					}
 				}
 			} else {
-				String dataValue = data.getData().get(strField);
-				sb.append(dataValue).append(this.valuesDelimiter);
-				if(dataValue == null){
-					nullFlag = true;
-					nullFieldNames = nullFieldNames + strField + ",";
+				String dataValue = data.getData().get(field.getId());
+				if (dataValue == null) {
+					if (field.getDefaultValue() != null) {
+						dataValue = field.getDefaultValue();
+					} else {
+						nullFlag = true;
+						nullFieldNames = nullFieldNames + field + ",";
+					}
 				}
+				sb.append(dataValue).append(this.valuesDelimiter);
 			}
 		}
 		
@@ -183,7 +189,7 @@ public class OutputMetaData extends AbstractETLObject {
 		return valuesDelimiter;
 	}
 	
-	public List<String> getValuesFields() {
+	public List<Field> getValuesFields() {
 		return valuesFields;
 	}
 

@@ -1,4 +1,4 @@
-package com.gsta.bigdata.etl.core.source;
+package com.gsta.bigdata.etl.core;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -9,14 +9,12 @@ import org.w3c.dom.NodeList;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.api.client.repackaged.com.google.common.base.Preconditions;
-import com.gsta.bigdata.etl.core.AbstractETLObject;
-import com.gsta.bigdata.etl.core.Constants;
-import com.gsta.bigdata.etl.core.ParseException;
+import com.gsta.bigdata.etl.core.source.ValidatorException;
 import com.gsta.bigdata.utils.DataValidator;
 import com.gsta.bigdata.utils.StringUtils;
 
 /**
- * source field define
+ * source and output field definition.
  * user can set index attribute for field's sorting
  * @author tianxq
  *
@@ -49,6 +47,8 @@ public class Field extends AbstractETLObject implements Comparable<Field> {
 	private int endPos = -1;
 	@JsonProperty
 	private int length = -1;
+	@JsonProperty
+	private String defaultValue = null;
 	
 	private static final String[] TYPE_LIST = { "byte", "creditCard", "double",
 			"email", "float", "int", "long", "short", "string", "idCard" };
@@ -57,6 +57,11 @@ public class Field extends AbstractETLObject implements Comparable<Field> {
 		super.tagName = Constants.TAG_FIELD;
 		
 		//has no child,don't register child tag
+	}
+	
+	public Field(String id){
+		super();
+		this.id = id;
 	}
 
 	public Field(String id, String desc, int index, String type) {
@@ -126,6 +131,11 @@ public class Field extends AbstractETLObject implements Comparable<Field> {
 		if(strLength != null && !"".equals(strLength)){
 			this.length = Integer.parseInt(strLength);
 		}
+		
+		String strDefaultValue = super.getAttr(Constants.ATTR_DEFAULT_VALUE);
+		if(strDefaultValue != null && !"".equals(strDefaultValue)){
+			this.defaultValue = Context.getValue(strDefaultValue);
+		}
 	}
 
 	@Override
@@ -138,6 +148,28 @@ public class Field extends AbstractETLObject implements Comparable<Field> {
 	protected void createChildNodeList(NodeList nodeList) throws ParseException {
 		// has no childlist
 		
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		
+		if (obj == null) {
+			return false;
+		}
+		
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		
+		Field other = (Field) obj;
+		if (!this.id.equals(other.getId())) {
+			return false;
+		}
+		
+		return true;
 	}
 	
 	public String getId() {
@@ -174,6 +206,14 @@ public class Field extends AbstractETLObject implements Comparable<Field> {
 
 	public void setEndPos(int endPos) {
 		this.endPos = endPos;
+	}
+	
+	public boolean isStrictCheck() {
+		return strictCheck;
+	}
+
+	public String getDefaultValue() {
+		return defaultValue;
 	}
 
 	@Override
@@ -228,14 +268,5 @@ public class Field extends AbstractETLObject implements Comparable<Field> {
 					+ ",must have max length=" + this.maxLength
 					+ ",but value length=" + value.length());
 		}
-	}
-	
-	public String toString(){
-		return "id=" + this.id +",index=" + index +
-				",desc=" + this.desc + ",type=" + this.type;
-	}
-
-	public boolean isStrictCheck() {
-		return strictCheck;
 	}
 }

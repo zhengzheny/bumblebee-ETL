@@ -196,6 +196,9 @@ public abstract class AbstractFunction extends AbstractETLObject {
 	 */
 	public abstract String onCalculate(Map<String, String> functionData,
 			ShellContext context) throws ETLException;
+	
+	public abstract Map<String,String> multiOutputOnCalculate(Map<String, String> functionData,
+			ShellContext context) throws ETLException;
 
 	public String toString() {
 		return super.getAttrs().toString();
