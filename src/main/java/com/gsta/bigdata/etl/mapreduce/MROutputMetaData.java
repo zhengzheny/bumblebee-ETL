@@ -1,6 +1,7 @@
 package com.gsta.bigdata.etl.mapreduce;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -18,6 +19,7 @@ import com.gsta.bigdata.etl.core.ChildrenTag;
 import com.gsta.bigdata.etl.core.Constants;
 import com.gsta.bigdata.etl.core.Context;
 import com.gsta.bigdata.etl.core.ETLData;
+import com.gsta.bigdata.etl.core.Field;
 import com.gsta.bigdata.etl.core.OutputMetaData;
 import com.gsta.bigdata.etl.core.ParseException;
 import com.gsta.bigdata.utils.XmlTools;
@@ -30,7 +32,7 @@ public class MROutputMetaData extends OutputMetaData  {
 	@JsonProperty
 	private String keysDelimiter = "\\|";
 	@JsonProperty
-	private List<String> keysFields = new ArrayList<String>();
+	private List<Field> keysFields = new ArrayList<Field>();
 	
 	public MROutputMetaData() {
 		super();
@@ -82,20 +84,22 @@ public class MROutputMetaData extends OutputMetaData  {
 				createKeysField(element);
 			}
 		}
+		
+		if (this.keysFields.size() > 0) {
+			Collections.sort(this.keysFields);
+		}
 	}
 	
-	private void createKeysField(Node element){
+	private void createKeysField(Node element) {
 		// keys
 		if (element.getParentNode().getNodeName()
 				.matches(Constants.PATH_MAP_OUTPUT_METADATA_KEYS)) {
-			try {
-				String field = XmlTools.getNodeAttr((Element) element,Constants.ATTR_ID);
-				field = Context.getValue(field);
-				
-				this.keysFields.add(field);
-			} catch (XPathExpressionException e) {
-				throw new ParseException(e);
-			}
+			// String field = XmlTools.getNodeAttr((Element)element,Constants.ATTR_ID);
+			// field = Context.getValue(field);
+			Field field = new Field();
+			field.init((Element) element);
+
+			this.keysFields.add(field);
 		}
 	}
 	
@@ -110,30 +114,36 @@ public class MROutputMetaData extends OutputMetaData  {
 				
 		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < this.keysFields.size(); i++) {
-			String strField = this.keysFields.get(i);
+			Field field = this.keysFields.get(i);
 			//if field is *,means add all source fields to output 
-			if ("*".equals(strField)) {
+			if ("*".equals(field.getId())) {
 				Iterator<String> iter = data.getFieldNames().iterator();
 				while(iter.hasNext()){
 					String fieldName = iter.next();
-					String dataValue = data.getData().get(fieldName);
-					sb.append(dataValue).append(this.keysDelimiter);
-					
-					if(dataValue == null){
-						nullFlag = true;
-						nullFieldNames = nullFieldNames + fieldName + ",";
+					String dataValue = data.getData().get(fieldName);					
+					if (dataValue == null) {
+						if (field.getDefaultValue() != null) {
+							dataValue = field.getDefaultValue();
+						} else {
+							nullFlag = true;
+							nullFieldNames = nullFieldNames + fieldName + ",";
+						}
 					}
+					sb.append(dataValue).append(this.keysDelimiter);
 				}
 			} else {
-				String dataValue = data.getData().get(strField);
-				sb.append(dataValue).append(this.keysDelimiter);
-				
-				if(dataValue == null){
-					nullFlag = true;
-					nullFieldNames = nullFieldNames + strField + ",";
+				String dataValue = data.getData().get(field);
+				if (dataValue == null) {
+					if (field.getDefaultValue() != null) {
+						dataValue = field.getDefaultValue();
+					} else {
+						nullFlag = true;
+						nullFieldNames = nullFieldNames + field + ",";
+					}
 				}
-			}
-		}
+				sb.append(dataValue).append(this.keysDelimiter);
+			}//end if *
+		}//end if
 		
 		if(nullFlag){
 			throw new ETLException(ETLException.NULL_FIELD_NAMES,

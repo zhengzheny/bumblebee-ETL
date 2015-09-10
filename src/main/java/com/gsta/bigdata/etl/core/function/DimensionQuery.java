@@ -56,4 +56,10 @@ public class DimensionQuery extends AbstractFunction {
  		return queryValue;
 	}
 
+	@Override
+	public Map<String, String> multiOutputOnCalculate(
+			Map<String, String> functionData, ShellContext context)
+			throws ETLException {
+		return null;
+	}
 }

@@ -108,6 +108,7 @@ public class Constants {
 	public final static String ATTR_FILE_SUFFIX = "fileSuffix";
 	public final static String ATTR_FILENAME_PATTERN = "fileNamePattern";
 	public final static String ATTR_CHARSET = "charset";
+	public final static String ATTR_DEFAULT_VALUE = "defaultValue";
 	
 	public final static String TAG_FIELD = "field";
 	public final static String TAG_INPUTPATH = "inputPath";

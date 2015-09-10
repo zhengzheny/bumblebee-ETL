@@ -108,6 +108,10 @@ public class ETLMapper extends Mapper<Object, Text, Text, Text> {
 	protected void map(Object key, Text value,
 			Mapper<Object, Text, Text, Text>.Context context)
 			throws IOException, InterruptedException {
+		if(value == null || "".equals(value)){
+			return;
+		}
+		
 		ETLData data = null;
 
 		try {

@@ -23,6 +23,7 @@ import com.gsta.bigdata.etl.core.ChildrenTag;
 import com.gsta.bigdata.etl.core.Constants;
 import com.gsta.bigdata.etl.core.Context;
 import com.gsta.bigdata.etl.core.ETLData;
+import com.gsta.bigdata.etl.core.Field;
 import com.gsta.bigdata.etl.core.ParseException;
 import com.gsta.bigdata.utils.StringUtils;
 import com.gsta.bigdata.utils.XmlTools;
@@ -103,7 +104,7 @@ public abstract class AbstractSourceMetaData extends AbstractETLObject {
 		// sort List<Field> according to field's index
 		// sometimes get Field from data line,allow blank <Field> when
 		// initializing
-		if (fields.size() > 0) {
+		if (this.fields.size() > 0) {
 			Collections.sort(this.fields);
 		}
 	}

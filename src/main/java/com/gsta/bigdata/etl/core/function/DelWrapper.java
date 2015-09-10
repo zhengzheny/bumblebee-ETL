@@ -55,4 +55,11 @@ public class DelWrapper extends AbstractFunction {
 		return value.replace(this.wrapper, "");
 	}
 
+
+	@Override
+	public Map<String, String> multiOutputOnCalculate(
+			Map<String, String> functionData, ShellContext context)
+			throws ETLException {
+		return null;
+	}
 }

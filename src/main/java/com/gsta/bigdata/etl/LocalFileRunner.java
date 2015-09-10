@@ -102,6 +102,11 @@ public class LocalFileRunner implements IRunner {
 
 				int count = 0;
 				for (File tempFile : subFiles) {
+					//ignore sub file directory
+					if(tempFile.isDirectory()){
+						continue;
+					}
+					
 					if (count >= maxFile) {
 						break;
 					}
