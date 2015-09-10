@@ -6,7 +6,7 @@
 	<process id="ex1">
 		<computingFrameworkConfigs>
 			<property key="mapperClass" value="com.gsta.bigdata.etl.mapreduce.ETLMapper" />
-			<property key="errorRecordWriteThreshold" value="1" />
+			<property key="errorRecordWriteThreshold" value="1000" />
 		</computingFrameworkConfigs>
 		<sourceMetaData type="simpleFlat" delimiter="\|">
 			<paths>
@@ -16,8 +16,8 @@
 				<inputPath path="${inputPath1}" />
 			</paths>
 			<fields>
-				<field id="t1" desc="" type="int" />
-				<field id="ip" desc="" type="int" />
+				<field id="t1" desc=""  />
+				<field id="ip" desc=""  />
 				<field id="f1" desc="" />
 				<field id="f2" desc="" />
 			</fields>
@@ -27,10 +27,12 @@
 				<field id="*" />
 				<field id="f2" />
 				<field id="f3" />
+				<field id="a" defaultValue="world" index="1"/>
 			</keys>
 			<values delimiter="*">
-				<field id="*" />
-				<field id="f3" />
+				<field id="*"  index="2"/>
+				<field id="f3" index="3"/>
+				<field id="a" defaultValue="hello" index="1"/>
 			</values>
 		</outputMetaData>
 		<transforms>

@@ -2,7 +2,6 @@ package com.gsta.bigdata.etl.mapreduce;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -249,7 +248,7 @@ public class ETLMapper extends Mapper<Object, Text, Text, Text> {
 	}
 
 	private Set<String> getErrorInfo() {
-		Set<String> errorInfo = new HashSet<String>();
+		Set<String> errorInfo = new CopyOnWriteArraySet<String>();
 		
 		for(ErrorCodeCount errorCodeCount:this.errorInfos.values()) {
 			String info = null;
