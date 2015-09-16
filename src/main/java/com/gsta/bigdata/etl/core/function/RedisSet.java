@@ -45,7 +45,7 @@ public class RedisSet extends AbstractRedisFunc {
 	}
 	
 	@Override
-	public String onCalculate(Map<String, String> functionData,
+	protected String onCalculate(Map<String, String> functionData,
 			ShellContext context) throws ETLException {
 		//default value is -1
 		String strMonth = context.getValue(AbstractRedisFunc.CONTEXT_MONTH, "-1");
@@ -169,7 +169,7 @@ public class RedisSet extends AbstractRedisFunc {
 	}
 	
 	@Override
-	public Map<String, String> multiOutputOnCalculate(
+	protected Map<String, String> multiOutputOnCalculate(
 			Map<String, String> functionData, ShellContext context)
 			throws ETLException {
 		return null;

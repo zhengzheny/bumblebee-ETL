@@ -9,9 +9,7 @@ import org.w3c.dom.NodeList;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.api.client.repackaged.com.google.common.base.Preconditions;
-import com.gsta.bigdata.etl.ETLException;
 import com.gsta.bigdata.etl.core.ChildrenTag;
-import com.gsta.bigdata.etl.core.ShellContext;
 import com.gsta.bigdata.etl.core.ParseException;
 import com.gsta.bigdata.etl.core.function.model.RedisKey;
 import com.gsta.bigdata.etl.core.function.model.RedisValue;
@@ -53,10 +51,6 @@ public abstract class AbstractRedisFunc extends AbstractFunction {
 				AbstractRedisFunc.PATH_VALUE, ChildrenTag.NODE));
 	}
 
-	@Override
-	public abstract String onCalculate(Map<String, String> functionData,
-			ShellContext context) throws ETLException;
-	
 	@Override
 	protected void initAttrs(Element element) throws ParseException {
 		super.initAttrs(element);

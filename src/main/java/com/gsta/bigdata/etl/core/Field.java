@@ -227,6 +227,10 @@ public class Field extends AbstractETLObject implements Comparable<Field> {
 	 * @throws ValidatorException
 	 */
 	public void validate(String value) throws ValidatorException {
+		if(value == null){
+			throw new ValidatorException("value is null.");
+		}
+		
 		//verify not null
 		if(this.notNull){
 			if(GenericValidator.isBlankOrNull(value)){

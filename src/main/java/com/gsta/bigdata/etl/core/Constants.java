@@ -15,6 +15,10 @@ import com.gsta.bigdata.etl.mapreduce.ETLMapper;
  *
  */
 public class Constants {
+	public final static String OUTPUT_ERROR_FILE_PREFIX = "error";
+	public final static String OUTPUT_INVALID_FILE_PREFIX = "invalid";
+	public final static String OUTPUT_ERROR_INFO_FILE_PREFIX = "errorInfo";
+	
 	public final static String CONTEXT_PREFIX = "${";
 	public final static String CONTEXT_POSTFIX = "}";
 	public final static String CONTEXT_MONTH = "YYYYMM";
@@ -133,6 +137,11 @@ public class Constants {
 	public final static String HADOOP_OUTPUTFORMAT_CLASS = "outputFormatClass";
 	public final static String HADOOP_OUTPUTKEY_CLASS = "outputKeyClass";
 	public final static String HADOOP_OUTPUTVALUE_CLASS = "outputValueClass";
+	
+	public final static String HADOOP_MAP_OUTPUT_COMPRESS_FLAG = "mapreduce.map.output.compress";
+	public final static String HADOOP_MAP_OUTPUT_COMPRESS_CODEC = "mapreduce.map.output.compress.codec";
+	public final static String HADOOP_OUTPUT_COMPRESS_FLAG = "mapreduce.output.fileoutputformat.compress";
+	public final static String HADOOP_OUTPUT_COMPRESS_CODEC = "mapreduce.output.fileoutputformat.compress.codec"; 
 	
 	public final static String HADOOP_DEFAULT_MAPPER_CLASS = ETLMapper.class.getName();
 	public final static String HADOOP_DEFAULT_INPUTFORMAT_CLASS = TextInputFormat.class.getName();

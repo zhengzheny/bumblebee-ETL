@@ -42,7 +42,7 @@ public class DimensionQuery extends AbstractFunction {
 	}
 
 	@Override
-	public String onCalculate(Map<String, String> functionData,
+	protected String onCalculate(Map<String, String> functionData,
 			ShellContext context) throws ETLException {
  		String value = functionData.get(inputField);
  		
@@ -57,7 +57,7 @@ public class DimensionQuery extends AbstractFunction {
 	}
 
 	@Override
-	public Map<String, String> multiOutputOnCalculate(
+	protected Map<String, String> multiOutputOnCalculate(
 			Map<String, String> functionData, ShellContext context)
 			throws ETLException {
 		return null;

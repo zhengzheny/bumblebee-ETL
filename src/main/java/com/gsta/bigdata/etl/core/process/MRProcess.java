@@ -105,4 +105,8 @@ public class MRProcess extends AbstractProcess {
 
 		return sb.toString();
 	}
+
+	public MROutputMetaData getMrOutputMetaData() {
+		return mrOutputMetaData;
+	}
 }
