@@ -34,7 +34,7 @@ public class IP2Long extends AbstractFunction {
 	}
 
 	@Override
-	public String onCalculate(Map<String, String> functionData,
+	protected String onCalculate(Map<String, String> functionData,
 			ShellContext context) throws ETLException {
 		String ip = functionData.get(inputField);		
 		return String.valueOf(ip2Long(ip));
@@ -55,7 +55,7 @@ public class IP2Long extends AbstractFunction {
 	}
 	
 	@Override
-	public Map<String, String> multiOutputOnCalculate(
+	protected Map<String, String> multiOutputOnCalculate(
 			Map<String, String> functionData, ShellContext context)
 			throws ETLException {
 		return null;

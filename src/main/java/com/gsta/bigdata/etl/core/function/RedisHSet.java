@@ -60,7 +60,7 @@ public class RedisHSet extends AbstractRedisFunc {
 	}
 	
 	@Override
-	public String onCalculate(Map<String, String> functionData,
+	protected String onCalculate(Map<String, String> functionData,
 			ShellContext context) throws ETLException {
 		StringBuffer sb = new StringBuffer();
 		
@@ -140,7 +140,7 @@ public class RedisHSet extends AbstractRedisFunc {
 	}
 	
 	@Override
-	public Map<String, String> multiOutputOnCalculate(
+	protected Map<String, String> multiOutputOnCalculate(
 			Map<String, String> functionData, ShellContext context)
 			throws ETLException {
 		return null;

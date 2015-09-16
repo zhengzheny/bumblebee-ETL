@@ -10,6 +10,7 @@ import java.util.Set;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -18,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.google.api.client.repackaged.com.google.common.base.Preconditions;
 import com.gsta.bigdata.etl.ETLException;
 import com.gsta.bigdata.etl.core.AbstractETLObject;
+import com.gsta.bigdata.etl.core.ChildrenTag;
 import com.gsta.bigdata.etl.core.Constants;
 import com.gsta.bigdata.etl.core.Context;
 import com.gsta.bigdata.etl.core.ShellContext;
@@ -39,17 +41,25 @@ import com.gsta.bigdata.utils.XmlTools;
 		@JsonSubTypes.Type(value = RedisSet.class, name = "RedisSet"),
 		@JsonSubTypes.Type(value = RedisHSet.class, name = "RedisHSet"),
 		@JsonSubTypes.Type(value = DimensionQuery.class, name = "DimensionQuery"),
+		@JsonSubTypes.Type(value = ParseURL.class, name = "ParseURL"),
 		@JsonSubTypes.Type(value = HostQuery.class, name = "HostQuery")})
 public abstract class AbstractFunction extends AbstractETLObject {
 	@JsonProperty
-	private List<String> inputs = new ArrayList<String>();
+	private List<String> attrInputs = new ArrayList<String>();
+	//output attribute for onCalculate computing model
 	@JsonProperty
-	private List<String> outputs = new ArrayList<String>();
+	private List<String> attrOutputs = new ArrayList<String>();
 	@JsonProperty
 	private String strInput;
+	//output field id list for multiOutputOnCalculate computing model
+	@JsonProperty
+	private List<String> outputIds = new ArrayList<String>();
 	
 	public AbstractFunction() {
 		super.tagName = Constants.PATH_TRANSFORM_FUNCTION;
+		
+		super.registerChildrenTags(new ChildrenTag(
+				Constants.ATTR_OUTPUT,ChildrenTag.NODE_LIST));
 	}
 
 	@Override
@@ -57,24 +67,23 @@ public abstract class AbstractFunction extends AbstractETLObject {
 		this.strInput = super.getAttr(Constants.ATTR_INPUT);
 		String strOutput = super.getAttr(Constants.ATTR_OUTPUT);
 
-		// must have input or output
-		if ((null == this.strInput || "".equals(this.strInput))
+		/*if ((null == this.strInput || "".equals(this.strInput))
 				&& (null == strOutput || "".equals(strOutput))) {
 			throw new ParseException(
 					"function must has input or output,or both are.");
-		}
+		}*/
 
 		if (null != strInput) {
 			String[] fields = strInput.split(",");
 			for (String field : fields) {
-				this.inputs.add(field);
+				this.attrInputs.add(field);
 			}
 		}
 
 		if (null != strOutput) {
 			String[] fields = strOutput.split(",");
 			for (String field : fields) {
-				this.outputs.add(field);
+				this.attrOutputs.add(field);
 			}
 		}
 	}
@@ -86,38 +95,84 @@ public abstract class AbstractFunction extends AbstractETLObject {
 
 	@Override
 	protected void createChildNodeList(NodeList nodeList) throws ParseException {
-		// has no child node list
+		Preconditions.checkNotNull(nodeList, "nodeList is null");
+
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			Node element = nodeList.item(i);
+			if (element.getNodeType() == Node.ELEMENT_NODE
+					&& element.getNodeName().equals(Constants.ATTR_OUTPUT)) {
+				try {
+					String id = XmlTools.getNodeAttr((Element)element, Constants.ATTR_ID);
+					this.outputIds.add(id);
+				} catch (XPathExpressionException e) {
+					throw new ParseException(e);
+				}
+			}
+		}
 	}
 
 	/**
-	 * 
-	 * @param data
-	 * @param context
+	 * transform get function calculate result 
+	 * @param data - data from resource line
+	 * @param context - shell context from shell command line
 	 */
 	public void getResult(Map<String, String> data, ShellContext context) {
+		// avoid destroy data line,use function data on calculating
 		Map<String, String> functionData = new HashMap<String, String>();
-
-		// avoid destroy data line,use function data
 		functionData.putAll(data);
-
-		/*
-		 * function mode: 1.function has no input,output maybe has one or more
-		 * field. <function name="sum" addend="f1" augend="f2" output="f3"/>
-		 * <function name="isHoliday" output="ip,f2"/> calculate only once,write
-		 * output to data line,
-		 * 
-		 * 2.function has one input which has one field. <function
-		 * name="ip2long" input="f1" output="ip,f2"/> <function name="ip2long"
-		 * input="f1" /> calculate only once,if has output,write output to data
-		 * line, if has no output,reset input field and write it to data line.
-		 * 
-		 * 3.function has input which has many field,it must has no output
-		 * <function name="delWrapper" input="*"/> <function name="delWrapper"
-		 * input="_1,_2"/> calculate many once,and reset input field every time.
-		 */
-
+		
+		/*if has multi output id like this:
+		 * <function name="parseURL" input="url">
+					<output id="urldomain" />
+					<output id="urlhost" />
+					<output id="urlpath" />
+					<output id="urlquery" />
+			</function>
+		 * put calculate result to data and don't change input field and ignore output attribute field
+		*/
+		if (this.outputIds.size() > 0) {
+			Map<String, String> ret = this.multiOutputOnCalculate(functionData, context);
+			if(ret != null){
+				data.putAll(ret);
+			}
+		} else {
+			/*
+			 * the function like this:
+			 * <function name="long2IP" input="srcip" output="f1"/>
+			 * function has input or output attribute
+			 */
+			this.getOnlyAttrComputing(functionData, data, context);
+		}
+	}
+	
+	/*
+	 * function mode: 
+	 * 1.function has no input,output maybe has one or more field. ex:
+	 *     <function name="isHoliday" output="f1,f2"/> 
+	 * calculate only once,write result to output field.
+	 * 
+	 * 2.function have one field input and one or more output field.ex:
+	 *    <function name="ip2long" input="ip" output="f1,f2"/> 
+	 * calculate only once,write result to output and don't change input field.
+	 * 
+	 * 3.function have one input which has one field and no output field.ex:
+	 *    <function name="ip2long" input="ip"/> 
+	 * calculate only once,change input field. 
+	 *    
+	 * 4.function has one input field which id is "*".ex:
+	 * 	  <function name="delWrapper" input="*" wrapper="&quot;"/>
+	 * calculate many once by source field,and reset every source field every time.
+	 * even if defined output field,ignore them.
+	 * 
+	 * 5.function have many input field
+	 *   <function name="delWrapper" input="f1,f2"/> 
+	 * calculate many once by input's fields,and reset input's fields every time.
+	 * even if defined output field,ignore them.
+	 */
+	private void getOnlyAttrComputing(Map<String, String> functionData,
+			Map<String, String> data,ShellContext context){
 		// has only input field,maybe it's one field ,or *
-		if (this.inputs.size() == 1) {
+		if (this.attrInputs.size() == 1) {
 			// all field
 			if ("*".equals(this.strInput)) {
 				// read input data from data line's fields(all field)
@@ -139,19 +194,19 @@ public abstract class AbstractFunction extends AbstractETLObject {
 				}
 			} else {
 				// only one input field
-				String inputField = this.inputs.get(0);
+				String inputField = this.attrInputs.get(0);
 				String result = this.onCalculate(functionData, context);
 				// if have outputs,write output to data line
-				if (this.outputs.size() > 0) {
-					this.writeOutput(result, data);
+				if (this.attrOutputs.size() > 0) {
+					this.writeOutputAttr(result, data);
 				} else {
 					// if has no output,reset input field
 					data.put(inputField, result);
 				}
 			}
-		} else if (this.inputs.size() > 1) {
+		} else if (this.attrInputs.size() > 1) {
 			// multiple field
-			Iterator<String> iter = this.inputs.iterator();
+			Iterator<String> iter = this.attrInputs.iterator();
 			while (iter.hasNext()) {
 				String field = iter.next();
 				String value = functionData.get(field);
@@ -167,15 +222,14 @@ public abstract class AbstractFunction extends AbstractETLObject {
 				data.put(field, result);
 			}
 		} else {
-			// has no input attribute,only calculate once and put output to data
-			// line
+			// has no input attribute,only calculate once and put output to result
 			String result = this.onCalculate(functionData, context);
-			this.writeOutput(result, data);
+			this.writeOutputAttr(result, data);
 		}
 	}
 
-	private void writeOutput(String result, Map<String, String> data) {
-		Iterator<String> iter = this.outputs.iterator();
+	private void writeOutputAttr(String result, Map<String, String> data) {
+		Iterator<String> iter = this.attrOutputs.iterator();
 		while (iter.hasNext()) {
 			String field = iter.next();
 			data.put(field, result);
@@ -185,23 +239,42 @@ public abstract class AbstractFunction extends AbstractETLObject {
 	/**
 	 * function calculate don't care output attribute,framework will put result
 	 * to data line
+	 *  the function like this:
+	 *      <function name="long2IP" input="srcip" output="f1"/>
+	 * function has input or output attribute
 	 * 
 	 * @param functionData
-	 *            - include all data line's field value and input value; get
-	 * functionData by field's name,not attribute's name; when input
-	 * has 2 or more field,also get value by attribute name
-	 * "input",this is Constants.ATTR_INPUT.
+	 * @param context
 	 * @return
 	 * @throws ETLException
 	 */
-	public abstract String onCalculate(Map<String, String> functionData,
+	protected abstract String onCalculate(Map<String, String> functionData,
 			ShellContext context) throws ETLException;
 	
-	public abstract Map<String,String> multiOutputOnCalculate(Map<String, String> functionData,
+	/**
+	 * if has multi output id like this:
+	 * <function name="parseURL" input="url">
+					<output id="urldomain" />
+					<output id="urlhost" />
+					<output id="urlpath" />
+					<output id="urlquery" />
+	 *	</function>
+     * put calculate result to data and don't change input field and 
+     * ignore output attribute field
+	 * @param functionData
+	 * @param context
+	 * @return
+	 * @throws ETLException
+	 */
+	protected abstract Map<String,String> multiOutputOnCalculate(Map<String, String> functionData,
 			ShellContext context) throws ETLException;
 
 	public String toString() {
 		return super.getAttrs().toString();
+	}
+
+	public List<String> getOutputIds() {
+		return outputIds;
 	}
 
 	public static AbstractFunction newInstance(Element element)

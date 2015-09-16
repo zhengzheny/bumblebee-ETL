@@ -46,7 +46,6 @@ public abstract class AbstractSourceMetaData extends AbstractETLObject {
 	@JsonProperty
 	private String wrapper;
 	@JsonProperty
-	// private List<String> inputPaths = new ArrayList<String>();
 	private List<InputPath> inputPaths = new ArrayList<InputPath>();
 	@JsonProperty
 	private List<Field> fields = new ArrayList<Field>();
@@ -224,7 +223,7 @@ public abstract class AbstractSourceMetaData extends AbstractETLObject {
 				} else {
 					// if not strict check field,write invalid file and go on to
 					// transform
-					logger.error("dataline=" + line + ",error:"
+					logger.error("dataline=" + line + ",field=" + fieldName 
 							+ e.getMessage());
 					if (invalidRecords != null) {
 						invalidRecords.add(line);

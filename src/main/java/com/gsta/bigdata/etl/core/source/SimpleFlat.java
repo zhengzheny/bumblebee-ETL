@@ -82,7 +82,7 @@ public class SimpleFlat extends AbstractSourceMetaData {
 
 			etlData.addData(field.getId(), data[i]);
 			
-			super.verifyFields(etlData, line, invalidRecords);
+			super.fieldValidate(field, data[i], line, invalidRecords);
 		}
 
 		return etlData;

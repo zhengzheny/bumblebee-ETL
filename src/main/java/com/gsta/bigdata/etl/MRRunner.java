@@ -20,9 +20,13 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.FileUtil;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IOUtils;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.compress.CompressionCodec;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.hadoop.mapreduce.lib.output.MultipleOutputs;
+import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 import org.slf4j.Logger;
@@ -53,7 +57,6 @@ public class MRRunner extends Configured implements Tool, IRunner {
 	private Configuration conf;
 	
 	private static final String HDFS_PRE = "hdfs://";
-	private static final String ERROR_INFO_FILE_PREFIX = "errorInfo";
 
 	public MRRunner(Configuration conf, MRProcess process,
 			LKPTableMgr lkpTableMgr, WriteLog writeLog) {
@@ -137,6 +140,34 @@ public class MRRunner extends Configured implements Tool, IRunner {
 		// if error directory exists,delete it
 		this.rmrDir(process.getErrorPath(), conf);
 		FileOutputFormat.setOutputPath(job, new Path(process.getOutputPath()));
+		
+		String flag = process.getConf(Constants.HADOOP_MAP_OUTPUT_COMPRESS_FLAG);
+		if (flag != null && flag.equals("true")) {
+			conf.setBoolean(Constants.HADOOP_MAP_OUTPUT_COMPRESS_FLAG, true);
+			String code = process.getConf(
+					Constants.HADOOP_MAP_OUTPUT_COMPRESS_CODEC,
+					"org.apache.hadoop.io.compress.Lz4Codec");
+			conf.setClass(Constants.HADOOP_MAP_OUTPUT_COMPRESS_CODEC,
+					this.loadClass(code), CompressionCodec.class);
+		}
+		
+		flag = process.getConf(Constants.HADOOP_OUTPUT_COMPRESS_FLAG);
+		if (flag != null && flag.equals("true")) {
+			conf.setBoolean(Constants.HADOOP_OUTPUT_COMPRESS_FLAG, true);
+			String code = process.getConf(
+					Constants.HADOOP_OUTPUT_COMPRESS_CODEC,
+					"org.apache.hadoop.io.compress.Lz4Codec");
+			conf.setClass(Constants.HADOOP_OUTPUT_COMPRESS_CODEC,
+					this.loadClass(code), CompressionCodec.class);
+		}
+		
+		//set multiple output
+		MultipleOutputs.addNamedOutput(job, Constants.OUTPUT_ERROR_FILE_PREFIX,
+				TextOutputFormat.class, Text.class, Text.class);
+		MultipleOutputs.addNamedOutput(job, Constants.OUTPUT_INVALID_FILE_PREFIX,
+				TextOutputFormat.class, Text.class, Text.class);
+		MultipleOutputs.addNamedOutput(job, Constants.OUTPUT_ERROR_INFO_FILE_PREFIX,
+				TextOutputFormat.class, Text.class, Text.class);
 
 		int complete = job.waitForCompletion(true) ? 0 : 1;
 
@@ -170,7 +201,7 @@ public class MRRunner extends Configured implements Tool, IRunner {
 		Map<String, ErrorCodeCount> errorInfos = new HashMap<String, ErrorCodeCount>();
 		
 		for (Path p : listPath) {
-			if (p.getName().startsWith(ERROR_INFO_FILE_PREFIX)) {
+			if (p.getName().startsWith(Constants.OUTPUT_ERROR_INFO_FILE_PREFIX)) {
 				String errorInformPath = outputPath + "/" + p.getName();
 				HdfsUtils hdfsUtils = new HdfsUtils();
 				InputStream in = hdfsUtils.load(errorInformPath);
@@ -178,13 +209,20 @@ public class MRRunner extends Configured implements Tool, IRunner {
 						new InputStreamReader(in, Constants.DEFAULT_ENCODING));
 				String line = "";
 				while ((line = reader.readLine()) != null) {
+					if(line.length() <= 0){
+						continue;
+					}
+					
 					ErrorCodeCount errorCodeCount = BeansUtils.json2obj(line,
 							ErrorCodeCount.class);
-					String errorCode = errorCodeCount.getErrorCode();
-					if(errorInfos.containsKey(errorCode)){
-						errorInfos.get(errorCode).addCount(errorCodeCount.getCount());
-					}else{
-						errorInfos.put(errorCode, errorCodeCount);
+					if (errorCodeCount != null) {
+						String errorCode = errorCodeCount.getErrorCode();
+						if (errorInfos.containsKey(errorCode)) {
+							errorInfos.get(errorCode).addCount(
+									errorCodeCount.getCount());
+						} else {
+							errorInfos.put(errorCode, errorCodeCount);
+						}
 					}
 				}
 
@@ -273,7 +311,6 @@ public class MRRunner extends Configured implements Tool, IRunner {
 
 			records.put(Constants.LOG_RECORD_TABLE_NAME, process.getId());
 			String statDate = conf.get(Constants.LOG_RECORD_STAT_DATE);
-			// statDate = statDate.substring(statDate.indexOf("=") + 1);
 			records.put(Constants.LOG_RECORD_STAT_DATE, statDate);
 			long totalLines = job.getCounters()
 					.findCounter("org.apache.hadoop.mapred.Task$Counter",

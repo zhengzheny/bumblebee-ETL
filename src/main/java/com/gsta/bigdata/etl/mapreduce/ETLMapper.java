@@ -1,16 +1,14 @@
 package com.gsta.bigdata.etl.mapreduce;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
-
-import org.apache.hadoop.io.IOUtils;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
+import org.apache.hadoop.mapreduce.lib.output.MultipleOutputs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +21,6 @@ import com.gsta.bigdata.etl.core.lookup.LKPTableMgr;
 import com.gsta.bigdata.etl.core.process.MRProcess;
 import com.gsta.bigdata.etl.core.source.ValidatorException;
 import com.gsta.bigdata.utils.BeansUtils;
-import com.gsta.bigdata.utils.HdfsUtils;
 
 /**
  * the map of mapreduce
@@ -36,6 +33,7 @@ public class ETLMapper extends Mapper<Object, Text, Text, Text> {
 
 	private Text txtKey = new Text();
 	private Text txtValue = new Text();
+	private Text outText = new Text();  
 	private final static String SCOPE = "map";
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
@@ -43,30 +41,25 @@ public class ETLMapper extends Mapper<Object, Text, Text, Text> {
 	// how many error records for writing error file
 	private int errorRecordThreshold = 1000;
 
-	private OutputStream errorOutput;
 	// save error line set,if have multiple errors in the same line,write once
 	private Set<String> errorRecords = new CopyOnWriteArraySet<String>();
-	// error file name
-	private String errorFileName;
-
-	private OutputStream invalidOutput;
 	// invalid records after verify,if have multiple invalid error in the same
 	// line,write once
 	private Set<String> invalidRecords = new CopyOnWriteArraySet<String>();
-	// invalid file name
-	private String invalidFileName;
-
-	private OutputStream errorInfoOutput;
-	// error information file name
-	private String errorInfoFileName;
 	// key is error code
 	private Map<String, ErrorCodeCount> errorInfos = new ConcurrentHashMap<String, ErrorCodeCount>();
-
+	
+	private MultipleOutputs<Text, Text> multiOutput ; 
+	private String errorPath;
+	private String outputPath;
+	
 	@Override
 	protected void setup(Mapper<Object, Text, Text, Text>.Context context)
 			throws IOException, InterruptedException {
 		super.setup(context);
-
+		
+		multiOutput = new MultipleOutputs<Text, Text>(context);
+		
 		String json = context.getConfiguration().get(
 				Constants.HADOOP_CONF_MRPROCESS);
 		this.process = (MRProcess) BeansUtils.json2obj(json, MRProcess.class);
@@ -81,21 +74,8 @@ public class ETLMapper extends Mapper<Object, Text, Text, Text> {
 			LKPTableMgr.getInstance().clone(lkpTableMgr);
 		}
 
-		String errorPath = this.process.getErrorPath();
-		String taskId = context.getConfiguration().get(
-				"mapreduce.task.attempt.id");
-		// don't use File.separator,or don't pass test in windows platform
-		this.errorFileName = errorPath + "/error." + taskId;
-		this.invalidFileName = errorPath + "/invalid." + taskId;
-
-		String outputPath = this.process.getOutputPath();
-		this.errorInfoFileName = outputPath + "/errorInfo." + taskId;
-
-		HdfsUtils hdfsUtils = new HdfsUtils();
-		this.errorOutput = hdfsUtils.open(this.errorFileName);
-		this.invalidOutput = hdfsUtils.open(this.invalidFileName);
-		this.errorInfoOutput = hdfsUtils.open(this.errorInfoFileName);
-
+		this.errorPath = this.process.getErrorPath();
+		this.outputPath = this.process.getOutputPath();
 		String thresholdCount = process
 				.getConf(Constants.CF_ERROR_RECORD_WRITE_COUNT);
 		if (thresholdCount != null && !"".equals(thresholdCount)) {
@@ -107,17 +87,15 @@ public class ETLMapper extends Mapper<Object, Text, Text, Text> {
 	protected void map(Object key, Text value,
 			Mapper<Object, Text, Text, Text>.Context context)
 			throws IOException, InterruptedException {
-		if(value == null || "".equals(value)){
+		if(value == null || "".equals(value.toString())){
 			return;
 		}
 		
 		ETLData data = null;
-
 		try {
 			data = this.process.parseLine(value.toString(), this.invalidRecords);
 		} catch (ETLException e) {
-			logger.error("dataline=" + value.toString() + ",error:"
-					+ e.getMessage());
+			logger.error("dataline=" + value.toString() + ",error:" + e.getMessage());
 
 			//record error information
 			this.recordErrorInfo(e);
@@ -125,16 +103,14 @@ public class ETLMapper extends Mapper<Object, Text, Text, Text> {
 			// write error file
 			this.errorRecords.add(value.toString());
 			if (this.errorRecords.size() >= this.errorRecordThreshold) {
-				writeFiles(this.errorOutput, this.errorRecords,
-						this.errorFileName);
-
+				//writeFiles(this.errorOutput, this.errorRecords,this.errorFileName);
+				this.writeFiles(this.errorPath, Constants.OUTPUT_ERROR_FILE_PREFIX, errorRecords);
 			}
 
 			// if occuring parsing exception,write error file and don't make transform
 			return;
 		} catch (ValidatorException e) {
-			logger.error("dataline=" + value.toString() + ",error:"
-					+ e.getMessage());
+			logger.error("dataline=" + value.toString() + ",error:" + e.getMessage());
 			
 			//record error information
 			this.recordErrorInfo(e);
@@ -142,8 +118,8 @@ public class ETLMapper extends Mapper<Object, Text, Text, Text> {
 			// write invalid file
 			this.invalidRecords.add(value.toString());
 			if (this.invalidRecords.size() >= this.errorRecordThreshold) {
-				writeFiles(this.invalidOutput, this.invalidRecords,
-						this.invalidFileName);
+				//writeFiles(this.invalidOutput, this.invalidRecords,this.invalidFileName);
+				this.writeFiles(this.errorPath, Constants.OUTPUT_INVALID_FILE_PREFIX, invalidRecords);
 			}
 			return;
 		}
@@ -161,8 +137,7 @@ public class ETLMapper extends Mapper<Object, Text, Text, Text> {
 				context.write(this.txtKey, this.txtValue);
 			}
 		} catch (ETLException e) {
-			logger.error("dataline=" + value.toString() + ",error:"
-					+ e.getMessage());
+			logger.error("dataline=" + value.toString() + ",error:" + e.getMessage());
 			
 			//record error information
 			this.recordErrorInfo(e);
@@ -170,8 +145,8 @@ public class ETLMapper extends Mapper<Object, Text, Text, Text> {
 			// write error file
 			this.errorRecords.add(value.toString());
 			if (this.errorRecords.size() >= this.errorRecordThreshold) {
-				writeFiles(this.errorOutput, this.errorRecords,
-						this.errorFileName);
+				//writeFiles(this.errorOutput, this.errorRecords,this.errorFileName);
+				this.writeFiles(this.errorPath, Constants.OUTPUT_ERROR_FILE_PREFIX, errorRecords);
 			}
 		}
 	}
@@ -188,35 +163,40 @@ public class ETLMapper extends Mapper<Object, Text, Text, Text> {
 		}
 		
 	}
+	
+	private void writeFiles(String dir, String namedOutput, Set<String> records)
+			throws IOException, InterruptedException {
+		if (namedOutput == null || dir == null) {
+			logger.error("write output file,namedOutput or dir is null.");
+			return;
+		}
 
-	private void writeFiles(OutputStream output, Set<String> records,
-			String fileName) {
-		if (records.size() <= 0 || output == null) {
+		if (records == null || records.size() <= 0) {
 			return;
 		}
 
 		int count = 0;
+		StringBuffer sb = new StringBuffer();
 		Iterator<String> iter = records.iterator();
 		while (iter.hasNext()) {
-			try {
-				String line = iter.next();
-				output.write(line.getBytes("utf-8"));
-				output.write("\r\n".getBytes());
+			String line = iter.next();
+			sb.append(line).append("\r\n");
 
-				records.remove(line);
-				count++;
-			} catch (IOException e) {
-				logger.error("write error file:" + e.getMessage());
-			}
+			records.remove(line);
+			count++;
 		}
 
-		try {
-			output.flush();
-		} catch (IOException e) {
-			logger.error("flush error file:" + e.getMessage());
+		outText.set(sb.toString());
+		if(dir.endsWith("/") || dir.endsWith("\\")){
+			dir = dir + namedOutput;
+		}else{
+			dir = dir + "/" + namedOutput;
 		}
-
-		logger.info("write error file:" + fileName + ",record count=" + count);
+		
+		this.multiOutput.write(namedOutput, outText, null, dir);
+		
+		logger.info("write file,dir=" + dir + ",file prefix=" + namedOutput
+				+ ",record count=" + count);
 	}
 
 	@Override
@@ -225,26 +205,14 @@ public class ETLMapper extends Mapper<Object, Text, Text, Text> {
 		super.cleanup(context);
 
 		// write remaining error record
-		writeFiles(this.errorOutput, this.errorRecords, this.errorFileName);
-		writeFiles(this.invalidOutput, this.invalidRecords,
-				this.invalidFileName);
-
+		this.writeFiles(this.errorPath, Constants.OUTPUT_ERROR_FILE_PREFIX, errorRecords);
+		this.writeFiles(this.errorPath, Constants.OUTPUT_INVALID_FILE_PREFIX, invalidRecords);
+		
 		// write error information to HDFS file,and the main thread will
 		//read them and print error info to console
-		writeFiles(this.errorInfoOutput, this.getErrorInfo(),
-				this.errorInfoFileName);
+		this.writeFiles(this.outputPath, Constants.OUTPUT_ERROR_INFO_FILE_PREFIX,  this.getErrorInfo());
 
-		if (this.errorOutput != null) {
-			IOUtils.closeStream(this.errorOutput);
-		}
-
-		if (this.invalidOutput != null) {
-			IOUtils.closeStream(this.invalidOutput);
-		}
-		
-		if(this.errorInfoOutput != null){
-			IOUtils.closeStream(this.errorInfoOutput);
-		}
+		multiOutput.close();
 	}
 
 	private Set<String> getErrorInfo() {

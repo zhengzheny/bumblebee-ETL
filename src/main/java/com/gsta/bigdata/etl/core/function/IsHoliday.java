@@ -48,7 +48,7 @@ public class IsHoliday extends AbstractFunction {
 	}
 
 	@Override
-	public String onCalculate(Map<String, String> functionData,
+	protected String onCalculate(Map<String, String> functionData,
 			ShellContext context) throws ETLException {
 		String date = functionData.get(inputField);
 		return isHoliday(date);
@@ -81,7 +81,7 @@ public class IsHoliday extends AbstractFunction {
 	}
 	
 	@Override
-	public Map<String, String> multiOutputOnCalculate(
+	protected Map<String, String> multiOutputOnCalculate(
 			Map<String, String> functionData, ShellContext context)
 			throws ETLException {
 		return null;
