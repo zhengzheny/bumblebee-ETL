@@ -161,6 +161,21 @@ public abstract class AbstractSourceMetaData extends AbstractETLObject {
 	public String getWrapper() {
 		return wrapper;
 	}
+	
+	public Field getFieldById(String id){
+		if(id == null){
+			return null;
+		}
+		
+		Field retField = null;
+		for(Field field:this.fields){
+			if(id.equals(field.getId())){
+				retField = field;
+				break;
+			}
+		}
+		return retField;
+	}
 
 	/**
 	 * validate field

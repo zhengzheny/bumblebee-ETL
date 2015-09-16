@@ -134,7 +134,8 @@ public class NoSettingFieldsFlat extends SimpleFlat {
 
 			// check data field
 			if (this.fieldIds.contains(fieldName)) {
-				super.verifyFields(etlData, line, invalidRecords);
+				Field field = super.getFieldById(fieldName);
+				super.fieldValidate(field, datas[i - 1], line, invalidRecords);
 			}
 
 			i++;
