@@ -32,7 +32,7 @@
 			<values delimiter="*">
 				<field id="*"  index="2"/>
 				<field id="f3" index="3"/>
-				<field id="a" defaultValue="hello" index="1"/>
+				<field id="a" defaultValue="${tips}" index="1"/>
 			</values>
 		</outputMetaData>
 		<transforms>
