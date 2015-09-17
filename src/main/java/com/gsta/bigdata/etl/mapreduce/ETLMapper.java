@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
+
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.lib.output.MultipleOutputs;
@@ -17,6 +18,8 @@ import com.gsta.bigdata.etl.AbstractException;
 import com.gsta.bigdata.etl.ETLException;
 import com.gsta.bigdata.etl.core.Constants;
 import com.gsta.bigdata.etl.core.ETLData;
+import com.gsta.bigdata.etl.core.IRuleMgr;
+import com.gsta.bigdata.etl.core.RuleStatisMgr;
 import com.gsta.bigdata.etl.core.lookup.LKPTableMgr;
 import com.gsta.bigdata.etl.core.process.MRProcess;
 import com.gsta.bigdata.etl.core.source.ValidatorException;
@@ -164,6 +167,23 @@ public class ETLMapper extends Mapper<Object, Text, Text, Text> {
 		
 	}
 	
+	private Set<String> getErrorInfo() {
+		Set<String> errorInfo = new CopyOnWriteArraySet<String>();
+		
+		for(ErrorCodeCount errorCodeCount:this.errorInfos.values()) {
+			String info = null;
+			try {
+				info = BeansUtils.obj2json(errorCodeCount);
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+				logger.error(e.toString());
+			}
+			errorInfo.add(info);
+		}
+		
+		return errorInfo;
+	}
+	
 	private void writeFiles(String dir, String namedOutput, Set<String> records)
 			throws IOException, InterruptedException {
 		if (namedOutput == null || dir == null) {
@@ -212,23 +232,41 @@ public class ETLMapper extends Mapper<Object, Text, Text, Text> {
 		//read them and print error info to console
 		this.writeFiles(this.outputPath, Constants.OUTPUT_ERROR_INFO_FILE_PREFIX,  this.getErrorInfo());
 
+		this.writeRuleStatis();
+		
 		multiOutput.close();
 	}
 
-	private Set<String> getErrorInfo() {
-		Set<String> errorInfo = new CopyOnWriteArraySet<String>();
-		
-		for(ErrorCodeCount errorCodeCount:this.errorInfos.values()) {
-			String info = null;
-			try {
-				info = BeansUtils.obj2json(errorCodeCount);
-			} catch (JsonProcessingException e) {
-				e.printStackTrace();
-				logger.error(e.toString());
+	private void writeRuleStatis() throws IOException, InterruptedException {
+		Set<IRuleMgr> ruleMgrs = RuleStatisMgr.getInstance().getRuleMgrs();
+		for (IRuleMgr ruleMgr : ruleMgrs) {
+			if (ruleMgr == null) {
+				continue;
 			}
-			errorInfo.add(info);
-		}
-		
-		return errorInfo;
+			
+			StringBuffer sb = new StringBuffer();
+			sb.append("=========rule statistical information============\r\n");
+			sb.append(ruleMgr.getStatInfo()).append("\r\n");
+
+			sb.append("==========rule matched information===============\r\n");
+			Map<String, Long> ruleStatis = ruleMgr.getRuleMatchedStats();
+			for (Map.Entry<String, Long> mapEntry : ruleStatis.entrySet()) {
+				String key = (String) mapEntry.getKey();
+				Long value = (Long) mapEntry.getValue();
+				sb.append(value.longValue()).append("\t").append(key)
+						.append("\r\n");
+			}
+
+			String dir = ruleMgr.getStatisFileDir();
+			if (dir == null) {
+				dir = this.process.getOutputPath() + "/ruleStatis";
+			}
+			if (dir.endsWith("/") || dir.endsWith("\\")) {
+				dir = dir + ruleMgr.getId();
+			} else {
+				dir = dir + "/" + ruleMgr.getId();
+			}
+			this.multiOutput.write(ruleMgr.getId(), sb.toString(), null,dir);
+		}// end for ruleMgrs
 	}
 }
