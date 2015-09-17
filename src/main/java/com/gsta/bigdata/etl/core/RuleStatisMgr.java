@@ -3,6 +3,8 @@ package com.gsta.bigdata.etl.core;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * 
  * @author tianxq
@@ -10,6 +12,7 @@ import java.util.Set;
  */
 public class RuleStatisMgr {
 	private static final RuleStatisMgr instance = new RuleStatisMgr();
+	@JsonProperty
 	private Set<IRuleMgr> ruleMgrs;
 
 	public RuleStatisMgr() {
@@ -18,6 +21,10 @@ public class RuleStatisMgr {
 	
 	public void register(IRuleMgr ruleMgr){
 		this.ruleMgrs.add(ruleMgr);
+	}
+	
+	public void clone(RuleStatisMgr ruleStatisMgr){
+		this.ruleMgrs = ruleStatisMgr.getRuleMgrs();
 	}
 
 	public static RuleStatisMgr getInstance() {

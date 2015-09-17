@@ -92,6 +92,7 @@ public class MRRunner extends Configured implements Tool, IRunner {
 		conf.set(Constants.HADOOP_CONF_MRPROCESS,
 				BeansUtils.obj2json(this.process));
 		conf.set(Constants.PATH_LOOKUP, BeansUtils.obj2json(this.lkpTableMgr));
+		conf.set(Constants.JSON_RULE_STATIS_MGR, BeansUtils.obj2json(RuleStatisMgr.getInstance()));
 
 		Date startTime = new Date();
 		Job job = Job.getInstance(conf, this.process.getId());

@@ -15,6 +15,7 @@ import com.gsta.bigdata.etl.mapreduce.ETLMapper;
  *
  */
 public class Constants {
+	public final static String JSON_RULE_STATIS_MGR = "ruleStatisMgr";
 	public final static String OUTPUT_ERROR_FILE_PREFIX = "error";
 	public final static String OUTPUT_INVALID_FILE_PREFIX = "invalid";
 	public final static String OUTPUT_ERROR_INFO_FILE_PREFIX = "errorInfo";

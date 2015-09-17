@@ -76,6 +76,11 @@ public class ETLMapper extends Mapper<Object, Text, Text, Text> {
 		if (lkpTableMgr != null) {
 			LKPTableMgr.getInstance().clone(lkpTableMgr);
 		}
+		json = context.getConfiguration().get(Constants.JSON_RULE_STATIS_MGR);
+		RuleStatisMgr ruleStatisMgr = BeansUtils.json2obj(json, RuleStatisMgr.class);
+		if(ruleStatisMgr != null){
+			RuleStatisMgr.getInstance().clone(ruleStatisMgr);
+		}
 
 		this.errorPath = this.process.getErrorPath();
 		this.outputPath = this.process.getOutputPath();
