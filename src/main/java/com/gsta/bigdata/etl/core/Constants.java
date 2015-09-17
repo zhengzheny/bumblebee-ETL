@@ -6,7 +6,6 @@ import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
 import com.gsta.bigdata.etl.core.process.MRProcess;
 import com.gsta.bigdata.etl.core.source.SimpleFlat;
-import com.gsta.bigdata.etl.core.source.ZteENODEBXML;
 import com.gsta.bigdata.etl.mapreduce.ETLMapper;
 
 /**
@@ -44,7 +43,7 @@ public class Constants {
 	public final static String CF_LOCAL_FILE_SLICE_THREAD_SIZE = "localFileSliceThreadSize";
 	
 	//local file's data source
-	public final static String SOURCE_ZTE_NODEB_XML = ZteENODEBXML.class.getSimpleName();
+	public final static String SOURCE_ZTE_NODEB_XML = "ZteENODEBXML";
 	
 	//lookup data source type
 	public static final String LKP_FLAT_TYPE_DS = "flat";
