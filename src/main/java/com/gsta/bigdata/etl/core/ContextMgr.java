@@ -5,7 +5,7 @@ package com.gsta.bigdata.etl.core;
  * @author tianxq
  * 
  */
-public class Context {
+public class ContextMgr {
 	/**
 	 * first get variable from .properties file,
 	 * second get variable from shell command line

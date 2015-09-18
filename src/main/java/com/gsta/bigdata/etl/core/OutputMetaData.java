@@ -77,7 +77,7 @@ public class OutputMetaData extends AbstractETLObject {
 			try {
 				String delimiter = XmlTools.getNodeAttr(node,
 						Constants.ATTR_DELIMITER);
-				this.valuesDelimiter = Context.getValue(delimiter);
+				this.valuesDelimiter = ContextMgr.getValue(delimiter);
 				// special deal with not see char
 				if (NotSeeCharDefineInConf.equals(this.valuesDelimiter)) {
 					this.valuesDelimiter = "\001";

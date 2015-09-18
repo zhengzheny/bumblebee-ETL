@@ -51,8 +51,8 @@ public class ComputingFrameworkConfigs extends AbstractETLObject {
 					String key = XmlTools.getNodeAttr((Element)node, Constants.ATTR_KEY);
 					String value = XmlTools.getNodeAttr((Element)node, Constants.ATTR_VALUE);
 					
-					key = Context.getValue(key);
-					value = Context.getValue(value);
+					key = ContextMgr.getValue(key);
+					value = ContextMgr.getValue(value);
 					
 					conf.put(key, value);
 				} catch (XPathExpressionException e) {

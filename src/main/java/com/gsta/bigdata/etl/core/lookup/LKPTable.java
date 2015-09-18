@@ -16,7 +16,7 @@ import com.google.api.client.repackaged.com.google.common.base.Preconditions;
 import com.gsta.bigdata.etl.core.AbstractETLObject;
 import com.gsta.bigdata.etl.core.ChildrenTag;
 import com.gsta.bigdata.etl.core.Constants;
-import com.gsta.bigdata.etl.core.Context;
+import com.gsta.bigdata.etl.core.ContextMgr;
 import com.gsta.bigdata.etl.core.ParseException;
 import com.gsta.bigdata.utils.XmlTools;
 
@@ -162,7 +162,7 @@ public class LKPTable extends AbstractETLObject implements ILookup {
 		if (this.dataSource == null) {
 			for (String key : this.tableMaps.keySet()) {
 				String value = this.tableMaps.get(key);
-				value = Context.getValue(value);
+				value = ContextMgr.getValue(value);
 
 				this.dimensions.put(key, value);
 				this.reverseDimensions.put(value, key);

@@ -21,7 +21,7 @@ import com.gsta.bigdata.etl.ETLException;
 import com.gsta.bigdata.etl.core.AbstractETLObject;
 import com.gsta.bigdata.etl.core.ChildrenTag;
 import com.gsta.bigdata.etl.core.Constants;
-import com.gsta.bigdata.etl.core.Context;
+import com.gsta.bigdata.etl.core.ContextMgr;
 import com.gsta.bigdata.etl.core.ShellContext;
 import com.gsta.bigdata.etl.core.ParseException;
 import com.gsta.bigdata.utils.StringUtils;
@@ -269,10 +269,6 @@ public abstract class AbstractFunction extends AbstractETLObject {
 	protected abstract Map<String,String> multiOutputOnCalculate(Map<String, String> functionData,
 			ShellContext context) throws ETLException;
 
-	public String toString() {
-		return super.getAttrs().toString();
-	}
-
 	public List<String> getOutputIds() {
 		return outputIds;
 	}
@@ -284,7 +280,7 @@ public abstract class AbstractFunction extends AbstractETLObject {
 		AbstractFunction function = null;
 		try {
 			String name = XmlTools.getNodeAttr(element, Constants.ATTR_NAME);
-			name = Context.getValue(name);
+			name = ContextMgr.getValue(name);
 			if (name == null || "".equals(name)) {
 				throw new ParseException("functon name is null.");
 			}

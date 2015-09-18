@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ShellContext {
 	@JsonProperty
 	private Map<String, String> context = new HashMap<String, String>();
-	private final static ShellContext etlContext = new ShellContext();
+	private final static ShellContext instance = new ShellContext();
 	
 	public void parseArgs(String[] args) {
 		if (args == null || args.length == 0) {
@@ -59,6 +59,6 @@ public class ShellContext {
 	}
 	
 	public static ShellContext getInstance(){
-		return etlContext;
+		return instance;
 	}
 }

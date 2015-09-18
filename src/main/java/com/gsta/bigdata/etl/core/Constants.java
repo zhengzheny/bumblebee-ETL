@@ -44,6 +44,7 @@ public class Constants {
 	
 	//local file's data source
 	public final static String SOURCE_ZTE_NODEB_XML = "ZteENODEBXML";
+	public final static String PROCESS_SLICE_LOCAL_FILE = "SliceLocalFileProcess";
 	
 	//lookup data source type
 	public static final String LKP_FLAT_TYPE_DS = "flat";

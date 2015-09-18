@@ -25,7 +25,7 @@ import com.gsta.bigdata.utils.XmlTools;
 public class DataSourceMgr extends AbstractETLObject {
 	@JsonIgnore
 	private Map<String,AbstractDataSource> mapDataSource = new HashMap<String,AbstractDataSource>();
-	private static final DataSourceMgr dataSourceMgr = new DataSourceMgr();
+	private static final DataSourceMgr instance = new DataSourceMgr();
 
 	public DataSourceMgr() {
 		super.tagName = Constants.PATH_LKP_DATASOURCES;
@@ -78,6 +78,6 @@ public class DataSourceMgr extends AbstractETLObject {
 	}
 	
 	public static DataSourceMgr getInstance(){
-		return dataSourceMgr;
+		return instance;
 	}
 }

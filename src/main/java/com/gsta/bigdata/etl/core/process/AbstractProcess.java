@@ -16,7 +16,7 @@ import com.gsta.bigdata.etl.core.AbstractETLObject;
 import com.gsta.bigdata.etl.core.ChildrenTag;
 import com.gsta.bigdata.etl.core.ComputingFrameworkConfigs;
 import com.gsta.bigdata.etl.core.Constants;
-import com.gsta.bigdata.etl.core.Context;
+import com.gsta.bigdata.etl.core.ContextMgr;
 import com.gsta.bigdata.etl.core.ETLData;
 import com.gsta.bigdata.etl.core.ParseException;
 import com.gsta.bigdata.etl.core.ShellContext;
@@ -271,7 +271,7 @@ public abstract class AbstractProcess extends AbstractETLObject {
 		try {
 			String type = XmlTools.getNodeAttr(element, Constants.ATTR_TYPE);
 
-			type = Context.getValue(type);
+			type = ContextMgr.getValue(type);
 			if (type == null || "".equals(type)) {
 				type = Constants.DEFAULT_COMPUTING_FRAMEWORK_MR;
 			}

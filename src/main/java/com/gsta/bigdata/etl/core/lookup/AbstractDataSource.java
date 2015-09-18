@@ -14,7 +14,7 @@ import com.google.api.client.repackaged.com.google.common.base.Preconditions;
 import com.gsta.bigdata.etl.core.AbstractETLObject;
 import com.gsta.bigdata.etl.core.ChildrenTag;
 import com.gsta.bigdata.etl.core.Constants;
-import com.gsta.bigdata.etl.core.Context;
+import com.gsta.bigdata.etl.core.ContextMgr;
 import com.gsta.bigdata.etl.core.LoadException;
 import com.gsta.bigdata.etl.core.ParseException;
 import com.gsta.bigdata.utils.XmlTools;
@@ -72,7 +72,7 @@ public abstract class AbstractDataSource extends AbstractETLObject {
 					String name = XmlTools.getNodeAttr((Element) element,Constants.ATTR_NAME);
 					String value = XmlTools.getNodeAttr((Element) element,Constants.ATTR_VALUE);
 					
-					value = Context.getValue(value);
+					value = ContextMgr.getValue(value);
 					this.properties.put(name, value);
 				} catch (XPathExpressionException e) {
 					throw new ParseException(e);
