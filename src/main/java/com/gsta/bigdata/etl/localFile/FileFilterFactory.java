@@ -21,7 +21,7 @@ public class FileFilterFactory {
 		String type = process.getSourceType();
 		type = StringUtils.upperCaseFirstChar(type);
 		if (Constants.SOURCE_ZTE_NODEB_XML.equals(type) && fileNamePattern != null) {
-			return new ZteFileFilter(fileSuffix, fileNamePattern);
+			return new ExtensionAndPatternFileFilter(fileSuffix, fileNamePattern);
 		} else {
 			return new ExtensionFileFilter(fileSuffix);
 		}

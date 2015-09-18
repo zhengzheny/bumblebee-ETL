@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
@@ -33,6 +34,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.gsta.bigdata.etl.core.Constants;
+import com.gsta.bigdata.etl.core.IRuleMgr;
+import com.gsta.bigdata.etl.core.RuleStatisMgr;
 import com.gsta.bigdata.etl.core.WriteLog;
 import com.gsta.bigdata.etl.core.lookup.LKPTableMgr;
 import com.gsta.bigdata.etl.core.process.MRProcess;
@@ -89,6 +92,7 @@ public class MRRunner extends Configured implements Tool, IRunner {
 		conf.set(Constants.HADOOP_CONF_MRPROCESS,
 				BeansUtils.obj2json(this.process));
 		conf.set(Constants.PATH_LOOKUP, BeansUtils.obj2json(this.lkpTableMgr));
+		conf.set(Constants.JSON_RULE_STATIS_MGR, BeansUtils.obj2json(RuleStatisMgr.getInstance()));
 
 		Date startTime = new Date();
 		Job job = Job.getInstance(conf, this.process.getId());
@@ -168,6 +172,13 @@ public class MRRunner extends Configured implements Tool, IRunner {
 				TextOutputFormat.class, Text.class, Text.class);
 		MultipleOutputs.addNamedOutput(job, Constants.OUTPUT_ERROR_INFO_FILE_PREFIX,
 				TextOutputFormat.class, Text.class, Text.class);
+		
+		//rule manager statistical information output
+		Set<IRuleMgr> ruleMgrs = RuleStatisMgr.getInstance().getRuleMgrs();
+		for (IRuleMgr ruleMgr : ruleMgrs) {
+			MultipleOutputs.addNamedOutput(job, ruleMgr.getId(),
+					TextOutputFormat.class, Text.class, Text.class);
+		}
 
 		int complete = job.waitForCompletion(true) ? 0 : 1;
 

@@ -113,6 +113,7 @@
 				<function name="getURLClass" input="url" refUrl="ref" ruleFile="urlClassRule.txt">
 					<output id="urlclassid" />
 					<output id="urlclassruleid" />
+					<cacheSize = ""/>
 				</function>
 				<function name="parseSearchKeywords" input="url" output="searchkeywords" ruleFile="searchWordsRule.properties"/>
 			</transform>

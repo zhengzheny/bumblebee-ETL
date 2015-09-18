@@ -8,7 +8,7 @@ import java.io.FilenameFilter;
  * @author tianxq
  *
  */
-public class ZteFileFilter implements FilenameFilter {
+public class ExtensionAndPatternFileFilter implements FilenameFilter {
 	private String extension = ".";
 	/**
 	 * like this:CELLERABADDHO,CELLERABSTAT,CELLERABTIME,CELLPL,CELLRRCCONN
@@ -16,11 +16,11 @@ public class ZteFileFilter implements FilenameFilter {
 	 */
 	private String[] patterns = new String[0];
 	
-	public ZteFileFilter(String extensionNotDot) {
+	public ExtensionAndPatternFileFilter(String extensionNotDot) {
 		this.extension = this.extension + extensionNotDot;
 	}
 	
-	public ZteFileFilter(String extensionNotDot,String includeStr) {
+	public ExtensionAndPatternFileFilter(String extensionNotDot,String includeStr) {
 		this.extension = this.extension + extensionNotDot;
 		if(includeStr != null){
 			this.patterns = includeStr.split(",");
