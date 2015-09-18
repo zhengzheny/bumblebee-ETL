@@ -80,7 +80,7 @@ public abstract class AbstractETLObject {
 			String value = this.attrs.get(key);
 
 			// update
-			this.attrs.put(key,Context.getValue(value));
+			this.attrs.put(key,ContextMgr.getValue(value));
 		}
 	}
 		
@@ -133,9 +133,5 @@ public abstract class AbstractETLObject {
 		}
 		
 		return ret;
-	}
-
-	public Map<String, String> getAttrs() {
-		return attrs;
 	}
 }

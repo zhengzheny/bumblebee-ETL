@@ -15,7 +15,7 @@ import com.google.api.client.repackaged.com.google.common.base.Preconditions;
 import com.gsta.bigdata.etl.ETLException;
 import com.gsta.bigdata.etl.core.AbstractETLObject;
 import com.gsta.bigdata.etl.core.Constants;
-import com.gsta.bigdata.etl.core.Context;
+import com.gsta.bigdata.etl.core.ContextMgr;
 import com.gsta.bigdata.etl.core.ETLData;
 import com.gsta.bigdata.etl.core.ParseException;
 import com.gsta.bigdata.etl.core.ShellContext;
@@ -71,10 +71,6 @@ public abstract class AbstractFilter extends AbstractETLObject {
 	protected abstract boolean accept(Map<String,String> filterData,ShellContext context)
 			throws ETLException;
 
-	public String toString(){
-		return super.getAttrs().toString();
-	}
-	
 	public String getName() {
 		return name;
 	}
@@ -87,7 +83,7 @@ public abstract class AbstractFilter extends AbstractETLObject {
 		try {
 			String name = XmlTools.getNodeAttr(element, Constants.ATTR_NAME);
 
-			name = Context.getValue(name);
+			name = ContextMgr.getValue(name);
 			if (name == null || "".equals(name)) {
 				throw new ParseException("filter name is null.");
 			}

@@ -21,7 +21,7 @@ import com.gsta.bigdata.utils.XmlTools;
 public class LookupMgr {
 	private DataSourceMgr dataSourceMgr;
 	private LKPTableMgr lkpTableMgr;
-	private static final LookupMgr lookupMgr = new LookupMgr();
+	private static final LookupMgr instance = new LookupMgr();
 	private static final String ATTR_IMPORT = "import";
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	
@@ -71,7 +71,7 @@ public class LookupMgr {
 	}
 	
 	public static LookupMgr getInstance(){
-		return lookupMgr;
+		return instance;
 	}
 	
 	private Element importLookupXml(String importPath) {

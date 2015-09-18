@@ -21,7 +21,6 @@ import com.gsta.bigdata.etl.core.lookup.LookupMgr;
 import com.gsta.bigdata.etl.core.process.AbstractProcess;
 import com.gsta.bigdata.etl.core.process.LocalFileProcess;
 import com.gsta.bigdata.etl.core.process.MRProcess;
-import com.gsta.bigdata.etl.core.process.SliceLocalFileProcess;
 import com.gsta.bigdata.utils.FileUtils;
 import com.gsta.bigdata.utils.XmlTools;
 
@@ -163,7 +162,7 @@ public class ETLRunner {
 		}else if(process.getType().equals(LocalFileProcess.class.getSimpleName())){
 			//local file computing framework
 			runner = new LocalFileRunner((LocalFileProcess)process);
-		}else if(process.getType().equals(SliceLocalFileProcess.class.getSimpleName())){
+		}else if(process.getType().equals(Constants.PROCESS_SLICE_LOCAL_FILE)){
 			runner = new SliceLocalFileRunner((LocalFileProcess)process);
 		}
 

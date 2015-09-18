@@ -36,8 +36,7 @@ public class ContextProperty{
 	private final static String ATTR_LOCATION = "location";
 		
 	Properties properties = new Properties();
-	
-	private static final ContextProperty cxtProperty = new ContextProperty();
+	private static final ContextProperty instance = new ContextProperty();
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	
 	public void init(String configFile){
@@ -120,6 +119,6 @@ public class ContextProperty{
 	}
 	
 	public static ContextProperty getInstance(){
-		return cxtProperty;
+		return instance;
 	}
 }

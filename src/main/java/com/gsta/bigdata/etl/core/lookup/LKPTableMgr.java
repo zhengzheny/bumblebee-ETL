@@ -20,7 +20,7 @@ import com.gsta.bigdata.etl.core.ParseException;
 public class LKPTableMgr extends AbstractETLObject{
 	@JsonIgnore
 	private Map<String, LKPTable> mapTables = new HashMap<String, LKPTable>();
-	private static final LKPTableMgr lkpTableMgr = new LKPTableMgr();
+	private static final LKPTableMgr instance = new LKPTableMgr();
 
 	public LKPTableMgr() {
 		super.tagName = Constants.PATH_LOOKUP;
@@ -55,7 +55,7 @@ public class LKPTableMgr extends AbstractETLObject{
 	}
 
 	public static LKPTableMgr getInstance() {
-		return lkpTableMgr;
+		return instance;
 	}
 
 	public Map<String, LKPTable> getMapTables() {

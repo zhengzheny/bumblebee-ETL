@@ -21,7 +21,7 @@ import com.gsta.bigdata.etl.ETLException;
 import com.gsta.bigdata.etl.core.AbstractETLObject;
 import com.gsta.bigdata.etl.core.ChildrenTag;
 import com.gsta.bigdata.etl.core.Constants;
-import com.gsta.bigdata.etl.core.Context;
+import com.gsta.bigdata.etl.core.ContextMgr;
 import com.gsta.bigdata.etl.core.ETLData;
 import com.gsta.bigdata.etl.core.Field;
 import com.gsta.bigdata.etl.core.ParseException;
@@ -127,7 +127,7 @@ public abstract class AbstractSourceMetaData extends AbstractETLObject {
 		try {
 			String type = XmlTools.getNodeAttr(element, Constants.ATTR_TYPE);
 
-			type = Context.getValue(type);
+			type = ContextMgr.getValue(type);
 			if (type == null || "".equals(type)) {
 				type = Constants.DEFAULT_SOURCE_METADATA_FLAT;
 			}

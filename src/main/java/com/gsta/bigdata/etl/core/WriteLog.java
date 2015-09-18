@@ -22,7 +22,7 @@ import com.gsta.bigdata.utils.XmlTools;
 public class WriteLog extends AbstractETLObject {
 	private String property;
 	private Logger logger = LoggerFactory.getLogger(getClass());
-	private static final WriteLog writeLog = new WriteLog();
+	private static final WriteLog instance = new WriteLog();
 
 	public WriteLog() {
 		super.tagName = Constants.TAG_WRITELOG;
@@ -77,6 +77,6 @@ public class WriteLog extends AbstractETLObject {
 	}
 
 	public static WriteLog getInstance() {
-		return writeLog;
+		return instance;
 	}
 }

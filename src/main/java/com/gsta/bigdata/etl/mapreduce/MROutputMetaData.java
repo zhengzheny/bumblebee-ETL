@@ -17,7 +17,7 @@ import com.google.api.client.repackaged.com.google.common.base.Preconditions;
 import com.gsta.bigdata.etl.ETLException;
 import com.gsta.bigdata.etl.core.ChildrenTag;
 import com.gsta.bigdata.etl.core.Constants;
-import com.gsta.bigdata.etl.core.Context;
+import com.gsta.bigdata.etl.core.ContextMgr;
 import com.gsta.bigdata.etl.core.ETLData;
 import com.gsta.bigdata.etl.core.Field;
 import com.gsta.bigdata.etl.core.OutputMetaData;
@@ -58,7 +58,7 @@ public class MROutputMetaData extends OutputMetaData  {
 		if(node.getNodeName().equals(Constants.PATH_MAP_OUTPUT_METADATA_KEYS)){
 			try {
 				String delimiter = XmlTools.getNodeAttr(node, Constants.ATTR_DELIMITER);
-				this.keysDelimiter = Context.getValue(delimiter);
+				this.keysDelimiter = ContextMgr.getValue(delimiter);
 				//special deal with not see char
 				if(NotSeeCharDefineInConf.equals(this.keysDelimiter)){
 					this.keysDelimiter = "\001";

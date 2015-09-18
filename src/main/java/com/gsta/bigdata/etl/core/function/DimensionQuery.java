@@ -47,6 +47,7 @@ public class DimensionQuery extends AbstractFunction {
  		String value = functionData.get(inputField);
  		
  		String queryValue = null;
+ 		//value/r means finding value-key search
  		if(value.indexOf("/r") != -1){
  			queryValue = this.table.getValue(value, true);
  		}else{

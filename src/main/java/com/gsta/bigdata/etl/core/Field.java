@@ -134,7 +134,7 @@ public class Field extends AbstractETLObject implements Comparable<Field> {
 		
 		String strDefaultValue = super.getAttr(Constants.ATTR_DEFAULT_VALUE);
 		if(strDefaultValue != null && !"".equals(strDefaultValue)){
-			this.defaultValue = Context.getValue(strDefaultValue);
+			this.defaultValue = ContextMgr.getValue(strDefaultValue);
 		}
 	}
 
@@ -242,10 +242,8 @@ public class Field extends AbstractETLObject implements Comparable<Field> {
 		//verify field type
 		//if add new type,only add TYPE_LIST and add function in DataValidator class
 		try {
-			String func = "is" + StringUtils.upperCaseFirstChar(this.type);
-			
+			String func = "is" + StringUtils.upperCaseFirstChar(this.type);			
 			Method method = DataValidator.class.getDeclaredMethod(func,String.class);
-
 			boolean ret = (boolean)method.invoke(DataValidator.class.newInstance(),value);
 			if(!ret){
 				throw new ValidatorException(ValidatorException.TYPE_NOT_MATCH,"field=" + this.id + 
