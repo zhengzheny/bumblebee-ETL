@@ -50,7 +50,7 @@ public abstract class AbstractSourceMetaData extends AbstractETLObject {
 	@JsonProperty
 	private List<Field> fields = new ArrayList<Field>();
 
-	private Logger logger = LoggerFactory.getLogger(getClass());
+	private static Logger logger = LoggerFactory.getLogger(AbstractSourceMetaData.class);
 
 	public AbstractSourceMetaData() {
 		super.tagName = Constants.PATH_SOURCE_METADATA;
@@ -138,8 +138,12 @@ public abstract class AbstractSourceMetaData extends AbstractETLObject {
 
 			sourceMetaData = (AbstractSourceMetaData) Class.forName(
 					subClassName).newInstance();
-		} catch (ClassNotFoundException | InstantiationException
-				| IllegalAccessException | XPathExpressionException e) {
+		} catch (ClassNotFoundException  e) {
+			//permit some source meta data not to define. 
+			logger.error(e.getMessage());
+			return null;
+		}catch( InstantiationException
+				| IllegalAccessException | XPathExpressionException e){
 			throw new ParseException(e);
 		}
 

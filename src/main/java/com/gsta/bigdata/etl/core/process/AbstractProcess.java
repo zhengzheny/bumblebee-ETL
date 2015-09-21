@@ -83,7 +83,9 @@ public abstract class AbstractProcess extends AbstractETLObject {
 			this.computingFrameworkConfigs.init(node);
 		} else if (node.getNodeName().equals(Constants.PATH_SOURCE_METADATA)) {
 			this.sourceMetaData = AbstractSourceMetaData.newInstance(node);
-			this.sourceMetaData.init(node);
+			if (this.sourceMetaData != null) {
+				this.sourceMetaData.init(node);
+			}
 		} else if (node.getNodeName().equals(Constants.PATH_TRANSFORMS)) {
 			this.transforms = new Transforms();
 			this.transforms.init(node);
@@ -280,8 +282,7 @@ public abstract class AbstractProcess extends AbstractETLObject {
 					.getPackageName(AbstractProcess.class)
 					+ StringUtils.upperCaseFirstChar(type);
 
-			process = (AbstractProcess) Class.forName(subClassName)
-					.newInstance();
+			process = (AbstractProcess) Class.forName(subClassName).newInstance();
 		} catch (ClassNotFoundException | InstantiationException
 				| IllegalAccessException | XPathExpressionException e) {
 			throw new ParseException(e);

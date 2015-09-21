@@ -114,6 +114,7 @@
 					<output id="urlclassid" />
 					<output id="urlclassruleid" />
 					<cacheSize = ""/>
+					<rule id="" file="" statisFileDir=""/>
 				</function>
 				<function name="parseSearchKeywords" input="url" output="searchkeywords" ruleFile="searchWordsRule.properties"/>
 			</transform>
