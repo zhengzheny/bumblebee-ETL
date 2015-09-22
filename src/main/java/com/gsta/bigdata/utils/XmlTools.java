@@ -252,6 +252,24 @@ public class XmlTools {
 		return (String) xpath.evaluate("text()", element,XPathConstants.STRING);
 	}
 	
+	public static String getNodeValue(Document doc,String path) throws XPathExpressionException{
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		return (String) xpath.evaluate(path, doc,XPathConstants.STRING);
+	}
+	
+	public static String sumNodeValue(Document doc,String path) throws XPathExpressionException{
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		NodeList nodes = (NodeList) xpath.evaluate(path, doc,XPathConstants.NODESET);
+		
+		long sum = 0L;
+		for(int i = 0; i < nodes.getLength(); i++){
+			Node node = nodes.item(i);
+			String value = (String)xpath.evaluate("text()", node,XPathConstants.STRING);
+			sum += Long.parseLong(value);
+		}
+		
+		return String.valueOf(sum);
+	}
 	/**
 	 *
 	 * <etl>

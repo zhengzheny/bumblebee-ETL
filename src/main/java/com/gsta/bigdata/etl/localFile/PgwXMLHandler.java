@@ -1,7 +1,6 @@
 package com.gsta.bigdata.etl.localFile;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
@@ -9,8 +8,6 @@ import javax.xml.xpath.XPathExpressionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 import com.gsta.bigdata.etl.ETLException;
@@ -32,11 +29,50 @@ public class PgwXMLHandler extends AbstractHandler {
 	private String beginContent = "<Content>";
 	private String endContent = "</Content>";
 
-	private String contentPath = "/Content";
-	private String listTrafficPath = "/Content/listTraffic";
-    // private String eQoSPath = "/Content/listTraffic/eQoS";
-	// private String listServicePath = "/Content/listService";
-	// private String qoSNegPath = "/Content/listService/qoSNeg";
+	private static final String PATH_RECTYPE = "/Content/recType";
+	private static final String PATH_IMSI = "/Content/IMSI";
+	private static final String PATH_PGWADDR = "/Content/pGWAddr";
+	private static final String PATH_CHARGID = "/Content/chargID";
+	private static final String PATH_NODEADDR = "/Content/NodeAddr";
+	private static final String PATH_APN = "/Content/APN";
+	private static final String PATH_PDPPDNTYPE = "/Content/pdpPDNType";
+	private static final String PATH_PDPPDNADDR = "/Content/PDPPDNAddr";
+	private static final String PATH_DADDRFLAG = "/Content/dAddrFlag";
+	private static final String PATH_UPLINK = "/Content/listTraffic/Uplink";
+	private static final String PATH_DOWNLINK = "/Content/listTraffic/Downlink";
+	private static final String PATH_RECOPENT = "/Content/recOpenT";
+	private static final String PATH_DURATION = "/Content/duration";
+	private static final String PATH_CAUSE = "/Content/cause";
+	private static final String PATH_DIAGN = "/Content/diagn";
+	private static final String PATH_RECSEQNUM = "/Content/recSeqNum";
+	private static final String PATH_NODEID = "/Content/nodeID";
+	private static final String PATH_RECEXT = "/Content/recExt";
+	private static final String PATH_LOCALSEQNUM = "/Content/localSeqNum";
+	private static final String PATH_APNSMODE = "/Content/apnSMode";
+	private static final String PATH_MSISDN = "/Content/MSISDN";
+	private static final String PATH_CHARGCHAR = "/Content/chargChar";
+	private static final String PATH_CHCHSMODE = "/Content/chChSMode";
+	private static final String PATH_IMSSIGNALCON = "/Content/iMSsignalCon";
+	private static final String PATH_EXTCHARGID = "/Content/extChargID";
+	private static final String PATH_NODEPLMNID = "/Content/NodePLMNId";
+	private static final String PATH_PSFURNISHCHARG = "/Content/pSFurnishCharg";
+	private static final String PATH_IMEISV = "/Content/IMEISV";
+	private static final String PATH_RATTYPE = "/Content/rATType";
+	private static final String PATH_MSTZONE = "/Content/mSTZone";
+	private static final String PATH_USERLOCATION = "/Content/userLocation";
+	private static final String PATH_CAMELCHARG = "/Content/cAMELCharg";
+	private static final String PATH_NODETYPE = "/Content/NodeType";
+	private static final String PATH_MNNAI = "/Content/MNNAI";
+	private static final String PATH_PGWPLMNID = "/Content/pGWPLMNId";
+	private static final String PATH_START = "/Content/start";
+	private static final String PATH_STOPT = "/Content/stopT";
+	private static final String PATH_GPP2MEID = "/Content/gpp2MEID";
+	private static final String PATH_PDNCONCHARGID = "/Content/pDNConChargID";
+	private static final String PATH_IMSIUNAUTHFLAG = "/Content/iMSIunauthFlag";
+	private static final String PATH_USERCSG = "/Content/userCSG";
+	private static final String PATH_GPP2USERLOCATION = "/Content/GPP2UserLocation";
+	private static final String PATH_PDPPDNADDREXT = "/Content/PDPPDNAddrExt";
+	private static final String PATH_DADDRFLAGEXT = "/Content/dAddrFlagExt";
 
 	private static final String TAG_RECTYPE = "recType";
 	private static final String TAG_IMSI = "IMSI";
@@ -47,12 +83,8 @@ public class PgwXMLHandler extends AbstractHandler {
 	private static final String TAG_PDPPDNTYPE = "pdpPDNType";
 	private static final String TAG_PDPPDNADDR = "PDPPDNAddr";
 	private static final String TAG_DADDRFLAG = "dAddrFlag";
-	private static final String TAG_UPLINK = "Uplink";
-	private static final String TAG_DOWNLINK = "Downlink";
-	// private static final String TAG_CHCOND = "chCond";
-	// private static final String TAG_CHT = "chT";
-	// private static final String TAG_QCI = "qCI";
-	// private static final String TAG_ARP = "aRP";
+	private static final String TAG_LISTTRAFFIC_UPLINK = "listTraffic_Uplink";
+	private static final String TAG_LISTTRAFFIC_DOWNLINK = "listTraffic_downlink";
 	private static final String TAG_RECOPENT = "recOpenT";
 	private static final String TAG_DURATION = "duration";
 	private static final String TAG_CAUSE = "cause";
@@ -74,15 +106,6 @@ public class PgwXMLHandler extends AbstractHandler {
 	private static final String TAG_MSTZONE = "mSTZone";
 	private static final String TAG_USERLOCATION = "userLocation";
 	private static final String TAG_CAMELCHARG = "cAMELCharg";
-	// private static final String TAG_GROUP = "Group";
-	// private static final String TAG_RULENAME = "RuleName";
-	// private static final String TAG_LSEQNUM = "lSeqNum";
-	// private static final String TAG_TFIRST = "TFirst";
-	// private static final String TAG_TLAST = "TLast";
-	// private static final String TAG_TUSAGE = "TUsage";
-	// private static final String TAG_CONDCHANGE = "CondChange";
-	// private static final String TAG_SGSNADDR = "sgsnAddr";
-	// private static final String TAG_TREPO = "TRepo";
 	private static final String TAG_NODETYPE = "NodeType";
 	private static final String TAG_MNNAI = "MNNAI";
 	private static final String TAG_PGWPLMNID = "pGWPLMNId";
@@ -95,17 +118,6 @@ public class PgwXMLHandler extends AbstractHandler {
 	private static final String TAG_GPP2USERLOCATION = "GPP2UserLocation";
 	private static final String TAG_PDPPDNADDREXT = "PDPPDNAddrExt";
 	private static final String TAG_DADDRFLAGEXT = "dAddrFlagExt";
-
-	private static final String FIELD_LISTTRAFFIC_UPLINK = "listTraffic_Uplink";
-	private static final String FIELD_LISTTRAFFIC_DOWNLINK = "listTraffic_downlink";
-	// private static final String FIELD_LISTSERVICE_UPLINK =
-	// "listService_Uplink";
-	// private static final String FIELD_LISTSERVICE_DOWNLINK =
-	// "listService_Downlink";
-	// private static final String FIELD_EQOS_QCI = "eQoS_qCI";
-	// private static final String FIELD_EQOS_ARP = "eQoS_aRP";
-	// private static final String FIELD_QOSNEG_QCI = "qoSNeg_qCI";
-	// private static final String FIELD_QOSNEG_ARP = "qoSNeg_aRP";
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -152,161 +164,104 @@ public class PgwXMLHandler extends AbstractHandler {
 
 		try {
 			Document doc;
-			Node content;
 			try {
 				doc = XmlTools.loadFromContent(xml);
-				content = XmlTools.getNodeByPath(doc, contentPath);
-			} catch (ParserConfigurationException | SAXException | IOException
-					| XPathExpressionException e) {
+			} catch (ParserConfigurationException | SAXException | IOException e) {
 				throw new ETLException(e);
 			}
 
 			ETLData data = new ETLData();
 
-			String recType = getNodeValueByTagName(content, TAG_RECTYPE);
+			String recType = XmlTools.getNodeValue(doc, PATH_RECTYPE);
 			data.addData(TAG_RECTYPE, recType);
-			String imsi = getNodeValueByTagName(content, TAG_IMSI);
+			String imsi = XmlTools.getNodeValue(doc, PATH_IMSI);
 			data.addData(TAG_IMSI, imsi);
-			String pGWAddr = getNodeValueByTagName(content, TAG_PGWADDR);
+			String pGWAddr = XmlTools.getNodeValue(doc, PATH_PGWADDR);
 			data.addData(TAG_PGWADDR, pGWAddr);
-			String chargID = getNodeValueByTagName(content, TAG_CHARGID);
+			String chargID = XmlTools.getNodeValue(doc, PATH_CHARGID);
 			data.addData(TAG_CHARGID, chargID);
-			String nodeAddr = getNodeValueByTagName(content, TAG_NODEADDR);
+			String nodeAddr = XmlTools.getNodeValue(doc, PATH_NODEADDR);
 			data.addData(TAG_NODEADDR, nodeAddr);
-			String apn = getNodeValueByTagName(content, TAG_APN);
+			String apn = XmlTools.getNodeValue(doc, PATH_APN);
 			data.addData(TAG_APN, apn);
-			String pdpPDNType = getNodeValueByTagName(content, TAG_PDPPDNTYPE);
+			String pdpPDNType = XmlTools.getNodeValue(doc, PATH_PDPPDNTYPE);
 			data.addData(TAG_PDPPDNTYPE, pdpPDNType);
-			String pdppdnAddr = getNodeValueByTagName(content, TAG_PDPPDNADDR);
+			String pdppdnAddr = XmlTools.getNodeValue(doc, PATH_PDPPDNADDR);
 			data.addData(TAG_PDPPDNADDR, pdppdnAddr);
-			String dAddrFlag = getNodeValueByTagName(content, TAG_DADDRFLAG);
+			String dAddrFlag = XmlTools.getNodeValue(doc, PATH_DADDRFLAG);
 			data.addData(TAG_DADDRFLAG, dAddrFlag);
 
 			// listTraffic
-			String listTraffic_Uplink = sumNodeValueByPath(doc,
-					listTrafficPath, TAG_UPLINK);
-			data.addData(FIELD_LISTTRAFFIC_UPLINK, listTraffic_Uplink);
-			String listTraffic_Downlink = sumNodeValueByPath(doc,
-					listTrafficPath, TAG_DOWNLINK);
-			data.addData(FIELD_LISTTRAFFIC_DOWNLINK, listTraffic_Downlink);
-			/*
-			 * String chCond = getNodeValueByPath(doc, listTrafficPath,
-			 * TAG_CHCOND); data.addData(TAG_CHCOND, chCond); String chT =
-			 * getNodeValueByPath(doc, listTrafficPath, TAG_CHT);
-			 * data.addData(TAG_CHT, chT);
-			 */
-			/*
-			 * String eQoS_qCI = getNodeValueByPath(doc, eQoSPath, TAG_QCI);
-			 * data.addData(FIELD_EQOS_QCI, eQoS_qCI); String eQoS_aRP =
-			 * getNodeValueByPath(doc, eQoSPath, TAG_ARP);
-			 * data.addData(FIELD_EQOS_ARP, eQoS_aRP);
-			 */
+			String listTraffic_Uplink = XmlTools.sumNodeValue(doc, PATH_UPLINK);
+			data.addData(TAG_LISTTRAFFIC_UPLINK, listTraffic_Uplink);
+			String listTraffic_Downlink = XmlTools.sumNodeValue(doc, PATH_DOWNLINK);
+			data.addData(TAG_LISTTRAFFIC_DOWNLINK, listTraffic_Downlink);
 
-			String recOpenT = getNodeValueByTagName(content, TAG_RECOPENT);
+			String recOpenT = XmlTools.getNodeValue(doc, PATH_RECOPENT);
 			data.addData(TAG_RECOPENT, recOpenT);
-			String duration = getNodeValueByTagName(content, TAG_DURATION);
+			String duration = XmlTools.getNodeValue(doc, PATH_DURATION);
 			data.addData(TAG_DURATION, duration);
-			String cause = getNodeValueByTagName(content, TAG_CAUSE);
+			String cause = XmlTools.getNodeValue(doc, PATH_CAUSE);
 			data.addData(TAG_CAUSE, cause);
-			String diagn = getNodeValueByTagName(content, TAG_DIAGN);
+			String diagn = XmlTools.getNodeValue(doc, PATH_DIAGN);
 			data.addData(TAG_DIAGN, diagn);
-			String recSeqNum = getNodeValueByTagName(content, TAG_RECSEQNUM);
+			String recSeqNum = XmlTools.getNodeValue(doc, PATH_RECSEQNUM);
 			data.addData(TAG_RECSEQNUM, recSeqNum);
-			String nodeID = getNodeValueByTagName(content, TAG_NODEID);
+			String nodeID = XmlTools.getNodeValue(doc, PATH_NODEID);
 			data.addData(TAG_NODEID, nodeID);
-			String recExt = getNodeValueByTagName(content, TAG_RECEXT);
+			String recExt = XmlTools.getNodeValue(doc, PATH_RECEXT);
 			data.addData(TAG_RECEXT, recExt);
-			String localSeqNum = getNodeValueByTagName(content, TAG_LOCALSEQNUM);
+			String localSeqNum = XmlTools.getNodeValue(doc, PATH_LOCALSEQNUM);
 			data.addData(TAG_LOCALSEQNUM, localSeqNum);
-			String apnSMode = getNodeValueByTagName(content, TAG_APNSMODE);
+			String apnSMode = XmlTools.getNodeValue(doc, PATH_APNSMODE);
 			data.addData(TAG_APNSMODE, apnSMode);
-			String msisdn = getNodeValueByTagName(content, TAG_MSISDN);
+			String msisdn = XmlTools.getNodeValue(doc, PATH_MSISDN);
 			data.addData(TAG_MSISDN, msisdn);
-			String chargChar = getNodeValueByTagName(content, TAG_CHARGCHAR);
+			String chargChar = XmlTools.getNodeValue(doc, PATH_CHARGCHAR);
 			data.addData(TAG_CHARGCHAR, chargChar);
-			String chChSMode = getNodeValueByTagName(content, TAG_CHCHSMODE);
+			String chChSMode = XmlTools.getNodeValue(doc, PATH_CHCHSMODE);
 			data.addData(TAG_CHCHSMODE, chChSMode);
-			String iMSsignalCon = getNodeValueByTagName(content,
-					TAG_IMSSIGNALCON);
+			String iMSsignalCon = XmlTools.getNodeValue(doc,PATH_IMSSIGNALCON);
 			data.addData(TAG_IMSSIGNALCON, iMSsignalCon);
-			String extChargID = getNodeValueByTagName(content, TAG_EXTCHARGID);
+			String extChargID = XmlTools.getNodeValue(doc, PATH_EXTCHARGID);
 			data.addData(TAG_EXTCHARGID, extChargID);
-			String todePLMNId = getNodeValueByTagName(content, TAG_NODEPLMNID);
+			String todePLMNId = XmlTools.getNodeValue(doc, PATH_NODEPLMNID);
 			data.addData(TAG_NODEPLMNID, todePLMNId);
-			String pSFurnishCharg = getNodeValueByTagName(content,
-					TAG_PSFURNISHCHARG);
+			String pSFurnishCharg = XmlTools.getNodeValue(doc,PATH_PSFURNISHCHARG);
 			data.addData(TAG_PSFURNISHCHARG, pSFurnishCharg);
-			String imeisv = getNodeValueByTagName(content, TAG_IMEISV);
+			String imeisv = XmlTools.getNodeValue(doc, PATH_IMEISV);
 			data.addData(TAG_IMEISV, imeisv);
-			String rATType = getNodeValueByTagName(content, TAG_RATTYPE);
+			String rATType = XmlTools.getNodeValue(doc, PATH_RATTYPE);
 			data.addData(TAG_RATTYPE, rATType);
-			String mSTZone = getNodeValueByTagName(content, TAG_MSTZONE);
+			String mSTZone = XmlTools.getNodeValue(doc, PATH_MSTZONE);
 			data.addData(TAG_MSTZONE, mSTZone);
-			String userLocation = getNodeValueByTagName(content,
-					TAG_USERLOCATION);
+			String userLocation = XmlTools.getNodeValue(doc,PATH_USERLOCATION);
 			data.addData(TAG_USERLOCATION, userLocation);
-			String cAMELCharg = getNodeValueByTagName(content, TAG_CAMELCHARG);
+			String cAMELCharg = XmlTools.getNodeValue(doc, PATH_CAMELCHARG);
 			data.addData(TAG_CAMELCHARG, cAMELCharg);
-
-			// listService
-			/*
-			 * String group = getNodeValueByPath(doc, listServicePath,
-			 * TAG_GROUP); data.addData(TAG_GROUP, group); String ruleName =
-			 * getNodeValueByPath(doc, listServicePath, TAG_RULENAME);
-			 * data.addData(TAG_RULENAME, ruleName); String lSeqNum =
-			 * getNodeValueByPath(doc, listServicePath, TAG_LSEQNUM);
-			 * data.addData(TAG_LSEQNUM, lSeqNum); String tFirst =
-			 * getNodeValueByPath(doc, listServicePath, TAG_TFIRST);
-			 * data.addData(TAG_TFIRST, tFirst); String tLast =
-			 * getNodeValueByPath(doc, listServicePath, TAG_TLAST);
-			 * data.addData(TAG_TLAST, tLast); String tUsage =
-			 * getNodeValueByPath(doc, listServicePath, TAG_TUSAGE);
-			 * data.addData(TAG_TUSAGE, tUsage); String condChange =
-			 * getNodeValueByPath(doc, listServicePath, TAG_CONDCHANGE);
-			 * data.addData(TAG_CONDCHANGE, condChange); String qoSNeg_qCI =
-			 * getNodeValueByPath(doc, qoSNegPath, TAG_QCI);
-			 * data.addData(FIELD_QOSNEG_QCI, qoSNeg_qCI); String qoSNeg_aRP =
-			 * getNodeValueByPath(doc, qoSNegPath, TAG_ARP);
-			 * data.addData(FIELD_QOSNEG_ARP, qoSNeg_aRP); String sgsnAddr =
-			 * getNodeValueByPath(doc, listServicePath, TAG_SGSNADDR);
-			 * data.addData(TAG_SGSNADDR, sgsnAddr); String listService_Uplink =
-			 * getNodeValueByPath(doc, listServicePath, TAG_UPLINK);
-			 * data.addData(FIELD_LISTSERVICE_UPLINK, listService_Uplink);
-			 * String listService_Downlink = getNodeValueByPath(doc,
-			 * listServicePath, TAG_DOWNLINK);
-			 * data.addData(FIELD_LISTSERVICE_DOWNLINK, listService_Downlink);
-			 * String tRepo = getNodeValueByPath(doc, listServicePath,
-			 * TAG_TREPO); data.addData(TAG_TREPO, tRepo);
-			 */
-
-			String nodeType = getNodeValueByTagName(content, TAG_NODETYPE);
+			String nodeType = XmlTools.getNodeValue(doc, PATH_NODETYPE);
 			data.addData(TAG_NODETYPE, nodeType);
-			String mnnai = getNodeValueByTagName(content, TAG_MNNAI);
+			String mnnai = XmlTools.getNodeValue(doc, PATH_MNNAI);
 			data.addData(TAG_MNNAI, mnnai);
-			String pGWPLMNId = getNodeValueByTagName(content, TAG_PGWPLMNID);
+			String pGWPLMNId = XmlTools.getNodeValue(doc, PATH_PGWPLMNID);
 			data.addData(TAG_PGWPLMNID, pGWPLMNId);
-			String start = getNodeValueByTagName(content, TAG_START);
+			String start = XmlTools.getNodeValue(doc, PATH_START);
 			data.addData(TAG_START, start);
-			String stopT = getNodeValueByTagName(content, TAG_STOPT);
+			String stopT = XmlTools.getNodeValue(doc, PATH_STOPT);
 			data.addData(TAG_STOPT, stopT);
-			String gpp2MEID = getNodeValueByTagName(content, TAG_GPP2MEID);
+			String gpp2MEID = XmlTools.getNodeValue(doc, PATH_GPP2MEID);
 			data.addData(TAG_GPP2MEID, gpp2MEID);
-			String pDNConChargID = getNodeValueByTagName(content,
-					TAG_PDNCONCHARGID);
+			String pDNConChargID = XmlTools.getNodeValue(doc,PATH_PDNCONCHARGID);
 			data.addData(TAG_PDNCONCHARGID, pDNConChargID);
-			String iMSIunauthFlag = getNodeValueByTagName(content,
-					TAG_IMSIUNAUTHFLAG);
+			String iMSIunauthFlag = XmlTools.getNodeValue(doc,PATH_IMSIUNAUTHFLAG);
 			data.addData(TAG_IMSIUNAUTHFLAG, iMSIunauthFlag);
-			String userCSG = getNodeValueByTagName(content, TAG_USERCSG);
+			String userCSG = XmlTools.getNodeValue(doc, PATH_USERCSG);
 			data.addData(TAG_USERCSG, userCSG);
-			String gpp2UserLocation = getNodeValueByTagName(content,
-					TAG_GPP2USERLOCATION);
+			String gpp2UserLocation = XmlTools.getNodeValue(doc,PATH_GPP2USERLOCATION);
 			data.addData(TAG_GPP2USERLOCATION, gpp2UserLocation);
-			String pdppdnAddrExt = getNodeValueByTagName(content,
-					TAG_PDPPDNADDREXT);
+			String pdppdnAddrExt = XmlTools.getNodeValue(doc,PATH_PDPPDNADDREXT);
 			data.addData(TAG_PDPPDNADDREXT, pdppdnAddrExt);
-			String dAddrFlagExt = getNodeValueByTagName(content,
-					TAG_DADDRFLAGEXT);
+			String dAddrFlagExt = XmlTools.getNodeValue(doc,PATH_DADDRFLAGEXT);
 			data.addData(TAG_DADDRFLAGEXT, dAddrFlagExt);
 
 			super.process.verifyFields(data);
@@ -330,54 +285,10 @@ public class PgwXMLHandler extends AbstractHandler {
 				super.writeFiles(super.errorOutStream, super.errorRecords,
 						super.errorFileName);
 			}
-		}
-
-	}
-	
-	//<Content>
-	//	<recType>PGW-CDR</recType>
-	//	<IMSI>460110416142930</IMSI>
-	//</Content>
-	private String getNodeValueByTagName(Node content, String tagName) {
-		String value = "";
-
-		try {
-			Element node = XmlTools.getFirstChildByTagName((Element) content,
-					tagName);
-			value = XmlTools.getNodeValue(node);
-		} catch (XPathExpressionException e) {
+		}catch(XPathExpressionException e){
 			throw new ETLException(e);
 		}
 
-		return value;
-	}
-	
-	//<Content>
-	//	<listTraffic>
-	//		<Uplink>0</Uplink>
-	//		<Downlink>0</Downlink>
-	//		<Uplink>342</Uplink>
-	//		<Downlink>104</Downlink>
-	//	</listTraffic>
-	//</Content>
-	//sum the same tag value
-	private String sumNodeValueByPath(Document doc, String path, String tagName) {
-		long sum = 0L;
-
-		try {
-			Node node = XmlTools.getNodeByPath(doc, path);
-			List<Element> list = XmlTools.getChildrenByTagName((Element) node,
-					tagName);
-
-			for (Element element : list) {
-				String value = XmlTools.getNodeValue(element);
-				sum += Long.parseLong(value);
-			}
-		} catch (XPathExpressionException e) {
-			throw new ETLException(e);
-		}
-
-		return String.valueOf(sum);
 	}
 
 }
