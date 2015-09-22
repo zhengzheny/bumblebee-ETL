@@ -138,11 +138,7 @@ public abstract class AbstractSourceMetaData extends AbstractETLObject {
 
 			sourceMetaData = (AbstractSourceMetaData) Class.forName(
 					subClassName).newInstance();
-		} catch (ClassNotFoundException  e) {
-			//permit some source meta data not to define. 
-			logger.error(e.getMessage());
-			return null;
-		}catch( InstantiationException
+		}catch(ClassNotFoundException | InstantiationException
 				| IllegalAccessException | XPathExpressionException e){
 			throw new ParseException(e);
 		}
