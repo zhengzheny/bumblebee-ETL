@@ -208,7 +208,7 @@ public class MRRunner extends Configured implements Tool, IRunner {
 		FileSystem hdfs = FileSystem.get(URI.create(outputPath), conf);
 		FileStatus[] fs = hdfs.listStatus(new Path(outputPath));
 		Path[] listPath = FileUtil.stat2Paths(fs);
-		logger.info("==============error information===========");
+		
 		Map<String, ErrorCodeCount> errorInfos = new HashMap<String, ErrorCodeCount>();
 		
 		for (Path p : listPath) {
@@ -244,6 +244,10 @@ public class MRRunner extends Configured implements Tool, IRunner {
 				}
 			}
 		}//end for
+		
+		if(errorInfos.size() > 0){
+			logger.info("==============error information===========");
+		}
 		
 		for(ErrorCodeCount errorCodeCount:errorInfos.values()){
 			logger.error(errorCodeCount.toString());
