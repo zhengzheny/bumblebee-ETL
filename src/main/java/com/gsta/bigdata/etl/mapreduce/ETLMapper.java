@@ -20,7 +20,6 @@ import com.gsta.bigdata.etl.core.Constants;
 import com.gsta.bigdata.etl.core.ETLData;
 import com.gsta.bigdata.etl.core.IRuleMgr;
 import com.gsta.bigdata.etl.core.RuleStatisMgr;
-import com.gsta.bigdata.etl.core.lookup.LKPTableMgr;
 import com.gsta.bigdata.etl.core.process.MRProcess;
 import com.gsta.bigdata.etl.core.source.ValidatorException;
 import com.gsta.bigdata.utils.BeansUtils;
@@ -70,12 +69,6 @@ public class ETLMapper extends Mapper<Object, Text, Text, Text> {
 			throw new InterruptedException("process is null.");
 		}
 
-		// get lookup
-		json = context.getConfiguration().get(Constants.PATH_LOOKUP);
-		LKPTableMgr lkpTableMgr = BeansUtils.json2obj(json, LKPTableMgr.class);
-		if (lkpTableMgr != null) {
-			LKPTableMgr.getInstance().clone(lkpTableMgr);
-		}
 		json = context.getConfiguration().get(Constants.JSON_RULE_STATIS_MGR);
 		RuleStatisMgr ruleStatisMgr = BeansUtils.json2obj(json, RuleStatisMgr.class);
 		if(ruleStatisMgr != null){

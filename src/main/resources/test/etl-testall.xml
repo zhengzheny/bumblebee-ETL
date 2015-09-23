@@ -1,0 +1,247 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<contextProperty location="etl-testall.properties" />
+	
+	<lookup>
+	    <datasources>
+	    	<datasource id="d1" type="hdfs">
+				<property name="path" value="${agg_hdfsPath}" />
+				<fields delimiter="\,">
+					<field id="f1" />
+					<field id="f2" />
+					<field id="f3" />
+					<field id="f4" />
+					<field id="f5" />
+					<field id="f6" />
+				</fields>
+			</datasource>
+	    </datasources>
+		<table id="dim_service">
+			<datasource ref="d1"/>
+			<map key="f6" value="f1" />
+		</table>
+	</lookup>
+	
+<!-- test simpleflat ,fields validate and isHoliday function -->
+	<process id="adsl">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" errorPath="${errorPath}"/>
+		</computingFrameworkConfigs>
+		<sourceMetaData type="simpleFlat" delimiter="\|">
+			<paths>
+				<inputPath path="${adsl_inputPath}" />
+			</paths>
+			<fields>
+				<field id="_1"/>
+				<field id="_2" type="int"/>
+				<field id="_3"/>
+				<field id="_4"/>
+				<field id="_5"/>
+				<field id="_6"/>
+				<field id="_7"/>
+				<field id="_8"/>
+				<field id="_9"/>
+			</fields>
+		</sourceMetaData>
+		<outputMetaData outputPath="${adsl_outputPath}" errorPath="${adsl_errorPath}">
+			<values delimiter="|">
+				<field id="_1"/>
+				<field id="_2"/>
+				<field id="_3"/>
+				<field id="_4"/>
+				<field id="_5"/>
+				<field id="_6"/>
+				<field id="_7"/>
+				<field id="_8"/>
+				<field id="f9"/>
+			</values>
+		</outputMetaData>
+		<transforms>
+			<transform scope="map">		
+				<function name="isHoliday" input="_5" output="f9" formatter="yyyy-MM-dd HH:mm:ss.SSS"/>
+			</transform>
+		</transforms>
+	</process>
+	
+	<!-- test noSettingFieldsFlat ,fields validate and delWrapper function -->
+	<process id="crm">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" />
+		</computingFrameworkConfigs>
+		<sourceMetaData type="noSettingFieldsFlat" delimiter="," fieldNum="ge 28" wrapper="'">
+			<paths>
+				<inputPath path="${crm_inputPath}" />
+			</paths>
+			<fields>
+				<field id="_4" type="float" strictCheck="yes"/>
+			</fields>
+		</sourceMetaData>
+		<outputMetaData outputPath="${crm_outputPath}" errorPath="${crm_errorPath}">
+			<values delimiter="|">
+				<field id="*"/>
+			</values>
+		</outputMetaData>
+		<transforms>
+			<transform scope="map">		
+				<function name="delWrapper" input="*" wrapper="'"/>
+			</transform>
+		</transforms>
+	</process>
+	
+	<!-- test fixedLengthFlat ,fields validate -->
+	<process id="hot-line">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" />
+		</computingFrameworkConfigs>
+		<sourceMetaData type="fixedLengthFlat" lineLength="252">
+			<paths>
+				<inputPath path="${hot_line_inputPath}" />
+			</paths>
+			<fields>
+				<field id="f1"  length="10" type="int" strictCheck="yes"/>
+				<field id="f2"  length="20"/>
+				<field id="f3"  length="23" type="long"/>
+				<field id="f4"  length="23" type="long"/>
+				<field id="f5"  length="23"/>
+				<field id="f6"  length="20"/>
+				<field id="f7"  length="20"/>
+				<field id="f8"  length="8" type="int"/>
+				<field id="f9"  length="8" type="int"/>
+				<field id="f10" length="24"/>
+				<field id="f11" length="20" type="long"/>
+				<field id="f12" length="20" type="float"/>
+				<field id="f13" length="20" type="float"/>
+			</fields>
+		</sourceMetaData>
+		<outputMetaData  outputPath="${hot_line_outputPath}" errorPath="${hot_line_errorPath}">
+			<values delimiter="|">
+				<field id="f1"/>
+				<field id="f2"/>
+				<field id="f3"/>
+				<field id="f4"/>
+				<field id="f5"/>
+				<field id="f6"/>
+				<field id="f7"/>
+				<field id="f8"/>
+				<field id="f9"/>
+				<field id="f10"/>
+				<field id="f11"/>
+				<field id="f12"/>
+				<field id="f13"/>
+			</values>
+		</outputMetaData>
+	</process>
+	
+	<!-- test fixedLengthFlat ,fields validate -->
+	<process id="hot-line2">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" />
+		</computingFrameworkConfigs>
+		<sourceMetaData type="fixedLengthByLineFlat" refLine="${refLine}">
+			<paths>
+				<inputPath path="${hot_line_inputPath}" />
+			</paths>
+			<fields>
+				<field id="f1" type="int" strictCheck="yes"/>
+				<field id="f2" />
+				<field id="f3" type="long"/>
+				<field id="f4" type="long"/>
+				<field id="f5" />
+				<field id="f6" />
+				<field id="f7" />
+				<field id="f8" />
+				<field id="f9" />
+				<field id="f10"/>
+				<field id="f11" type="long"/>
+				<field id="f12" type="float"/>
+				<field id="f13" type="float"/>
+			</fields>
+		</sourceMetaData>
+		<outputMetaData  outputPath="${hot_line_outputPath}" errorPath="${hot_line_errorPath}">
+			<values delimiter="|">
+				<field id="f1"/>
+				<field id="f2"/>
+				<field id="f3"/>
+				<field id="f4"/>
+				<field id="f5"/>
+				<field id="f6"/>
+				<field id="f7"/>
+				<field id="f8"/>
+				<field id="f9"/>
+				<field id="f10"/>
+				<field id="f11"/>
+				<field id="f12"/>
+				<field id="f13"/>
+			</values>
+		</outputMetaData>
+	</process>
+	
+	<!-- test look up ,hostQuery function -->
+	<process id="agg">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyKeyOutputFormat" />
+		</computingFrameworkConfigs>
+		<sourceMetaData type="noSettingFieldsFlat" delimiter="\001"  fieldNum="ge 21">
+			<paths>
+				<inputPath path="${agg_inputPath}" />
+			</paths>
+		</sourceMetaData>
+		<outputMetaData outputPath="${agg_outputPath}" errorPath="${agg_errorPath}">
+			<keys delimiter="001">
+				<field id="*" />
+				<field id="hostId"/>
+			</keys>
+		</outputMetaData>
+		<transforms>
+			<transform scope="map">
+				<function name="hostQuery" input="_11" output="hostId" lookupTable="dim_service" />
+			</transform>
+		</transforms>
+	</process>
+	
+	<!-- test local file :zte xml -->
+	<process id="zte" type="localFileProcess">
+		<computingFrameworkConfigs>
+			<property key="errorRecordWriteThreshold" value="1000" />
+			<property key="localFileBufferSize" value="1048576" />
+			<property key="localFileDirMaxFile" value="1000" />
+			<property key="recordWriteThreshold" value="1000" />
+		</computingFrameworkConfigs>
+		<sourceMetaData type="zteENODEBXML">
+			<paths>
+				<inputPath path="D:\ETL\bumblebee-ETL\src\main\resources\test\data"  fileSuffix="xml"/>
+			</paths>
+		</sourceMetaData>
+		<outputMetaData outputPath="D:\bigdata\test">
+			<values delimiter="|">
+				<field id="*" />
+			</values>
+		</outputMetaData>
+	</process>
+	
+	<!-- test slice local file-->
+	<process id="slice" type="sliceLocalFileProcess">
+		<computingFrameworkConfigs>
+			<property key="localFileSliceThreadSize" value="100" />
+			<property key="errorRecordWriteThreshold" value="1000" />
+			<property key="localFileBufferSize" value="1048576" />
+			<property key="localFileDirMaxFile" value="1000" />
+			<property key="recordWriteThreshold" value="1000" />
+		</computingFrameworkConfigs>
+		<sourceMetaData type="noSettingFieldsFlat" delimiter="\|">
+			<paths>
+				<inputPath path="D:\ETL\bumblebee-ETL\src\main\resources\test\data"  fileSuffix="log"/>
+			</paths>
+		</sourceMetaData>
+		<outputMetaData outputPath="D:\bigdata\test">
+			<values delimiter="*">
+				<field id="*" />
+			</values>
+		</outputMetaData>
+	</process>
+</etl>

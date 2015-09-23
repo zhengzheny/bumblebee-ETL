@@ -37,7 +37,6 @@ import com.gsta.bigdata.etl.core.Constants;
 import com.gsta.bigdata.etl.core.IRuleMgr;
 import com.gsta.bigdata.etl.core.RuleStatisMgr;
 import com.gsta.bigdata.etl.core.WriteLog;
-import com.gsta.bigdata.etl.core.lookup.LKPTableMgr;
 import com.gsta.bigdata.etl.core.process.MRProcess;
 import com.gsta.bigdata.etl.core.source.InputPath;
 import com.gsta.bigdata.etl.mapreduce.ErrorCodeCount;
@@ -54,7 +53,6 @@ import com.gsta.bigdata.utils.JDBCUtils;
 public class MRRunner extends Configured implements Tool, IRunner {
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	private MRProcess process;
-	private LKPTableMgr lkpTableMgr;
 	//write map/reduce result to database <writeLog property="conf/log/dblog.properties" />
 	private WriteLog writeLog;
 	private Configuration conf;
@@ -62,12 +60,11 @@ public class MRRunner extends Configured implements Tool, IRunner {
 	private static final String HDFS_PRE = "hdfs://";
 
 	public MRRunner(Configuration conf, MRProcess process,
-			LKPTableMgr lkpTableMgr, WriteLog writeLog) {
+		 WriteLog writeLog) {
 		super(conf);
 
 		this.conf = conf;
 		this.process = process;
-		this.lkpTableMgr = lkpTableMgr;
 		this.writeLog = writeLog;
 	}
 
@@ -91,7 +88,6 @@ public class MRRunner extends Configured implements Tool, IRunner {
 
 		conf.set(Constants.HADOOP_CONF_MRPROCESS,
 				BeansUtils.obj2json(this.process));
-		conf.set(Constants.PATH_LOOKUP, BeansUtils.obj2json(this.lkpTableMgr));
 		conf.set(Constants.JSON_RULE_STATIS_MGR, BeansUtils.obj2json(RuleStatisMgr.getInstance()));
 
 		Date startTime = new Date();

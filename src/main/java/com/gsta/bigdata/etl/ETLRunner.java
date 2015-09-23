@@ -13,10 +13,9 @@ import org.w3c.dom.Node;
 import com.google.api.client.repackaged.com.google.common.base.Preconditions;
 import com.gsta.bigdata.etl.core.Constants;
 import com.gsta.bigdata.etl.core.ContextProperty;
-import com.gsta.bigdata.etl.core.ShellContext;
 import com.gsta.bigdata.etl.core.ParseException;
+import com.gsta.bigdata.etl.core.ShellContext;
 import com.gsta.bigdata.etl.core.WriteLog;
-import com.gsta.bigdata.etl.core.lookup.LKPTableMgr;
 import com.gsta.bigdata.etl.core.lookup.LookupMgr;
 import com.gsta.bigdata.etl.core.process.AbstractProcess;
 import com.gsta.bigdata.etl.core.process.LocalFileProcess;
@@ -131,7 +130,6 @@ public class ETLRunner {
 		
 		LookupMgr lookupMgr = LookupMgr.getInstance();
 		lookupMgr.init(configFile);
-		LKPTableMgr lkpTableMgr = lookupMgr.getLkpTableMgr();
 		
 		WriteLog writeLog = WriteLog.getInstance();
 		writeLog.init(configFile);
@@ -158,7 +156,7 @@ public class ETLRunner {
 			conf.set(Constants.LOG_RECORD_STAT_DATE,
 					context.getValue(Constants.CONTEXT_MONTH, ""));
 
-			runner = new MRRunner(conf, (MRProcess) process, lkpTableMgr,writeLog);	
+			runner = new MRRunner(conf, (MRProcess) process,writeLog);	
 		}else if(process.getType().equals(LocalFileProcess.class.getSimpleName())){
 			//local file computing framework
 			runner = new LocalFileRunner((LocalFileProcess)process);
