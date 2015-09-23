@@ -1,9 +1,7 @@
 package com.gsta.bigdata.etl.mapreduce;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.io.Text;
@@ -56,7 +54,7 @@ public class GZCZReducer extends Reducer<Text, Text, Text, Text> {
 		}
 		
 		Iterator<Text> iter = values.iterator();
-		List<String> lines = new ArrayList<String>();
+		String ret = null;
 		while(iter.hasNext()){
 			String str = iter.next().toString();
 			if(str.length() <= 0){
@@ -66,12 +64,13 @@ public class GZCZReducer extends Reducer<Text, Text, Text, Text> {
 			String[] data = str.split(this.delimiter);
 			//only save status is not stop status
 			if(data.length > 0 && !data[16].equals(this.statusField)){
-				lines.add(str);
+				ret = str;
+				break;
 			}
 		}
 		
-		if(lines.size() >0 ){
-			this.outText.set(lines.get(0));
+		if(ret != null){
+			this.outText.set(ret);
 			context.write(null, this.outText);
 		}
 	}
