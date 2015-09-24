@@ -7,7 +7,7 @@
 	<process id="adsl">
 		<computingFrameworkConfigs>
 			<property key="outputFormatClass"
-				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" errorPath="${errorPath}"/>
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat"/>
 		</computingFrameworkConfigs>
 		<sourceMetaData type="noSettingFieldsFlat" delimiter="\|" fieldNum="ge 9">
 			<paths>
