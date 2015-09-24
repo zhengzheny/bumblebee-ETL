@@ -37,7 +37,7 @@
 				<field id="f3" desc=""/>
 			</fields>
 		</sourceMetaData>
-		<!-- 如果没有定义mapOutPutMetaData,就会把sourceMetaData字段全部在value中输出 -->
+		<!-- 如果没有定义outPutMetaData,就会把sourceMetaData字段全部在value中输出 -->
 		<transforms>
 			<transform id="" scope="map">
 				<function type="delWrapper" input="f1" wrapperStr="'"/>
@@ -46,7 +46,7 @@
 		</transforms>
 	</process>
 	
-	<process id="ex0" outputPath="hdfs://10.17.36.71:8020/user/chenc/tt/output">
+	<process id="ex0">
 		<hadoopConfigs ref="c1.onlyMap"/>
 		<!-- 如果给的目录，需要抽查某一个文件，在map的setup中计算好开始行，字段分割等内容 -->
 		<sourceMetaData type="flatFixedLenByBeginLine" beginAndFixedLenLine="--------- -------------------- ----------------------- ----------------------- ----------------------- -------------------- -------------------- -------- -------- ------------------------ -------------------- -------------------- --------------------">
@@ -69,7 +69,7 @@
 				<field id="session-2" desc=""/>
 			</fields>
 		</sourceMetaData>
-		<mapOutPutMetaData>
+		<outPutMetaData outputPath="hdfs://10.17.36.71:8020/user/chenc/tt/output">
 			<values  delimiter="|">
 				<field id="id"/>
 				<field id="beginTime"/>
@@ -78,7 +78,7 @@
 				<field id="orginal-called"/>
 				<field id="opc"/>
 			</values>
-		</mapOutPutMetaData>
+		</outPutMetaData>
 	</process>
 	
 	<process id="ex1" outputPath="hdfs://10.17.36.71:8020/user/chenc/tt/output">

@@ -5,24 +5,27 @@
 	<contextProperty location="etl-gzcz.properties" />
 	
 	<process id="gzcz">
-		<computingFrameworkConfigs>
-			<property key="outputFormatClass"
-				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" />
-		</computingFrameworkConfigs>
-		<sourceMetaData type="noSettingFieldsFlat" delimiter="\$" fieldNum="ge 62">
-			<paths>
-				<inputPath path="${inputPath}" />
-			</paths>
-			<fields>
-				<field id="_1" notNull="yes"/>
-				<field id="_16" notNull="yes"/>
-				
-			</fields>
-		</sourceMetaData>
-		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
-			<values delimiter="$">
-				<field id="*" />
-			</values>
-		</outputMetaData>
+		 <computingFrameworkConfigs>
+            <property key="reducerClass"
+                value="com.gsta.bigdata.etl.mapreduce.GZCZReducer" />
+            <property key="stopStatus" value ="停机" />
+        </computingFrameworkConfigs>
+        <sourceMetaData type="noSettingFieldsFlat" delimiter="\$" fieldNum="ge 62">
+            <paths>
+                <inputPath path="${inputPath}"/>
+            </paths>
+            <fields>
+                <field id="_1" notNull="yes"/>
+                <field id="_16" notNull="yes"/>               
+            </fields>
+        </sourceMetaData>
+        <outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
+            <keys delimiter="$">
+                <field id="_16" />
+            </keys>
+            <values delimiter="$">
+                <field id="*" />
+            </values>
+        </outputMetaData>
 	</process>
 </etl>
