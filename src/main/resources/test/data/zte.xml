@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<measCollecFile>
+    <fileHeader fileFormatVersion="PM FILE V1.4.0" vendorName="Company ZTE">
+        <fileSender elementType="LTEFDD"></fileSender>
+        <measCollec beginTime="2015-08-06T10:00:00+08:00"></measCollec>
+    </fileHeader>
+    <measData>
+        <managedElement localDn="Server=2213228702125,SBNID=440101,ENODEBID=479232" userLabel="" />
+        <measInfo>
+            <granPeriod duration="PT3600S" endTime="2015-08-06T11:00:00+08:00" />
+            <repPeriod duration="PT3600S"></repPeriod>
+            <measTypes>C373364100 C373364101 C373364102 C373364103 C373364104 C373364105 C373364106 C373364107 C373364108 C373364109 C373364110 C373364111 C373364112 C373364113 C373364114 C373364115 C373364116 C373364117 C373364118 C373364119 C373364120 C373364121 C373364122 C373364123 C373364124 C373364125 C373364126 C373364127 C373364128 C373364129 C373364130 C373364131 C373364132 C373364140</measTypes>
+            <measValue measObjLdn="SBNID=440101,ENODEBID=479232,CellID=0">
+                <measResults>0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</measResults>
+                <suspect>false</suspect>
+            </measValue>
+            <measValue measObjLdn="SBNID=440101,ENODEBID=479232,CellID=1">
+                <measResults>0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</measResults>
+                <suspect>false</suspect>
+            </measValue>
+            <measValue measObjLdn="SBNID=440101,ENODEBID=479232,CellID=2">
+                <measResults>0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</measResults>
+                <suspect>false</suspect>
+            </measValue>
+        </measInfo>
+    </measData>
+    <fileFooter>
+        <measCollec endTime="2015-08-06T11:00:00+08:00"></measCollec>
+    </fileFooter>
+</measCollecFile>

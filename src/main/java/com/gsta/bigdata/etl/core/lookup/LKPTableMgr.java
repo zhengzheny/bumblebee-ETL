@@ -18,6 +18,7 @@ import com.gsta.bigdata.etl.core.ParseException;
  * @author shine
  */
 public class LKPTableMgr extends AbstractETLObject{
+	//will not be used in mr,so don't need serialization
 	@JsonIgnore
 	private Map<String, LKPTable> mapTables = new HashMap<String, LKPTable>();
 	private static final LKPTableMgr instance = new LKPTableMgr();
