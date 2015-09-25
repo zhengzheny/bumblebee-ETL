@@ -9,6 +9,8 @@ import java.util.Set;
 
 import javax.xml.xpath.XPathExpressionException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -54,6 +56,7 @@ public abstract class AbstractFunction extends AbstractETLObject {
 	//output field id list for multiOutputOnCalculate computing model
 	@JsonProperty
 	private List<String> outputIds = new ArrayList<String>();
+	private Logger logger = LoggerFactory.getLogger(AbstractFunction.class);
 	
 	public AbstractFunction() {
 		super.tagName = Constants.PATH_TRANSFORM_FUNCTION;
@@ -132,8 +135,10 @@ public abstract class AbstractFunction extends AbstractETLObject {
 		*/
 		if (this.outputIds.size() > 0) {
 			Map<String, String> ret = this.multiOutputOnCalculate(functionData, context);
-			if(ret != null){
+			if(ret != null && ret.keySet().containsAll(this.outputIds)){
 				data.putAll(ret);
+			}else{
+				this.logger.error("multi output is null or don't include all output fields.");
 			}
 		} else {
 			/*
