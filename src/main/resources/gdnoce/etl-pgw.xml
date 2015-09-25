@@ -43,6 +43,9 @@
 				<field id="rATType" />
 				<field id="mSTZone" />
 				<field id="userLocation" />
+				<field id="PLMN" />
+				<field id="TAI" />
+				<field id="ECGI" />
 				<field id="cAMELCharg" />
 				<field id="NodeType" />
 				<field id="MNNAI" />
@@ -54,6 +57,9 @@
 				<field id="iMSIunauthFlag" />
 				<field id="userCSG" />
 				<field id="GPP2UserLocation" />
+				<field id="SID" />
+				<field id="NID" />
+				<field id="CellID" />
 				<field id="PDPPDNAddrExt" />
 				<field id="dAddrFlagExt" />
 			</values>
