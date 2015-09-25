@@ -1,6 +1,8 @@
 package com.gsta.bigdata.etl.localFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
@@ -105,6 +107,9 @@ public class PgwXMLHandler extends AbstractHandler {
 	private static final String TAG_RATTYPE = "rATType";
 	private static final String TAG_MSTZONE = "mSTZone";
 	private static final String TAG_USERLOCATION = "userLocation";
+	private static final String TAG_PLMN = "PLMN";
+	private static final String TAG_TAI = "TAI";
+	private static final String TAG_ECGI = "ECGI";
 	private static final String TAG_CAMELCHARG = "cAMELCharg";
 	private static final String TAG_NODETYPE = "NodeType";
 	private static final String TAG_MNNAI = "MNNAI";
@@ -116,6 +121,9 @@ public class PgwXMLHandler extends AbstractHandler {
 	private static final String TAG_IMSIUNAUTHFLAG = "iMSIunauthFlag";
 	private static final String TAG_USERCSG = "userCSG";
 	private static final String TAG_GPP2USERLOCATION = "GPP2UserLocation";
+	private static final String TAG_SID = "SID";
+	private static final String TAG_NID = "NID";
+	private static final String TAG_CELLID = "CellID";
 	private static final String TAG_PDPPDNADDREXT = "PDPPDNAddrExt";
 	private static final String TAG_DADDRFLAGEXT = "dAddrFlagExt";
 
@@ -194,7 +202,8 @@ public class PgwXMLHandler extends AbstractHandler {
 			// listTraffic
 			String listTraffic_Uplink = XmlTools.sumNodeValue(doc, PATH_UPLINK);
 			data.addData(TAG_LISTTRAFFIC_UPLINK, listTraffic_Uplink);
-			String listTraffic_Downlink = XmlTools.sumNodeValue(doc, PATH_DOWNLINK);
+			String listTraffic_Downlink = XmlTools.sumNodeValue(doc,
+					PATH_DOWNLINK);
 			data.addData(TAG_LISTTRAFFIC_DOWNLINK, listTraffic_Downlink);
 
 			String recOpenT = XmlTools.getNodeValue(doc, PATH_RECOPENT);
@@ -221,13 +230,14 @@ public class PgwXMLHandler extends AbstractHandler {
 			data.addData(TAG_CHARGCHAR, chargChar);
 			String chChSMode = XmlTools.getNodeValue(doc, PATH_CHCHSMODE);
 			data.addData(TAG_CHCHSMODE, chChSMode);
-			String iMSsignalCon = XmlTools.getNodeValue(doc,PATH_IMSSIGNALCON);
+			String iMSsignalCon = XmlTools.getNodeValue(doc, PATH_IMSSIGNALCON);
 			data.addData(TAG_IMSSIGNALCON, iMSsignalCon);
 			String extChargID = XmlTools.getNodeValue(doc, PATH_EXTCHARGID);
 			data.addData(TAG_EXTCHARGID, extChargID);
 			String todePLMNId = XmlTools.getNodeValue(doc, PATH_NODEPLMNID);
 			data.addData(TAG_NODEPLMNID, todePLMNId);
-			String pSFurnishCharg = XmlTools.getNodeValue(doc,PATH_PSFURNISHCHARG);
+			String pSFurnishCharg = XmlTools.getNodeValue(doc,
+					PATH_PSFURNISHCHARG);
 			data.addData(TAG_PSFURNISHCHARG, pSFurnishCharg);
 			String imeisv = XmlTools.getNodeValue(doc, PATH_IMEISV);
 			data.addData(TAG_IMEISV, imeisv);
@@ -235,8 +245,11 @@ public class PgwXMLHandler extends AbstractHandler {
 			data.addData(TAG_RATTYPE, rATType);
 			String mSTZone = XmlTools.getNodeValue(doc, PATH_MSTZONE);
 			data.addData(TAG_MSTZONE, mSTZone);
-			String userLocation = XmlTools.getNodeValue(doc,PATH_USERLOCATION);
+			String userLocation = XmlTools.getNodeValue(doc, PATH_USERLOCATION);
 			data.addData(TAG_USERLOCATION, userLocation);
+
+			this.splitUserLocation(userLocation, data);
+
 			String cAMELCharg = XmlTools.getNodeValue(doc, PATH_CAMELCHARG);
 			data.addData(TAG_CAMELCHARG, cAMELCharg);
 			String nodeType = XmlTools.getNodeValue(doc, PATH_NODETYPE);
@@ -251,17 +264,24 @@ public class PgwXMLHandler extends AbstractHandler {
 			data.addData(TAG_STOPT, stopT);
 			String gpp2MEID = XmlTools.getNodeValue(doc, PATH_GPP2MEID);
 			data.addData(TAG_GPP2MEID, gpp2MEID);
-			String pDNConChargID = XmlTools.getNodeValue(doc,PATH_PDNCONCHARGID);
+			String pDNConChargID = XmlTools.getNodeValue(doc,
+					PATH_PDNCONCHARGID);
 			data.addData(TAG_PDNCONCHARGID, pDNConChargID);
-			String iMSIunauthFlag = XmlTools.getNodeValue(doc,PATH_IMSIUNAUTHFLAG);
+			String iMSIunauthFlag = XmlTools.getNodeValue(doc,
+					PATH_IMSIUNAUTHFLAG);
 			data.addData(TAG_IMSIUNAUTHFLAG, iMSIunauthFlag);
 			String userCSG = XmlTools.getNodeValue(doc, PATH_USERCSG);
 			data.addData(TAG_USERCSG, userCSG);
-			String gpp2UserLocation = XmlTools.getNodeValue(doc,PATH_GPP2USERLOCATION);
+			String gpp2UserLocation = XmlTools.getNodeValue(doc,
+					PATH_GPP2USERLOCATION);
 			data.addData(TAG_GPP2USERLOCATION, gpp2UserLocation);
-			String pdppdnAddrExt = XmlTools.getNodeValue(doc,PATH_PDPPDNADDREXT);
+			
+			this.splitGpp2UserLocation(gpp2UserLocation,data);
+			
+			String pdppdnAddrExt = XmlTools.getNodeValue(doc,
+					PATH_PDPPDNADDREXT);
 			data.addData(TAG_PDPPDNADDREXT, pdppdnAddrExt);
-			String dAddrFlagExt = XmlTools.getNodeValue(doc,PATH_DADDRFLAGEXT);
+			String dAddrFlagExt = XmlTools.getNodeValue(doc, PATH_DADDRFLAGEXT);
 			data.addData(TAG_DADDRFLAGEXT, dAddrFlagExt);
 
 			super.process.verifyFields(data);
@@ -285,10 +305,113 @@ public class PgwXMLHandler extends AbstractHandler {
 				super.writeFiles(super.errorOutStream, super.errorRecords,
 						super.errorFileName);
 			}
-		}catch(XPathExpressionException e){
+		} catch (XPathExpressionException e) {
 			throw new ETLException(e);
 		}
 
+	}
+	
+	// split gpp2UserLocation to SID,NID,CellID
+	private void splitGpp2UserLocation(String gpp2UserLocation, ETLData data) {
+		if(gpp2UserLocation == null || gpp2UserLocation.trim().length() <=0){
+			data.addData(TAG_SID, "");
+			data.addData(TAG_NID, "");
+			data.addData(TAG_CELLID, "");
+			return;
+		}
+		//split gpp2UserLocation,every two lengths add into array
+		List<String> list = getList(gpp2UserLocation.substring(2), 2);
+		
+		String sid = getIDByList(list.subList(0, 4));
+		data.addData(TAG_SID, sid);
+		
+		String nid = getIDByList(list.subList(4, 8));
+		data.addData(TAG_NID, nid);
+		
+		String cellId = getIDByList(list.subList(8, 12));
+		data.addData(TAG_CELLID, cellId);
+	}
+
+	//split userLocation to PLMN,TAI,ECGI
+	private void splitUserLocation(String userLocation, ETLData data) {
+		if(userLocation == null || userLocation.trim().length() <=0){
+			data.addData(TAG_PLMN, "");
+			data.addData(TAG_TAI, "");
+			data.addData(TAG_ECGI, "");
+			return;
+		}
+		//split userLocation,every two lengths add into array
+		List<String> list = getList(userLocation.substring(4), 2);
+		
+		String plmn = getPLMN(list.subList(0, 3));
+		data.addData(TAG_PLMN, plmn);
+		
+		String tai = getTAIOrECGI(list.subList(3, 5));
+		data.addData(TAG_TAI, tai);
+		
+		String ecgi = getTAIOrECGI(list.subList(8, 12));
+		data.addData(TAG_ECGI, ecgi);
+	}
+
+	private List<String> getList(String str, int length) {
+		if (null == str || "".equals(str)) {
+			return null;
+		}
+
+		List<String> retList = new ArrayList<String>();
+		while (str.length() > length) {
+			retList.add(str.substring(0, length));
+			str = str.substring(length);
+		}
+
+		if (str.length() > 0) {
+			retList.add(str);
+		}
+
+		return retList;
+	}
+	
+	private String getPLMN(List<String> list) {
+		if(list == null || list.size() <= 0){
+			return "";
+		}
+		
+		StringBuffer sb = new StringBuffer();
+		for(String str:list){
+			sb.append(new StringBuffer(str).reverse());
+		}
+		
+		String ret = sb.toString().replace("F", "");
+		return ret;
+	}
+	
+	private static String getTAIOrECGI(List<String> list) {
+		if(list == null){
+			return "";
+		}
+		
+		StringBuffer sb = new StringBuffer();
+		for(String str:list){
+			sb.append(str);
+		}
+		
+		//convert hex to decimal
+		return Long.toString(Long.parseLong(sb.toString(), 16));
+	}
+	
+	private  String getIDByList(List<String> list) {
+		if(list == null || list.size() <=0){
+			return "";
+		}
+		
+		StringBuffer sb = new StringBuffer();
+		for(String str:list){
+			//transform ascii code
+			sb.append((char)Integer.parseInt(str, 16));
+		}
+		
+		//convert hex to decimal
+		return Long.toString(Long.parseLong(sb.toString(), 16));
 	}
 
 }
