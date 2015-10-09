@@ -14,6 +14,7 @@ import org.xml.sax.SAXException;
 
 import com.gsta.bigdata.etl.ETLException;
 import com.gsta.bigdata.etl.core.ETLData;
+import com.gsta.bigdata.etl.core.LoadException;
 import com.gsta.bigdata.etl.core.process.LocalFileProcess;
 import com.gsta.bigdata.utils.XmlTools;
 
@@ -175,7 +176,7 @@ public class PgwXMLHandler extends AbstractHandler {
 			try {
 				doc = XmlTools.loadFromContent(xml);
 			} catch (ParserConfigurationException | SAXException | IOException e) {
-				throw new ETLException(e);
+				throw new LoadException(e);
 			}
 
 			ETLData data = new ETLData();
@@ -307,6 +308,8 @@ public class PgwXMLHandler extends AbstractHandler {
 			}
 		} catch (XPathExpressionException e) {
 			throw new ETLException(e);
+		} catch(LoadException e){
+			logger.warn(e.getMessage());
 		}
 
 	}
