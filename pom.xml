@@ -5,7 +5,7 @@
 	<artifactId>etl</artifactId>
 	<version>1.0</version>
 	<packaging>jar</packaging>
-	<name>elt</name>
+	<name>etl</name>
 	<description>etl</description>
 
 	<properties>

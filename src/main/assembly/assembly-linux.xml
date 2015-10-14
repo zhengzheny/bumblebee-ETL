@@ -22,7 +22,14 @@
 			<includes>
 				<include>**/*.xml</include>
 				<include>**/*.properties</include>
+				<include>**/*.txt</include>
+				<include>**/*.log</include>
 			</includes>
+			<excludes>
+                <exclude>**/core-site.xml</exclude>
+                <exclude>**/hdfs-site.xml</exclude>
+                <exclude>**/ssl-client.xml</exclude>
+            </excludes>
 		</fileSet>
 		<!-- include compile source jar -->
 		<fileSet>

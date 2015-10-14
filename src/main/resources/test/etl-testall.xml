@@ -203,45 +203,4 @@
 			</transform>
 		</transforms>
 	</process>
-	
-	<!-- test local file :zte xml -->
-	<process id="zte" type="localFileProcess">
-		<computingFrameworkConfigs>
-			<property key="errorRecordWriteThreshold" value="1000" />
-			<property key="localFileBufferSize" value="1048576" />
-			<property key="localFileDirMaxFile" value="1000" />
-			<property key="recordWriteThreshold" value="1000" />
-		</computingFrameworkConfigs>
-		<sourceMetaData type="zteENODEBXML">
-			<paths>
-				<inputPath path="D:\ETL\bumblebee-ETL\src\main\resources\test\data"  fileSuffix="xml"/>
-			</paths>
-		</sourceMetaData>
-		<outputMetaData outputPath="D:\bigdata\test">
-			<values delimiter="|">
-				<field id="*" />
-			</values>
-		</outputMetaData>
-	</process>
-	
-	<!-- test slice local file-->
-	<process id="slice" type="sliceLocalFileProcess">
-		<computingFrameworkConfigs>
-			<property key="localFileSliceThreadSize" value="100" />
-			<property key="errorRecordWriteThreshold" value="1000" />
-			<property key="localFileBufferSize" value="1048576" />
-			<property key="localFileDirMaxFile" value="1000" />
-			<property key="recordWriteThreshold" value="1000" />
-		</computingFrameworkConfigs>
-		<sourceMetaData type="noSettingFieldsFlat" delimiter="\|">
-			<paths>
-				<inputPath path="D:\ETL\bumblebee-ETL\src\main\resources\test\data"  fileSuffix="log"/>
-			</paths>
-		</sourceMetaData>
-		<outputMetaData outputPath="D:\bigdata\test">
-			<values delimiter="*">
-				<field id="*" />
-			</values>
-		</outputMetaData>
-	</process>
 </etl>
