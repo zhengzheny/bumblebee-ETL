@@ -23,6 +23,7 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IOUtils;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.compress.CompressionCodec;
+import org.apache.hadoop.io.compress.CompressionCodecFactory;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
@@ -58,7 +59,7 @@ public class MRRunner extends Configured implements Tool, IRunner {
 	private Configuration conf;
 	
 	private static final String HDFS_PRE = "hdfs://";
-
+	
 	public MRRunner(Configuration conf, MRProcess process,
 		 WriteLog writeLog) {
 		super(conf);
@@ -200,56 +201,98 @@ public class MRRunner extends Configured implements Tool, IRunner {
 	 */
 	private void printErrorInfo2console(MRProcess process, Configuration conf)
 			throws IOException {
-		String outputPath = process.getOutputPath();
-		FileSystem hdfs = FileSystem.get(URI.create(outputPath), conf);
-		FileStatus[] fs = hdfs.listStatus(new Path(outputPath));
-		Path[] listPath = FileUtil.stat2Paths(fs);
-		
-		Map<String, ErrorCodeCount> errorInfos = new HashMap<String, ErrorCodeCount>();
-		
-		for (Path p : listPath) {
-			if (p.getName().startsWith(Constants.OUTPUT_ERROR_INFO_FILE_PREFIX)) {
-				String errorInformPath = outputPath + "/" + p.getName();
-				HdfsUtils hdfsUtils = new HdfsUtils();
-				InputStream in = hdfsUtils.load(errorInformPath);
-				BufferedReader reader = new BufferedReader(
-						new InputStreamReader(in, Constants.DEFAULT_ENCODING));
-				String line = "";
-				while ((line = reader.readLine()) != null) {
-					if(line.length() <= 0){
-						continue;
+		try {
+			String outputPath = process.getOutputPath();
+			FileSystem hdfs = FileSystem.get(URI.create(outputPath), conf);
+			FileStatus[] fs = hdfs.listStatus(new Path(outputPath));
+			Path[] listPath = FileUtil.stat2Paths(fs);
+			
+			Map<String, ErrorCodeCount> errorInfos = new HashMap<String, ErrorCodeCount>();
+			
+			for (Path p : listPath) {
+				if (p.getName().startsWith(Constants.OUTPUT_ERROR_INFO_FILE_PREFIX)) {
+					String errorInformPath = outputPath + "/" + p.getName();
+					InputStream in = null;
+					//if compress file,uncompress first
+					if(this.hasExtension(errorInformPath)){
+						in = this.unCompress(errorInformPath, conf);
+					}else{
+						HdfsUtils hdfsUtils = new HdfsUtils();
+						in = hdfsUtils.load(errorInformPath);
 					}
 					
-					ErrorCodeCount errorCodeCount = BeansUtils.json2obj(line,
-							ErrorCodeCount.class);
-					if (errorCodeCount != null) {
-						String errorCode = errorCodeCount.getErrorCode();
-						if (errorInfos.containsKey(errorCode)) {
-							errorInfos.get(errorCode).addCount(
-									errorCodeCount.getCount());
-						} else {
-							errorInfos.put(errorCode, errorCodeCount);
+					BufferedReader reader = new BufferedReader(
+							new InputStreamReader(in, Constants.DEFAULT_ENCODING));
+					String line = "";
+					while ((line = reader.readLine()) != null) {
+						if(line.length() <= 0){
+							continue;
+						}
+						
+						ErrorCodeCount errorCodeCount = BeansUtils.json2obj(line,
+								ErrorCodeCount.class);
+						if (errorCodeCount != null) {
+							String errorCode = errorCodeCount.getErrorCode();
+							if (errorInfos.containsKey(errorCode)) {
+								errorInfos.get(errorCode).addCount(
+										errorCodeCount.getCount());
+							} else {
+								errorInfos.put(errorCode, errorCodeCount);
+							}
 						}
 					}
-				}
 
-				IOUtils.closeStream(reader);
-				// delete error information file
-				if (hdfs.exists(p) && hdfs.delete(p, true)) {
-					logger.info("delete temp file=" + errorInformPath);
+					IOUtils.closeStream(reader);
+					// delete error information file
+					if (hdfs.exists(p) && hdfs.delete(p, true)) {
+						logger.info("delete temp file=" + errorInformPath);
+					}
 				}
+			}//end for
+			
+			if(errorInfos.size() > 0){
+				logger.info("==============error information===========");
 			}
-		}//end for
-		
-		if(errorInfos.size() > 0){
-			logger.info("==============error information===========");
-		}
-		
-		for(ErrorCodeCount errorCodeCount:errorInfos.values()){
-			logger.error(errorCodeCount.toString());
-		}
+			
+			for(ErrorCodeCount errorCodeCount:errorInfos.values()){
+				logger.error(errorCodeCount.toString());
+			}
 
-		hdfs.close();
+			hdfs.close();
+		} catch (Exception e) {
+			return;
+		}
+	}
+	
+	private InputStream unCompress(String uri,Configuration conf) throws IOException{
+		FileSystem fs = FileSystem.get(URI.create(uri),conf);
+		
+		Path inputPath = new Path(uri);
+		CompressionCodecFactory factory = new CompressionCodecFactory(conf);
+		CompressionCodec codec = factory.getCodec(inputPath);
+		if(codec == null){
+			logger.error("no codec found for " + uri);
+			return null;
+		}
+		
+		InputStream	in = codec.createInputStream(fs.open(inputPath));
+		return in;
+	}
+	
+	private Boolean hasExtension(String fileName){
+		boolean flag = false;
+		int lastPot = fileName.lastIndexOf(".");
+		if(lastPot == -1){
+			return false;
+		}
+		
+		String name = fileName.substring(lastPot);
+		if(name.equals(".deflate") || name.equals(".gz") 
+				|| name.equals(".zip") || name.equals(".bz2")
+				|| name.equals(".lzo")){
+			flag = true;
+		}
+		return flag;
 	}
 
 	@SuppressWarnings("rawtypes")
