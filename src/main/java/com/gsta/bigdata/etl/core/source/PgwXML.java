@@ -29,9 +29,7 @@ import com.gsta.bigdata.utils.XmlTools;
  *
  */
 public class PgwXML extends AbstractSourceMetaData {
-	@JsonProperty
 	private StringBuffer xmlBuffer = new StringBuffer();
-	@JsonProperty
 	private boolean xmlFlag = false;
 	
 	@JsonProperty
