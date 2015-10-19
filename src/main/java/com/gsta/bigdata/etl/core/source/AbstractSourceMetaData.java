@@ -39,6 +39,7 @@ import com.gsta.bigdata.utils.XmlTools;
 		@JsonSubTypes.Type(value = SimpleFlat.class, name = "simpleFlat"),
 		@JsonSubTypes.Type(value = NoSettingFieldsFlat.class, name = "noSettingFieldsFlat"),
 		@JsonSubTypes.Type(value = FixedLengthFlat.class, name = "fixedLengthFlat"),
+		@JsonSubTypes.Type(value = PgwXML.class, name = "pgwXML"),
 		@JsonSubTypes.Type(value = FixedLengthByLineFlat.class, name = "fixedLengthByLineFlat") })
 public abstract class AbstractSourceMetaData extends AbstractETLObject {
 	@JsonProperty
