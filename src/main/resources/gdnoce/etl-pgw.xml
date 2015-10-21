@@ -73,4 +73,70 @@
 			</values>
 		</outputMetaData>
 	</process>
+	
+	<process id="pgwString">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat"/>
+		</computingFrameworkConfigs>
+		<sourceMetaData type="pgwXMLByString">
+			<paths>
+				<inputPath path="${inputPath}" />
+			</paths>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
+			<values delimiter="|">
+				<field id="recType" />
+				<field id="IMSI" />
+				<field id="pGWAddr" />
+				<field id="chargID" />
+				<field id="NodeAddr" />
+				<field id="APN" />
+				<field id="pdpPDNType" />
+				<field id="PDPPDNAddr" />
+				<field id="dAddrFlag" />
+				<field id="listTraffic_Uplink" />
+				<field id="listTraffic_downlink" />
+				<field id="recOpenT" />
+				<field id="duration" />
+				<field id="cause" />
+				<field id="diagn" />
+				<field id="recSeqNum" />
+				<field id="nodeID" />
+				<field id="recExt" />
+				<field id="localSeqNum" />
+				<field id="apnSMode" />
+				<field id="MSISDN" />
+				<field id="chargChar" />
+				<field id="chChSMode" />
+				<field id="iMSsignalCon" />
+				<field id="extChargID" />
+				<field id="NodePLMNId" />
+				<field id="pSFurnishCharg" />
+				<field id="IMEISV" />
+				<field id="rATType" />
+				<field id="mSTZone" />
+				<field id="userLocation" />
+				<field id="PLMN" />
+				<field id="TAI" />
+				<field id="ECGI" />
+				<field id="cAMELCharg" />
+				<field id="NodeType" />
+				<field id="MNNAI" />
+				<field id="pGWPLMNId" />
+				<field id="start" />
+				<field id="stopT" />
+				<field id="gpp2MEID" />
+				<field id="pDNConChargID" />
+				<field id="iMSIunauthFlag" />
+				<field id="userCSG" />
+				<field id="GPP2UserLocation" />
+				<field id="SID" />
+				<field id="NID" />
+				<field id="CellID" />
+				<field id="PDPPDNAddrExt" />
+				<field id="dAddrFlagExt" />
+			</values>
+		</outputMetaData>
+	</process>
 </etl>
