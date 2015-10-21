@@ -188,8 +188,7 @@ public class MRRunner extends Configured implements Tool, IRunner {
 			this.recordToDatabase(property, conf, job, startTime, endTime);
 		}
 
-		System.exit(complete);
-		return 0;
+		return complete;
 	}
 
 	/**
