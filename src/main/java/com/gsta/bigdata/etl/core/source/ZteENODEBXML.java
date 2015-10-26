@@ -87,7 +87,7 @@ public class ZteENODEBXML extends AbstractSourceMetaData {
 		}
 
 		String measObjLdn = this.getAttrValue(line, ATTR_MEASOBJLDN);
-		this.splitMeasObjLdn(measObjLdn, etlData);
+		this.splitMeasObjLdn(measObjLdn);
 
 		String measTypes = this.getTagValue(line, TAG_MEASTYPES);
 		if (StringUtils.isNotBlank(measTypes)) {
@@ -110,6 +110,7 @@ public class ZteENODEBXML extends AbstractSourceMetaData {
 
 		if (line.indexOf(TAG_MEASRESULTS) != -1) {
 			this.etlData.addData(FIELD_COLLECTTIME, this.beginTime);
+
 			if (this.fieldIds != null && this.fieldIds.size() > 0) {
 				for (String fieldName : etlData.getFieldNames()) {
 					// check data field
@@ -127,7 +128,7 @@ public class ZteENODEBXML extends AbstractSourceMetaData {
 		return null;
 	}
 
-	private void splitMeasObjLdn(String measObjLdn, ETLData etlData) {
+	private void splitMeasObjLdn(String measObjLdn) {
 		if (StringUtils.isBlank(measObjLdn)) {
 			return;
 		}
@@ -136,11 +137,11 @@ public class ZteENODEBXML extends AbstractSourceMetaData {
 		for (String objLdn : objLdns) {
 			String[] obj = objLdn.split("=");
 			if (FIELD_SBNID.equals(obj[0])) {
-				etlData.addData(FIELD_SBNID, obj[1]);
+				this.etlData.addData(FIELD_SBNID, obj[1]);
 			} else if (FIELD_ENODEBID.equals(obj[0])) {
-				etlData.addData(FIELD_ENODEBID, obj[1]);
+				this.etlData.addData(FIELD_ENODEBID, obj[1]);
 			} else if (FIELD_CELLID.equals(obj[0])) {
-				etlData.addData(FIELD_CELLID, obj[1]);
+				this.etlData.addData(FIELD_CELLID, obj[1]);
 			}
 		}
 	}
