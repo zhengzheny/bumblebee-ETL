@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.w3c.dom.NodeList;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -316,7 +317,7 @@ public class PgwXMLByString extends AbstractSourceMetaData {
 	}
 
 	private List<String> getList(String str, int length) {
-		if (null == str || "".equals(str)) {
+		if (StringUtils.isBlank(str)) {
 			return null;
 		}
 
@@ -423,8 +424,7 @@ public class PgwXMLByString extends AbstractSourceMetaData {
 	}
 
 	private String getValueByTagName(String str, String tagName) {
-		if (str == null || str.trim().length() == 0 || tagName == null
-				|| tagName.trim().length() == 0) {
+		if (StringUtils.isBlank(str) || StringUtils.isBlank(tagName)) {
 			return null;
 		}
 

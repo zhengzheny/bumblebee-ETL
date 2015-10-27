@@ -28,6 +28,8 @@ import com.gsta.bigdata.utils.XmlTools;
  * @author Shine
  *
  */
+
+@Deprecated
 public class PgwXML extends AbstractSourceMetaData {
 	private StringBuffer xmlBuffer = new StringBuffer();
 	private boolean xmlFlag = false;

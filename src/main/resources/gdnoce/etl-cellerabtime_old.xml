@@ -1,18 +1,16 @@
 <?xml version = "1.0" encoding = "utf-8"?>
 <etl>
-	<contextProperty location="etl-cellerabtime.properties" />
-	
-	<process id="cellerabtime">
+	<process id="cellerabtime" type="localFileProcess">
 		<computingFrameworkConfigs>
-			<property key="outputFormatClass"
-				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat"/>
+			<property key="localFileBufferSize" value="1048576"/>
+			<property key="localFileDirMaxFile" value="1000"/>
 		</computingFrameworkConfigs>
 		<sourceMetaData type="zteENODEBXML" >
 			<paths>
-				<inputPath path="${inputPath}"/>
+				<inputPath path="${inputPath}" charset="GBK" fileSuffix="xml" fileNamePattern="CELLERABTIME"/>
 			</paths>
 		</sourceMetaData>
-		<outputMetaData outputPath="${outputPath}" errorPath="${outputPath}">
+		<outputMetaData outputPath="${outputPath}" errorPath="${outputPath}" fileSuffix="txt" charset="utf-8">
 			<values delimiter="|">
 				<field id="COLLECTTIME" />
 				<field id="SBNID" />

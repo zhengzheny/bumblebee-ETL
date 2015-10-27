@@ -33,4 +33,8 @@ public class ETLData {
 		return fieldNames;
 	}
 
+	public void clear(){
+		data.clear();
+		fieldNames.clear();
+	}
 }
