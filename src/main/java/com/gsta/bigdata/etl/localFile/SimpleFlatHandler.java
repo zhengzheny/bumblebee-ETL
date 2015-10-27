@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import com.gsta.bigdata.etl.ETLException;
 import com.gsta.bigdata.etl.core.ETLData;
-import com.gsta.bigdata.etl.core.process.LocalFileProcess;
+import com.gsta.bigdata.etl.core.ETLProcess;
 import com.gsta.bigdata.etl.core.source.ValidatorException;
 
 /**
@@ -17,7 +17,7 @@ import com.gsta.bigdata.etl.core.source.ValidatorException;
 public class SimpleFlatHandler extends AbstractHandler {
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
-	public SimpleFlatHandler(LocalFileProcess process) {
+	public SimpleFlatHandler(ETLProcess process) {
 		super(process);
 	}
 	

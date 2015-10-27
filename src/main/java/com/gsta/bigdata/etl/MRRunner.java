@@ -35,10 +35,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.gsta.bigdata.etl.core.Constants;
+import com.gsta.bigdata.etl.core.ETLProcess;
 import com.gsta.bigdata.etl.core.IRuleMgr;
 import com.gsta.bigdata.etl.core.RuleStatisMgr;
 import com.gsta.bigdata.etl.core.WriteLog;
-import com.gsta.bigdata.etl.core.process.MRProcess;
 import com.gsta.bigdata.etl.core.source.InputPath;
 import com.gsta.bigdata.etl.mapreduce.ErrorCodeCount;
 import com.gsta.bigdata.utils.BeansUtils;
@@ -53,14 +53,14 @@ import com.gsta.bigdata.utils.JDBCUtils;
  */
 public class MRRunner extends Configured implements Tool, IRunner {
 	private Logger logger = LoggerFactory.getLogger(getClass());
-	private MRProcess process;
+	private ETLProcess process;
 	//write map/reduce result to database <writeLog property="conf/log/dblog.properties" />
 	private WriteLog writeLog;
 	private Configuration conf;
 	
 	private static final String HDFS_PRE = "hdfs://";
 	
-	public MRRunner(Configuration conf, MRProcess process,
+	public MRRunner(Configuration conf, ETLProcess process,
 		 WriteLog writeLog) {
 		super(conf);
 
@@ -87,7 +87,7 @@ public class MRRunner extends Configured implements Tool, IRunner {
 			throw new Exception("MRProcess instance is null.");
 		}
 
-		conf.set(Constants.HADOOP_CONF_MRPROCESS,
+		conf.set(Constants.HADOOP_CONF_ETLPROCESS,
 				BeansUtils.obj2json(this.process));
 		conf.set(Constants.JSON_RULE_STATIS_MGR, BeansUtils.obj2json(RuleStatisMgr.getInstance()));
 
@@ -198,7 +198,7 @@ public class MRRunner extends Configured implements Tool, IRunner {
 	 * @param conf
 	 * @throws IOException
 	 */
-	private void printErrorInfo2console(MRProcess process, Configuration conf)
+	private void printErrorInfo2console(ETLProcess process, Configuration conf)
 			throws IOException {
 		try {
 			String outputPath = process.getOutputPath();

@@ -25,8 +25,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.gsta.bigdata.etl.core.Constants;
+import com.gsta.bigdata.etl.core.ETLProcess;
 import com.gsta.bigdata.etl.core.ShellContext;
-import com.gsta.bigdata.etl.core.process.LocalFileProcess;
 import com.gsta.bigdata.etl.core.source.InputPath;
 import com.gsta.bigdata.etl.localFile.FileFilterFactory;
 import com.gsta.bigdata.etl.localFile.FileReaderTask;
@@ -41,13 +41,13 @@ import com.gsta.bigdata.etl.localFile.AbstractHandler;
  * 
  */
 public class LocalFileRunner implements IRunner {
-	protected LocalFileProcess process;
+	protected ETLProcess process;
 	protected List<InputFile> files = new ArrayList<InputFile>();
 	// read source file buffer size,the default value is 1M
 	protected int bufferSize = 1024 * 1024;
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
-	public LocalFileRunner(LocalFileProcess process) {
+	public LocalFileRunner(ETLProcess process) {
 		this.process = process;
 	}
 

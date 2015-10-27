@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.gsta.bigdata.etl.core.Constants;
-import com.gsta.bigdata.etl.core.process.LocalFileProcess;
+import com.gsta.bigdata.etl.core.ETLProcess;
 import com.gsta.bigdata.etl.localFile.HandlerFactory;
 import com.gsta.bigdata.etl.localFile.AbstractHandler;
 import com.gsta.bigdata.etl.localFile.SliceFileReaderTask;
@@ -26,7 +26,7 @@ import com.gsta.bigdata.etl.localFile.SliceFileReaderTask;
 public class SliceLocalFileRunner extends LocalFileRunner {
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
-	public SliceLocalFileRunner(LocalFileProcess process) {
+	public SliceLocalFileRunner(ETLProcess process) {
 		super(process);
 	}
 

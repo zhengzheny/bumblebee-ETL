@@ -11,15 +11,13 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import com.google.api.client.repackaged.com.google.common.base.Preconditions;
+import com.gsta.bigdata.etl.core.ETLProcess;
 import com.gsta.bigdata.etl.core.Constants;
 import com.gsta.bigdata.etl.core.ContextProperty;
 import com.gsta.bigdata.etl.core.ParseException;
 import com.gsta.bigdata.etl.core.ShellContext;
 import com.gsta.bigdata.etl.core.WriteLog;
 import com.gsta.bigdata.etl.core.lookup.LookupMgr;
-import com.gsta.bigdata.etl.core.process.AbstractProcess;
-import com.gsta.bigdata.etl.core.process.LocalFileProcess;
-import com.gsta.bigdata.etl.core.process.MRProcess;
 import com.gsta.bigdata.utils.FileUtils;
 import com.gsta.bigdata.utils.XmlTools;
 
@@ -134,7 +132,7 @@ public class ETLRunner {
 		WriteLog writeLog = WriteLog.getInstance();
 		writeLog.init(configFile);
 
-		AbstractProcess process = AbstractProcess.newInstance((Element) processNode);
+		ETLProcess process = new ETLProcess();
 		try {
 			// init process
 			process.init((Element) processNode);
@@ -156,12 +154,12 @@ public class ETLRunner {
 			conf.set(Constants.LOG_RECORD_STAT_DATE,
 					context.getValue(Constants.CONTEXT_MONTH, ""));
 
-			runner = new MRRunner(conf, (MRProcess) process,writeLog);	
-		}else if(process.getType().equals(LocalFileProcess.class.getSimpleName())){
+			runner = new MRRunner(conf, process,writeLog);	
+		}else if(process.getType().equals(Constants.CF_NAME_LOCAL_FILE_PROCESS)){
 			//local file computing framework
-			runner = new LocalFileRunner((LocalFileProcess)process);
-		}else if(process.getType().equals(Constants.PROCESS_SLICE_LOCAL_FILE)){
-			runner = new SliceLocalFileRunner((LocalFileProcess)process);
+			runner = new LocalFileRunner(process);
+		}else if(process.getType().equals(Constants.CF_NAME_SLICE_LOCAL_FILE_PROCESS)){
+			runner = new SliceLocalFileRunner(process);
 		}
 
 		try {

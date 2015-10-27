@@ -3,7 +3,7 @@
 
 if [ $# -lt 1 ]
 then
-  echo "usage:bin/etl.sh configFile=conf/etl-adsl.xml  processId=adsl YYYYMM=201505"
+  echo "usage:bin/etl-localFile.sh configFile=conf/etl-adsl.xml  processId=adsl YYYYMM=201505"
   exit -1
 fi
 

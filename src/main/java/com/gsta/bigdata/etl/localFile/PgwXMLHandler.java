@@ -14,8 +14,8 @@ import org.xml.sax.SAXException;
 
 import com.gsta.bigdata.etl.ETLException;
 import com.gsta.bigdata.etl.core.ETLData;
+import com.gsta.bigdata.etl.core.ETLProcess;
 import com.gsta.bigdata.etl.core.LoadException;
-import com.gsta.bigdata.etl.core.process.LocalFileProcess;
 import com.gsta.bigdata.utils.XmlTools;
 
 /**
@@ -130,7 +130,7 @@ public class PgwXMLHandler extends AbstractHandler {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
-	public PgwXMLHandler(LocalFileProcess process) {
+	public PgwXMLHandler(ETLProcess process) {
 		super(process);
 	}
 

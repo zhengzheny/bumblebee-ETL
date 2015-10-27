@@ -34,6 +34,7 @@ import com.gsta.bigdata.utils.XmlTools;
  * @author tianxq
  * 
  */
+@SuppressWarnings("deprecation")
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "@class")
 @JsonSubTypes({
 		@JsonSubTypes.Type(value = SimpleFlat.class, name = "simpleFlat"),

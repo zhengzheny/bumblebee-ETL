@@ -1,9 +1,7 @@
-package com.gsta.bigdata.etl.core.process;
+package com.gsta.bigdata.etl.core;
 
 import java.util.List;
 import java.util.Set;
-
-import javax.xml.xpath.XPathExpressionException;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -12,28 +10,18 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.api.client.repackaged.com.google.common.base.Preconditions;
 import com.gsta.bigdata.etl.ETLException;
-import com.gsta.bigdata.etl.core.AbstractETLObject;
-import com.gsta.bigdata.etl.core.ChildrenTag;
-import com.gsta.bigdata.etl.core.ComputingFrameworkConfigs;
-import com.gsta.bigdata.etl.core.Constants;
-import com.gsta.bigdata.etl.core.ContextMgr;
-import com.gsta.bigdata.etl.core.ETLData;
-import com.gsta.bigdata.etl.core.ParseException;
-import com.gsta.bigdata.etl.core.ShellContext;
-import com.gsta.bigdata.etl.core.Transforms;
 import com.gsta.bigdata.etl.core.source.AbstractSourceMetaData;
 import com.gsta.bigdata.etl.core.source.InputPath;
 import com.gsta.bigdata.etl.core.source.ValidatorException;
 import com.gsta.bigdata.utils.StringUtils;
-import com.gsta.bigdata.utils.XmlTools;
 
 /**
- * abstract process
+ * etl process
  * 
  * @author tianxq
  * 
  */
-public abstract class AbstractProcess extends AbstractETLObject {
+public class ETLProcess extends AbstractETLObject {
 	@JsonProperty
 	private String id;
 	@JsonProperty
@@ -46,8 +34,10 @@ public abstract class AbstractProcess extends AbstractETLObject {
 	private Transforms transforms;
 	@JsonProperty
 	private ShellContext etlContext;
+	@JsonProperty
+	private OutputMetaData outputMetaData;
 
-	public AbstractProcess() {
+	public ETLProcess() {
 		super.tagName = Constants.PATH_PROCESS;
 
 		super.registerChildrenTags(new ChildrenTag(
@@ -56,6 +46,8 @@ public abstract class AbstractProcess extends AbstractETLObject {
 				Constants.PATH_SOURCE_METADATA, ChildrenTag.NODE));
 		super.registerChildrenTags(new ChildrenTag(Constants.PATH_TRANSFORMS,
 				ChildrenTag.NODE));
+		super.registerChildrenTags(new ChildrenTag(
+				Constants.PATH_OUTPUT_METADATA, ChildrenTag.NODE));
 	}
 
 	@Override
@@ -89,6 +81,9 @@ public abstract class AbstractProcess extends AbstractETLObject {
 		} else if (node.getNodeName().equals(Constants.PATH_TRANSFORMS)) {
 			this.transforms = new Transforms();
 			this.transforms.init(node);
+		}else if (node.getNodeName().equals(Constants.PATH_OUTPUT_METADATA)) {
+			this.outputMetaData = new OutputMetaData();
+			this.outputMetaData.init(node);
 		}
 	}
 
@@ -134,8 +129,8 @@ public abstract class AbstractProcess extends AbstractETLObject {
 	 * @param data
 	 * @return
 	 */
-	@JsonIgnore
-	public abstract String getOutputValue(ETLData data) throws ETLException;
+	//@JsonIgnore
+	//public abstract String getOutputValue(ETLData data) throws ETLException;
 
 	/**
 	 * get source file input paths
@@ -234,6 +229,9 @@ public abstract class AbstractProcess extends AbstractETLObject {
 		if (this.transforms != null) {
 			sb.append("\r\ntransforms:\r\n").append(this.transforms.toString());
 		}
+		if(this.outputMetaData != null){
+			sb.append("\r\noutputMetaData:\r\n").append(this.outputMetaData.toString());
+		}
 
 		return sb.toString();
 	}
@@ -245,12 +243,6 @@ public abstract class AbstractProcess extends AbstractETLObject {
 	public String getType() {
 		return type;
 	}
-
-	@JsonIgnore
-	public abstract String getOutputPath();
-
-	@JsonIgnore
-	public abstract String getErrorPath();
 
 	public void setContext(ShellContext context) {
 		this.etlContext = context;
@@ -264,30 +256,44 @@ public abstract class AbstractProcess extends AbstractETLObject {
 
 		return this.sourceMetaData.getType();
 	}
-
-	public static AbstractProcess newInstance(Element element)
-			throws ParseException {
-		Preconditions.checkNotNull(element, "element  is null");
-
-		AbstractProcess process = null;
-		try {
-			String type = XmlTools.getNodeAttr(element, Constants.ATTR_TYPE);
-
-			type = ContextMgr.getValue(type);
-			if (type == null || "".equals(type)) {
-				type = Constants.DEFAULT_COMPUTING_FRAMEWORK_MR;
-			}
-
-			String subClassName = StringUtils
-					.getPackageName(AbstractProcess.class)
-					+ StringUtils.upperCaseFirstChar(type);
-
-			process = (AbstractProcess) Class.forName(subClassName).newInstance();
-		} catch (ClassNotFoundException | InstantiationException
-				| IllegalAccessException | XPathExpressionException e) {
-			throw new ParseException(e);
+	
+	@JsonIgnore
+	public String getOutputValue(ETLData data) throws ETLException{
+		if (this.outputMetaData == null) {
+			return null;
 		}
 
-		return process;
+		return this.outputMetaData.getOutputValue(data);
+	}
+	
+	@JsonIgnore
+	public String getOutputKey(ETLData data) throws ETLException {
+		if (this.outputMetaData == null) {
+			return null;
+		}
+
+		return this.outputMetaData.getOutputKey(data);
+	}
+
+	@JsonIgnore
+	public String getOutputPath() {
+		if (this.outputMetaData != null) {
+			return this.outputMetaData.getOutputPath();
+		}
+
+		return null;
+	}
+
+	@JsonIgnore
+	public String getErrorPath() {
+		if (this.outputMetaData != null) {
+			return this.outputMetaData.getErrorPath();
+		}
+
+		return null;
+	}
+
+	public OutputMetaData getOutputMetaData() {
+		return this.outputMetaData;
 	}
 }

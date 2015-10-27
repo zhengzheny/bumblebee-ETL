@@ -17,8 +17,8 @@ import org.slf4j.LoggerFactory;
 import com.gsta.bigdata.etl.ETLException;
 import com.gsta.bigdata.etl.LocalFileRunner.InputFile;
 import com.gsta.bigdata.etl.core.Constants;
+import com.gsta.bigdata.etl.core.ETLProcess;
 import com.gsta.bigdata.etl.core.OutputMetaData;
-import com.gsta.bigdata.etl.core.process.LocalFileProcess;
 
 /**
  * abstract handler 
@@ -27,7 +27,7 @@ import com.gsta.bigdata.etl.core.process.LocalFileProcess;
  *
  */
 public abstract class AbstractHandler {
-	protected LocalFileProcess process;
+	protected ETLProcess process;
 
 	// the result queue
 	protected Set<String> queue = new CopyOnWriteArraySet<String>();
@@ -67,7 +67,7 @@ public abstract class AbstractHandler {
 	private AtomicLong count = new AtomicLong();
 	private int lastPercent = 0;
 	
-	public AbstractHandler(LocalFileProcess process) {
+	public AbstractHandler(ETLProcess process) {
 		this.process = process;
 	}
 	

@@ -4,7 +4,7 @@ import java.io.FilenameFilter;
 
 import com.gsta.bigdata.etl.ETLException;
 import com.gsta.bigdata.etl.core.Constants;
-import com.gsta.bigdata.etl.core.process.LocalFileProcess;
+import com.gsta.bigdata.etl.core.ETLProcess;
 import com.gsta.bigdata.utils.StringUtils;
 /**
  * 
@@ -12,7 +12,7 @@ import com.gsta.bigdata.utils.StringUtils;
  *
  */
 public class FileFilterFactory {
-	public static FilenameFilter createFileFilter(LocalFileProcess process,
+	public static FilenameFilter createFileFilter(ETLProcess process,
 			String fileSuffix, String fileNamePattern) throws ETLException {
 		if (process == null) {
 			throw new ETLException("process object is null.");

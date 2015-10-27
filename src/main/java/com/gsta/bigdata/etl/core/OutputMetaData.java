@@ -35,6 +35,10 @@ public class OutputMetaData extends AbstractETLObject {
 	protected static final String NotSeeCharDefineInConf = "001";
 	@JsonProperty
 	private List<Field> valuesFields = new ArrayList<Field>();
+	@JsonProperty
+	private String keysDelimiter = "\\|";
+	@JsonProperty
+	private List<Field> keysFields = new ArrayList<Field>();
 
 	public OutputMetaData() {
 		super.tagName = Constants.PATH_OUTPUT_METADATA;
@@ -44,6 +48,11 @@ public class OutputMetaData extends AbstractETLObject {
 		super.registerChildrenTags(new ChildrenTag(
 				Constants.PATH_OUTPUT_METADATA_VALUES_FIELD,
 				ChildrenTag.NODE_LIST));
+		
+		super.registerChildrenTags(new ChildrenTag(
+				Constants.PATH_MAP_OUTPUT_METADATA_KEYS,ChildrenTag.NODE));
+		super.registerChildrenTags(new ChildrenTag(
+				Constants.PATH_MAP_OUTPUT_METADATA_KEYS_FIELD,ChildrenTag.NODE_LIST));
 	}
 
 	@Override
@@ -86,6 +95,21 @@ public class OutputMetaData extends AbstractETLObject {
 				throw new ParseException(e);
 			}
 		}
+		
+		// get keys delimiter
+		if (node.getNodeName().equals(Constants.PATH_MAP_OUTPUT_METADATA_KEYS)) {
+			try {
+				String delimiter = XmlTools.getNodeAttr(node,
+						Constants.ATTR_DELIMITER);
+				this.keysDelimiter = ContextMgr.getValue(delimiter);
+				// special deal with not see char
+				if (NotSeeCharDefineInConf.equals(this.keysDelimiter)) {
+					this.keysDelimiter = "\001";
+				}
+			} catch (XPathExpressionException e) {
+				throw new ParseException(e);
+			}
+		}
 	}
 
 	@Override
@@ -103,6 +127,19 @@ public class OutputMetaData extends AbstractETLObject {
 		if (this.valuesFields.size() > 0) {
 			Collections.sort(this.valuesFields);
 		}
+		
+		for(int i=0;i<nodeList.getLength();i++)
+		{
+			Node element = nodeList.item(i);
+			if(element.getNodeType() == Node.ELEMENT_NODE && 
+					element.getNodeName().equals(Constants.TAG_FIELD)){
+				createKeysField(element);
+			}
+		}
+		
+		if (this.keysFields.size() > 0) {
+			Collections.sort(this.keysFields);
+		}
 	}
 
 	private void createValuesField(Node element) {
@@ -113,6 +150,17 @@ public class OutputMetaData extends AbstractETLObject {
 				field.init((Element) element);
 
 				this.valuesFields.add(field);
+		}
+	}
+	
+	private void createKeysField(Node element) {
+		// keys
+		if (element.getParentNode().getNodeName()
+				.matches(Constants.PATH_MAP_OUTPUT_METADATA_KEYS)) {
+			Field field = new Field();
+			field.init((Element) element);
+
+			this.keysFields.add(field);
 		}
 	}
 
@@ -171,6 +219,61 @@ public class OutputMetaData extends AbstractETLObject {
 
 		return ret;
 	}
+	
+	@JsonIgnore
+	public String getOutputKey(ETLData data)
+			throws ETLException{
+		Preconditions.checkNotNull(data, "input data is null");
+		
+		// if get null field,throws ETLException and report all null field name
+		boolean nullFlag = false;
+		String nullFieldNames = "";
+				
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < this.keysFields.size(); i++) {
+			Field field = this.keysFields.get(i);
+			//if field is *,means add all source fields to output 
+			if ("*".equals(field.getId())) {
+				Iterator<String> iter = data.getFieldNames().iterator();
+				while(iter.hasNext()){
+					String fieldName = iter.next();
+					String dataValue = data.getData().get(fieldName);					
+					if (dataValue == null) {
+						if (field.getDefaultValue() != null) {
+							dataValue = field.getDefaultValue();
+						} else {
+							nullFlag = true;
+							nullFieldNames = nullFieldNames + fieldName + ",";
+						}
+					}
+					sb.append(dataValue).append(this.keysDelimiter);
+				}
+			} else {
+				String dataValue = data.getData().get(field.getId());
+				if (dataValue == null) {
+					if (field.getDefaultValue() != null) {
+						dataValue = field.getDefaultValue();
+					} else {
+						nullFlag = true;
+						nullFieldNames = nullFieldNames + field.getId() + ",";
+					}
+				}
+				sb.append(dataValue).append(this.keysDelimiter);
+			}//end if *
+		}//end if
+		
+		if(nullFlag){
+			throw new ETLException(ETLException.NULL_FIELD_NAMES,
+					"field " + nullFieldNames + " get null value.");
+		}
+		
+		String ret = sb.toString();
+		if(ret.endsWith(this.keysDelimiter)){
+			ret = ret.substring(0,ret.length() - this.keysDelimiter.length());
+		}
+		
+		return ret;
+	}
 
 	public String getOutputPath() {
 		return outputPath;
@@ -202,6 +305,10 @@ public class OutputMetaData extends AbstractETLObject {
 		sb.append("values delmiter=").append(this.valuesDelimiter);
 		sb.append("\r\nvalues field=");
 		sb.append(this.valuesFields.toString());
+		
+		sb.append("\r\nkeys delimiter=").append(this.keysDelimiter);
+		sb.append("\r\nkeys field=");
+		sb.append(this.keysFields.toString());
 
 		return sb.toString();
 	}

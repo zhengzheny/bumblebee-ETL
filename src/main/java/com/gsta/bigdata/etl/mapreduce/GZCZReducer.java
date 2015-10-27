@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.gsta.bigdata.etl.core.Constants;
-import com.gsta.bigdata.etl.core.process.MRProcess;
+import com.gsta.bigdata.etl.core.ETLProcess;
 import com.gsta.bigdata.utils.BeansUtils;
 
 public class GZCZReducer extends Reducer<Text, Text, Text, Text> {
@@ -17,7 +17,7 @@ public class GZCZReducer extends Reducer<Text, Text, Text, Text> {
 	private final static String DELIMITER = "gzczDelimiter";
 	private String statusField;
 	private String delimiter;
-	private MRProcess process;
+	private ETLProcess process;
 	private Text outText = new Text();  
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -27,8 +27,8 @@ public class GZCZReducer extends Reducer<Text, Text, Text, Text> {
 		super.setup(context);
 		
 		String json = context.getConfiguration().get(
-				Constants.HADOOP_CONF_MRPROCESS);
-		this.process = (MRProcess) BeansUtils.json2obj(json, MRProcess.class);
+				Constants.HADOOP_CONF_ETLPROCESS);
+		this.process = (ETLProcess) BeansUtils.json2obj(json, ETLProcess.class);
 		if (this.process == null) {
 			throw new InterruptedException("process is null.");
 		}

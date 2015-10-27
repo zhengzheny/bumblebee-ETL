@@ -17,7 +17,7 @@ import org.xml.sax.SAXException;
 
 import com.gsta.bigdata.etl.ETLException;
 import com.gsta.bigdata.etl.core.ETLData;
-import com.gsta.bigdata.etl.core.process.LocalFileProcess;
+import com.gsta.bigdata.etl.core.ETLProcess;
 import com.gsta.bigdata.utils.StringUtils;
 import com.gsta.bigdata.utils.XmlTools;
 
@@ -59,7 +59,7 @@ public class ZteNODEBXMLHandler extends AbstractHandler {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
-	public ZteNODEBXMLHandler(LocalFileProcess process) {
+	public ZteNODEBXMLHandler(ETLProcess process) {
 		super(process);
 	}
 

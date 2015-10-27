@@ -18,9 +18,9 @@ import com.gsta.bigdata.etl.AbstractException;
 import com.gsta.bigdata.etl.ETLException;
 import com.gsta.bigdata.etl.core.Constants;
 import com.gsta.bigdata.etl.core.ETLData;
+import com.gsta.bigdata.etl.core.ETLProcess;
 import com.gsta.bigdata.etl.core.IRuleMgr;
 import com.gsta.bigdata.etl.core.RuleStatisMgr;
-import com.gsta.bigdata.etl.core.process.MRProcess;
 import com.gsta.bigdata.etl.core.source.ValidatorException;
 import com.gsta.bigdata.utils.BeansUtils;
 
@@ -31,7 +31,7 @@ import com.gsta.bigdata.utils.BeansUtils;
  * 
  */
 public class ETLMapper extends Mapper<Object, Text, Text, Text> {
-	private MRProcess process;
+	private ETLProcess process;
 
 	private Text txtKey = new Text();
 	private Text txtValue = new Text();
@@ -63,8 +63,8 @@ public class ETLMapper extends Mapper<Object, Text, Text, Text> {
 		multiOutput = new MultipleOutputs<Text, Text>(context);
 		
 		String json = context.getConfiguration().get(
-				Constants.HADOOP_CONF_MRPROCESS);
-		this.process = (MRProcess) BeansUtils.json2obj(json, MRProcess.class);
+				Constants.HADOOP_CONF_ETLPROCESS);
+		this.process = (ETLProcess) BeansUtils.json2obj(json, ETLProcess.class);
 		if (this.process == null) {
 			throw new InterruptedException("process is null.");
 		}

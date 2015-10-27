@@ -4,8 +4,10 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
-import com.gsta.bigdata.etl.core.process.MRProcess;
-import com.gsta.bigdata.etl.core.process.SliceLocalFileProcess;
+
+
+//import com.gsta.bigdata.etl.core.process.MRProcess;
+//import com.gsta.bigdata.etl.core.process.SliceLocalFileProcess;
 import com.gsta.bigdata.etl.core.source.PgwXML;
 import com.gsta.bigdata.etl.core.source.SimpleFlat;
 import com.gsta.bigdata.etl.core.source.ZteENODEBXML;
@@ -16,6 +18,7 @@ import com.gsta.bigdata.etl.mapreduce.ETLMapper;
  * @author tianxq
  *
  */
+@SuppressWarnings("deprecation")
 public class Constants {
 	public final static String JSON_RULE_STATIS_MGR = "ruleStatisMgr";
 	public final static String OUTPUT_ERROR_FILE_PREFIX = "error";
@@ -27,7 +30,11 @@ public class Constants {
 	public final static String CONTEXT_MONTH = "YYYYMM";
 	
 	//default value
-	public final static String DEFAULT_COMPUTING_FRAMEWORK_MR = MRProcess.class.getSimpleName();
+	public final static String DEFAULT_COMPUTING_FRAMEWORK_MR = "MRProcess";
+	public final static String CF_NAME_LOCAL_FILE_PROCESS = "LocalFileProcess";
+	public final static String CF_NAME_SLICE_LOCAL_FILE_PROCESS = "SliceLocalFileProcess";
+	public final static String CF_NAME_SPARK_STREAMING_PROCESS = "SparkStreamingProcess";
+	
 	public final static String DEFAULT_SOURCE_METADATA_FLAT = SimpleFlat.class.getSimpleName();
 	public final static String DEFAULT_TRANSFORM_SCOPE = "map";
 	public final static String DEFAULT_LKP_DS_PROPERTY_PATH = "path";
@@ -48,7 +55,7 @@ public class Constants {
 	//local file's data source
 	public final static String SOURCE_ZTE_NODEB_XML = ZteENODEBXML.class.getSimpleName();
 	public final static String SOURCE_PGW_XML = PgwXML.class.getSimpleName();
-	public final static String PROCESS_SLICE_LOCAL_FILE = SliceLocalFileProcess.class.getSimpleName();
+	//public final static String PROCESS_SLICE_LOCAL_FILE = SliceLocalFileProcess.class.getSimpleName();
 	
 	//lookup data source type
 	public static final String LKP_FLAT_TYPE_DS = "flat";
@@ -134,7 +141,7 @@ public class Constants {
 	public final static String LOG_RECORD_ERROR_PATH = "errorPath";
 
 	//hadoop config
-	public final static String HADOOP_CONF_MRPROCESS = "mrProcess";
+	public final static String HADOOP_CONF_ETLPROCESS = "etlProcess";
 	public final static String HADOOP_MAPPER_CLASS = "mapperClass";
 	public final static String HADOOP_COMBINER_CLASS = "combinerClass";
 	public final static String HADOOP_REDUCER_CLASS = "reducerClass";

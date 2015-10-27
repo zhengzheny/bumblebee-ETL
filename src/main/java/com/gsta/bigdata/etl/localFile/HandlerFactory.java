@@ -2,7 +2,7 @@ package com.gsta.bigdata.etl.localFile;
 
 import com.gsta.bigdata.etl.ETLException;
 import com.gsta.bigdata.etl.core.Constants;
-import com.gsta.bigdata.etl.core.process.LocalFileProcess;
+import com.gsta.bigdata.etl.core.ETLProcess;
 import com.gsta.bigdata.utils.StringUtils;
 /**
  * 
@@ -10,7 +10,7 @@ import com.gsta.bigdata.utils.StringUtils;
  *
  */
 public class HandlerFactory {
-	public static AbstractHandler createHandler(LocalFileProcess process) throws ETLException {
+	public static AbstractHandler createHandler(ETLProcess process) throws ETLException {
 		if (process == null) {
 			throw new ETLException("process object is null.");
 		}
