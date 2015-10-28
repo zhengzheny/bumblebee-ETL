@@ -23,6 +23,7 @@ import com.gsta.bigdata.etl.core.ParseException;
  */
 
 public class PgwXMLByString extends AbstractSourceMetaData {
+	private static final long serialVersionUID = -6542179672837906742L;
 	private List<String> xmlList = new ArrayList<String>();
 	private boolean xmlFlag = false;
 	private boolean listServiceFlag = false;

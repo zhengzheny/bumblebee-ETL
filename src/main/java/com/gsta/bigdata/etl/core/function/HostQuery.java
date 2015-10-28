@@ -27,6 +27,7 @@ import com.gsta.bigdata.utils.StringUtils;
  * 
  */
 public class HostQuery extends AbstractFunction {
+	private static final long serialVersionUID = 7648551153488869583L;
 	@JsonProperty
 	private String inputField;
 	@JsonProperty

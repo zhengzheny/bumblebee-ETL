@@ -1,10 +1,13 @@
 package com.gsta.bigdata.etl.core;
+
+import java.io.Serializable;
+
 /**
  * 
  * @author tianxq
  *
  */
-public class LoadException extends RuntimeException {
+public class LoadException extends RuntimeException implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	public LoadException() {

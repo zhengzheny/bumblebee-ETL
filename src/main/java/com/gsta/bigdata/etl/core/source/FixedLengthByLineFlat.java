@@ -19,6 +19,7 @@ import com.gsta.bigdata.etl.core.ParseException;
  * 
  */
 public class FixedLengthByLineFlat extends FixedLengthFlat {
+	private static final long serialVersionUID = 5225153776959833930L;
 	@JsonIgnore
 	private String refLine;
 	@JsonIgnore

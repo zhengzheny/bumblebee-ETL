@@ -15,6 +15,7 @@ import com.gsta.bigdata.etl.core.ParseException;
  *
  */
 public class InputPath extends AbstractETLObject {
+	private static final long serialVersionUID = -7771220326045083253L;
 	@JsonProperty
 	private String path;
 	@JsonProperty

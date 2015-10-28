@@ -25,12 +25,11 @@ import com.gsta.bigdata.etl.core.function.AbstractFunction;
  *
  */
 public class Transform extends AbstractETLObject {
+	private static final long serialVersionUID = -206687045311940394L;
 	@JsonProperty
 	private List<AbstractFunction> functions = new ArrayList<AbstractFunction>();
 	@JsonProperty
 	private List<AbstractFilter> filters = new ArrayList<AbstractFilter>();
-	@JsonProperty
-	private List<String> scopes = new ArrayList<String>();
 	
 	public Transform() {
 		super.tagName = Constants.PATH_TRANSFORM;
@@ -43,32 +42,12 @@ public class Transform extends AbstractETLObject {
 
 	@Override
 	protected void initAttrs(Element element) throws ParseException {
-		String strScope = super.getAttr(Constants.ATTR_SCOPE);
 		
-		this.initScope(strScope);
-	}
-	
-	private void initScope(String scope){
-		if(null == scope || "".equals(scope)){
-			scopes.add(Constants.DEFAULT_TRANSFORM_SCOPE);
-			return;
-		}
-		
-		String[] tempScopes = scope.split(",");
-		if(null == tempScopes || tempScopes.length == 0){
-			scopes.add(Constants.DEFAULT_TRANSFORM_SCOPE);
-			return;
-		}
-		
-		for(String tempScope:tempScopes){
-			scopes.add(tempScope);
-		}
 	}
 	
 	@Override
 	protected void createChildNode(Element node) throws ParseException {
 		//has no single child node
-
 	}
 
 	@Override
@@ -135,13 +114,8 @@ public class Transform extends AbstractETLObject {
 		}
 	}
 
-	public boolean hasScope(String scope){
-		return scopes.contains(scope);
-	}
-
 	public String toString(){
 		StringBuffer sb = new StringBuffer();
-		sb.append("scopes=").append(this.scopes);
 		sb.append("\r\nfunctions:\r\n").append(this.functions);
 		sb.append("\r\nfilters:\r\n").append(this.filters);
 		

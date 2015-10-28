@@ -23,6 +23,7 @@ import com.gsta.bigdata.utils.StringUtils;
  * 
  */
 public class NoSettingFieldsFlat extends SimpleFlat {
+	private static final long serialVersionUID = -292446003653175459L;
 	@JsonProperty
 	private String fieldNum;
 	@JsonProperty

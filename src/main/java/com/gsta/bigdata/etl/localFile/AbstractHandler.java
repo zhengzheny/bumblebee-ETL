@@ -44,9 +44,6 @@ public abstract class AbstractHandler {
 	// handler deal file
 	protected InputFile inputFile;
 
-	// the transform scope must be "localFile" in local file process
-	protected final static String SCOPE = "localFile";
-
 	protected BufferedWriter errorOutStream;
 	protected BufferedWriter invalidOutStream;
 	protected BufferedWriter queueOutStream;

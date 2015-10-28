@@ -18,6 +18,7 @@ import com.gsta.bigdata.etl.ETLException;
  *
  */
 public class Transforms extends AbstractETLObject {
+	private static final long serialVersionUID = -342179632071115871L;
 	@JsonProperty
 	private List<Transform> transforms = new ArrayList<Transform>();
 	
@@ -61,18 +62,14 @@ public class Transforms extends AbstractETLObject {
 	/**
 	 * etl transfrom
 	 * @param data - data line
-	 * @param scope
 	 * @param context
 	 * @throws ETLException
 	 */
-	public void onTransform(ETLData data, String scope,
-			ShellContext context) throws ETLException {
+	public void onTransform(ETLData data,ShellContext context) throws ETLException {
 		Iterator<Transform> iter = this.transforms.iterator();
 		while (iter.hasNext()) {
 			Transform transform = iter.next();
-			if (transform.hasScope(scope)) {
-				transform.onTransform(data, context);
-			}
+			transform.onTransform(data, context);
 		}
 	}
 

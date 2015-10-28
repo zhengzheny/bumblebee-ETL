@@ -1,0 +1,53 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+    <contextProperty location="etl-dpispark-test.properties" />
+
+    <process id="dpi" type="sparkStreamingProcess">
+        <computingFrameworkConfigs>        
+            <property key="duration" value="${duration}"/>
+        </computingFrameworkConfigs>
+        <sourceMetaData type="kafkaStream" delimiter="\|">
+            <kafka brokers="${brokers}" topics="${topics}"/>
+            <fields>
+                <field id="ts" type="string" />
+                <field id="ad" type="string" />
+                <field id="srcip" type="string" />
+                <field id="srcport" type="string" />
+                <field id="dstip" type="string" />
+                <field id="dstport" type="string" />
+                <field id="host" type="string" />
+                <field id="url" type="string" minLength="6" />
+                <field id="ua" type="string" minLength="5" />
+                <field id="cookie" type="string" />
+                <field id="ref" type="string" minLength="6" />
+                <field id="seq" type="string" />
+                <field id="ack" type="string" />
+                <field id="collectHost"/>
+            </fields>
+        </sourceMetaData>
+        <outputMetaData outputPath="${outputPath}">
+            <values delimiter="|">
+                <!-- urlInfo basic -->
+                <field id="urldomain" defaultValue="\\N" />
+                <field id="urlhost" defaultValue="\\N" />
+                <field id="urlpath" defaultValue="\\N" />
+                <field id="urlquery" defaultValue="\\N" />
+                <!-- from source -->
+                <field id="ts" desc="starttime" />
+                <field id="ad" desc="account" />
+                <field id="dstport" desc="protocol" />
+                <field id="srcip" desc="sourceip" />
+                <field id="srcport" desc="sourceport" />
+                <field id="dstip" desc="destinationip" />
+                <field id="dstport" desc="destinationport" />
+                <field id="url" desc="destinationurl" />
+                <field id="ua" desc="useragent" />
+                <field id="cookie" />
+                <field id="ref" desc="referer" />
+                <!-- from shell command line -->
+                <field id="city" defaultValue="gz" />
+                <field id="collectHost"/>
+            </values>
+        </outputMetaData>
+    </process>
+</etl>

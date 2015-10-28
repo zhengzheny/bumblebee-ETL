@@ -26,6 +26,7 @@ import com.gsta.bigdata.utils.XmlTools;
  */
 
 public abstract class AbstractDataSource extends AbstractETLObject {
+	private static final long serialVersionUID = 5383557013146555625L;
 	@JsonIgnore
 	private String type;
 	@JsonIgnore

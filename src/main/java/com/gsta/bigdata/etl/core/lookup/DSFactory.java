@@ -1,5 +1,6 @@
 package com.gsta.bigdata.etl.core.lookup;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,7 +12,8 @@ import com.gsta.bigdata.etl.core.Constants;
  * 
  */
 @SuppressWarnings("rawtypes")
-public class DSFactory {
+public class DSFactory implements Serializable{
+	private static final long serialVersionUID = 8727333587438191620L;
 	private static Map<String, Class> datasources = new HashMap<String, Class>();
 
 	static {

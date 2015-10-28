@@ -56,7 +56,7 @@ public class SimpleFlatHandler extends AbstractHandler {
 
 		try {
 			if (null != data) {
-				super.process.onTransform(data, SCOPE);
+				super.process.onTransform(data);
 
 				String outputValue = super.process.getOutputValue(data);
 

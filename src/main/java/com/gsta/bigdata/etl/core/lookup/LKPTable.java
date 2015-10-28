@@ -24,6 +24,7 @@ import com.gsta.bigdata.utils.XmlTools;
  * @author shine
  */
 public class LKPTable extends AbstractETLObject implements ILookup {
+	private static final long serialVersionUID = 1950990165957160536L;
 	@JsonProperty
 	private String id;
 	@JsonIgnore

@@ -1,11 +1,15 @@
 package com.gsta.bigdata.etl.core;
 
+import java.io.Serializable;
+
 /**
  * 
  * @author tianxq
  * 
  */
-public class ContextMgr {
+public class ContextMgr implements Serializable{
+	private static final long serialVersionUID = -7999136276966399765L;
+
 	/**
 	 * first get variable from .properties file,
 	 * second get variable from shell command line

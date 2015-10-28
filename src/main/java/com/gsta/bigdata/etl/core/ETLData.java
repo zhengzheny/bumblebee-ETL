@@ -1,5 +1,6 @@
 package com.gsta.bigdata.etl.core;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +12,8 @@ import java.util.Map;
  * 
  *
  */
-public class ETLData {
+public class ETLData implements Serializable{
+	private static final long serialVersionUID = -4057144719064581319L;
 	private Map<String, String> data ;
 	private List<String> fieldNames ;
 	

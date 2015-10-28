@@ -18,6 +18,12 @@
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-client</artifactId>
             <version>2.6.0</version>
+            <exclusions>
+            	<exclusion>
+            		<artifactId>servlet-api</artifactId>
+            		<groupId>javax.servlet</groupId>
+            	</exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -89,14 +95,19 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.32</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-streaming_2.10</artifactId>
+            <version>1.5.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-streaming-kafka_2.10</artifactId>
+            <version>1.5.1</version>
+        </dependency>
     </dependencies>
 
     <build>
-        <!-- <resources> <resource> <directory>${basedir}/src/main/resources</directory> 
-            <excludes> <exclude>**/*.*</exclude> </excludes> </resource> <resource> <directory>${basedir}/src/main/java</directory> 
-            <excludes> <exclude>org/apache/hadoop/io/nativeio/NativeIO.java</exclude> 
-            </excludes> </resource> <resource> <directory>${basedir}/src/main/assembly/bin</directory> 
-            <excludes> <exclude>*.*</exclude> </excludes> </resource> </resources> -->
         <plugins>
             <!-- compile source java -->
             <plugin>
@@ -104,8 +115,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.2</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                     <encoding>${app.encoding}</encoding>
                 </configuration>
             </plugin>

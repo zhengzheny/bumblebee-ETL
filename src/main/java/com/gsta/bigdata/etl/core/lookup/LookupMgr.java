@@ -2,6 +2,7 @@ package com.gsta.bigdata.etl.core.lookup;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +19,8 @@ import com.gsta.bigdata.utils.XmlTools;
  * @author Shine
  *
  */
-public class LookupMgr {
+public class LookupMgr implements Serializable{
+	private static final long serialVersionUID = -1760796135606853073L;
 	private DataSourceMgr dataSourceMgr;
 	private LKPTableMgr lkpTableMgr;
 	private static final LookupMgr instance = new LookupMgr();

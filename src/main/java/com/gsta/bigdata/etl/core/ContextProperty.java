@@ -2,6 +2,7 @@ package com.gsta.bigdata.etl.core;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.Properties;
 
 import org.slf4j.Logger;
@@ -31,7 +32,8 @@ outputPath=/user/chenc/tt/output
  * @author tianxq
  *
  */
-public class ContextProperty{
+public class ContextProperty implements Serializable{
+	private static final long serialVersionUID = -3055336147765165533L;
 	private final static String PATH_CTX_PROPERTY = "/etl/contextProperty";
 	private final static String ATTR_LOCATION = "location";
 		

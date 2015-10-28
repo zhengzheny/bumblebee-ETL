@@ -24,6 +24,7 @@ import com.gsta.bigdata.etl.core.function.model.RedisValue;
  *
  */
 public abstract class AbstractRedisFunc extends AbstractFunction {
+	private static final long serialVersionUID = -7275580207242137386L;
 	public final static String ATTR_EXPIRE_TIME = "expireTime";
 	public final static String PATH_KEY = "key";
 	public final static String PATH_VALUE = "value";

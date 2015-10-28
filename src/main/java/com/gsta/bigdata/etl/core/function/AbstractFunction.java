@@ -46,6 +46,7 @@ import com.gsta.bigdata.utils.XmlTools;
 		@JsonSubTypes.Type(value = ParseURL.class, name = "ParseURL"),
 		@JsonSubTypes.Type(value = HostQuery.class, name = "HostQuery")})
 public abstract class AbstractFunction extends AbstractETLObject {
+	private static final long serialVersionUID = 8920066337876631884L;
 	@JsonProperty
 	private List<String> attrInputs = new ArrayList<String>();
 	//output attribute for onCalculate computing model

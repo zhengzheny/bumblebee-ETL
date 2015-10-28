@@ -19,6 +19,7 @@ import com.gsta.bigdata.etl.core.lookup.LKPTableMgr;
  * 
  */
 public class DimensionCheck extends AbstractFilter {
+	private static final long serialVersionUID = -5323268119807570823L;
 	@JsonProperty
 	private ILookup table;
 	@JsonProperty

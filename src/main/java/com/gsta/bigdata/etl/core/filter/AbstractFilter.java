@@ -32,6 +32,7 @@ import com.gsta.bigdata.utils.XmlTools;
 	@JsonSubTypes.Type(value = In.class, name = "in"),
 	@JsonSubTypes.Type(value = DimensionCheck.class, name = "dimensionCheck")})
 public abstract class AbstractFilter extends AbstractETLObject {
+	private static final long serialVersionUID = -9175151443255964228L;
 	@JsonProperty
 	private String name;
 	

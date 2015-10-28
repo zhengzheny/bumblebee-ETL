@@ -24,6 +24,8 @@ import com.gsta.bigdata.utils.XmlTools;
  * @author shine
  */
 public class MySQLDS extends AbstractDataSource{
+	private static final long serialVersionUID = 8103028089308507254L;
+
 	@JsonIgnore
 	private String sql;
 	

@@ -22,6 +22,7 @@ import com.gsta.bigdata.utils.StringUtils;
  * 
  */
 public class FixedLengthFlat extends AbstractSourceMetaData {
+	private static final long serialVersionUID = 4769367775777755639L;
 	@JsonProperty
 	private int lineLength = -1;
 	@JsonProperty

@@ -1,5 +1,6 @@
 package com.gsta.bigdata.etl.core;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,7 +17,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author tianxq
  *
  */
-public class ShellContext {
+public class ShellContext implements Serializable{
+	private static final long serialVersionUID = 3901794607814498113L;
 	@JsonProperty
 	private Map<String, String> context = new HashMap<String, String>();
 	private final static ShellContext instance = new ShellContext();

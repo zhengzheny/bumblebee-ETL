@@ -42,8 +42,10 @@ import com.gsta.bigdata.utils.XmlTools;
 		@JsonSubTypes.Type(value = FixedLengthFlat.class, name = "fixedLengthFlat"),
 		@JsonSubTypes.Type(value = PgwXML.class, name = "pgwXML"),
 		@JsonSubTypes.Type(value = PgwXMLByString.class, name = "pgwXMLByString"),
+		@JsonSubTypes.Type(value = KafkaStream.class, name = "kafkaStream"),
 		@JsonSubTypes.Type(value = FixedLengthByLineFlat.class, name = "fixedLengthByLineFlat") })
 public abstract class AbstractSourceMetaData extends AbstractETLObject {
+	private static final long serialVersionUID = -3147671855217097901L;
 	@JsonProperty
 	private String type;
 	@JsonProperty
@@ -192,7 +194,6 @@ public abstract class AbstractSourceMetaData extends AbstractETLObject {
 	protected void fieldValidate(Field field, String data, String line,
 			Set<String> invalidRecords) throws ValidatorException {
 		Preconditions.checkNotNull(field, "field  is null");
-		Preconditions.checkNotNull(invalidRecords, "invalidRecords  is null");
 
 		// check data field
 		try {

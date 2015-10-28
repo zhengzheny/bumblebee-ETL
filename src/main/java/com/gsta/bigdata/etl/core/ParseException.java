@@ -1,11 +1,13 @@
 package com.gsta.bigdata.etl.core;
 
+import java.io.Serializable;
+
 /**
  * 
  * @author tianxq
  *
  */
-public class ParseException extends RuntimeException {
+public class ParseException extends RuntimeException implements Serializable{
 	private static final long serialVersionUID = 6310171400625681940L;
 
 	public ParseException() {

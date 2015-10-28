@@ -18,6 +18,7 @@ import com.gsta.bigdata.utils.XmlTools;
  * 
  */
 public class ComputingFrameworkConfigs extends AbstractETLObject {
+	private static final long serialVersionUID = -589280756826900266L;
 	@JsonProperty
 	private Properties conf = new Properties();
 

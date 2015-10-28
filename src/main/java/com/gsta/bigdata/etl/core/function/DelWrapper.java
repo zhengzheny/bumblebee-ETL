@@ -17,6 +17,7 @@ import com.gsta.bigdata.etl.core.ParseException;
  * 
  */
 public class DelWrapper extends AbstractFunction {
+	private static final long serialVersionUID = 6226407600062549056L;
 	@JsonProperty
 	private String wrapper;
  	@JsonProperty

@@ -14,6 +14,7 @@ import com.gsta.bigdata.etl.core.ParseException;
 import com.gsta.bigdata.etl.core.ShellContext;
 
 public class ParseURL extends AbstractFunction {
+	private static final long serialVersionUID = -2978322391366886568L;
 	private final static String INPUT_URL = "url";
 	private final static String URLDOMAIN = "urldomain";
 	private final static String URLHOST   = "urlhost";  

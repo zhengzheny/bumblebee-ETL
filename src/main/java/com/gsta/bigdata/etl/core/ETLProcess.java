@@ -22,6 +22,7 @@ import com.gsta.bigdata.utils.StringUtils;
  * 
  */
 public class ETLProcess extends AbstractETLObject {
+	private static final long serialVersionUID = -8390198485290657527L;
 	@JsonProperty
 	private String id;
 	@JsonProperty
@@ -198,18 +199,15 @@ public class ETLProcess extends AbstractETLObject {
 	 * 
 	 * @param data
 	 *            - source file data line
-	 * @param scope
-	 *            - transform scope,ex:map/reduce/others,default is map
 	 */
-	public void onTransform(ETLData data, String scope)
-			throws ETLException {
+	public void onTransform(ETLData data) throws ETLException {
 		if (this.transforms == null) {
 			// throw new ETLException("transforms object is null.");
 			// if has no transforms tag,don't transform
 			return;
 		}
 
-		this.transforms.onTransform(data, scope, etlContext);
+		this.transforms.onTransform(data,etlContext);
 	}
 
 	public String toString() {
@@ -295,5 +293,9 @@ public class ETLProcess extends AbstractETLObject {
 
 	public OutputMetaData getOutputMetaData() {
 		return this.outputMetaData;
+	}
+
+	public AbstractSourceMetaData getSourceMetaData() {
+		return sourceMetaData;
 	}
 }

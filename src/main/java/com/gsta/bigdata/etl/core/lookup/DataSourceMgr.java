@@ -23,6 +23,7 @@ import com.gsta.bigdata.utils.XmlTools;
  *
  */
 public class DataSourceMgr extends AbstractETLObject {
+	private static final long serialVersionUID = 2450386303954516847L;
 	@JsonIgnore
 	private Map<String,AbstractDataSource> mapDataSource = new HashMap<String,AbstractDataSource>();
 	private static final DataSourceMgr instance = new DataSourceMgr();

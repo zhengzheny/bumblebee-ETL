@@ -21,6 +21,7 @@ import com.gsta.bigdata.utils.StringUtils;
  * 
  */
 public class SimpleFlat extends AbstractSourceMetaData {
+	private static final long serialVersionUID = 4500447521341109479L;
 	@JsonProperty
 	private String delimiter = "\\|";
 
@@ -58,8 +59,7 @@ public class SimpleFlat extends AbstractSourceMetaData {
 
 	@Override
 	public ETLData parseLine(String line,
-			Set<String> invalidRecords) throws ETLException,
-			ValidatorException {
+			Set<String> invalidRecords) throws ETLException,ValidatorException {
 		Preconditions.checkNotNull(line, "data line is null");
 
 		String[] data = StringUtils.splitByWrapper(line, 

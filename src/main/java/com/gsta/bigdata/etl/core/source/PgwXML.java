@@ -31,6 +31,7 @@ import com.gsta.bigdata.utils.XmlTools;
 
 @Deprecated
 public class PgwXML extends AbstractSourceMetaData {
+	private static final long serialVersionUID = -45479344086709559L;
 	private StringBuffer xmlBuffer = new StringBuffer();
 	private boolean xmlFlag = false;
 	

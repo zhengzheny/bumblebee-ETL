@@ -31,6 +31,7 @@ import com.gsta.bigdata.utils.XmlTools;
  * @author shine
  */
 public class FlatDS extends AbstractDataSource {
+	private static final long serialVersionUID = 2362258230440696974L;
 	@JsonIgnore
 	private String delimiter;
 	@JsonIgnore

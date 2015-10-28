@@ -36,7 +36,6 @@ public class Constants {
 	public final static String CF_NAME_SPARK_STREAMING_PROCESS = "SparkStreamingProcess";
 	
 	public final static String DEFAULT_SOURCE_METADATA_FLAT = SimpleFlat.class.getSimpleName();
-	public final static String DEFAULT_TRANSFORM_SCOPE = "map";
 	public final static String DEFAULT_LKP_DS_PROPERTY_PATH = "path";
 	public final static String DEFAULT_LKP_DS_TYPE = "flat";
 	public final static String DEFAULT_ENCODING = "utf-8";
@@ -51,6 +50,7 @@ public class Constants {
 	public final static String CF_LOCAL_FILE_BUFFER_SIZE = "localFileBufferSize";
 	public final static String CF_LOCAL_FILE_DIR_MAX_FILE = "localFileDirMaxFile";
 	public final static String CF_LOCAL_FILE_SLICE_THREAD_SIZE = "localFileSliceThreadSize";
+	public final static String CF_SPARK_DURATION = "duration";
 	
 	//local file's data source
 	public final static String SOURCE_ZTE_NODEB_XML = ZteENODEBXML.class.getSimpleName();
@@ -78,6 +78,7 @@ public class Constants {
 	public final static String PATH_SOURCE_METADATA = "sourceMetaData";
 	public final static String PATH_SOURCE_METADATA_INPUT_PATHS = "paths/inputPath";
 	public final static String PATH_SOURCE_METADATA_FIELDS = "fields/field";
+	public final static String PATH_SOURCE_METADATA_KAFKA = "kafka";
 	
 	public final static String PATH_TRANSFORMS = "transforms";
 	public final static String PATH_TRANSFORM = "transform";
@@ -125,6 +126,8 @@ public class Constants {
 	public final static String ATTR_FILENAME_PATTERN = "fileNamePattern";
 	public final static String ATTR_CHARSET = "charset";
 	public final static String ATTR_DEFAULT_VALUE = "defaultValue";
+	public final static String ATTR_BROKERS = "brokers";
+	public final static String ATTR_TOPICS = "topics";
 	
 	public final static String TAG_FIELD = "field";
 	public final static String TAG_INPUTPATH = "inputPath";

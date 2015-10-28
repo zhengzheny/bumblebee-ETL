@@ -287,7 +287,7 @@ public class PgwXMLHandler extends AbstractHandler {
 
 			super.process.verifyFields(data);
 
-			super.process.onTransform(data, SCOPE);
+			super.process.onTransform(data);
 
 			String outputValue = super.process.getOutputValue(data);
 			super.queue.add(outputValue);

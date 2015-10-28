@@ -1,5 +1,6 @@
 package com.gsta.bigdata.etl.core;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -30,7 +31,9 @@ import com.gsta.bigdata.utils.XmlTools;
  * @author tianxq
  *
  */
-public abstract class AbstractETLObject {
+public abstract class AbstractETLObject implements Serializable{
+	private static final long serialVersionUID = -3816609682547583774L;
+
 	//node tag name
 	@JsonIgnore
 	protected String tagName = "";

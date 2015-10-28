@@ -23,6 +23,8 @@ import com.gsta.bigdata.etl.core.ParseException;
  *
  */
 public class ZteENODEBXML extends AbstractSourceMetaData {
+	private static final long serialVersionUID = 4972621315058493751L;
+
 	private String beginMeasData = "<measData>";
 
 	private String beginTime;

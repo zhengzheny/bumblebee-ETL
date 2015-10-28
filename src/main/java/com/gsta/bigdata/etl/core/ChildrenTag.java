@@ -1,11 +1,14 @@
 package com.gsta.bigdata.etl.core;
 
+import java.io.Serializable;
+
 /**
  * 
  * @author tianxq
  * 
  */
-public class ChildrenTag {
+public class ChildrenTag implements Serializable{
+	private static final long serialVersionUID = 3586681914772301268L;
 	public final static int NODE = 1;
 	public final static int NODE_LIST = 2;
 	private String path;

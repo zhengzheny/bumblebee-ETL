@@ -37,6 +37,7 @@ import com.gsta.bigdata.etl.core.ShellContext;
  *
  */
 public class RedisSet extends AbstractRedisFunc {
+	private static final long serialVersionUID = -4536580943269431588L;
 	private final static String COL_SET = "set";
 	private final static String COL_SETEX = "setex";
 	

@@ -1,5 +1,6 @@
 package com.gsta.bigdata.etl.core;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,7 +11,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author tianxq
  *
  */
-public class RuleStatisMgr {
+public class RuleStatisMgr implements Serializable{
+	private static final long serialVersionUID = 2701432344918742592L;
 	private static final RuleStatisMgr instance = new RuleStatisMgr();
 	@JsonProperty
 	private Set<IRuleMgr> ruleMgrs;

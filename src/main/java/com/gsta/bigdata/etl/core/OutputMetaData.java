@@ -22,6 +22,7 @@ import com.gsta.bigdata.utils.XmlTools;
  *
  */
 public class OutputMetaData extends AbstractETLObject {
+	private static final long serialVersionUID = -8480645637260065109L;
 	@JsonProperty
 	private String outputPath;
 	@JsonProperty

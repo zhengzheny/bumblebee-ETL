@@ -1,11 +1,13 @@
 package com.gsta.bigdata.etl;
 
+import java.io.Serializable;
+
 /**
  * 
  * @author tianxq
  * 
  */
-public class ETLException extends AbstractException {
+public class ETLException extends AbstractException implements Serializable{
 	private static final long serialVersionUID = -5580249479791459587L;
 	
 	public final static String MAPREDUCE = "10";

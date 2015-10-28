@@ -20,6 +20,7 @@ import com.gsta.bigdata.etl.core.ShellContext;
  * 
  */
 public class IsHoliday extends AbstractFunction {
+	private static final long serialVersionUID = -2173279221780483668L;
 	@JsonProperty
 	private String inputField;
 	@JsonProperty

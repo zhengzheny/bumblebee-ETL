@@ -53,6 +53,7 @@ $7
  *
  */
 public class RedisHSet extends AbstractRedisFunc {
+	private static final long serialVersionUID = 6676963843427640078L;
 	private final static String COL_HSET = "hmset";
 	
 	public RedisHSet(){

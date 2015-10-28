@@ -26,6 +26,7 @@ import com.gsta.bigdata.utils.HdfsUtils;
  * @author shine
  */
 public class HdfsDS extends FlatDS {
+	private static final long serialVersionUID = 2038963581053413715L;
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	
 	public HdfsDS(){

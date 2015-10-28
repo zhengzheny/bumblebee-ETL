@@ -1,5 +1,7 @@
 package com.gsta.bigdata.etl.core.source;
 
+import java.io.Serializable;
+
 import com.gsta.bigdata.etl.AbstractException;
 
 /**
@@ -7,7 +9,7 @@ import com.gsta.bigdata.etl.AbstractException;
  * @author tianxq
  *
  */
-public class ValidatorException extends AbstractException {
+public class ValidatorException extends AbstractException implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	public final static String VALIDATOR = "20";

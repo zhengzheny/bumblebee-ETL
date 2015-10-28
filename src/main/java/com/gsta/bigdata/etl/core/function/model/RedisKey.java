@@ -18,6 +18,7 @@ import com.gsta.bigdata.etl.core.function.AbstractRedisFunc;
  *
  */
 public class RedisKey extends AbstractETLObject {
+	private static final long serialVersionUID = 954360544257397618L;
 	@JsonProperty
 	private List<String> fields = new ArrayList<String>();
 	@JsonProperty

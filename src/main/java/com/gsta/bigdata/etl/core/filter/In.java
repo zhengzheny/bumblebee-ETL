@@ -18,6 +18,7 @@ import com.gsta.bigdata.etl.core.ParseException;
  *
  */
 public class In extends AbstractFilter {
+	private static final long serialVersionUID = -7823993057759567168L;
 	@JsonProperty
 	private List<String> list = new ArrayList<String>();
 	@JsonProperty

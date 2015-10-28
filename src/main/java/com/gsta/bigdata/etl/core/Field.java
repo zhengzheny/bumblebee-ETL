@@ -20,6 +20,7 @@ import com.gsta.bigdata.utils.StringUtils;
  *
  */
 public class Field extends AbstractETLObject implements Comparable<Field> {
+	private static final long serialVersionUID = 2041977685658126961L;
 	@JsonProperty
 	private String id;
 	@JsonProperty

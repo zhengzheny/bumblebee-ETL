@@ -20,6 +20,7 @@ import com.gsta.bigdata.utils.XmlTools;
  * 
  */
 public class WriteLog extends AbstractETLObject {
+	private static final long serialVersionUID = 8256937441978000439L;
 	private String property;
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	private static final WriteLog instance = new WriteLog();

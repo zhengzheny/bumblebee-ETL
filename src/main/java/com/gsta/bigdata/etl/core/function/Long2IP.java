@@ -15,6 +15,7 @@ import com.gsta.bigdata.etl.core.ParseException;
  *
  */
 public class Long2IP extends AbstractFunction {
+	private static final long serialVersionUID = -4133280405610886749L;
 	@JsonProperty
 	private String inputField;
 	

@@ -160,6 +160,8 @@ public class ETLRunner {
 			runner = new LocalFileRunner(process);
 		}else if(process.getType().equals(Constants.CF_NAME_SLICE_LOCAL_FILE_PROCESS)){
 			runner = new SliceLocalFileRunner(process);
+		}else if(process.getType().equals(Constants.CF_NAME_SPARK_STREAMING_PROCESS)){
+			runner = new SparkStreamingRunner(process);
 		}
 
 		try {

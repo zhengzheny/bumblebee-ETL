@@ -1,10 +1,13 @@
 package com.gsta.bigdata.etl;
+
+import java.io.Serializable;
+
 /**
  * 
  * @author Shine
  *
  */
-public abstract class AbstractException extends RuntimeException{
+public abstract class AbstractException extends RuntimeException implements Serializable{
 	private static final long serialVersionUID = -7503545262174556387L;
 	
 	protected String errorCode;

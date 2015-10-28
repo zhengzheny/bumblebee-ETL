@@ -36,7 +36,6 @@ public class ETLMapper extends Mapper<Object, Text, Text, Text> {
 	private Text txtKey = new Text();
 	private Text txtValue = new Text();
 	private Text outText = new Text();  
-	private final static String SCOPE = "map";
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -127,7 +126,7 @@ public class ETLMapper extends Mapper<Object, Text, Text, Text> {
 
 		try {
 			if (null != data) {
-				this.process.onTransform(data, ETLMapper.SCOPE);
+				this.process.onTransform(data);
 
 				String outputKey = this.process.getOutputKey(data);
 				this.txtKey.set(outputKey);
