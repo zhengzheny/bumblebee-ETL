@@ -14,6 +14,8 @@ import java.util.regex.Pattern;
  *
  */
 public class StringUtils {
+	 private static final Pattern charCheckPatn = Pattern.compile("\\s*|\t*|\r*|\n*", Pattern.CASE_INSENSITIVE);
+	 
 	public static String getPackageName(Class<?> clazz) {
 		String className = clazz.getName();
 		String simpleName = clazz.getSimpleName();
@@ -170,4 +172,40 @@ public class StringUtils {
 		Date oldDate = oldFormat.parse(dateStr);
 		return newFormat.format(oldDate);
 	}
+	
+	public static boolean isMessyCode(String strName) {    
+		if (strName == null)
+		{
+			return false;
+		}
+		Matcher m = charCheckPatn.matcher(strName);    
+		String after = m.replaceAll("");    
+		String temp = after.replaceAll("\\p{P}", "");    
+		char[] ch = temp.trim().toCharArray();    
+		float chLength = ch.length;    
+		float count = 0;    
+		for (int i = 0; i < ch.length; i++) {    
+			char c = ch[i];    
+			if (!Character.isLetterOrDigit(c)) {    
+				if (!isChinese(c)) {    
+					count = count + 1;    
+				}    
+			} 
+		}    
+		float result = count / chLength;    
+		if (result > 0.4) {    
+			return true;    
+		} else {    
+			return false;    
+		}   	
+	}
+	
+    public static boolean isChinese(char c) {   
+        Character.UnicodeScript sc = Character.UnicodeScript.of(c);
+        if (sc == Character.UnicodeScript.HAN) {
+            return true;
+        }
+        return false;    	
+	}    
+
 }

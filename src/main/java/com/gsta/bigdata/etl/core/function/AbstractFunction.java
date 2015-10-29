@@ -24,8 +24,8 @@ import com.gsta.bigdata.etl.core.AbstractETLObject;
 import com.gsta.bigdata.etl.core.ChildrenTag;
 import com.gsta.bigdata.etl.core.Constants;
 import com.gsta.bigdata.etl.core.ContextMgr;
-import com.gsta.bigdata.etl.core.ShellContext;
 import com.gsta.bigdata.etl.core.ParseException;
+import com.gsta.bigdata.etl.core.ShellContext;
 import com.gsta.bigdata.utils.StringUtils;
 import com.gsta.bigdata.utils.XmlTools;
 
@@ -44,6 +44,9 @@ import com.gsta.bigdata.utils.XmlTools;
 		@JsonSubTypes.Type(value = RedisHSet.class, name = "RedisHSet"),
 		@JsonSubTypes.Type(value = DimensionQuery.class, name = "DimensionQuery"),
 		@JsonSubTypes.Type(value = ParseURL.class, name = "ParseURL"),
+		@JsonSubTypes.Type(value = ParseSearchKeywords.class, name = "ParseSearchKeywords"),
+		@JsonSubTypes.Type(value = ParseUserAgent.class, name = "ParseUserAgent"),
+		@JsonSubTypes.Type(value = GetURLClass.class, name = "GetURLClass"),
 		@JsonSubTypes.Type(value = HostQuery.class, name = "HostQuery")})
 public abstract class AbstractFunction extends AbstractETLObject {
 	private static final long serialVersionUID = 8920066337876631884L;
@@ -57,6 +60,7 @@ public abstract class AbstractFunction extends AbstractETLObject {
 	//output field id list for multiOutputOnCalculate computing model
 	@JsonProperty
 	private List<String> outputIds = new ArrayList<String>();
+	
 	private Logger logger = LoggerFactory.getLogger(AbstractFunction.class);
 	
 	public AbstractFunction() {
@@ -94,7 +98,8 @@ public abstract class AbstractFunction extends AbstractETLObject {
 
 	@Override
 	protected void createChildNode(Element node) throws ParseException {
-		// has no child node
+		//has no child node
+		
 	}
 
 	@Override
