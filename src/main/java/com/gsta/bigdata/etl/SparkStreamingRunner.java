@@ -28,7 +28,7 @@ import com.gsta.bigdata.etl.core.ETLData;
 import com.gsta.bigdata.etl.core.ETLProcess;
 import com.gsta.bigdata.etl.core.source.KafkaStream;
 import com.gsta.bigdata.etl.core.source.ValidatorException;
-import com.gsta.bigdata.etl.hdfs.ValueOutputFormat;
+import com.gsta.bigdata.etl.mapreduce.OnlyKeyOutputFormat;
 
 public class SparkStreamingRunner implements IRunner,Serializable {
 	private static final long serialVersionUID = 1L;
@@ -99,17 +99,14 @@ public class SparkStreamingRunner implements IRunner,Serializable {
 		JavaPairDStream<String, String> pairDPIs = dpis.mapToPair(new PairFunction<String, String, String>() {
 			@Override
           public Tuple2<String, String> call(String s) {
-				if(s == null || "".endsWith(s)){
-					return null;
-				}
-				return new Tuple2<String, String>(s, "");
+        	  return new Tuple2<String, String>(s, "");
           }
         });
 		
 		String path = process.getOutputPath();
 		String suffix = "stream";
 		
-		pairDPIs.saveAsNewAPIHadoopFiles(path, suffix, Text.class, Text.class, ValueOutputFormat.class);
+		pairDPIs.saveAsNewAPIHadoopFiles(path, suffix, Text.class, Text.class, OnlyKeyOutputFormat.class);
 		//pairDPIs.saveAsNewAPIHadoopFiles(path, suffix, Text.class, Text.class, TextOutputFormat.class);				
 		
 		//only for debug
