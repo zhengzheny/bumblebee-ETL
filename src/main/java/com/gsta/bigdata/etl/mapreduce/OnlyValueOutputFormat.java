@@ -95,8 +95,9 @@ public class OnlyValueOutputFormat<K, V> extends FileOutputFormat<K, V> {
 
 			if (!nullValue) {
 				writeObject(value);
+				out.write(newline);
 			}
-			out.write(newline);
+			//out.write(newline);
 		}
 
 		public synchronized void close(TaskAttemptContext context)

@@ -4,12 +4,13 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
 import kafka.serializer.StringDecoder;
 
 import org.apache.hadoop.io.Text;
 import org.apache.spark.SparkConf;
-//import org.apache.spark.api.java.JavaPairRDD;
+import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.function.Function;
 import org.apache.spark.api.java.function.PairFunction;
 import org.apache.spark.streaming.Durations;
@@ -107,18 +108,19 @@ public class SparkStreamingRunner implements IRunner,Serializable {
 		String suffix = "stream";
 		
 		pairDPIs.saveAsNewAPIHadoopFiles(path, suffix, Text.class, Text.class, OnlyKeyOutputFormat.class);
-		//pairDPIs.saveAsNewAPIHadoopFiles(path, suffix, Text.class, Text.class, TextOutputFormat.class);				
+		JavaDStream<Long> dpiCounts = pairDPIs.count();
 		
-		//only for debug
-		/*pairDPIs.foreachRDD(new Function<JavaPairRDD<String,String>, Void>(){
+		dpiCounts.foreachRDD(new Function<JavaRDD<Long>, Void>(){
 	    	@Override
-	          public Void call(JavaPairRDD<String,String> rdds)
-	              throws Exception {
-	    		rdds.collect().stream().forEach(System.out::println);
-	    		logger.info(" hello spark streaming...");
+	          public Void call(JavaRDD<Long> rdds) throws Exception {
+	    		List<Long> counters = rdds.collect();
+	    		for(Long c:counters){
+	    			logger.info("record count=" + c);
+	    		}
+	    		
 	    		return null;
 	    	}
-	    });*/
+	    });
 		
 	    jssc.start();
 	    jssc.awaitTermination();
