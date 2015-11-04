@@ -88,6 +88,7 @@ public class OnlyKeyOutputFormat<K, V> extends FileOutputFormat<K, V> {
 			// only write key for redis protocol
 			if (!nullKey) {
 				writeObject(key);
+				out.write(newline);
 			}
 			// if (!(nullKey || nullValue)) {
 			// out.write(keyValueSeparator);
@@ -96,7 +97,7 @@ public class OnlyKeyOutputFormat<K, V> extends FileOutputFormat<K, V> {
 			// if (!nullValue) {
 			// writeObject(value);
 			// }
-			out.write(newline);
+			//out.write(newline);
 		}
 
 		public synchronized void close(TaskAttemptContext context)
