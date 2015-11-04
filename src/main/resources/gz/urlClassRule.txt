@@ -1,0 +1,8 @@
+#规则	匹配类型ID	匹配类型描述	分类ID	分类层级	分类描述	规则关键词	规则ID	规则优先级
+imgcache.qq.com/club/item/parcel/	3	任意匹配	9003001007000	4	QQ		1	2
+plus.xiangji.qq.com/Android/	3	任意匹配	9003001007000	4	QQ		2	2
+https://www.baidu.com	3	任意匹配	9003001007000	4	QQ		2	2
+imgcache.qq.com/club/mobile/profile/	3	任意匹配	9003001007000	4	QQ		3	2
+china.coach.com/	1	左匹配	9005002000000	2	电商购物-服装		4067	
+china.makepolo.com/	1	左匹配	9005006001000	3	电商购物-数码-手机		4068	
+/dot	2	右匹配	garbage	-1	垃圾		7830	

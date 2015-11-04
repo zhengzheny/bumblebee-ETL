@@ -80,6 +80,9 @@ public class Constants {
 	public final static String PATH_SOURCE_METADATA_FIELDS = "fields/field";
 	public final static String PATH_SOURCE_METADATA_KAFKA = "kafka";
 	
+	public final static String PATH_DPI_CACHE = "cache";
+	public final static String PATH_DPI_RULE = "rule";
+	
 	public final static String PATH_TRANSFORMS = "transforms";
 	public final static String PATH_TRANSFORM = "transform";
 	public final static String PATH_TRANSFORM_FILTER = "filter";
@@ -128,6 +131,7 @@ public class Constants {
 	public final static String ATTR_DEFAULT_VALUE = "defaultValue";
 	public final static String ATTR_BROKERS = "brokers";
 	public final static String ATTR_TOPICS = "topics";
+	public final static String ATTR_REFURL = "refUrl";
 	
 	public final static String TAG_FIELD = "field";
 	public final static String TAG_INPUTPATH = "inputPath";

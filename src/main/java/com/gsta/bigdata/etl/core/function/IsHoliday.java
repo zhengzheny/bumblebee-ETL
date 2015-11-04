@@ -75,7 +75,7 @@ public class IsHoliday extends AbstractFunction {
 				result = RESULT_WEEKEND;
 			}
 		} catch (ParseException e) {
-			throw new ETLException("date:" + strDate + "format error");
+			throw new ETLException(ETLException.DATE_FORMAT,"date:" + strDate + "format error");
 		}
 		
 		return result;

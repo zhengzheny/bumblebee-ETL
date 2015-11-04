@@ -56,7 +56,7 @@ public class Long2IP extends AbstractFunction {
 			
 			return ip.toString();
 		} catch (Exception ex) {
-			throw new ETLException("transform long:" + longIp
+			throw new ETLException(ETLException.LONG_TO_IP,"transform long:" + longIp
 					+ " to ip occurs error.");
 		}
 	}
