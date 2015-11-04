@@ -33,11 +33,33 @@
 		</sourceMetaData>
 		<outputMetaData outputPath="${outputPath}">
 			<values delimiter="|">
+				<!-- terminalInfo -->
+				<field id="appname" defaultValue="\\N"/>
+				<field id="appversion" defaultValue="\\N"/>
+				<field id="terminalbrand" defaultValue="\\N"/>
+				<field id="terminaltype" defaultValue="\\N"/>
+				<field id="charset" defaultValue="\\N"/>
+				<field id="browser" defaultValue="\\N"/>
+				<field id="osversion" defaultValue="\\N"/>
+				<field id="os" defaultValue="\\N"/>
+				<field id="terminalcategory" defaultValue="\\N"/>
+				<field id="gsn" defaultValue="\\N"/>
+				<field id="matchflag" defaultValue="\\N"/>
+				<field id="urlclassruleid" defaultValue="\\N" />
 				<!-- urlInfo basic -->
 				<field id="urldomain" defaultValue="\\N" />
 				<field id="urlhost" defaultValue="\\N" />
 				<field id="urlpath" defaultValue="\\N" />
 				<field id="urlquery" defaultValue="\\N" />
+				<!-- refInfo -->
+				<field id="refdomain" defaultValue="\\N" />
+				<field id="refhost" defaultValue="\\N" />
+				<field id="refpath" defaultValue="\\N" />
+				<field id="refquery" defaultValue="\\N" />
+				<!-- urlInfo -->
+				<field id="searchkeywords" defaultValue="\\N" />
+				<field id="urlclassid" defaultValue="\\N" />
+				<field id="urlclassruleid" defaultValue="\\N" />
 				<!-- from source -->
 				<field id="ts" desc="starttime" />
 				<field id="ad" desc="account" />
@@ -57,12 +79,42 @@
 		</outputMetaData>
 		<transforms>
 			<transform scope="map">
+				<function name="long2IP" input="srcip" />
+				<function name="long2IP" input="dstip" />
 				<function name="parseURL" input="url">
 					<output id="urldomain" />
 					<output id="urlhost" />
 					<output id="urlpath" />
 					<output id="urlquery" />
 				</function>
+				<function name="parseURL" input="ref">
+					<output id="refdomain" />
+					<output id="refhost" />
+					<output id="refpath" />
+					<output id="refquery" />
+				</function>
+				<function name="parseUserAgent" input="ua" ruleFile="uaRule.properties">
+					<output id="appname" />
+					<output id="appversion" />
+					<output id="terminalbrand" />
+					<output id="terminaltype" />
+					<output id="charset" />
+					<output id="browser" />
+					<output id="osversion" />
+					<output id="os" />
+					<output id="terminalcategory" />
+					<output id="gsn" />
+					<output id="matchflag" />
+					<output id="useragentruleid" />
+					<rule id="" filePath="conf/gz/uaRule.properties" statisFileDir=""/>
+					<cache size="10000" cleanInterval="30" cleanRatio="0.7"/>
+				</function>
+				<function name="getURLClass" input="url" refUrl="ref">
+					<output id="urlclassid" />
+					<output id="urlclassruleid" />
+					<rule id="" filePath="conf/gz/urlClassRule.txt" statisFileDir=""/>
+				</function>
+				<function name="parseSearchKeywords" input="url" output="searchkeywords" ruleFile="conf/gz/searchWordsRule.properties"/>
 			</transform>
 		</transforms>
 	</process>
