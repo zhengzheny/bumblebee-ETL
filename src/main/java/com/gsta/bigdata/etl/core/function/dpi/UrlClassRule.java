@@ -166,10 +166,9 @@ public class UrlClassRule {
 	}
 	
 	/**
-	 * 检查URL是否含有所有关键字
 	 * @param url
 	 * @param keywords
-	 * @param bOrder: 是否需要按照关键字顺序匹配
+	 * @param bOrder
 	 * @return
 	 */
 	protected boolean hasKeywords(String url, boolean bAll, boolean bOrder)
@@ -180,7 +179,7 @@ public class UrlClassRule {
 		}
 		
 		int keyCount = keywords.length;
-		if (keyCount == 1 && keywords[0] != null )//包含一个关键词
+		if (keyCount == 1 && keywords[0] != null )
 		{
 			return url.indexOf(keywords[0]) != -1;
 		}
@@ -198,11 +197,11 @@ public class UrlClassRule {
 				continue;
 			}
 
-			if (k == 0 && !key.equals(""))//以该关键字打头
+			if (k == 0 && !key.equals(""))
 			{
 				if (!url.startsWith(key) && bAll) return false;
 			}
-			else if (k == keyCount - 1 && !key.equals(""))//以该关键字结尾
+			else if (k == keyCount - 1 && !key.equals(""))
 			{
 				if (!url.endsWith(key) && bAll) return false;
 			}

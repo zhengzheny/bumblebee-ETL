@@ -14,12 +14,10 @@ public class UniIDGenerator {
 
 	static {
 		try {
-			//获取当前所在主机的IP地址
 			String ipAddrs = "127.0.0.1";
 			InetAddress addr = InetAddress.getLocalHost();
 			ipAddrs = addr.getHostAddress().toString();
 			
-			//获取进程ID
 			String name = ManagementFactory.getRuntimeMXBean().getName();
 			uniIDPrefix += ipAddrs;
 			uniIDPrefix += name.split("@")[0];
