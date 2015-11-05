@@ -133,7 +133,6 @@ public class GetURLClass extends AbstractFunction {
 		Map<String, String> retMap = new HashMap<String, String>();
 		List<String> outputIds = super.getOutputIds();
 		
-		// 3. 查询分类ID
 		UrlClassRule matchedClassRule = this.lookupUrlClassRule(urlInfo,
 				refInfo);
 		if (matchedClassRule == null) {
@@ -153,7 +152,6 @@ public class GetURLClass extends AbstractFunction {
 				}
 			}
 			
-			// 4. 临时保存统计信息
 			String ruleSource = matchedClassRule.getSource();
 			long matchedCounter = 0;
 			if (ruleMatchedStatsMap.containsKey(ruleSource)){
@@ -189,7 +187,7 @@ public class GetURLClass extends AbstractFunction {
 
 		// 2. lookup in 4 level
 		result = lookupUrlClassIDByClassLevel(urlInfo, refInfo,
-				UrlClassRule.RULE_LEVEL_4);// 类型的第4层级
+				UrlClassRule.RULE_LEVEL_4);
 		if (result != null) {
 			level4Counter++;
 			return result;
@@ -197,7 +195,7 @@ public class GetURLClass extends AbstractFunction {
 
 		// 3. loopup in 3 level
 		result = lookupUrlClassIDByClassLevel(urlInfo, refInfo,
-				UrlClassRule.RULE_LEVEL_3);// 类型的第3层级
+				UrlClassRule.RULE_LEVEL_3);
 		if (result != null) {
 			level3Counter++;
 			return result;
@@ -205,7 +203,7 @@ public class GetURLClass extends AbstractFunction {
 
 		// 4. loopup in 2 level
 		result = lookupUrlClassIDByClassLevel(urlInfo, refInfo,
-				UrlClassRule.RULE_LEVEL_2);// 类型的第2层级
+				UrlClassRule.RULE_LEVEL_2);
 		if (result != null) {
 			level2Counter++;
 			return result;
@@ -213,7 +211,7 @@ public class GetURLClass extends AbstractFunction {
 
 		// 5. loopup in 1 level
 		result = lookupUrlClassIDByClassLevel(urlInfo, refInfo,
-				UrlClassRule.RULE_LEVEL_1);// 类型的第1层级
+				UrlClassRule.RULE_LEVEL_1);
 		if (result != null) {
 			level1Counter++;
 			return result;
@@ -221,19 +219,17 @@ public class GetURLClass extends AbstractFunction {
 
 		// 6. loopup in 0 level
 		result = lookupUrlClassIDByClassLevel(urlInfo, refInfo,
-				UrlClassRule.RULE_LEVEL_0);// unknown类型
+				UrlClassRule.RULE_LEVEL_0);
 		if (result != null) {
 			level0Counter++;
 			return result;
 		}
 
 		// 7. unknow level
-		return null; // unknown类型
+		return null; 
 	}
 
 	/**
-	 * 查找规则库，找到url的分类
-	 * 
 	 * @param url
 	 * @return String
 	 */
@@ -288,8 +284,6 @@ public class GetURLClass extends AbstractFunction {
 	}
 
 	/**
-	 * 搜索字符串
-	 * 
 	 * @param node
 	 * @param searchStr
 	 * @param num

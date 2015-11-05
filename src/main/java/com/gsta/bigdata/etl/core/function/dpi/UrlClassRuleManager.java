@@ -272,8 +272,6 @@ public class UrlClassRuleManager implements IRuleMgr {
 	}
 
 	/**
-	 * 解析规则数据
-	 * 
 	 * @param line
 	 * @return
 	 */

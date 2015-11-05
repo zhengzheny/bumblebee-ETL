@@ -276,7 +276,7 @@ public class PgwXMLByString extends AbstractSourceMetaData {
 	}
 
 	// split gpp2UserLocation to SID,NID,CellID
-	private void splitGpp2UserLocation(String gpp2UserLocation, ETLData data) {
+	private void splitGpp2UserLocation(String gpp2UserLocation, ETLData data) throws ETLException{
 		if (gpp2UserLocation == null || gpp2UserLocation.trim().length() <= 0) {
 			data.addData(TAG_SID, "");
 			data.addData(TAG_NID, "");
@@ -284,20 +284,24 @@ public class PgwXMLByString extends AbstractSourceMetaData {
 			return;
 		}
 		// split gpp2UserLocation,every two lengths add into array
-		List<String> list = getList(gpp2UserLocation.substring(2), 2);
+		try {
+			List<String> list = getList(gpp2UserLocation.substring(2), 2);
 
-		String sid = getIDByList(list.subList(0, 4));
-		data.addData(TAG_SID, sid);
+			String sid = getIDByList(list.subList(0, 4));
+			data.addData(TAG_SID, sid);
 
-		String nid = getIDByList(list.subList(4, 8));
-		data.addData(TAG_NID, nid);
+			String nid = getIDByList(list.subList(4, 8));
+			data.addData(TAG_NID, nid);
 
-		String cellId = getIDByList(list.subList(8, 12));
-		data.addData(TAG_CELLID, cellId);
+			String cellId = getIDByList(list.subList(8, 12));
+			data.addData(TAG_CELLID, cellId);
+		} catch (Exception e) {
+			throw new ETLException("gpp2UserLocation:" + gpp2UserLocation + " split error");
+		}
 	}
 
 	// split userLocation to PLMN,TAI,ECGI
-	private void splitUserLocation(String userLocation, ETLData data) {
+	private void splitUserLocation(String userLocation, ETLData data) throws ETLException{
 		if (userLocation == null || userLocation.trim().length() <= 0) {
 			data.addData(TAG_PLMN, "");
 			data.addData(TAG_TAI, "");
@@ -305,16 +309,20 @@ public class PgwXMLByString extends AbstractSourceMetaData {
 			return;
 		}
 		// split userLocation,every two lengths add into array
-		List<String> list = getList(userLocation.substring(4), 2);
+		try {
+			List<String> list = getList(userLocation.substring(4), 2);
 
-		String plmn = getPLMN(list.subList(0, 3));
-		data.addData(TAG_PLMN, plmn);
+			String plmn = getPLMN(list.subList(0, 3));
+			data.addData(TAG_PLMN, plmn);
 
-		String tai = getTAIOrECGI(list.subList(3, 5));
-		data.addData(TAG_TAI, tai);
+			String tai = getTAIOrECGI(list.subList(3, 5));
+			data.addData(TAG_TAI, tai);
 
-		String ecgi = getTAIOrECGI(list.subList(8, 12));
-		data.addData(TAG_ECGI, ecgi);
+			String ecgi = getTAIOrECGI(list.subList(8, 12));
+			data.addData(TAG_ECGI, ecgi);
+		} catch (Exception e) {
+			throw new ETLException("userLocation:" + userLocation + " split error");
+		}
 	}
 
 	private List<String> getList(String str, int length) {
