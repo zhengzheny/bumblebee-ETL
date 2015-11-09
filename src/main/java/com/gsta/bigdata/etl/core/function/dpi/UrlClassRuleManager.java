@@ -15,14 +15,14 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.gsta.bigdata.etl.core.GeneralRuleMgr;
 import com.gsta.bigdata.etl.core.IRuleMgr;
 import com.gsta.bigdata.utils.FileUtils;
 
 public class UrlClassRuleManager implements IRuleMgr {
 	@JsonIgnore
-	public final Logger logger = LoggerFactory
-			.getLogger(getClass());
-	
+	public final Logger logger = LoggerFactory.getLogger(getClass());
+
 	private final int RULE_INDEX_KEY_LENGTH = 2;
 	private final String validChars = "abcdefghijklmnopqrstuvwxyz0123456789./?=&_%\\|^$";
 	private static final Pattern validRuleCheckPatn = Pattern.compile(
@@ -30,6 +30,10 @@ public class UrlClassRuleManager implements IRuleMgr {
 
 	private String ruleDelimiter = "\t";
 	private String ruleCharset = "UTF-8";
+
+	private DpiRule dpiRule;
+	
+	private String statInfo;
 
 	private Map<String, String> ruleCheckMap = new HashMap<String, String>(
 			10000);
@@ -44,7 +48,7 @@ public class UrlClassRuleManager implements IRuleMgr {
 	/**
 	 * init data
 	 */
-	public void init(String path) throws IOException {
+	public void init() throws IOException {
 		printJVMInfo("debug:load before--");
 		long loadStartTime = System.currentTimeMillis();
 		if (ruleCheckMap != null) {
@@ -53,7 +57,10 @@ public class UrlClassRuleManager implements IRuleMgr {
 			ruleCheckMap = new HashMap<String, String>();
 		}
 		// 1. load rules
-		loadUrlClassRules(path);
+		this.dpiRule = GeneralRuleMgr.getInstance().getDpiRuleById(
+				getClass().getSimpleName());
+		String filePath = this.dpiRule.getFilePath();
+		loadUrlClassRules(filePath);
 		if (ruleCheckMap != null) {
 			ruleCheckMap.clear();
 		}
@@ -318,22 +325,22 @@ public class UrlClassRuleManager implements IRuleMgr {
 		{
 			keywords = sampleRule.split(UrlClassRule.RULE_WILDCARD_SYMBOLS, -1);
 		} else if (UrlClassRule.RULE_MATCH_LEFT.equals(typeId))
-			// 1-left match
+		// 1-left match
 		{
 			keywords = sampleRule.split(UrlClassRule.RULE_WILDCARD_SYMBOLS, -1);
 		} else if (UrlClassRule.RULE_MATCH_RIGHT.equals(typeId))
-			// 2-right match
+		// 2-right match
 		{
 			keywords = sampleRule.split(UrlClassRule.RULE_WILDCARD_SYMBOLS, -1);
 		} else if (UrlClassRule.RULE_MATCH_ANY.equals(typeId))
-			// 3-any match
+		// 3-any match
 		{
 			keywords = sampleRule.split(UrlClassRule.RULE_WILDCARD_SYMBOLS, -1);
 		} else if (UrlClassRule.RULE_MATCH_LEFT_RIGHT.equals(typeId)) {
 			// 4-left and right match
 			keywords = sampleRule.split(UrlClassRule.RULE_WILDCARD_SYMBOLS, -1);
 		} else if (UrlClassRule.RULE_MATCH_REGULAR.equals(typeId))
-			// 5-regular match
+		// 5-regular match
 		{
 			if (keywordsStr != null)
 				keywords = keywordsStr.split(
@@ -344,19 +351,21 @@ public class UrlClassRuleManager implements IRuleMgr {
 
 		String ruleID = null;
 		if (inputSplitedFields.length > 7) {
-			ruleID = inputSplitedFields[UrlClassRule.RULE_FIELD_ID_INDEX].trim();
+			ruleID = inputSplitedFields[UrlClassRule.RULE_FIELD_ID_INDEX]
+					.trim();
 		}
 
 		int priority = 100;
 		if (inputSplitedFields.length > 8) {
-			String priorityStr = inputSplitedFields[UrlClassRule.RULE_FIELD_PRIORITY_INDEX].trim();
+			String priorityStr = inputSplitedFields[UrlClassRule.RULE_FIELD_PRIORITY_INDEX]
+					.trim();
 			if (priorityStr != null && priorityStr.length() > 0) {
 				priority = Integer.parseInt(priorityStr);
 			}
 		}
 
 		UrlClassRule rule = createNewUrlClassRule(typeId);
-		if (rule == null){
+		if (rule == null) {
 			return null;
 		}
 		rule.setSource(line);
@@ -541,11 +550,22 @@ public class UrlClassRuleManager implements IRuleMgr {
 		logger.info(prefix + " mem free=" + fmem / 1024 / 1024 + " MB");
 		logger.info(prefix + " mem max=" + mmem / 1024 / 1024 + " MB");
 	}
+	
+
+	public void setStatInfo(String statInfo) {
+		this.statInfo = statInfo;
+	}
+	
+	@Override
+	@JsonIgnore
+	public DpiRule getDpiRule() {
+		return dpiRule;
+	}
 
 	@Override
 	@JsonIgnore
 	public String getStatInfo() {
-		return null;
+		return this.statInfo;
 	}
 
 	@Override
@@ -557,13 +577,19 @@ public class UrlClassRuleManager implements IRuleMgr {
 	@Override
 	@JsonIgnore
 	public String getId() {
-		return null;
+		return this.dpiRule.getId();
 	}
 
 	@Override
 	@JsonIgnore
 	public String getStatisFileDir() {
-		return null;
+		return this.dpiRule.getStatisFileDir();
+	}
+
+	@Override
+	@JsonIgnore
+	public String getFilePath() {
+		return this.dpiRule.getFilePath();
 	}
 
 }

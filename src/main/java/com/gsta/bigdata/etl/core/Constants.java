@@ -81,6 +81,7 @@ public class Constants {
 	public final static String PATH_SOURCE_METADATA_KAFKA = "kafka";
 	
 	public final static String PATH_DPI_CACHE = "cache";
+	public final static String PATH_DPI_FUNCTIONRULES = "functionRules";
 	public final static String PATH_DPI_RULE = "rule";
 	
 	public final static String PATH_TRANSFORMS = "transforms";

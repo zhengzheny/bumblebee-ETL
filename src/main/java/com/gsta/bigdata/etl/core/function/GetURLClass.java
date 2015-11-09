@@ -5,26 +5,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.xpath.XPathExpressionException;
-
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.api.client.repackaged.com.google.common.base.Preconditions;
 import com.gsta.bigdata.etl.ETLException;
 import com.gsta.bigdata.etl.core.ChildrenTag;
 import com.gsta.bigdata.etl.core.Constants;
+import com.gsta.bigdata.etl.core.GeneralRuleMgr;
+import com.gsta.bigdata.etl.core.IRuleMgr;
 import com.gsta.bigdata.etl.core.ParseException;
 import com.gsta.bigdata.etl.core.ShellContext;
-import com.gsta.bigdata.etl.core.function.dpi.DpiRule;
 import com.gsta.bigdata.etl.core.function.dpi.RuleMatchCounter;
 import com.gsta.bigdata.etl.core.function.dpi.UrlClassRule;
 import com.gsta.bigdata.etl.core.function.dpi.UrlClassRuleManager;
 import com.gsta.bigdata.etl.core.function.dpi.UrlClassRuleTreeNode;
 import com.gsta.bigdata.etl.core.function.dpi.UrlInfo;
 import com.gsta.bigdata.etl.core.function.dpi.UrlSplitter;
-import com.gsta.bigdata.utils.XmlTools;
 
 /**
  * 
@@ -34,21 +30,24 @@ import com.gsta.bigdata.utils.XmlTools;
 @SuppressWarnings("unused")
 public class GetURLClass extends AbstractFunction {
 	private static final long serialVersionUID = -6865479793149590382L;
-	
+
 	@JsonProperty
 	private String inputField;
 	@JsonProperty
 	private String refUrlField;
 	private String ruleFilePath;
-	
-	@JsonProperty
-	private DpiRule dpiRule;
-	
+	private String ref;
+
 	@JsonProperty
 	private UrlClassRuleManager ruleManager;
-	
+
 	private RuleMatchCounter ruleCounter = new RuleMatchCounter();
 
+	private	long inputCounter = 0;		
+	private	long matchingCounter = 0;		
+	private	long matchedCounter = 0;		
+	private	long invalidCounter = 0;	
+	private	long unmatchedCounter = 0;
 	private long level0Counter = 0;
 	private long level1Counter = 0;
 	private long level2Counter = 0;
@@ -57,18 +56,16 @@ public class GetURLClass extends AbstractFunction {
 	private long level5Counter = 0;
 	private long level6Counter = 0;
 	private long levelspamCounter = 0;
-	private long matchingCounter = 0;
 
 	@JsonProperty
 	private Map<String, Long> ruleMatchedStatsMap = new HashMap<String, Long>(
 			10000);
-	
 
 	public GetURLClass() {
 		super();
-		
-		super.registerChildrenTags(new ChildrenTag(
-				Constants.PATH_DPI_RULE,ChildrenTag.NODE));
+
+		super.registerChildrenTags(new ChildrenTag(Constants.PATH_DPI_RULE,
+				ChildrenTag.NODE));
 	}
 
 	@Override
@@ -77,29 +74,25 @@ public class GetURLClass extends AbstractFunction {
 
 		this.inputField = super.getAttr(Constants.ATTR_INPUT);
 		this.refUrlField = super.getAttr(Constants.ATTR_REFURL);
-	}
-	
-	
-	@Override
-	public void init(Element element) throws ParseException {
-		super.init(element);
-		
-		this.ruleFilePath = this.dpiRule.getFilePath();
-		ruleManager = new UrlClassRuleManager();
-		try {
-			ruleManager.init(this.ruleFilePath);
-		} catch (IOException e) {
-			throw new ParseException(e);
-		}
+		this.ref = super.getAttr(Constants.ATTR_REF);
 	}
 
 	@Override
-	protected void createChildNode(Element node) throws ParseException {
-		super.createChildNode(node);
-		
-		if(node.getNodeName().equals(Constants.PATH_DPI_RULE)){
-			this.dpiRule = new DpiRule();
-			this.dpiRule.init(node);
+	public void init(Element element) throws ParseException {
+		super.init(element);
+
+		IRuleMgr mgr = GeneralRuleMgr.getInstance().getRuleMgrById(this.ref);
+		if (mgr instanceof UrlClassRuleManager) {
+			this.ruleManager = (UrlClassRuleManager) mgr;
+		}
+		if (ruleManager == null) {
+			throw new ParseException("can't find rule:" + ref);
+		}
+
+		try {
+			ruleManager.init();
+		} catch (IOException e) {
+			throw new ParseException(e);
 		}
 	}
 
@@ -120,28 +113,25 @@ public class GetURLClass extends AbstractFunction {
 			return null;
 		}
 
-		UrlInfo urlInfo = UrlSplitter.split(url, null);
-		UrlInfo refInfo = UrlSplitter.split(ref, null);
+		UrlInfo urlInfo = UrlSplitter.split(url);
+		UrlInfo refInfo = UrlSplitter.split(ref);
 
-		// inputCounter++;
+		inputCounter++;
 
 		if (urlInfo == null || urlInfo.getUrl() == null) {
-			// invalidCounter++;
+			invalidCounter++;
 			return null;
 		}
 
 		Map<String, String> retMap = new HashMap<String, String>();
 		List<String> outputIds = super.getOutputIds();
-		
+
 		UrlClassRule matchedClassRule = this.lookupUrlClassRule(urlInfo,
 				refInfo);
 		if (matchedClassRule == null) {
 			for (int i = 0; i < outputIds.size(); i++) {
-				if (i == 0) {
-					retMap.put(outputIds.get(i), null);
-				} else if (i == 1) {
-					retMap.put(outputIds.get(i), null);
-				}
+				unmatchedCounter++;
+				retMap.put(outputIds.get(i), null);
 			}
 		} else {
 			for (int i = 0; i < outputIds.size(); i++) {
@@ -151,19 +141,42 @@ public class GetURLClass extends AbstractFunction {
 					retMap.put(outputIds.get(i), matchedClassRule.getRuleId());
 				}
 			}
-			
+
 			String ruleSource = matchedClassRule.getSource();
 			long matchedCounter = 0;
-			if (ruleMatchedStatsMap.containsKey(ruleSource)){
+			if (ruleMatchedStatsMap.containsKey(ruleSource)) {
 				matchedCounter = ruleMatchedStatsMap.get(ruleSource) + 1;
-			}
-			else{
+			} else {
 				matchedCounter = 1;
 			}
 			ruleMatchedStatsMap.put(ruleSource, matchedCounter);
 		}
+		
+		//set statInfo
+		String statInfo = getStatInfo();
+		ruleManager.setStatInfo(statInfo);
 
 		return retMap;
+	}
+
+	private String getStatInfo() {
+		String statInfo = "\r\n";
+		matchedCounter = levelspamCounter + level0Counter + level1Counter
+				+ level2Counter + level3Counter + level4Counter + level5Counter
+				+ level6Counter;
+		statInfo += "--total input records: " + inputCounter + "\r\n";
+		statInfo += "--total invalid records: " + invalidCounter + "\r\n";
+		statInfo += "--total unmatched records: " + unmatchedCounter + "\r\n";
+		statInfo += "--total matched records: " + matchedCounter + "\r\n";
+		statInfo += "----level-spam matched: " + levelspamCounter + "\r\n";
+		statInfo += "----level-0 matched: " + level0Counter + "\r\n";
+		statInfo += "----level-1 matched: " + level1Counter + "\r\n";
+		statInfo += "----level-2 matched: " + level2Counter + "\r\n";
+		statInfo += "----level-3 matched: " + level3Counter + "\r\n";
+		statInfo += "----level-4 matched: " + level4Counter + "\r\n";
+		statInfo += "--total matching times: " + matchingCounter + "\r\n";
+		
+		return statInfo;
 	}
 
 	/**
@@ -226,7 +239,7 @@ public class GetURLClass extends AbstractFunction {
 		}
 
 		// 7. unknow level
-		return null; 
+		return null;
 	}
 
 	/**

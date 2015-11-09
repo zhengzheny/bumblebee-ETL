@@ -26,6 +26,7 @@ public class ZteENODEBXML extends AbstractSourceMetaData {
 	private static final long serialVersionUID = 4972621315058493751L;
 
 	private String beginMeasData = "<measData>";
+	private String beginMeasCollec = "<measCollec";
 
 	private String beginTime;
 	private ETLData etlData = new ETLData();
@@ -75,7 +76,7 @@ public class ZteENODEBXML extends AbstractSourceMetaData {
 			this.etlData.clear();
 		}
 
-		if (StringUtils.isBlank(this.beginTime)) {
+		if (line.startsWith(beginMeasCollec)) {
 			this.beginTime = this.getAttrValue(line, ATTR_BEGINTIME);
 			if (StringUtils.isNotBlank(this.beginTime)) {
 				try {
@@ -149,7 +150,7 @@ public class ZteENODEBXML extends AbstractSourceMetaData {
 	}
 
 	private String getAttrValue(String str, String attrName) {
-		if (StringUtils.isBlank(str) || StringUtils.isBlank(attrName)) {
+		if (attrName == null || attrName.trim().length() == 0) {
 			return null;
 		}
 
@@ -157,8 +158,9 @@ public class ZteENODEBXML extends AbstractSourceMetaData {
 		int index = str.indexOf(attrName);
 		if (index != -1) {
 			int begin = index + attrName.length() + 2;
-			int end = str.lastIndexOf("\"");
-			ret = str.substring(begin, end);
+			String temp = str.substring(begin);
+			int end = temp.indexOf("\"");
+			ret = temp.substring(0, end);
 		}
 
 		return ret;

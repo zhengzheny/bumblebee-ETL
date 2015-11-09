@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.gsta.bigdata.etl.core.GeneralRuleMgr;
 import com.gsta.bigdata.etl.core.IRuleMgr;
 import com.gsta.bigdata.utils.FileUtils;
 
@@ -30,15 +31,20 @@ public class UserAgentRuleManager implements IRuleMgr{
 	public static final String SERVICE_RULE_INDEX_DELIMITER = ",";
 	
 	private static final String PARAM_RULE_KEY_PREFIX = "rule@";
-	//private static final String PARAM_SERVICE_KEY_PREFIX = "service.key.prefix";
 	private static final String PARAM_INPUT_USERAGENT_KEYWORDS = "input.useragent.keywords";
 
 	@JsonProperty
 	private Map<String, UseragentParserRule[]> serviceRuleMap = new HashMap<String, UseragentParserRule[]>(); 
 	@JsonProperty
 	private UseragentParserRule[] allUeragentRules;
-	@JsonProperty
+	
+	private Map<String, Long> ruleMatchedStats = new HashMap<String, Long>();
+
 	private static Pattern useragentKeywordPattern;
+	
+	private DpiRule dpiRule;
+	
+	private String statInfo;
 	
 	private Properties properties = new Properties();
 	@JsonIgnore
@@ -52,19 +58,20 @@ public class UserAgentRuleManager implements IRuleMgr{
 		UserAgentRuleManager.useragentKeywordPattern = useragentKeywordPattern;
 	}
 
-	
-	
 	public UserAgentRuleManager() {
 		
 	}
 
-	public void init(String path)
+	public void init()
 	{
-		initAllRuleList(path);
+		this.dpiRule = GeneralRuleMgr.getInstance().getDpiRuleById(getClass().getSimpleName());
+		String filePath = this.dpiRule.getFilePath();
+				
+		initAllRuleList(filePath);
 
 		//initServiceRuleAfterAllRuleListLoaded(path);
 
-		initKeywordsRule(path);
+		initKeywordsRule(filePath);
 	}
 	
 	/**
@@ -329,28 +336,48 @@ public class UserAgentRuleManager implements IRuleMgr{
 		return rule;
 	}
 	
+	public void setStatInfo(String statInfo) {
+		this.statInfo = statInfo;
+	}
+	
+	@Override
+	@JsonIgnore
+	public DpiRule getDpiRule() {
+		return dpiRule;
+	}
+
 	@Override
 	@JsonIgnore
 	public String getStatInfo() {
-		return null;
+		return statInfo;
+	}
+	
+	public void setRuleMatchedStats(Map<String, Long> ruleMatchedStats) {
+		this.ruleMatchedStats = ruleMatchedStats;
 	}
 
 	@Override
 	@JsonIgnore
 	public Map<String, Long> getRuleMatchedStats() {
-		return null;
+		return ruleMatchedStats;
 	}
 	
 	@Override
 	@JsonIgnore
 	public String getId() {
-		return null;
+		return this.dpiRule.getId();
 	}
 
 	@Override
 	@JsonIgnore
 	public String getStatisFileDir() {
-		return null;
+		return this.dpiRule.getStatisFileDir();
+	}
+
+	@Override
+	@JsonIgnore
+	public String getFilePath() {
+		return this.dpiRule.getFilePath();
 	}
 	
 }

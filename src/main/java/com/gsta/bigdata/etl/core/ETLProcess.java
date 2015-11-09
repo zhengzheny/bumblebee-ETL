@@ -37,10 +37,14 @@ public class ETLProcess extends AbstractETLObject {
 	private ShellContext etlContext;
 	@JsonProperty
 	private OutputMetaData outputMetaData;
+	
+	private GeneralRuleMgr generalRuleMgr;
 
 	public ETLProcess() {
 		super.tagName = Constants.PATH_PROCESS;
 
+		super.registerChildrenTags(new ChildrenTag(
+				Constants.PATH_DPI_FUNCTIONRULES, ChildrenTag.NODE));
 		super.registerChildrenTags(new ChildrenTag(
 				Constants.PATH_COMPUTING_FRAMEWORK_CONFIGS, ChildrenTag.NODE));
 		super.registerChildrenTags(new ChildrenTag(
@@ -85,6 +89,9 @@ public class ETLProcess extends AbstractETLObject {
 		}else if (node.getNodeName().equals(Constants.PATH_OUTPUT_METADATA)) {
 			this.outputMetaData = new OutputMetaData();
 			this.outputMetaData.init(node);
+		}else if(node.getNodeName().equals(Constants.PATH_DPI_FUNCTIONRULES)){
+			this.generalRuleMgr = GeneralRuleMgr.getInstance();
+			this.generalRuleMgr.init(node);
 		}
 	}
 
@@ -298,4 +305,5 @@ public class ETLProcess extends AbstractETLObject {
 	public AbstractSourceMetaData getSourceMetaData() {
 		return sourceMetaData;
 	}
+
 }

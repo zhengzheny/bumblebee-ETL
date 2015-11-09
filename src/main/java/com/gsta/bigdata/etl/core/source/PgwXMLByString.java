@@ -270,7 +270,7 @@ public class PgwXMLByString extends AbstractSourceMetaData {
 			return data;
 
 		} catch (ETLException e) {
-			throw new ETLException(e);
+			throw new ETLException(xmlList.toString() + "," + e.toString());
 		}
 
 	}
@@ -296,7 +296,7 @@ public class PgwXMLByString extends AbstractSourceMetaData {
 			String cellId = getIDByList(list.subList(8, 12));
 			data.addData(TAG_CELLID, cellId);
 		} catch (Exception e) {
-			throw new ETLException("gpp2UserLocation:" + gpp2UserLocation + " split error");
+			throw new ETLException(ETLException.GPP2USERLOCATION_SPLIT_ERROR,"gpp2UserLocation:" + gpp2UserLocation + " split error");
 		}
 	}
 
@@ -321,7 +321,7 @@ public class PgwXMLByString extends AbstractSourceMetaData {
 			String ecgi = getTAIOrECGI(list.subList(8, 12));
 			data.addData(TAG_ECGI, ecgi);
 		} catch (Exception e) {
-			throw new ETLException("userLocation:" + userLocation + " split error");
+			throw new ETLException(ETLException.USERLOCATION_SPLIT_ERROR,"userLocation:" + userLocation + " split error");
 		}
 	}
 

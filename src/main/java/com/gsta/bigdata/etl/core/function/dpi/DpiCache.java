@@ -1,12 +1,5 @@
 package com.gsta.bigdata.etl.core.function.dpi;
 
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.gsta.bigdata.etl.core.AbstractETLObject;
-import com.gsta.bigdata.etl.core.Constants;
-import com.gsta.bigdata.etl.core.ParseException;
 
 /**
  * parse function cache
@@ -14,14 +7,9 @@ import com.gsta.bigdata.etl.core.ParseException;
  * @author shine
  *
  */
-public class DpiCache extends AbstractETLObject {
-	private static final long serialVersionUID = 3730164067546516461L;
-	
-	@JsonProperty
+public class DpiCache {
 	private String size;
-	@JsonProperty
 	private String cleanInterval;
-	@JsonProperty
 	private String cleanRatio;
 
 	public final static String ATTR_SIZE = "size";
@@ -29,26 +17,19 @@ public class DpiCache extends AbstractETLObject {
 	public final static String ATTR_CLEANRATIO = "cleanRatio";
 
 	public DpiCache() {
-		super();
 
-		super.tagName = Constants.PATH_DPI_CACHE;
 	}
 
-	@Override
-	protected void initAttrs(Element element) throws ParseException {
-		this.size = super.getAttr(ATTR_SIZE);
-		this.cleanInterval = super.getAttr(ATTR_CLEANINTERVAL);
-		this.cleanRatio = super.getAttr(ATTR_CLEANRATIO);
+	public void setSize(String size) {
+		this.size = size;
 	}
 
-	@Override
-	protected void createChildNode(Element node) throws ParseException {
-		// has no child
+	public void setCleanInterval(String cleanInterval) {
+		this.cleanInterval = cleanInterval;
 	}
 
-	@Override
-	protected void createChildNodeList(NodeList nodeList) throws ParseException {
-		// has no child list
+	public void setCleanRatio(String cleanRatio) {
+		this.cleanRatio = cleanRatio;
 	}
 
 	public String getSize() {
