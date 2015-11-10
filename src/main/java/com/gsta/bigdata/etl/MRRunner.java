@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
@@ -37,7 +36,7 @@ import org.slf4j.LoggerFactory;
 import com.gsta.bigdata.etl.core.Constants;
 import com.gsta.bigdata.etl.core.ETLProcess;
 import com.gsta.bigdata.etl.core.IRuleMgr;
-import com.gsta.bigdata.etl.core.RuleStatisMgr;
+import com.gsta.bigdata.etl.core.GeneralRuleMgr;
 import com.gsta.bigdata.etl.core.WriteLog;
 import com.gsta.bigdata.etl.core.source.InputPath;
 import com.gsta.bigdata.etl.mapreduce.ErrorCodeCount;
@@ -89,7 +88,7 @@ public class MRRunner extends Configured implements Tool, IRunner {
 
 		conf.set(Constants.HADOOP_CONF_ETLPROCESS,
 				BeansUtils.obj2json(this.process));
-		conf.set(Constants.JSON_RULE_STATIS_MGR, BeansUtils.obj2json(RuleStatisMgr.getInstance()));
+		conf.set(Constants.JSON_RULE_STATIS_MGR, BeansUtils.obj2json(GeneralRuleMgr.getInstance()));
 
 		Date startTime = new Date();
 		Job job = Job.getInstance(conf, this.process.getId());
@@ -171,10 +170,12 @@ public class MRRunner extends Configured implements Tool, IRunner {
 				TextOutputFormat.class, Text.class, Text.class);
 		
 		//rule manager statistical information output
-		Set<IRuleMgr> ruleMgrs = RuleStatisMgr.getInstance().getRuleMgrs();
-		for (IRuleMgr ruleMgr : ruleMgrs) {
-			MultipleOutputs.addNamedOutput(job, ruleMgr.getId(),
-					TextOutputFormat.class, Text.class, Text.class);
+		Map<String,IRuleMgr> ruleMgrs = GeneralRuleMgr.getInstance().getRuleMgrs();
+		for (IRuleMgr ruleMgr : ruleMgrs.values()) {
+			if(ruleMgr.getDpiRule() != null){
+				MultipleOutputs.addNamedOutput(job, ruleMgr.getId(),
+						TextOutputFormat.class, Text.class, Text.class);
+			}
 		}
 
 		int complete = job.waitForCompletion(true) ? 0 : 1;

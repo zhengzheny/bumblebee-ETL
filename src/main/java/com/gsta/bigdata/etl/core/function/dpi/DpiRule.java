@@ -3,7 +3,6 @@ package com.gsta.bigdata.etl.core.function.dpi;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gsta.bigdata.etl.core.AbstractETLObject;
 import com.gsta.bigdata.etl.core.Constants;
 import com.gsta.bigdata.etl.core.ParseException;
@@ -16,11 +15,8 @@ import com.gsta.bigdata.etl.core.ParseException;
 public class DpiRule extends AbstractETLObject {
 	private static final long serialVersionUID = 3387417710216086627L;
 	
-	@JsonProperty
 	private String id;
-	@JsonProperty
 	private String filePath;
-	@JsonProperty
 	private String statisFileDir;
 	
 	public final static String ATTR_ID = "id";

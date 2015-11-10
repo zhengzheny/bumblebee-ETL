@@ -20,7 +20,7 @@ import com.gsta.bigdata.etl.core.Constants;
 import com.gsta.bigdata.etl.core.ETLData;
 import com.gsta.bigdata.etl.core.ETLProcess;
 import com.gsta.bigdata.etl.core.IRuleMgr;
-import com.gsta.bigdata.etl.core.RuleStatisMgr;
+import com.gsta.bigdata.etl.core.GeneralRuleMgr;
 import com.gsta.bigdata.etl.core.source.ValidatorException;
 import com.gsta.bigdata.utils.BeansUtils;
 
@@ -69,9 +69,9 @@ public class ETLMapper extends Mapper<Object, Text, Text, Text> {
 		}
 
 		json = context.getConfiguration().get(Constants.JSON_RULE_STATIS_MGR);
-		RuleStatisMgr ruleStatisMgr = BeansUtils.json2obj(json, RuleStatisMgr.class);
+		GeneralRuleMgr ruleStatisMgr = BeansUtils.json2obj(json, GeneralRuleMgr.class);
 		if(ruleStatisMgr != null){
-			RuleStatisMgr.getInstance().clone(ruleStatisMgr);
+			GeneralRuleMgr.getInstance().clone(ruleStatisMgr);
 		}
 
 		this.errorPath = this.process.getErrorPath();
@@ -154,6 +154,12 @@ public class ETLMapper extends Mapper<Object, Text, Text, Text> {
 	private void recordErrorInfo(AbstractException e) {
 		String errorCode = e.getErrorCode();
 		String errorMessage = e.getMessage();
+		
+		if(errorCode == null || errorCode.trim().length() <=0){
+			logger.error("errorCode:" + errorCode + ",errorMessage:" + errorMessage);
+			return;
+		}
+		
 		//if map key contain error code,error count add one,else create new ErrorCodeCount
 		if (this.errorInfos.containsKey(errorCode)) {
 			this.errorInfos.get(errorCode).addCount();
@@ -235,9 +241,9 @@ public class ETLMapper extends Mapper<Object, Text, Text, Text> {
 	}
 
 	private void writeRuleStatis() throws IOException, InterruptedException {
-		Set<IRuleMgr> ruleMgrs = RuleStatisMgr.getInstance().getRuleMgrs();
-		for (IRuleMgr ruleMgr : ruleMgrs) {
-			if (ruleMgr == null) {
+		Map<String,IRuleMgr> ruleMgrs = GeneralRuleMgr.getInstance().getRuleMgrs();
+		for (IRuleMgr ruleMgr : ruleMgrs.values()) {
+			if (ruleMgr == null || ruleMgr.getDpiRule() == null) {
 				continue;
 			}
 			
@@ -247,11 +253,13 @@ public class ETLMapper extends Mapper<Object, Text, Text, Text> {
 
 			sb.append("==========rule matched information===============\r\n");
 			Map<String, Long> ruleStatis = ruleMgr.getRuleMatchedStats();
-			for (Map.Entry<String, Long> mapEntry : ruleStatis.entrySet()) {
-				String key = (String) mapEntry.getKey();
-				Long value = (Long) mapEntry.getValue();
-				sb.append(value.longValue()).append("\t").append(key)
-						.append("\r\n");
+			if(ruleStatis != null){
+				for (Map.Entry<String, Long> mapEntry : ruleStatis.entrySet()) {
+					String key = (String) mapEntry.getKey();
+					Long value = (Long) mapEntry.getValue();
+					sb.append(value.longValue()).append("\t").append(key)
+							.append("\r\n");
+				}
 			}
 
 			String dir = ruleMgr.getStatisFileDir();

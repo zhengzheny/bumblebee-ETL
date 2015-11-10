@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.gsta.bigdata.etl.core.GeneralRuleMgr;
 import com.gsta.bigdata.etl.core.IRuleMgr;
 import com.gsta.bigdata.utils.FileUtils;
 
@@ -29,6 +30,8 @@ public class SearchWordsRuleManager implements IRuleMgr{
 	private Properties properties = new Properties();
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	
+	private DpiRule dpiRule;
+	
 	private static final String RULE_DELIMITER = "|";
 	private static final String PARAM_URL_KEY_PREFIX = "SearchWordsRule@";
 	
@@ -36,9 +39,11 @@ public class SearchWordsRuleManager implements IRuleMgr{
 		
 	}
 
-	public void init(String path)
+	public void init()
 	{
-		Map<Integer,String> fmtedRuleItems = formatRules(path,PARAM_URL_KEY_PREFIX);
+		this.dpiRule = GeneralRuleMgr.getInstance().getDpiRuleById(getClass().getSimpleName());
+		String filePath = this.dpiRule.getFilePath();
+		Map<Integer,String> fmtedRuleItems = formatRules(filePath,PARAM_URL_KEY_PREFIX);
 		if (fmtedRuleItems == null)
 		{
 			return;
@@ -196,6 +201,12 @@ public class SearchWordsRuleManager implements IRuleMgr{
 		rule.setDecoder(decoder);
 		return rule;
 	}
+	
+	@Override
+	@JsonIgnore
+	public DpiRule getDpiRule() {
+		return dpiRule;
+	}
 
 	@Override
 	@JsonIgnore
@@ -214,14 +225,18 @@ public class SearchWordsRuleManager implements IRuleMgr{
 	@Override
 	@JsonIgnore
 	public String getId() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.dpiRule.getId();
 	}
 
 	@Override
 	@JsonIgnore
 	public String getStatisFileDir() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.dpiRule.getStatisFileDir();
+	}
+
+	@Override
+	@JsonIgnore
+	public String getFilePath() {
+		return this.dpiRule.getFilePath();
 	}
 }

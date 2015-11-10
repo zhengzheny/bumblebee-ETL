@@ -13,7 +13,7 @@ public class UrlSplitter {
 	UrlSplitter() {
 	}
 
-	public static UrlInfo split(String fullURL, String defaultValue)
+	public static UrlInfo split(String fullURL)
 	{
 		if (fullURL == null)
 		{
@@ -22,9 +22,9 @@ public class UrlSplitter {
 		
 		String url = fullURL;
 		//String urlDomain = defaultValue;
-		String urlHost = defaultValue;
-		String urlPath = defaultValue;
-		String urlQuery = defaultValue;
+		String urlHost = null;
+		String urlPath = null;
+		String urlQuery = null;
 
 		UrlInfo urlInfo = new UrlInfo();
 		urlInfo.setUrl(url);
@@ -33,8 +33,6 @@ public class UrlSplitter {
 		if (pathIndex < 0) {
 			urlInfo.setDomain(getDomainFromUrlHost(fullURL));
 			urlInfo.setHost(fullURL);
-			urlInfo.setPath(defaultValue);
-			urlInfo.setQuery(defaultValue);
 			
 			return urlInfo;
 		} else if (pathIndex == 0) {
@@ -45,13 +43,7 @@ public class UrlSplitter {
 				urlQuery = urlPath.substring(queryIndex + 1);
 				urlPath = urlPath.substring(0, queryIndex);
 			}
-			else
-			{
-				urlQuery = defaultValue;
-			}
 
-			urlInfo.setDomain(defaultValue);
-			urlInfo.setHost(defaultValue);
 			urlInfo.setPath(urlPath);
 			urlInfo.setQuery(urlQuery);
 			return urlInfo;
@@ -59,8 +51,7 @@ public class UrlSplitter {
 			urlHost = fullURL.substring(0, pathIndex);
 			urlInfo.setDomain(getDomainFromUrlHost(urlHost));
 			urlInfo.setHost(urlHost);
-			urlInfo.setPath(defaultValue);
-			urlInfo.setQuery(defaultValue);
+			
 			return urlInfo;
 		}
 		else
@@ -72,10 +63,6 @@ public class UrlSplitter {
 			{
 				urlQuery = urlPath.substring(queryIndex + 1);
 				urlPath = urlPath.substring(0, queryIndex);
-			}
-			else
-			{
-				urlQuery = defaultValue;
 			}
 			
 			urlInfo.setDomain(getDomainFromUrlHost(urlHost));

@@ -3,6 +3,11 @@
 	<contextProperty location="etl-dpitest.properties" />
 
 	<process id="gzdpi">
+		<functionRules>
+			<rule id="UserAgentRuleManager" filePath="conf/gz/uaRule.properties" statisFileDir=""/>
+			<rule id="UrlClassRuleManager" filePath="conf/gz/urlClassRule.txt" statisFileDir=""/>
+			<rule id="SearchWordsRuleManager" filePath="conf/gz/searchWordsRule.properties" statisFileDir=""/>
+		</functionRules>
 		<computingFrameworkConfigs>
 			<property key="outputFormatClass"
 				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" />
@@ -47,21 +52,21 @@
 				<field id="matchflag" defaultValue="\\N"/>
 				<field id="urlclassruleid" defaultValue="\\N" />
 				<!-- urlInfo basic -->
-				<field id="urldomain" defaultValue="\\N" />
+				<!-- <field id="urldomain" defaultValue="\\N" />
 				<field id="urlhost" defaultValue="\\N" />
 				<field id="urlpath" defaultValue="\\N" />
-				<field id="urlquery" defaultValue="\\N" />
+				<field id="urlquery" defaultValue="\\N" /> -->
 				<!-- refInfo -->
-				<field id="refdomain" defaultValue="\\N" />
+				<!-- <field id="refdomain" defaultValue="\\N" />
 				<field id="refhost" defaultValue="\\N" />
 				<field id="refpath" defaultValue="\\N" />
-				<field id="refquery" defaultValue="\\N" />
+				<field id="refquery" defaultValue="\\N" /> -->
 				<!-- urlInfo -->
-				<field id="searchkeywords" defaultValue="\\N" />
-				<field id="urlclassid" defaultValue="\\N" />
-				<field id="urlclassruleid" defaultValue="\\N" />
+				<!-- <field id="searchkeywords"/> -->
+				<!-- <field id="urlclassid" defaultValue="\\N" />
+				<field id="urlclassruleid" defaultValue="\\N" /> -->
 				<!-- from source -->
-				<field id="ts" desc="starttime" />
+				<!-- <field id="ts" desc="starttime" />
 				<field id="ad" desc="account" />
 				<field id="dstport" desc="protocol" />
 				<field id="srcip" desc="sourceip" />
@@ -71,17 +76,17 @@
 				<field id="url" desc="destinationurl" />
 				<field id="ua" desc="useragent" />
 				<field id="cookie" />
-				<field id="ref" desc="referer" />
+				<field id="ref" desc="referer" /> -->
 				<!-- from shell command line -->
-				<field id="city" defaultValue="gz" />
-				<field id="stat_day" defaultValue="${stat_day}" />
+				<!-- <field id="city" defaultValue="gz" />
+				<field id="stat_day" defaultValue="${stat_day}" /> -->
 			</values>
 		</outputMetaData>
 		<transforms>
 			<transform scope="map">
-				<function name="long2IP" input="srcip" />
-				<function name="long2IP" input="dstip" />
-				<function name="parseURL" input="url">
+				<!-- <function name="long2IP" input="srcip" />
+				<function name="long2IP" input="dstip" /> -->
+				<!-- <function name="parseURL" input="url">
 					<output id="urldomain" />
 					<output id="urlhost" />
 					<output id="urlpath" />
@@ -92,8 +97,8 @@
 					<output id="refhost" />
 					<output id="refpath" />
 					<output id="refquery" />
-				</function>
-				<function name="parseUserAgent" input="ua" ruleFile="uaRule.properties">
+				</function> -->
+				<function name="parseUserAgent" input="ua" ref="UserAgentRuleManager">
 					<output id="appname" />
 					<output id="appversion" />
 					<output id="terminalbrand" />
@@ -106,15 +111,12 @@
 					<output id="gsn" />
 					<output id="matchflag" />
 					<output id="useragentruleid" />
-					<rule id="" filePath="conf/gz/uaRule.properties" statisFileDir=""/>
-					<cache size="10000" cleanInterval="30" cleanRatio="0.7"/>
 				</function>
-				<function name="getURLClass" input="url" refUrl="ref">
+				<!-- <function name="getURLClass" input="url" refUrl="ref" ref="UrlClassRuleManager">
 					<output id="urlclassid" />
 					<output id="urlclassruleid" />
-					<rule id="" filePath="conf/gz/urlClassRule.txt" statisFileDir=""/>
-				</function>
-				<function name="parseSearchKeywords" input="url" output="searchkeywords" ruleFile="conf/gz/searchWordsRule.properties"/>
+				</function> -->
+				<!-- <function name="parseSearchKeywords" input="url" output="searchkeywords" ref="SearchWordsRuleManager"/> -->
 			</transform>
 		</transforms>
 	</process>

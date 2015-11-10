@@ -9,8 +9,8 @@ import java.util.Set;
  *
  */
 public class UseragentCacheCleaner implements Runnable {
-	public static final int CACHE_CLEAN_MIN_INTERVAL = 1000;  //单位毫秒
-	public static final float CACHE_CLEAN_MIN_RATIO = 0.7f;   //缓存大小比例。0.7即70%，表示需要将缓存实际剩余大小清理到总大小的70%。
+	public static final int CACHE_CLEAN_MIN_INTERVAL = 1000;  
+	public static final float CACHE_CLEAN_MIN_RATIO = 0.7f;   
 	private Map<String, MatchedUseragent> cachedMap;
 	private int cleanInterval;
 	private int cacheSize;

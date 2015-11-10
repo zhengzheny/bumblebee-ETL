@@ -59,7 +59,7 @@ public class ParseURL extends AbstractFunction {
 			return null;
 		}
 
-		UrlInfo urlInfo = this.split(value, null);
+		UrlInfo urlInfo = this.split(value);
 		List<String> outputIds = super.getOutputIds();
 
 		for (int i = 0; i < outputIds.size(); i++) {
@@ -83,15 +83,15 @@ public class ParseURL extends AbstractFunction {
 	 * @param fullURL
 	 * @return
 	 */
-	private UrlInfo split(String fullURL, String defaultValue) {
+	private UrlInfo split(String fullURL) {
 		if (fullURL == null) {
 			return null;
 		}
 
 		String url = fullURL;
-		String urlHost = defaultValue;
-		String urlPath = defaultValue;
-		String urlQuery = defaultValue;
+		String urlHost = null;
+		String urlPath = null;
+		String urlQuery = null;
 
 		UrlInfo urlInfo = new UrlInfo();
 		urlInfo.setUrl(url);
@@ -100,9 +100,6 @@ public class ParseURL extends AbstractFunction {
 		if (pathIndex < 0) {
 			urlInfo.setDomain(this.getDomainFromUrlHost(fullURL));
 			urlInfo.setHost(fullURL);
-			urlInfo.setPath(defaultValue);
-			urlInfo.setQuery(defaultValue);
-
 			return urlInfo;
 		} else if (pathIndex == 0) {
 			urlPath = fullURL.substring(pathIndex + 1);
@@ -112,8 +109,6 @@ public class ParseURL extends AbstractFunction {
 				urlPath = urlPath.substring(0, queryIndex);
 			}
 
-			urlInfo.setDomain(defaultValue);
-			urlInfo.setHost(defaultValue);
 			urlInfo.setPath(urlPath);
 			urlInfo.setQuery(urlQuery);
 
@@ -122,8 +117,6 @@ public class ParseURL extends AbstractFunction {
 			urlHost = fullURL.substring(0, pathIndex);
 			urlInfo.setDomain(this.getDomainFromUrlHost(urlHost));
 			urlInfo.setHost(urlHost);
-			urlInfo.setPath(defaultValue);
-			urlInfo.setQuery(defaultValue);
 
 			return urlInfo;
 		} else {

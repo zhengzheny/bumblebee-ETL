@@ -25,6 +25,9 @@ public class ETLException extends AbstractException implements Serializable{
 	public final static String NULL_LINE_TRIM = SOURCE + "004";
 	public final static String UNSUPPORTED_ENCODING = SOURCE + "005";
 	public final static String DATA_LENGTH_NOT_EQUAL_LAST_POS = SOURCE + "006";
+	public final static String GPP2USERLOCATION_SPLIT_ERROR = SOURCE + "007";
+	public final static String USERLOCATION_SPLIT_ERROR = SOURCE + "008";
+	public final static String KEYS_NOT_EQUAL_VALUES = SOURCE + "009";
 
 	public final static String NULL_FIELD_NAMES = OUTPUT + "001";
 
