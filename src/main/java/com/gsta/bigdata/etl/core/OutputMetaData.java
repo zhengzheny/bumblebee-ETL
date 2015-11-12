@@ -169,8 +169,8 @@ public class OutputMetaData extends AbstractETLObject {
 	public String getOutputValue(ETLData data) throws ETLException{
 		Preconditions.checkNotNull(data, "input data is null");
 
-		//if get null field,throws ETLException and report all null field name
-		boolean nullFlag=false;
+		//if all fields get null,throws ETLException and report all null field name
+		int nullCount = 0;
 		String nullFieldNames = "";
 		
 		// * means output all fields
@@ -188,7 +188,7 @@ public class OutputMetaData extends AbstractETLObject {
 						if(field.getDefaultValue() != null){
 							dataValue = field.getDefaultValue();
 						} else {
-							nullFlag = true;
+							nullCount ++;
 							nullFieldNames = nullFieldNames + fieldName + ",";
 						}
 					}
@@ -200,7 +200,7 @@ public class OutputMetaData extends AbstractETLObject {
 					if (field.getDefaultValue() != null) {
 						dataValue = field.getDefaultValue();
 					} else {
-						nullFlag = true;
+						nullCount ++;
 						nullFieldNames = nullFieldNames + field.getId() + ",";
 					}
 				}
@@ -208,9 +208,9 @@ public class OutputMetaData extends AbstractETLObject {
 			}
 		}
 		
-		if(nullFlag){
+		if(this.valuesFields.size() == nullCount){
 			throw new ETLException(ETLException.NULL_FIELD_NAMES,
-					"field " + nullFieldNames + " get null value.");
+					"field " + nullFieldNames + " value is all null.");
 		}
 
 		String ret = sb.toString();

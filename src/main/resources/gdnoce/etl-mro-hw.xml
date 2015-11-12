@@ -1,0 +1,67 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<contextProperty location="etl-mro-hw.properties" />
+	
+	<process id="mro-hw">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat"/>
+		</computingFrameworkConfigs>
+		<sourceMetaData type="MroXML" >
+			<paths>
+				<inputPath path="${inputPath}"/>
+			</paths>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${outputPath}">
+			<values delimiter="|">
+				<field id="startTime" />
+				<field id="endTime" />
+				<field id="TimeStamp" />
+				<field id="ENODEID" />
+				<field id="CELLID" />
+				<field id="MmeGroupId" />
+				<field id="MmeUeS1apId" />
+				<field id="MmeCode" />
+				<field id="MR_LteScRSRP" />
+				<field id="MR_LteNcRSRP" />
+				<field id="MR_LteScRSRQ" />
+				<field id="MR_LteNcRSRQ" />
+				<field id="MR_LteScTadv" />
+				<field id="MR_LteScPHR" />
+				<field id="MR_LteScRIP" />
+				<field id="MR_LteScPlrULQci1" />
+				<field id="MR_LteScPlrULQci2" />
+				<field id="MR_LteScPlrULQci3" />
+				<field id="MR_LteScPlrULQci4" />
+				<field id="MR_LteScPlrULQci5" />
+				<field id="MR_LteScPlrULQci6" />
+				<field id="MR_LteScPlrULQci7" />
+				<field id="MR_LteScPlrULQci8" />
+				<field id="MR_LteScPlrULQci9" />
+				<field id="MR_LteScPlrDLQci1" />
+				<field id="MR_LteScPlrDLQci2" />
+				<field id="MR_LteScPlrDLQci3" />
+				<field id="MR_LteScPlrDLQci4" />
+				<field id="MR_LteScPlrDLQci5" />
+				<field id="MR_LteScPlrDLQci6" />
+				<field id="MR_LteScPlrDLQci7" />
+				<field id="MR_LteScPlrDLQci8" />
+				<field id="MR_LteScPlrDLQci9" />
+				<field id="MR_LteScSinrUL" />
+				<field id="MR_LteScEarfcn" />
+				<field id="MR_LteScPci" />
+				<field id="MR_LteScCgi" />
+				<field id="MR_LteNcEarfcn" />
+				<field id="MR_LteNcPci" />
+				<field id="MR_GsmNcellBcch" />
+				<field id="MR_GsmNcellCarrierRSSI" />
+				<field id="MR_GsmNcellNcc" />
+				<field id="MR_GsmNcellBcc" />
+				<field id="MR_UtraCpichRSCP" />
+				<field id="MR_UtraCpichEcNo" />
+				<field id="MR_UtraCellParameterId" />
+				<field id="MR_LteScAOA" />
+			</values>
+		</outputMetaData>
+	</process>
+</etl>

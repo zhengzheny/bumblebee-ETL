@@ -1,0 +1,172 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<contextProperty location="etl-hw-erabjl.properties" />
+	
+	<process id="hw-erabjl">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat"/>
+		</computingFrameworkConfigs>
+		<sourceMetaData type="KpiXML" >
+			<paths>
+				<inputPath path="${inputPath}"/>
+			</paths>
+			<fields>
+				<field id="ENODEB_NMAE" desc="eNodeB名称"/>
+				<field id="LOCACELLID" desc="本地小区标识"/>
+				<field id="CELLID_NAME" desc="小区名称"/>
+				<field id="ENODEB_ID" desc="eNodeB标识"/>
+				<field id="CELDUPLEXMODE" desc="小区双工模式"/>
+				<field id="ERAB_AttEst" desc="E-RAB建立尝试总次数"/>
+				<field id="ERAB_AVE_time" desc="E-RAB建立平均时长"/>
+				<field id="ERAB_SuccEst" desc="E-RAB建立成功总次数"/>
+				<field id="ERAB_AVE_RATE" desc="E-RAB建立成功率"/>
+				<field id="ERAB_MAX_time" desc="E-RAB建立最大时长"/>
+				<field id="ERAB_AttEst_QCI_1" desc="QCI为1的业务E-RAB建立尝试次数"/>
+				<field id="ERAB_SuccEst_QCI_1" desc="QCI为1的业务E-RAB建立成功次数"/>
+				<field id="ERAB_InitAttEst_QCI_1" desc="QCI为1的业务初始E-RAB建立尝试次数"/>
+				<field id="ERAB_InitSuccEst_QCI_1" desc="QCI为1的业务初始E-RAB建立成功次数"/>
+				<field id="ERAB_SwAttEst_QCI_1" desc="QCI为1的切换入E-RAB尝试建立次数"/>
+				<field id="ERAB_SwSuccEst_QCI_1" desc="QCI为1的切换入E-RAB成功建立次数"/>
+				<field id="ERAB_AttEst_QCI_2" desc="QCI为2的业务E-RAB建立尝试次数"/>
+				<field id="ERAB_SuccEst_QCI_2" desc="QCI为2的业务E-RAB建立成功次数"/>
+				<field id="ERAB_InitAttEst_QCI_2" desc="QCI为2的业务初始E-RAB建立尝试次数"/>
+				<field id="ERAB_InitSuccEst_QCI_2" desc="QCI为2的业务初始E-RAB建立成功次数"/>
+				<field id="ERAB_SwAttEst_QCI_2" desc="QCI为2的切换入E-RAB尝试建立次数"/>
+				<field id="ERAB_SwSuccEst_QCI_2" desc="QCI为2的切换入E-RAB成功建立次数"/>
+				<field id="ERAB_AttEst_QCI_3" desc="QCI为3的业务E-RAB建立尝试次数"/>
+				<field id="ERAB_SuccEst_QCI_3" desc="QCI为3的业务E-RAB建立成功次数"/>
+				<field id="ERAB_InitAttEst_QCI_3" desc="QCI为3的业务初始E-RAB建立尝试次数"/>
+				<field id="ERAB_InitSuccEst_QCI_3" desc="QCI为3的业务初始E-RAB建立成功次数"/>
+				<field id="ERAB_SwAttEst_QCI_3" desc="QCI为3的切换入E-RAB尝试建立次数"/>
+				<field id="ERAB_SwSuccEst_QCI_3" desc="QCI为3的切换入E-RAB成功建立次数"/>
+				<field id="ERAB_AttEst_QCI_4" desc="QCI为4的业务E-RAB建立尝试次数"/>
+				<field id="ERAB_SuccEst_QCI_4" desc="QCI为4的业务E-RAB建立成功次数"/>
+				<field id="ERAB_InitAttEst_QCI_4" desc="QCI为4的业务初始E-RAB建立尝试次数"/>
+				<field id="ERAB_InitSuccEst_QCI_4" desc="QCI为4的业务初始E-RAB建立成功次数"/>
+				<field id="ERAB_SwAttEst_QCI_4" desc="QCI为4的切换入E-RAB尝试建立次数"/>
+				<field id="ERAB_SwSuccEst_QCI_4" desc="QCI为4的切换入E-RAB成功建立次数"/>
+				<field id="ERAB_AttEst_QCI_5" desc="QCI为5的业务E-RAB建立尝试次数"/>
+				<field id="ERAB_SuccEst_QCI_5" desc="QCI为5的业务E-RAB建立成功次数"/>
+				<field id="ERAB_InitAttEst_QCI_5" desc="QCI为5的业务初始E-RAB建立尝试次数"/>
+				<field id="ERAB_InitSuccEst_QCI_5" desc="QCI为5的业务初始E-RAB建立成功次数"/>
+				<field id="ERAB_SwAttEst_QCI_5" desc="QCI为5的切换入E-RAB尝试建立次数"/>
+				<field id="ERAB_SwSuccEst_QCI_5" desc="QCI为5的切换入E-RAB成功建立次数"/>
+				<field id="ERAB_AttEst_QCI_6" desc="QCI为6的业务E-RAB建立尝试次数"/>
+				<field id="ERAB_SuccEst_QCI_6" desc="QCI为6的业务E-RAB建立成功次数"/>
+				<field id="ERAB_InitAttEst_QCI_6" desc="QCI为6的业务初始E-RAB建立尝试次数"/>
+				<field id="ERAB_InitSuccEst_QCI_6" desc="QCI为6的业务初始E-RAB建立成功次数"/>
+				<field id="ERAB_SwAttEst_QCI_6" desc="QCI为6的切换入E-RAB尝试建立次数"/>
+				<field id="ERAB_SwSuccEst_QCI_6" desc="QCI为6的切换入E-RAB成功建立次数"/>
+				<field id="ERAB_AttEst_QCI_7" desc="QCI为7的业务E-RAB建立尝试次数"/>
+				<field id="ERAB_SuccEst_QCI_7" desc="QCI为7的业务E-RAB建立成功次数"/>
+				<field id="ERAB_InitAttEst_QCI_7" desc="QCI为7的业务初始E-RAB建立尝试次数"/>
+				<field id="ERAB_InitSuccEst_QCI_7" desc="QCI为7的业务初始E-RAB建立成功次数"/>
+				<field id="ERAB_SwAttEst_QCI_7" desc="QCI为7的切换入E-RAB尝试建立次数"/>
+				<field id="ERAB_SwSuccEst_QCI_7" desc="QCI为7的切换入E-RAB成功建立次数"/>
+				<field id="ERAB_AttEst_QCI_8" desc="QCI为8的业务E-RAB建立尝试次数"/>
+				<field id="ERAB_SuccEst_QCI_8" desc="QCI为8的业务E-RAB建立成功次数"/>
+				<field id="ERAB_InitAttEst_QCI_8" desc="QCI为8的业务初始E-RAB建立尝试次数"/>
+				<field id="ERAB_InitSuccEst_QCI_8" desc="QCI为8的业务初始E-RAB建立成功次数"/>
+				<field id="ERAB_SwAttEst_QCI_8" desc="QCI为8的切换入E-RAB尝试建立次数"/>
+				<field id="ERAB_SwSuccEst_QCI_8" desc="QCI为8的切换入E-RAB成功建立次数"/>
+				<field id="ERAB_AttEst_QCI_9" desc="QCI为9的业务E-RAB建立尝试次数"/>
+				<field id="ERAB_SuccEst_QCI_9" desc="QCI为9的业务E-RAB建立成功次数"/>
+				<field id="ERAB_InitAttEst_QCI_9" desc="QCI为9的业务初始E-RAB建立尝试次数"/>
+				<field id="ERAB_InitSuccEst_QCI_9" desc="QCI为9的业务初始E-RAB建立成功次数"/>
+				<field id="ERAB_SwAttEst_QCI_9" desc="QCI为9的切换入E-RAB尝试建立次数"/>
+				<field id="ERAB_SwSuccEst_QCI_9" desc="QCI为9的切换入E-RAB成功建立次数"/>
+				<field id="S1_AttEst" desc="S1信令连接建立尝试次数"/>
+				<field id="S1_SuccEst" desc="S1信令连接建立成功次数"/>
+				<field id="UE_restore_Att" desc="UE从上行失步态转换为上行同步态E-RAB恢复的尝试次数"/>
+				<field id="UE_restore_Succ" desc="UE从上行失步态转换为上行同步态E-RAB恢复的成功次数"/>
+				<field id="ERAB_InitAttEst" desc="初始E-RAB建立尝试总次数"/>
+				<field id="ERAB_InitEst_avetime" desc="初始E-RAB建立平均时长"/>
+				<field id="ERAB_InitSuccEst" desc="初始E-RAB建立成功总次数"/>
+				<field id="ERAB_InitEst_maxtime" desc="初始E-RAB建立最大时长"/>
+				<field id="ERAB_cellsw_AttEst" desc="小区切换入E-RAB尝试建立次数"/>
+				<field id="ERAB_cellsw_SuccEst" desc="小区切换入E-RAB成功建立总次数"/>
+			</fields>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${outputPath}">
+			<values delimiter="|">
+				<field id="STAT_TIME"/>
+				<field id="STAT_PERIOD"/>
+				<field id="ENODEB_NMAE"/>
+				<field id="LOCACELLID"/>
+				<field id="CELLID_NAME"/>
+				<field id="ENODEB_ID"/>
+				<field id="CELDUPLEXMODE"/>
+				<field id="ERAB_AttEst"/>
+				<field id="ERAB_AVE_time"/>
+				<field id="ERAB_SuccEst"/>
+				<field id="ERAB_AVE_RATE"/>
+				<field id="ERAB_MAX_time"/>
+				<field id="ERAB_AttEst_QCI_1"/>
+				<field id="ERAB_SuccEst_QCI_1"/>
+				<field id="ERAB_InitAttEst_QCI_1"/>
+				<field id="ERAB_InitSuccEst_QCI_1"/>
+				<field id="ERAB_SwAttEst_QCI_1"/>
+				<field id="ERAB_SwSuccEst_QCI_1"/>
+				<field id="ERAB_AttEst_QCI_2"/>
+				<field id="ERAB_SuccEst_QCI_2"/>
+				<field id="ERAB_InitAttEst_QCI_2"/>
+				<field id="ERAB_InitSuccEst_QCI_2"/>
+				<field id="ERAB_SwAttEst_QCI_2"/>
+				<field id="ERAB_SwSuccEst_QCI_2"/>
+				<field id="ERAB_AttEst_QCI_3"/>
+				<field id="ERAB_SuccEst_QCI_3"/>
+				<field id="ERAB_InitAttEst_QCI_3"/>
+				<field id="ERAB_InitSuccEst_QCI_3"/>
+				<field id="ERAB_SwAttEst_QCI_3"/>
+				<field id="ERAB_SwSuccEst_QCI_3"/>
+				<field id="ERAB_AttEst_QCI_4"/>
+				<field id="ERAB_SuccEst_QCI_4"/>
+				<field id="ERAB_InitAttEst_QCI_4"/>
+				<field id="ERAB_InitSuccEst_QCI_4"/>
+				<field id="ERAB_SwAttEst_QCI_4"/>
+				<field id="ERAB_SwSuccEst_QCI_4"/>
+				<field id="ERAB_AttEst_QCI_5"/>
+				<field id="ERAB_SuccEst_QCI_5"/>
+				<field id="ERAB_InitAttEst_QCI_5"/>
+				<field id="ERAB_InitSuccEst_QCI_5"/>
+				<field id="ERAB_SwAttEst_QCI_5"/>
+				<field id="ERAB_SwSuccEst_QCI_5"/>
+				<field id="ERAB_AttEst_QCI_6"/>
+				<field id="ERAB_SuccEst_QCI_6"/>
+				<field id="ERAB_InitAttEst_QCI_6"/>
+				<field id="ERAB_InitSuccEst_QCI_6"/>
+				<field id="ERAB_SwAttEst_QCI_6"/>
+				<field id="ERAB_SwSuccEst_QCI_6"/>
+				<field id="ERAB_AttEst_QCI_7"/>
+				<field id="ERAB_SuccEst_QCI_7"/>
+				<field id="ERAB_InitAttEst_QCI_7"/>
+				<field id="ERAB_InitSuccEst_QCI_7"/>
+				<field id="ERAB_SwAttEst_QCI_7"/>
+				<field id="ERAB_SwSuccEst_QCI_7"/>
+				<field id="ERAB_AttEst_QCI_8"/>
+				<field id="ERAB_SuccEst_QCI_8"/>
+				<field id="ERAB_InitAttEst_QCI_8"/>
+				<field id="ERAB_InitSuccEst_QCI_8"/>
+				<field id="ERAB_SwAttEst_QCI_8"/>
+				<field id="ERAB_SwSuccEst_QCI_8"/>
+				<field id="ERAB_AttEst_QCI_9"/>
+				<field id="ERAB_SuccEst_QCI_9"/>
+				<field id="ERAB_InitAttEst_QCI_9"/>
+				<field id="ERAB_InitSuccEst_QCI_9"/>
+				<field id="ERAB_SwAttEst_QCI_9"/>
+				<field id="ERAB_SwSuccEst_QCI_9"/>
+				<field id="S1_AttEst"/>
+				<field id="S1_SuccEst"/>
+				<field id="UE_restore_Att"/>
+				<field id="UE_restore_Succ"/>
+				<field id="ERAB_InitAttEst"/>
+				<field id="ERAB_InitEst_avetime"/>
+				<field id="ERAB_InitSuccEst"/>
+				<field id="ERAB_InitEst_maxtime"/>
+				<field id="ERAB_cellsw_AttEst"/>
+				<field id="ERAB_cellsw_SuccEst"/>
+			</values>
+		</outputMetaData>
+	</process>
+</etl>

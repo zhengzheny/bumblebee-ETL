@@ -1,0 +1,78 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<contextProperty location="etl-hw-rrc.properties" />
+	
+	<process id="hw-rrc">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat"/>
+		</computingFrameworkConfigs>
+		<sourceMetaData type="KpiXML" >
+			<paths>
+				<inputPath path="${inputPath}"/>
+			</paths>
+			<fields>
+				<field id="ENODEB_NMAE" desc="eNodeB名称"/>
+				<field id="LOCACELLID" desc="本地小区标识"/>
+				<field id="CELLID_NAME" desc="小区名称"/>
+				<field id="ENODEB_ID" desc="eNodeB标识"/>
+				<field id="CELDUPLEXMODE" desc="小区双工模式"/>
+				<field id="RRC_ConnReq_Att_DelayTol" desc="delayTolerantAccess-v1020原因的RRC连接建立尝试次数"/>
+				<field id="RRC_ConnReq_Succ_DelayTol" desc="delayTolerantAccess-v1020原因的RRC连接建立成功次数"/>
+				<field id="RRC_ConnReq_Att_Emc" desc="emergency原因的RRC连接建立尝试次数"/>
+				<field id="RRC_ConnReq_Succ_Emc" desc="emergency原因的RRC连接建立成功次数"/>
+				<field id="RRC_ConnReq_Att_HighPri" desc="highPriorityAccess原因的RRC连接建立尝试次数"/>
+				<field id="RRC_ConnReq_Succ_HighPri" desc="highPriorityAccess原因的RRC连接建立成功次数"/>
+				<field id="RRC_ConnReq_Att_MoData" desc="mo-Data原因的RRC连接建立尝试次数"/>
+				<field id="RRC_ConnReq_Succ_MoData" desc="mo-Data原因的RRC连接建立成功次数"/>
+				<field id="RRC_ConnReq_Att_MoSig" desc="mo-Signalling原因的RRC连接建立尝试次数"/>
+				<field id="RRC_ConnReq_Succ_MoSig" desc="mo-Signalling原因的RRC连接建立成功次数"/>
+				<field id="RRC_ConnReq_Att_Mt" desc="mt-Access原因的RRC连接建立尝试次数"/>
+				<field id="RRC_ConnReq_Succ_Mt" desc="mt-Access原因的RRC连接建立成功次数"/>
+				<field id="RRC_ConnReq_Succ" desc="RRC连接建立完成次数"/>
+				<field id="RRC_ConnReq_AVEtime" desc="RRC连接建立平均时长"/>
+				<field id="RRC_ConnReq_MAXtime" desc="RRC连接建立最大时长"/>
+				<field id="RRC_ConnReq_Att" desc="RRC连接建立次数"/>
+				<field id="RRC_ConnReq_Att_NOTCF" desc="RRC连接请求次数（不包括重发）"/>
+				<field id="RRC_ConnReq_Att_INCCF" desc="RRC连接请求次数（包括重发）"/>
+				<field id="UE_tbswitch_TOT" desc="UE从上行同步态转换为上行失步态的次数"/>
+				<field id="UE_switch_RRC_TOT" desc="UE从上行失步态转换为上行同步态RRC连接恢复的成功次数"/>
+				<field id="UE_sbswitch_TOT" desc="UE从上行失步态转换为上行同步态的次数"/>
+				<field id="Service_RRC_RATE" desc="服务类RRC连接成功率"/>
+			</fields>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${outputPath}">
+			<values delimiter="|">
+				<field id="STAT_TIME"/>
+				<field id="STAT_PERIOD"/>
+				<field id="ENODEB_NMAE"/>
+				<field id="LOCACELLID"/>
+				<field id="CELLID_NAME"/>
+				<field id="ENODEB_ID"/>
+				<field id="CELDUPLEXMODE"/>
+				<field id="RRC_ConnReq_Att_DelayTol"/>
+				<field id="RRC_ConnReq_Succ_DelayTol"/>
+				<field id="RRC_ConnReq_Att_Emc"/>
+				<field id="RRC_ConnReq_Succ_Emc"/>
+				<field id="RRC_ConnReq_Att_HighPri"/>
+				<field id="RRC_ConnReq_Succ_HighPri"/>
+				<field id="RRC_ConnReq_Att_MoData"/>
+				<field id="RRC_ConnReq_Succ_MoData"/>
+				<field id="RRC_ConnReq_Att_MoSig"/>
+				<field id="RRC_ConnReq_Succ_MoSig"/>
+				<field id="RRC_ConnReq_Att_Mt"/>
+				<field id="RRC_ConnReq_Succ_Mt"/>
+				<field id="RRC_ConnReq_Succ"/>
+				<field id="RRC_ConnReq_AVEtime"/>
+				<field id="RRC_ConnReq_MAXtime"/>
+				<field id="RRC_ConnReq_Att"/>
+				<field id="RRC_ConnReq_Att_NOTCF"/>
+				<field id="RRC_ConnReq_Att_INCCF"/>
+				<field id="UE_tbswitch_TOT"/>
+				<field id="UE_switch_RRC_TOT"/>
+				<field id="UE_sbswitch_TOT"/>
+				<field id="Service_RRC_RATE"/>
+			</values>
+		</outputMetaData>
+	</process>
+</etl>
