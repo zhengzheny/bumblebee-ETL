@@ -28,6 +28,8 @@ public class ETLException extends AbstractException implements Serializable{
 	public final static String GPP2USERLOCATION_SPLIT_ERROR = SOURCE + "007";
 	public final static String USERLOCATION_SPLIT_ERROR = SOURCE + "008";
 	public final static String KEYS_NOT_EQUAL_VALUES = SOURCE + "009";
+	public final static String MRO_XML_ERROR = SOURCE + "010";
+	public final static String KPI_XML_ERROR = SOURCE + "011";
 
 	public final static String NULL_FIELD_NAMES = OUTPUT + "001";
 
