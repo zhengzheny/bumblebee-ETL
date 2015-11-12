@@ -51,11 +51,11 @@ public class Constants {
 	public final static String CF_LOCAL_FILE_DIR_MAX_FILE = "localFileDirMaxFile";
 	public final static String CF_LOCAL_FILE_SLICE_THREAD_SIZE = "localFileSliceThreadSize";
 	public final static String CF_SPARK_DURATION = "duration";
+	public final static String CF_SOURCE_ENCODING = "sourceEncoding";
 	
 	//local file's data source
 	public final static String SOURCE_ZTE_NODEB_XML = ZteENODEBXML.class.getSimpleName();
 	public final static String SOURCE_PGW_XML = PgwXML.class.getSimpleName();
-	//public final static String PROCESS_SLICE_LOCAL_FILE = SliceLocalFileProcess.class.getSimpleName();
 	
 	//lookup data source type
 	public static final String LKP_FLAT_TYPE_DS = "flat";

@@ -1,6 +1,7 @@
 package com.gsta.bigdata.etl.mapreduce;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -53,6 +54,7 @@ public class ETLMapper extends Mapper<Object, Text, Text, Text> {
 	private MultipleOutputs<Text, Text> multiOutput ; 
 	private String errorPath;
 	private String outputPath;
+	private String encoding;
 	
 	@Override
 	protected void setup(Mapper<Object, Text, Text, Text>.Context context)
@@ -81,14 +83,31 @@ public class ETLMapper extends Mapper<Object, Text, Text, Text> {
 		if (thresholdCount != null && !"".equals(thresholdCount)) {
 			this.errorRecordThreshold = Integer.parseInt(thresholdCount);
 		}
+		
+		this.encoding = process.getConf(Constants.CF_SOURCE_ENCODING);
+	}
+	
+	private Text transformTextToUTF8(Text text, String encoding) {
+		String value = null;
+		try {
+			value = new String(text.getBytes(), 0, text.getLength(), encoding);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return new Text(value);
 	}
 
 	@Override
-	protected void map(Object key, Text value,
+	protected void map(Object key, Text value_,
 			Mapper<Object, Text, Text, Text>.Context context)
 			throws IOException, InterruptedException {
-		if(value == null || "".equals(value.toString())){
+		if(value_ == null || "".equals(value_.toString())){
 			return;
+		}
+		
+		Text value = value_;
+		if(this.encoding != null){
+			value = this.transformTextToUTF8(value_,this.encoding);
 		}
 		
 		ETLData data = null;

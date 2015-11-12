@@ -115,7 +115,7 @@ public class SparkStreamingRunner implements IRunner,Serializable {
 	          public Void call(JavaRDD<Long> rdds) throws Exception {
 	    		List<Long> counters = rdds.collect();
 	    		for(Long c:counters){
-	    			logger.info("record count=" + c);
+	    			logger.info("dpi count=" + c);
 	    		}
 	    		
 	    		return null;

@@ -5,7 +5,8 @@
 	<process id="hw-updelay">
 		<computingFrameworkConfigs>
 			<property key="outputFormatClass"
-				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat"/>
+				value="com.gsta.bigdata.etl.mapreduce.GBKValueOutputFormat"/>
+			<property key="sourceEncoding" value="GBK" />
 		</computingFrameworkConfigs>
 		<sourceMetaData type="KpiXML" >
 			<paths>
