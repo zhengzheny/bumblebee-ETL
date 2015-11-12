@@ -87,13 +87,11 @@ public class ETLMapper extends Mapper<Object, Text, Text, Text> {
 		this.encoding = process.getConf(Constants.CF_SOURCE_ENCODING);
 	}
 	
-	private Text transformTextToUTF8(Text text, String encoding) {
-		String value = null;
-		try {
-			value = new String(text.getBytes(), 0, text.getLength(), encoding);
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
+	private Text transformTextToUTF8(Text text, String encoding)
+			throws UnsupportedEncodingException {
+		String value = new String(text.getBytes(), 0, text.getLength(),
+				encoding);
+
 		return new Text(value);
 	}
 
@@ -107,7 +105,12 @@ public class ETLMapper extends Mapper<Object, Text, Text, Text> {
 		
 		Text value = value_;
 		if(this.encoding != null){
-			value = this.transformTextToUTF8(value_,this.encoding);
+			try{
+				value = this.transformTextToUTF8(value_,this.encoding);
+			}catch(UnsupportedEncodingException e){
+				logger.error(e.toString());
+				return;
+			}
 		}
 		
 		ETLData data = null;
