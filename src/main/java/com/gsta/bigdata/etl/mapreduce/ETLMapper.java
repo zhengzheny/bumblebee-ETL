@@ -87,6 +87,12 @@ public class ETLMapper extends Mapper<Object, Text, Text, Text> {
 		this.encoding = process.getConf(Constants.CF_SOURCE_ENCODING);
 	}
 	
+	/**
+	 * if file contains chinese,need transform the file encoding to UTF-8
+	 * @param text
+	 * @param encoding must be the same and file encoding, otherwise it will be converted into garbled
+	 * @return
+	 */
 	private Text transformTextToUTF8(Text text, String encoding)
 			throws UnsupportedEncodingException {
 		String value = new String(text.getBytes(), 0, text.getLength(),
