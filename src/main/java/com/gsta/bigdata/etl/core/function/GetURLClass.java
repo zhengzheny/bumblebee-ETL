@@ -4,17 +4,19 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.w3c.dom.Element;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gsta.bigdata.etl.ETLException;
-import com.gsta.bigdata.etl.core.ChildrenTag;
 import com.gsta.bigdata.etl.core.Constants;
 import com.gsta.bigdata.etl.core.GeneralRuleMgr;
 import com.gsta.bigdata.etl.core.IRuleMgr;
 import com.gsta.bigdata.etl.core.ParseException;
 import com.gsta.bigdata.etl.core.ShellContext;
+import com.gsta.bigdata.etl.core.function.dpi.RuleCounter;
 import com.gsta.bigdata.etl.core.function.dpi.RuleMatchCounter;
 import com.gsta.bigdata.etl.core.function.dpi.UrlClassRule;
 import com.gsta.bigdata.etl.core.function.dpi.UrlClassRuleManager;
@@ -36,36 +38,25 @@ public class GetURLClass extends AbstractFunction {
 	@JsonProperty
 	private String refUrlField;
 	private String ruleFilePath;
-	private String ref;
-
+	private String refRule;
+	
+	@JsonProperty
+	private RuleCounter ruleCounter;
+	@JsonProperty
+	private List<String> outputIdList;
+	
 	@JsonProperty
 	private UrlClassRuleManager ruleManager;
 
-	private RuleMatchCounter ruleCounter = new RuleMatchCounter();
-
-	private	long inputCounter = 0;		
-	private	long matchingCounter = 0;		
-	private	long matchedCounter = 0;		
-	private	long invalidCounter = 0;	
-	private	long unmatchedCounter = 0;
-	private long level0Counter = 0;
-	private long level1Counter = 0;
-	private long level2Counter = 0;
-	private long level3Counter = 0;
-	private long level4Counter = 0;
-	private long level5Counter = 0;
-	private long level6Counter = 0;
-	private long levelspamCounter = 0;
+	private RuleMatchCounter ruleMatchCounter = new RuleMatchCounter();
 
 	@JsonProperty
-	private Map<String, Long> ruleMatchedStatsMap = new HashMap<String, Long>(
+	private Map<String, Long> ruleMatchedStatsMap = new ConcurrentHashMap<String, Long>(
 			10000);
 
 	public GetURLClass() {
 		super();
 
-		super.registerChildrenTags(new ChildrenTag(Constants.PATH_DPI_RULE,
-				ChildrenTag.NODE));
 	}
 
 	@Override
@@ -74,19 +65,27 @@ public class GetURLClass extends AbstractFunction {
 
 		this.inputField = super.getAttr(Constants.ATTR_INPUT);
 		this.refUrlField = super.getAttr(Constants.ATTR_REFURL);
-		this.ref = super.getAttr(Constants.ATTR_REF);
+		this.refRule = super.getAttr(Constants.ATTR_REFRULE);
 	}
 
 	@Override
 	public void init(Element element) throws ParseException {
 		super.init(element);
+		
+		ruleCounter = RuleCounter.getInstance();
+		
+		this.outputIdList = super.getOutputIds();
+		int outSize = this.outputIdList.size();
+		if(outSize != 2){
+			throw new ParseException("GetUrlClass function must have 2 output value");
+		}
 
-		IRuleMgr mgr = GeneralRuleMgr.getInstance().getRuleMgrById(this.ref);
+		IRuleMgr mgr = GeneralRuleMgr.getInstance().getRuleMgrById(this.refRule);
 		if (mgr instanceof UrlClassRuleManager) {
 			this.ruleManager = (UrlClassRuleManager) mgr;
 		}
 		if (ruleManager == null) {
-			throw new ParseException("can't find rule:" + ref);
+			throw new ParseException("can't find rule:" + refRule);
 		}
 
 		try {
@@ -116,31 +115,24 @@ public class GetURLClass extends AbstractFunction {
 		UrlInfo urlInfo = UrlSplitter.split(url);
 		UrlInfo refInfo = UrlSplitter.split(ref);
 
-		inputCounter++;
+		ruleCounter.setInputCounter();
 
 		if (urlInfo == null || urlInfo.getUrl() == null) {
-			invalidCounter++;
+			ruleCounter.setInvalidCounter();
 			return null;
 		}
 
 		Map<String, String> retMap = new HashMap<String, String>();
-		List<String> outputIds = super.getOutputIds();
-
 		UrlClassRule matchedClassRule = this.lookupUrlClassRule(urlInfo,
 				refInfo);
 		if (matchedClassRule == null) {
-			for (int i = 0; i < outputIds.size(); i++) {
-				unmatchedCounter++;
-				retMap.put(outputIds.get(i), null);
+			for (int i = 0; i < outputIdList.size(); i++) {
+				ruleCounter.setUnmatchedCounter();
+				retMap.put(outputIdList.get(i), null);
 			}
 		} else {
-			for (int i = 0; i < outputIds.size(); i++) {
-				if (i == 0) {
-					retMap.put(outputIds.get(i), matchedClassRule.getClassId());
-				} else if (i == 1) {
-					retMap.put(outputIds.get(i), matchedClassRule.getRuleId());
-				}
-			}
+			retMap.put(outputIdList.get(0), matchedClassRule.getClassId());
+			retMap.put(outputIdList.get(1), matchedClassRule.getRuleId());
 
 			String ruleSource = matchedClassRule.getSource();
 			long matchedCounter = 0;
@@ -152,32 +144,9 @@ public class GetURLClass extends AbstractFunction {
 			ruleMatchedStatsMap.put(ruleSource, matchedCounter);
 		}
 		
-		//set statInfo
-		String statInfo = getStatInfo();
-		ruleManager.setStatInfo(statInfo);
-
 		return retMap;
 	}
 
-	private String getStatInfo() {
-		String statInfo = "\r\n";
-		matchedCounter = levelspamCounter + level0Counter + level1Counter
-				+ level2Counter + level3Counter + level4Counter + level5Counter
-				+ level6Counter;
-		statInfo += "--total input records: " + inputCounter + "\r\n";
-		statInfo += "--total invalid records: " + invalidCounter + "\r\n";
-		statInfo += "--total unmatched records: " + unmatchedCounter + "\r\n";
-		statInfo += "--total matched records: " + matchedCounter + "\r\n";
-		statInfo += "----level-spam matched: " + levelspamCounter + "\r\n";
-		statInfo += "----level-0 matched: " + level0Counter + "\r\n";
-		statInfo += "----level-1 matched: " + level1Counter + "\r\n";
-		statInfo += "----level-2 matched: " + level2Counter + "\r\n";
-		statInfo += "----level-3 matched: " + level3Counter + "\r\n";
-		statInfo += "----level-4 matched: " + level4Counter + "\r\n";
-		statInfo += "--total matching times: " + matchingCounter + "\r\n";
-		
-		return statInfo;
-	}
 
 	/**
 	 * lookup the URL class ID
@@ -194,7 +163,7 @@ public class GetURLClass extends AbstractFunction {
 				UrlClassRule.RULE_LEVEL_SPAM);
 		// match and filter the garbage url
 		if (result != null) {
-			levelspamCounter++;
+			ruleCounter.setLevelspamCounter();
 			return result;
 		}
 
@@ -202,7 +171,7 @@ public class GetURLClass extends AbstractFunction {
 		result = lookupUrlClassIDByClassLevel(urlInfo, refInfo,
 				UrlClassRule.RULE_LEVEL_4);
 		if (result != null) {
-			level4Counter++;
+			ruleCounter.setLevel4Counter();
 			return result;
 		}
 
@@ -210,7 +179,7 @@ public class GetURLClass extends AbstractFunction {
 		result = lookupUrlClassIDByClassLevel(urlInfo, refInfo,
 				UrlClassRule.RULE_LEVEL_3);
 		if (result != null) {
-			level3Counter++;
+			ruleCounter.setLevel3Counter();
 			return result;
 		}
 
@@ -218,7 +187,7 @@ public class GetURLClass extends AbstractFunction {
 		result = lookupUrlClassIDByClassLevel(urlInfo, refInfo,
 				UrlClassRule.RULE_LEVEL_2);
 		if (result != null) {
-			level2Counter++;
+			ruleCounter.setLevel2Counter();
 			return result;
 		}
 
@@ -226,7 +195,7 @@ public class GetURLClass extends AbstractFunction {
 		result = lookupUrlClassIDByClassLevel(urlInfo, refInfo,
 				UrlClassRule.RULE_LEVEL_1);
 		if (result != null) {
-			level1Counter++;
+			ruleCounter.setLevel1Counter();
 			return result;
 		}
 
@@ -234,7 +203,7 @@ public class GetURLClass extends AbstractFunction {
 		result = lookupUrlClassIDByClassLevel(urlInfo, refInfo,
 				UrlClassRule.RULE_LEVEL_0);
 		if (result != null) {
-			level0Counter++;
+			ruleCounter.setLevel0Counter();
 			return result;
 		}
 
@@ -269,28 +238,28 @@ public class GetURLClass extends AbstractFunction {
 			return null;
 		}
 
-		ruleCounter.reset();
+		ruleMatchCounter.reset();
 		UrlClassRule matchedRule = this.searchTree(ruleTreeNode,
-				urlInfo.getUrl(), ruleCounter);
-		matchingCounter += ruleCounter.totalCount;
+				urlInfo.getUrl(), ruleMatchCounter);
+		//matchingCounter = matchingCounter.addAndGet(ruleCounter.totalCount.get());
 		if (matchedRule != null) {
 			switch (classLevel) {
 			case UrlClassRule.RULE_LEVEL_SPAM:
-				levelspamCounter++;
+				ruleCounter.setLevelspamCounter();
 			case UrlClassRule.RULE_LEVEL_0:
-				level0Counter++;
+				ruleCounter.setLevel0Counter();
 			case UrlClassRule.RULE_LEVEL_1:
-				level1Counter++;
+				ruleCounter.setLevel1Counter();
 			case UrlClassRule.RULE_LEVEL_2:
-				level2Counter++;
+				ruleCounter.setLevel2Counter();
 			case UrlClassRule.RULE_LEVEL_3:
-				level3Counter++;
+				ruleCounter.setLevel3Counter();
 			case UrlClassRule.RULE_LEVEL_4:
-				level4Counter++;
+				ruleCounter.setLevel4Counter();
 			case UrlClassRule.RULE_LEVEL_5:
-				level5Counter++;
+				ruleCounter.setLevel5Counter();
 			case UrlClassRule.RULE_LEVEL_6:
-				level6Counter++;
+				ruleCounter.setLevel6Counter();
 			}
 		}
 		return matchedRule;
@@ -310,7 +279,7 @@ public class GetURLClass extends AbstractFunction {
 		// System.out.println("tag=" + node.getTag());
 
 		String tag = node.getTag();
-		rmc.totalCount += 1;
+		rmc.totalCount.getAndIncrement();
 		if (searchStr.indexOf(tag) == -1) {
 			return null;
 		}
@@ -330,7 +299,7 @@ public class GetURLClass extends AbstractFunction {
 			if (rules != null) {
 				for (UrlClassRule rule : rules) {
 					// System.out.println("\t" + rule.getRule());
-					rmc.totalCount += 1;
+					rmc.totalCount.getAndIncrement();
 					if (rule.isMatch(searchStr)) {
 						return rule;
 					}

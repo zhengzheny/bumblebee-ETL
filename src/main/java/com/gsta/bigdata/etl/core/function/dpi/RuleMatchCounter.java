@@ -1,14 +1,17 @@
 package com.gsta.bigdata.etl.core.function.dpi;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 public class RuleMatchCounter {
-	public long totalCount;
+	public AtomicLong totalCount = new AtomicLong();
 	
 	public RuleMatchCounter() {
-		totalCount = 0;
+		totalCount.getAndSet(0);
 	}
 	
 	public void reset()
 	{
-		totalCount = 0;
+		totalCount.getAndSet(0);
 	}
+	
 }

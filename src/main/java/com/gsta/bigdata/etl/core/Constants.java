@@ -133,6 +133,7 @@ public class Constants {
 	public final static String ATTR_BROKERS = "brokers";
 	public final static String ATTR_TOPICS = "topics";
 	public final static String ATTR_REFURL = "refUrl";
+	public final static String ATTR_REFRULE = "refRule";
 	
 	public final static String TAG_FIELD = "field";
 	public final static String TAG_INPUTPATH = "inputPath";

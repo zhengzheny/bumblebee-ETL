@@ -32,9 +32,8 @@ public class UrlClassRuleManager implements IRuleMgr {
 	private String ruleCharset = "UTF-8";
 
 	private DpiRule dpiRule;
+	private RuleCounter ruleCounter;
 	
-	private String statInfo;
-
 	private Map<String, String> ruleCheckMap = new HashMap<String, String>(
 			10000);
 	private Map<String, List<UrlClassRule>> ruleListMap = new HashMap<String, List<UrlClassRule>>();
@@ -552,10 +551,6 @@ public class UrlClassRuleManager implements IRuleMgr {
 	}
 	
 
-	public void setStatInfo(String statInfo) {
-		this.statInfo = statInfo;
-	}
-	
 	@Override
 	@JsonIgnore
 	public DpiRule getDpiRule() {
@@ -565,7 +560,8 @@ public class UrlClassRuleManager implements IRuleMgr {
 	@Override
 	@JsonIgnore
 	public String getStatInfo() {
-		return this.statInfo;
+		ruleCounter = RuleCounter.getInstance();
+		return ruleCounter.getUrlClassStatInfo();
 	}
 
 	@Override

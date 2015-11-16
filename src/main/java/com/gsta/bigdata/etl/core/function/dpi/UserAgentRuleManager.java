@@ -43,8 +43,7 @@ public class UserAgentRuleManager implements IRuleMgr{
 	private static Pattern useragentKeywordPattern;
 	
 	private DpiRule dpiRule;
-	
-	private String statInfo;
+	private RuleCounter ruleCounter;
 	
 	private Properties properties = new Properties();
 	@JsonIgnore
@@ -336,10 +335,6 @@ public class UserAgentRuleManager implements IRuleMgr{
 		return rule;
 	}
 	
-	public void setStatInfo(String statInfo) {
-		this.statInfo = statInfo;
-	}
-	
 	@Override
 	@JsonIgnore
 	public DpiRule getDpiRule() {
@@ -349,7 +344,8 @@ public class UserAgentRuleManager implements IRuleMgr{
 	@Override
 	@JsonIgnore
 	public String getStatInfo() {
-		return statInfo;
+		ruleCounter = RuleCounter.getInstance();
+		return ruleCounter.getParseUserStatInfo();
 	}
 	
 	public void setRuleMatchedStats(Map<String, Long> ruleMatchedStats) {

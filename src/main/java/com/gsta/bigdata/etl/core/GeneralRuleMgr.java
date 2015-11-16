@@ -89,7 +89,8 @@ public class GeneralRuleMgr extends AbstractETLObject{
 	}
 	
 	public void clone(GeneralRuleMgr ruleStatisMgr){
-		this.ruleMgrs = ruleStatisMgr.getRuleMgrs();
+		this.ruleMgrs.clear();
+		this.ruleMgrs.putAll(ruleStatisMgr.getRuleMgrs());
 	}
 
 	public static GeneralRuleMgr getInstance() {
