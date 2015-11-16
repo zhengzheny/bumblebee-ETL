@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,14 +17,13 @@ import org.w3c.dom.Element;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gsta.bigdata.etl.ETLException;
-import com.gsta.bigdata.etl.core.ChildrenTag;
 import com.gsta.bigdata.etl.core.Constants;
 import com.gsta.bigdata.etl.core.GeneralRuleMgr;
 import com.gsta.bigdata.etl.core.IRuleMgr;
 import com.gsta.bigdata.etl.core.ParseException;
 import com.gsta.bigdata.etl.core.ShellContext;
-import com.gsta.bigdata.etl.core.function.dpi.DpiCache;
 import com.gsta.bigdata.etl.core.function.dpi.MatchedUseragent;
+import com.gsta.bigdata.etl.core.function.dpi.RuleCounter;
 import com.gsta.bigdata.etl.core.function.dpi.TerminalInfo;
 import com.gsta.bigdata.etl.core.function.dpi.UniIDGenerator;
 import com.gsta.bigdata.etl.core.function.dpi.UserAgentRuleManager;
@@ -49,7 +49,7 @@ public class ParseUserAgent extends AbstractFunction {
 	@JsonProperty
 	private UserAgentRuleManager ruleManager;
 
-	private String ref;
+	private String refRule;
 	private int useragentCacheSize;
 
 	@JsonProperty
@@ -58,25 +58,28 @@ public class ParseUserAgent extends AbstractFunction {
 	@JsonIgnore
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
-	private long nTotalRecondsForRead = 0;
-	private long nSkipRecordsForInvalidLen = 0;
-	private long nSkipRecordsForNoKeywords = 0;
-	private long nUpdatedRecords = 0;
-	private long nUnmatchedRecords = 0;
-	private long nCachedRecords = 0;
+	@JsonProperty
+	private RuleCounter ruleCounter;
+	@JsonProperty
+	private UseragentParserRule[] rules;
+	@JsonProperty
+	private List<String> outputIdList;
+
+	private int cacheSize;
+	private int cleanInterval;
+	private float cleanRatio;
 
 	public static final int RULE_MATCHED = 1;
 	public static final int RULE_UNMATCHED = 0;
+	public final static String ATTR_SIZE = "size";
+	public final static String ATTR_CLEANINTERVAL = "cleanInterval";
+	public final static String ATTR_CLEANRATIO = "cleanRatio";
 
 	private static final String RULE_KEY_PREFIX = "rule@";
 
 	public ParseUserAgent() {
 		super();
 
-		super.registerChildrenTags(new ChildrenTag(Constants.PATH_DPI_RULE,
-				ChildrenTag.NODE));
-		super.registerChildrenTags(new ChildrenTag(Constants.PATH_DPI_CACHE,
-				ChildrenTag.NODE));
 	}
 
 	@Override
@@ -84,78 +87,75 @@ public class ParseUserAgent extends AbstractFunction {
 		super.initAttrs(element);
 
 		this.inputField = super.getAttr(Constants.ATTR_INPUT);
-		this.ref = super.getAttr(Constants.ATTR_REF);
+		this.refRule = super.getAttr(Constants.ATTR_REFRULE);
 	}
 
 	@Override
 	public void init(Element element) throws ParseException {
 		super.init(element);
+		// init RuleCounter
+		this.ruleCounter = RuleCounter.getInstance();
+		
+		this.outputIdList = super.getOutputIds();
+		int outSize = this.outputIdList.size();
+		if (outSize != 12) {
+			throw new ParseException(
+					"ParseUserAgent function must have 12 output value");
+		}
 
-		IRuleMgr mgr = GeneralRuleMgr.getInstance().getRuleMgrById(this.ref);
+		GeneralRuleMgr generalRuleMgr = GeneralRuleMgr.getInstance();
+		IRuleMgr mgr = generalRuleMgr.getRuleMgrById(this.refRule);
 		if (mgr instanceof UserAgentRuleManager) {
 			this.ruleManager = (UserAgentRuleManager) mgr;
 		}
 		if (this.ruleManager == null) {
-			throw new ParseException("can't find rule:" + ref);
+			throw new ParseException("can't find rule:" + refRule);
 		}
 
 		ruleManager.init();
 
-		String filePath = GeneralRuleMgr.getInstance().getDpiRuleById(this.ref)
-				.getFilePath();
-		DpiCache dpiCache = getDpiCacheByFilePath(filePath);
-
-		int cacheSize = 0;
-		int cleanInterval = 0;
-		float cleanRatio = 0;
-		if (dpiCache != null) {
-			cacheSize = Integer.parseInt(dpiCache.getSize());
-			cleanInterval = Integer.parseInt(dpiCache.getCleanInterval());
-			cleanRatio = Float.parseFloat(dpiCache.getCleanRatio());
+		this.rules = ruleManager.getRules();
+		if (this.rules == null) {
+			throw new ParseException("can't find any UserAgent rule");
 		}
 
-		this.ruleStatMap = new HashMap<String, Long>();
-		useragentCacheSize = cacheSize;
+		String filePath = generalRuleMgr.getDpiRuleById(this.refRule)
+				.getFilePath();
+		this.getDpiCacheByFilePath(filePath);
+
+		this.ruleStatMap = new ConcurrentHashMap<String, Long>();
+		useragentCacheSize = this.cacheSize;
 		if (useragentCacheSize >= 0) {
 			useragentCacheMap = new HashMap<String, MatchedUseragent>(
 					useragentCacheSize);
 			cacheCleanThread = new UseragentCacheCleaner(useragentCacheMap,
-					useragentCacheSize, cleanInterval, cleanRatio);
+					useragentCacheSize, this.cleanInterval, this.cleanRatio);
 			new Thread(cacheCleanThread).start();
 		}
 	}
 
-	private DpiCache getDpiCacheByFilePath(String filePath) {
+	private void getDpiCacheByFilePath(String filePath) {
 		if (StringUtils.isBlank(filePath)) {
-			return null;
+			return;
 		}
 
-		DpiCache dpiCache = new DpiCache();
 		try {
 			InputStream input = FileUtils.getInputFile(filePath);
 			Properties properties = new Properties();
 			properties.load(input);
 
-			String size = properties.getProperty(DpiCache.ATTR_SIZE, "0");
-			String cleanInterval = properties.getProperty(
-					DpiCache.ATTR_CLEANINTERVAL, "0");
-			String cleanRatio = properties.getProperty(
-					DpiCache.ATTR_CLEANRATIO, "0");
+			String size = properties.getProperty(ATTR_SIZE, "0");
+			String cleanInterval = properties.getProperty(ATTR_CLEANINTERVAL,
+					"0");
+			String cleanRatio = properties.getProperty(ATTR_CLEANRATIO, "0");
 
-			dpiCache.setSize(size);
-			dpiCache.setCleanInterval(cleanInterval);
-			dpiCache.setCleanRatio(cleanRatio);
+			this.cacheSize = Integer.parseInt(size);
+			this.cleanInterval = Integer.parseInt(cleanInterval);
+			this.cleanRatio = Float.parseFloat(cleanRatio);
 		} catch (Exception e) {
 			logger.error("can't find the file path:" + filePath);
-			return null;
+			return;
 		}
-
-		return dpiCache;
-	}
-
-	@Override
-	protected void createChildNode(Element node) throws ParseException {
-		super.createChildNode(node);
 
 	}
 
@@ -174,71 +174,34 @@ public class ParseUserAgent extends AbstractFunction {
 			return null;
 		}
 
-		UseragentParserRule[] rules = ruleManager.getRules();
-		if (rules == null) {
-			return null;
-		}
-
-		TerminalInfo terminalInfo = parseRules(useragent, rules);
-		List<String> outputIds = super.getOutputIds();
+		TerminalInfo terminalInfo = parseRules(useragent, this.rules);
 		Map<String, String> retMap = new HashMap<String, String>();
 
 		if (terminalInfo == null) {
-			for (int i = 0; i < outputIds.size(); i++) {
-				retMap.put(outputIds.get(i), null);
+			for (int i = 0; i < outputIdList.size(); i++) {
+				retMap.put(outputIdList.get(i), null);
 			}
 		} else {
-			for (int i = 0; i < outputIds.size(); i++) {
-				if (i == 0) {
-					retMap.put(outputIds.get(i), terminalInfo.getAppName());
-				} else if (i == 1) {
-					retMap.put(outputIds.get(i), terminalInfo.getAppVer());
-				} else if (i == 2) {
-					retMap.put(outputIds.get(i),
-							terminalInfo.getTerminalBrand());
-				} else if (i == 3) {
-					retMap.put(outputIds.get(i), terminalInfo.getTerminalType());
-				} else if (i == 4) {
-					retMap.put(outputIds.get(i), terminalInfo.getCharset());
-				} else if (i == 5) {
-					retMap.put(outputIds.get(i), terminalInfo.getBrowser());
-				} else if (i == 6) {
-					retMap.put(outputIds.get(i), terminalInfo.getOsVer());
-				} else if (i == 7) {
-					retMap.put(outputIds.get(i), terminalInfo.getOsName());
-				} else if (i == 8) {
-					retMap.put(outputIds.get(i),
-							String.valueOf(terminalInfo.getTerminalCategory()));
-				} else if (i == 9) {
-					retMap.put(outputIds.get(i),
-							UniIDGenerator.generateUniqueID());
-				} else if (i == 10) {
-					retMap.put(outputIds.get(i),
-							String.valueOf(terminalInfo.getMatchedFlag()));
-				} else if (i == 11) {
-					retMap.put(outputIds.get(i), terminalInfo.getRule().getId());
-				}
-			}
+			retMap.put(outputIdList.get(0), terminalInfo.getAppName());
+			retMap.put(outputIdList.get(1), terminalInfo.getAppVer());
+			retMap.put(outputIdList.get(2), terminalInfo.getTerminalBrand());
+			retMap.put(outputIdList.get(3), terminalInfo.getTerminalType());
+			retMap.put(outputIdList.get(4), terminalInfo.getCharset());
+			retMap.put(outputIdList.get(5), terminalInfo.getBrowser());
+			retMap.put(outputIdList.get(6), terminalInfo.getOsVer());
+			retMap.put(outputIdList.get(7), terminalInfo.getOsName());
+			retMap.put(outputIdList.get(8),
+					String.valueOf(terminalInfo.getTerminalCategory()));
+			retMap.put(outputIdList.get(9), UniIDGenerator.generateUniqueID());
+			retMap.put(outputIdList.get(10),
+					String.valueOf(terminalInfo.getMatchedFlag()));
+			retMap.put(outputIdList.get(11), terminalInfo.getRule().getId());
 		}
 
-		// set statInfo
-		String statInfo = getStatInfo();
-		ruleManager.setStatInfo(statInfo);
+		// set rulestatMap
 		ruleManager.setRuleMatchedStats(ruleStatMap);
 
 		return retMap;
-	}
-
-	private String getStatInfo() {
-		String userAgentStatsMsg = "debug info------Useragent statistics in this mapper: \r\n"
-				+ "\tTotal records:" + this.nTotalRecondsForRead + "\r\n" 
-				+ "\tinvalid length records: " + this.nSkipRecordsForInvalidLen + "\r\n"
-				+ "\tno keyword records: " + this.nSkipRecordsForNoKeywords + "\r\n"
-				+ "\tunmatched records: " + this.nUnmatchedRecords + "\r\n"
-				+ "\tcached records: " + this.nCachedRecords + "\r\n"
-				+ "\tlookuped records: " + this.nUpdatedRecords + "\r\n"
-				+ "\tcache map size: " + this.useragentCacheMap.size();
-		return userAgentStatsMsg;
 	}
 
 	/**
@@ -252,19 +215,19 @@ public class ParseUserAgent extends AbstractFunction {
 				|| ruleManager == null) {
 			return null;
 		}
-		this.nTotalRecondsForRead++;
+		ruleCounter.setnTotalRecondsForRead();
 
 		String fmtUA = useragent.trim();
 
 		int uaLen = fmtUA.length();
 		if (uaLen < 5) {
-			this.nSkipRecordsForInvalidLen++;
+			ruleCounter.setnSkipRecordsForInvalidLen();
 			return null;
 		}
 
 		Pattern keywordPat = ruleManager.getUseragentKeywordPattern();
 		if (keywordPat != null && !keywordPat.matcher(fmtUA).find()) {
-			this.nSkipRecordsForNoKeywords++;
+			ruleCounter.setnSkipRecordsForNoKeywords();
 			return null;
 		}
 
@@ -274,7 +237,7 @@ public class ParseUserAgent extends AbstractFunction {
 			if (rule != null) {
 				this.updateRuleStat(rule.getRegular());
 			}
-			this.nUpdatedRecords++;
+			ruleCounter.setnUpdatedRecords();
 			return terminalInfo;
 		}
 
@@ -302,7 +265,7 @@ public class ParseUserAgent extends AbstractFunction {
 			}
 		}
 
-		this.nUnmatchedRecords++;
+		ruleCounter.setnUnmatchedRecords();
 		return null;
 	}
 
@@ -416,7 +379,7 @@ public class ParseUserAgent extends AbstractFunction {
 			mua.setTerminalInfo(tinfo);
 			mua.setUpdateTime(System.currentTimeMillis());
 			useragentCacheMap.put(useragent, mua);
-			this.nCachedRecords++;
+			ruleCounter.setnCachedRecords();
 		}
 	}
 

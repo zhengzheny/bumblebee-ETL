@@ -28,7 +28,7 @@ public class ParseSearchKeywords extends AbstractFunction {
 	@JsonProperty
 	private String inputField;
 
-	private String ref;
+	private String refRule;
 
 	@JsonProperty
 	private SearchWordsRuleManager ruleManager;
@@ -45,19 +45,19 @@ public class ParseSearchKeywords extends AbstractFunction {
 		super.initAttrs(element);
 
 		this.inputField = super.getAttr(Constants.ATTR_INPUT);
-		this.ref = super.getAttr(Constants.ATTR_REF);
+		this.refRule = super.getAttr(Constants.ATTR_REFRULE);
 	}
 
 	@Override
 	public void init(Element element) throws ParseException {
 		super.init(element);
 
-		IRuleMgr mgr = GeneralRuleMgr.getInstance().getRuleMgrById(this.ref);
+		IRuleMgr mgr = GeneralRuleMgr.getInstance().getRuleMgrById(this.refRule);
 		if (mgr instanceof SearchWordsRuleManager) {
 			this.ruleManager = (SearchWordsRuleManager) mgr;
 		}
 		if (this.ruleManager == null) {
-			throw new ParseException("can't find rule:" + ref);
+			throw new ParseException("can't find rule:" + refRule);
 		}
 
 		ruleManager.init();

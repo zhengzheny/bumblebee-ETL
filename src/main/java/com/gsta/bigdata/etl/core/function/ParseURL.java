@@ -22,11 +22,16 @@ import com.gsta.bigdata.etl.core.function.dpi.UrlInfo;
  */
 public class ParseURL extends AbstractFunction {
 	private static final long serialVersionUID = -2978322391366886568L;
-	
+
 	@JsonProperty
 	private String strInput;
+	@JsonProperty
+	private List<String> outputIdList;
 
-	private static final Pattern ipCheckPat = Pattern.compile("([1-9]|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])(\\.(\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])){3}",Pattern.CASE_INSENSITIVE);
+	private static final Pattern ipCheckPat = Pattern
+			.compile(
+					"([1-9]|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])(\\.(\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])){3}",
+					Pattern.CASE_INSENSITIVE);
 
 	public ParseURL() {
 		super();
@@ -40,6 +45,18 @@ public class ParseURL extends AbstractFunction {
 		if (this.strInput == null || this.strInput.length() <= 0) {
 			throw new ParseException(this.getClass().getSimpleName()
 					+ " has no input attribute");
+		}
+	}
+
+	@Override
+	public void init(Element element) throws ParseException {
+		super.init(element);
+
+		this.outputIdList = super.getOutputIds();
+		int outSize = this.outputIdList.size();
+		if (outSize != 4) {
+			throw new ParseException(
+					"ParseURL function must have 4 output value");
 		}
 	}
 
@@ -60,19 +77,11 @@ public class ParseURL extends AbstractFunction {
 		}
 
 		UrlInfo urlInfo = this.split(value);
-		List<String> outputIds = super.getOutputIds();
 
-		for (int i = 0; i < outputIds.size(); i++) {
-			if (i == 0) {
-				ret.put(outputIds.get(i), urlInfo.getDomain());
-			} else if (i == 1) {
-				ret.put(outputIds.get(i), urlInfo.getHost());
-			} else if (i == 2) {
-				ret.put(outputIds.get(i), urlInfo.getPath());
-			} else if (i == 3) {
-				ret.put(outputIds.get(i), urlInfo.getQuery());
-			}
-		}
+		ret.put(outputIdList.get(0), urlInfo.getDomain());
+		ret.put(outputIdList.get(1), urlInfo.getHost());
+		ret.put(outputIdList.get(2), urlInfo.getPath());
+		ret.put(outputIdList.get(3), urlInfo.getQuery());
 
 		return ret;
 	}

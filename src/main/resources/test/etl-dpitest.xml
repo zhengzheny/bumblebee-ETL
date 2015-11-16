@@ -90,15 +90,15 @@
 					<output id="urldomain" />
 					<output id="urlhost" />
 					<output id="urlpath" />
-					<output id="urlquery" />
-				</function>
-				<function name="parseURL" input="ref">
+					<output id="urlquery" /> 
+				</function> -->
+				<!-- <function name="parseURL" input="ref">
 					<output id="refdomain" />
 					<output id="refhost" />
 					<output id="refpath" />
 					<output id="refquery" />
 				</function> -->
-				<function name="parseUserAgent" input="ua" ref="UserAgentRuleManager">
+				<function name="parseUserAgent" input="ua" refRule="UserAgentRuleManager">
 					<output id="appname" />
 					<output id="appversion" />
 					<output id="terminalbrand" />
@@ -112,11 +112,11 @@
 					<output id="matchflag" />
 					<output id="useragentruleid" />
 				</function>
-				<!-- <function name="getURLClass" input="url" refUrl="ref" ref="UrlClassRuleManager">
+				<!-- <function name="getURLClass" input="url" refUrl="ref" refRule="UrlClassRuleManager">
 					<output id="urlclassid" />
 					<output id="urlclassruleid" />
 				</function> -->
-				<!-- <function name="parseSearchKeywords" input="url" output="searchkeywords" ref="SearchWordsRuleManager"/> -->
+				<!-- <function name="parseSearchKeywords" input="url" output="searchkeywords" refRule="SearchWordsRuleManager"/> -->
 			</transform>
 		</transforms>
 	</process>

@@ -4,6 +4,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author xiangy
  *
@@ -17,7 +20,7 @@ public class UseragentCacheCleaner implements Runnable {
 	private float cleanRatio;
 	private boolean stopped = false;
 	
-	
+	private Logger logger = LoggerFactory.getLogger(getClass());
 	/**
 	 * @param ruleCacheMap
 	 * @param cleanInterval
@@ -52,7 +55,7 @@ public class UseragentCacheCleaner implements Runnable {
 	{
 		if (cachedMap == null || cacheSize <= 0)
 		{
-			System.out.println("The CacheMap is null. Please check it. ");
+			logger.error("The CacheMap is null. Please check it. ");
 			return;
 		}
 
@@ -109,6 +112,6 @@ public class UseragentCacheCleaner implements Runnable {
 				break;
 			}
 		}
-		System.out.printf("debug---------------Useragent cache is cleaned. the cache size from % to %. \r\n", oldMapSize, cachedMap.size());
+		logger.error("debug---------------Useragent cache is cleaned. the cache size from % to %. \r\n", oldMapSize, cachedMap.size());
 	}
 }
