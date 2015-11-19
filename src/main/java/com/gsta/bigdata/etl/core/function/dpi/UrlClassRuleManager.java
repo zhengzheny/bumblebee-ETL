@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +20,9 @@ import com.gsta.bigdata.etl.core.GeneralRuleMgr;
 import com.gsta.bigdata.etl.core.IRuleMgr;
 import com.gsta.bigdata.utils.FileUtils;
 
-public class UrlClassRuleManager implements IRuleMgr {
+public class UrlClassRuleManager implements IRuleMgr,Serializable {
+	private static final long serialVersionUID = -4794161669516529422L;
+
 	@JsonIgnore
 	public final Logger logger = LoggerFactory.getLogger(getClass());
 

@@ -1,5 +1,6 @@
 package com.gsta.bigdata.etl.core.function.dpi;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -11,7 +12,9 @@ import org.slf4j.LoggerFactory;
  * @author xiangy
  *
  */
-public class UseragentCacheCleaner implements Runnable {
+public class UseragentCacheCleaner implements Runnable,Serializable {
+	private static final long serialVersionUID = -5360727646878187942L;
+	
 	public static final int CACHE_CLEAN_MIN_INTERVAL = 1000;  
 	public static final float CACHE_CLEAN_MIN_RATIO = 0.7f;   
 	private Map<String, MatchedUseragent> cachedMap;

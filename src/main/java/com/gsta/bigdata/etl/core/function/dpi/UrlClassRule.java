@@ -1,12 +1,15 @@
 package com.gsta.bigdata.etl.core.function.dpi;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class UrlClassRule {
+public class UrlClassRule implements Serializable{
+	private static final long serialVersionUID = 7022556865269063411L;
+	
 	public static final String RULE_WILDCARD_SYMBOLS = "\\*";
 	public static final String RULE_KEYWORDS_DELIMITER = "\\|";
 
