@@ -1,12 +1,15 @@
 package com.gsta.bigdata.etl.core.function.dpi;
 
+import java.io.Serializable;
 import java.util.concurrent.atomic.AtomicLong;
 /**
  * 
  * @author shine
  *
  */
-public class RuleCounter {
+public class RuleCounter implements Serializable{
+	private static final long serialVersionUID = -7333117402823290841L;
+
 	private static final RuleCounter instance = new RuleCounter();
 
 	// GetURLClass counter

@@ -1,6 +1,7 @@
 package com.gsta.bigdata.etl.core.function.dpi;
 
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -24,7 +25,9 @@ import com.gsta.bigdata.utils.FileUtils;
  * @author xiangy
  *
  */
-public class UserAgentRuleManager implements IRuleMgr{
+public class UserAgentRuleManager implements IRuleMgr,Serializable{
+	private static final long serialVersionUID = -3161712462086257847L;
+	
 	public static final int RULE_MATCH_INDEXES_COUNT = 8;
 	public static final String RULE_DELIMITER = "\\|\\|";
 	public static final String RULE_INDEX_DELIMITER = ",";

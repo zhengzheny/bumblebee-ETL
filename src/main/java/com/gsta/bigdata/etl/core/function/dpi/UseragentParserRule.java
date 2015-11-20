@@ -1,5 +1,6 @@
 package com.gsta.bigdata.etl.core.function.dpi;
 
+import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -10,7 +11,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author xiangy
  *
  */
-public class UseragentParserRule {
+public class UseragentParserRule implements Serializable{
+	private static final long serialVersionUID = 3551586069336962747L;
+	
 	@JsonProperty
 	private String id = null;  		
 	@JsonProperty

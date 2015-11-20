@@ -1,6 +1,7 @@
 package com.gsta.bigdata.etl.core.function.dpi;
 
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -23,7 +24,9 @@ import com.gsta.bigdata.utils.FileUtils;
  * @author shine
  *
  */
-public class SearchWordsRuleManager implements IRuleMgr{
+public class SearchWordsRuleManager implements IRuleMgr,Serializable{
+	private static final long serialVersionUID = -3385602165404882931L;
+
 	@JsonProperty
 	private SearchWordsRule[] allRules;
 	

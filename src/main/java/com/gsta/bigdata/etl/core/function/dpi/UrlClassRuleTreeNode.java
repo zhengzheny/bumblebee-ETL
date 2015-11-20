@@ -1,12 +1,15 @@
 package com.gsta.bigdata.etl.core.function.dpi;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class UrlClassRuleTreeNode {
+public class UrlClassRuleTreeNode implements Serializable{
+	private static final long serialVersionUID = 908591203467127422L;
+	
 	@JsonProperty
 	private String tag = null; 
 	@JsonProperty

@@ -1,12 +1,16 @@
 package com.gsta.bigdata.etl.core.function.dpi;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author xiangy
  *
  */
-public class TerminalInfo {
+public class TerminalInfo implements Serializable{
+	private static final long serialVersionUID = 1978808497085749746L;
+	
 	@JsonProperty
 	private String appName;			
 	@JsonProperty

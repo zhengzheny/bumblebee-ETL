@@ -1,12 +1,15 @@
 package com.gsta.bigdata.etl.core.function.dpi;
 
+import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class SearchWordsRule {
+public class SearchWordsRule implements Serializable{
+	private static final long serialVersionUID = -6979927059699849916L;
+	
 	@JsonProperty
 	private String id = null;  		
 	@JsonProperty
