@@ -11,8 +11,8 @@ public class ContextMgr implements Serializable{
 	private static final long serialVersionUID = -7999136276966399765L;
 
 	/**
-	 * first get variable from .properties file,
-	 * second get variable from shell command line
+	 * first get variable from shell command line
+	 * second get variable from .properties file,
 	 * @param value
 	 * @return
 	 */
@@ -21,8 +21,20 @@ public class ContextMgr implements Serializable{
 			return null;
 		}
 		
+		String ret = null;
+		//update ${variable} variable from shell command
+		if(value.indexOf(Constants.CONTEXT_PREFIX) != -1){
+			int beginPos = value.indexOf(Constants.CONTEXT_PREFIX);
+			int endPos = value.indexOf(Constants.CONTEXT_POSTFIX);
+			String key = value.substring(beginPos + Constants.CONTEXT_PREFIX.length(), endPos);
+			ret = ShellContext.getInstance().getValue(key);
+			if(!ret.equals(key)){
+				return ret;
+			}
+		}
+		
 		//update ${variable} variable from .properties file
-		String ret = ContextProperty.getInstance().getValue(value);
+		ret = ContextProperty.getInstance().getValue(value);
 		
 		//update context ${YYYYMM} from shell command line
 		//if have multiple variable ,replace all
@@ -42,4 +54,5 @@ public class ContextMgr implements Serializable{
 		
 		return ret;
 	}
+	
 }

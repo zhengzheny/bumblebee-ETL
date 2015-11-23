@@ -1,7 +1,5 @@
 <?xml version = "1.0" encoding = "utf-8"?>
 <etl>
-	<contextProperty location="etl-hw-updelay.properties" />
-	
 	<process id="hw-updelay">
 		<computingFrameworkConfigs>
 			<property key="outputFormatClass"
