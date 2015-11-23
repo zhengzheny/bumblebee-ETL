@@ -47,8 +47,8 @@ public class RuleCounter implements Serializable{
 		this.inputCounter.getAndIncrement();
 	}
 
-	public void setMatchingCounter() {
-		this.matchingCounter.getAndIncrement();
+	public void setMatchingCounter(long totalCount) {
+		this.matchingCounter.addAndGet(totalCount);
 	}
 
 	public void setMatchedCounter() {

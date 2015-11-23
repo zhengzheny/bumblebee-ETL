@@ -2,6 +2,8 @@ package com.gsta.bigdata.etl.core.function.dpi;
 
 
 public class SimpleRegularMatchRule extends UrlClassRule {
+	private static final long serialVersionUID = -3808910630291982643L;
+
 	public boolean isMatch(String url) {
 		if (!super.isMatch(url))
 			return false;

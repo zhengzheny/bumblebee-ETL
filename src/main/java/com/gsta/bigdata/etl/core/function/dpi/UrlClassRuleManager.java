@@ -381,7 +381,6 @@ public class UrlClassRuleManager implements IRuleMgr,Serializable {
 		rule.setPriority(priority);
 
 		if (UrlClassRule.RULE_MATCH_REGULAR.equals(typeId)) {
-			// .replace("*", ".*").replace("..", ".");
 			try {
 				Pattern urlPattern = Pattern.compile(sampleRule,
 						Pattern.CASE_INSENSITIVE);

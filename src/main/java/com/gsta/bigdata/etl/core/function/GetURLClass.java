@@ -241,7 +241,7 @@ public class GetURLClass extends AbstractFunction {
 		ruleMatchCounter.reset();
 		UrlClassRule matchedRule = this.searchTree(ruleTreeNode,
 				urlInfo.getUrl(), ruleMatchCounter);
-		//matchingCounter = matchingCounter.addAndGet(ruleCounter.totalCount.get());
+		ruleCounter.setMatchingCounter(ruleMatchCounter.totalCount.get());
 		if (matchedRule != null) {
 			switch (classLevel) {
 			case UrlClassRule.RULE_LEVEL_SPAM:
@@ -276,7 +276,6 @@ public class GetURLClass extends AbstractFunction {
 		if (node == null || searchStr == null) {
 			return null;
 		}
-		// System.out.println("tag=" + node.getTag());
 
 		String tag = node.getTag();
 		rmc.totalCount.getAndIncrement();
@@ -287,7 +286,7 @@ public class GetURLClass extends AbstractFunction {
 		UrlClassRuleTreeNode childNode = node.getFirstChild();
 		if (childNode != null) {
 			while (childNode != null) {
-				// rmc.totalCount += 1;
+				rmc.totalCount.getAndIncrement();
 				UrlClassRule rule = searchTree(childNode, searchStr, rmc);
 				if (rule != null)
 					return rule;
@@ -298,7 +297,6 @@ public class GetURLClass extends AbstractFunction {
 			List<UrlClassRule> rules = node.getRules();
 			if (rules != null) {
 				for (UrlClassRule rule : rules) {
-					// System.out.println("\t" + rule.getRule());
 					rmc.totalCount.getAndIncrement();
 					if (rule.isMatch(searchStr)) {
 						return rule;

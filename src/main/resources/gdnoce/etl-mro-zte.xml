@@ -1,7 +1,5 @@
 <?xml version = "1.0" encoding = "utf-8"?>
 <etl>
-	<contextProperty location="etl-mro-zte.properties" />
-	
 	<process id="mro-zte">
 		<computingFrameworkConfigs>
 			<property key="outputFormatClass"
