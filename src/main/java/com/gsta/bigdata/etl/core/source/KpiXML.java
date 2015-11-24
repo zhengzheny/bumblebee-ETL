@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.commons.lang.StringUtils;
 import org.w3c.dom.NodeList;
@@ -37,6 +38,8 @@ public class KpiXML extends AbstractSourceMetaData {
 	private String statTime;
 	private String statPeriod;
 	private String moid;
+	//mts counter
+	private AtomicLong mtsCounter = new AtomicLong();
 
 	private ETLData etlData = new ETLData();
 	
@@ -82,6 +85,8 @@ public class KpiXML extends AbstractSourceMetaData {
 			}
 
 			if (line.indexOf(beginMts) != -1) {
+				this.mtsCounter.getAndIncrement();
+				
 				this.statTime = this.getTagValue(line, TAG_MTS);
 			}
 
@@ -110,8 +115,9 @@ public class KpiXML extends AbstractSourceMetaData {
 				String r = this.getTagValue(line, TAG_R);
 				this.rs.add(r);
 			}
-
-			if (line.indexOf(endMv) != -1) {
+			
+			//from the second mts begin output value
+			if (line.indexOf(endMv) != -1 && this.mtsCounter.get() >= 2) {
 				if (this.mts.size() != this.rs.size()) {
 					throw new ETLException("moid:" + this.moid + ",mt size="
 							+ this.mts.size() + ",but r size=" + this.rs.size());
