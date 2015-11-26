@@ -51,6 +51,9 @@ public class Field extends AbstractETLObject implements Comparable<Field> {
 	@JsonProperty
 	private String defaultValue = null;
 	
+	@JsonProperty
+	private boolean masterKey = false;
+	
 	private static final String[] TYPE_LIST = { "byte", "creditCard", "double",
 			"email", "float", "int", "long", "short", "string", "idCard" };
 	
@@ -137,6 +140,11 @@ public class Field extends AbstractETLObject implements Comparable<Field> {
 		if(strDefaultValue != null && !"".equals(strDefaultValue)){
 			this.defaultValue = ContextMgr.getValue(strDefaultValue);
 		}
+		
+		String strMasterKey = super.getAttr(Constants.ATTR_MASTER_KEY);
+		if(strMasterKey != null && "yes".equals(strMasterKey)){
+			this.masterKey = true;
+		}
 	}
 
 	@Override
@@ -215,6 +223,10 @@ public class Field extends AbstractETLObject implements Comparable<Field> {
 
 	public String getDefaultValue() {
 		return defaultValue;
+	}
+	
+	public boolean isMasterKey() {
+		return masterKey;
 	}
 
 	@Override

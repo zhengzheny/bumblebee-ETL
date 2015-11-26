@@ -16,9 +16,9 @@
 				<field id="CELLID_NAME" desc="小区名称"/>
 				<field id="ENODEB_ID" desc="eNodeB标识"/>
 				<field id="CELDUPLEXMODE" desc="小区双工模式"/>
-				<field id="ERAB_AttEst" desc="E-RAB建立尝试总次数"/>
+				<field id="ERAB_AttEst" desc="E-RAB建立尝试总次数" masterKey="yes"/>
 				<field id="ERAB_AVE_time" desc="E-RAB建立平均时长"/>
-				<field id="ERAB_SuccEst" desc="E-RAB建立成功总次数"/>
+				<field id="ERAB_SuccEst" desc="E-RAB建立成功总次数" masterKey="yes"/>
 				<field id="ERAB_AVE_RATE" desc="E-RAB建立成功率"/>
 				<field id="ERAB_MAX_time" desc="E-RAB建立最大时长"/>
 				<field id="ERAB_AttEst_QCI_1" desc="QCI为1的业务E-RAB建立尝试次数"/>
@@ -87,7 +87,7 @@
 				<field id="ERAB_cellsw_SuccEst" desc="小区切换入E-RAB成功建立总次数"/>
 			</fields>
 		</sourceMetaData>
-		<outputMetaData outputPath="${outputPath}" errorPath="${outputPath}">
+		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
 			<values delimiter="|">
 				<field id="STAT_TIME"/>
 				<field id="STAT_PERIOD"/>

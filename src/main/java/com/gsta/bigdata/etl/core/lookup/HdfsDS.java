@@ -93,7 +93,7 @@ public class HdfsDS extends FlatDS {
 						new InputStreamReader(input, Constants.DEFAULT_ENCODING));
 				while ((line = reader.readLine()) != null) {
 					if (!"".equals(line.trim())) {
-						String[] lines = line.split(super.getDelimiter());
+						String[] lines = line.split(super.getDelimiter(), -1);
 						if (lines.length != fields.size()) {
 							throw new ParseException("dimension line:" + line
 									+ ",datasource field count:"

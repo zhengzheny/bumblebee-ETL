@@ -18,16 +18,16 @@
 				<field id="CELDUPLEXMODE" desc="小区双工模式"/>
 				<field id="RRC_ConnReq_Att_DelayTol" desc="delayTolerantAccess-v1020原因的RRC连接建立尝试次数"/>
 				<field id="RRC_ConnReq_Succ_DelayTol" desc="delayTolerantAccess-v1020原因的RRC连接建立成功次数"/>
-				<field id="RRC_ConnReq_Att_Emc" desc="emergency原因的RRC连接建立尝试次数"/>
-				<field id="RRC_ConnReq_Succ_Emc" desc="emergency原因的RRC连接建立成功次数"/>
-				<field id="RRC_ConnReq_Att_HighPri" desc="highPriorityAccess原因的RRC连接建立尝试次数"/>
-				<field id="RRC_ConnReq_Succ_HighPri" desc="highPriorityAccess原因的RRC连接建立成功次数"/>
-				<field id="RRC_ConnReq_Att_MoData" desc="mo-Data原因的RRC连接建立尝试次数"/>
-				<field id="RRC_ConnReq_Succ_MoData" desc="mo-Data原因的RRC连接建立成功次数"/>
-				<field id="RRC_ConnReq_Att_MoSig" desc="mo-Signalling原因的RRC连接建立尝试次数"/>
-				<field id="RRC_ConnReq_Succ_MoSig" desc="mo-Signalling原因的RRC连接建立成功次数"/>
-				<field id="RRC_ConnReq_Att_Mt" desc="mt-Access原因的RRC连接建立尝试次数"/>
-				<field id="RRC_ConnReq_Succ_Mt" desc="mt-Access原因的RRC连接建立成功次数"/>
+				<field id="RRC_ConnReq_Att_Emc" desc="emergency原因的RRC连接建立尝试次数" masterKey="yes"/>
+				<field id="RRC_ConnReq_Succ_Emc" desc="emergency原因的RRC连接建立成功次数" masterKey="yes"/>
+				<field id="RRC_ConnReq_Att_HighPri" desc="highPriorityAccess原因的RRC连接建立尝试次数" masterKey="yes"/>
+				<field id="RRC_ConnReq_Succ_HighPri" desc="highPriorityAccess原因的RRC连接建立成功次数" masterKey="yes"/>
+				<field id="RRC_ConnReq_Att_MoData" desc="mo-Data原因的RRC连接建立尝试次数" masterKey="yes"/>
+				<field id="RRC_ConnReq_Succ_MoData" desc="mo-Data原因的RRC连接建立成功次数" masterKey="yes"/>
+				<field id="RRC_ConnReq_Att_MoSig" desc="mo-Signalling原因的RRC连接建立尝试次数" masterKey="yes"/>
+				<field id="RRC_ConnReq_Succ_MoSig" desc="mo-Signalling原因的RRC连接建立成功次数" masterKey="yes"/>
+				<field id="RRC_ConnReq_Att_Mt" desc="mt-Access原因的RRC连接建立尝试次数" masterKey="yes"/>
+				<field id="RRC_ConnReq_Succ_Mt" desc="mt-Access原因的RRC连接建立成功次数" masterKey="yes"/>
 				<field id="RRC_ConnReq_Succ" desc="RRC连接建立完成次数"/>
 				<field id="RRC_ConnReq_AVEtime" desc="RRC连接建立平均时长"/>
 				<field id="RRC_ConnReq_MAXtime" desc="RRC连接建立最大时长"/>
@@ -40,7 +40,7 @@
 				<field id="Service_RRC_RATE" desc="服务类RRC连接成功率"/>
 			</fields>
 		</sourceMetaData>
-		<outputMetaData outputPath="${outputPath}" errorPath="${outputPath}">
+		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
 			<values delimiter="|">
 				<field id="STAT_TIME"/>
 				<field id="STAT_PERIOD"/>

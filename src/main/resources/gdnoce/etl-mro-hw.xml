@@ -9,8 +9,12 @@
 			<paths>
 				<inputPath path="${inputPath}"/>
 			</paths>
+			<fields>
+				<field id="MR_LteScRSRP" masterKey="yes"/>
+				<field id="MR_LteScRSRQ" masterKey="yes"/>
+			</fields>
 		</sourceMetaData>
-		<outputMetaData outputPath="${outputPath}" errorPath="${outputPath}">
+		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
 			<values delimiter="|">
 				<field id="startTime" />
 				<field id="endTime" />
@@ -20,9 +24,9 @@
 				<field id="MmeGroupId" />
 				<field id="MmeUeS1apId" />
 				<field id="MmeCode" />
-				<field id="MR_LteScRSRP" />
-				<field id="MR_LteNcRSRP" />
-				<field id="MR_LteScRSRQ" />
+				<field id="MR_LteScRSRP"/>
+				<field id="MR_LteNcRSRP"/>
+				<field id="MR_LteScRSRQ"/>
 				<field id="MR_LteNcRSRQ" />
 				<field id="MR_LteScTadv" />
 				<field id="MR_LteScPHR" />

@@ -31,10 +31,10 @@
 			</paths>
 		</sourceMetaData>
 		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
-			<keys delimiter="001">
+			<values delimiter="001">
 				<field id="*" />
 				<field id="hostId"/>
-			</keys>
+			</values>
 		</outputMetaData>
 		<transforms>
 			<transform scope="map">

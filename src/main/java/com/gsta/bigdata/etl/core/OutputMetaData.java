@@ -208,7 +208,7 @@ public class OutputMetaData extends AbstractETLObject {
 			}
 		}
 		
-		if(this.valuesFields.size() == nullCount){
+		if(this.valuesFields.size() != 0 && this.valuesFields.size() == nullCount){
 			throw new ETLException(ETLException.NULL_FIELD_NAMES,
 					"field " + nullFieldNames + " value is all null.");
 		}
@@ -226,24 +226,25 @@ public class OutputMetaData extends AbstractETLObject {
 			throws ETLException{
 		Preconditions.checkNotNull(data, "input data is null");
 		
-		// if get null field,throws ETLException and report all null field name
-		boolean nullFlag = false;
+		//if all fields get null,throws ETLException and report all null field name
+		int nullCount = 0;
 		String nullFieldNames = "";
 				
 		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < this.keysFields.size(); i++) {
 			Field field = this.keysFields.get(i);
-			//if field is *,means add all source fields to output 
+			// if field is *,means add all source fields to output
 			if ("*".equals(field.getId())) {
 				Iterator<String> iter = data.getFieldNames().iterator();
-				while(iter.hasNext()){
+				while (iter.hasNext()) {
 					String fieldName = iter.next();
-					String dataValue = data.getData().get(fieldName);					
-					if (dataValue == null) {
-						if (field.getDefaultValue() != null) {
+					String dataValue = data.getData().get(fieldName);
+					
+					if(dataValue == null){
+						if(field.getDefaultValue() != null){
 							dataValue = field.getDefaultValue();
 						} else {
-							nullFlag = true;
+							nullCount ++;
 							nullFieldNames = nullFieldNames + fieldName + ",";
 						}
 					}
@@ -255,18 +256,19 @@ public class OutputMetaData extends AbstractETLObject {
 					if (field.getDefaultValue() != null) {
 						dataValue = field.getDefaultValue();
 					} else {
-						nullFlag = true;
+						nullCount ++;
 						nullFieldNames = nullFieldNames + field.getId() + ",";
 					}
 				}
 				sb.append(dataValue).append(this.keysDelimiter);
-			}//end if *
-		}//end if
-		
-		if(nullFlag){
-			throw new ETLException(ETLException.NULL_FIELD_NAMES,
-					"field " + nullFieldNames + " get null value.");
+			}
 		}
+		
+		if(this.keysFields.size() != 0 && this.keysFields.size() == nullCount){
+			throw new ETLException(ETLException.NULL_FIELD_NAMES,
+					"field " + nullFieldNames + " value is all null.");
+		}
+
 		
 		String ret = sb.toString();
 		if(ret.endsWith(this.keysDelimiter)){
