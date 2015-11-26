@@ -79,6 +79,10 @@ public class HostQuery extends AbstractFunction {
 		
 		String result = "";
 		for (String key : this.sortedMap.keySet()) {
+			if(null == key || "".equals(key)){
+				continue;
+			}
+			
 			if (host.contains(key)) {
 				result = this.sortedMap.get(key);
 				break;

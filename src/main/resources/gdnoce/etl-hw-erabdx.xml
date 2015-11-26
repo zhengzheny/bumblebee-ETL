@@ -38,8 +38,8 @@
 				<field id="eNodeB_S1RESET_ERAB_QCI8" desc="eNodeB发起的S1 RESET导致的QCI为8的E-RAB异常释放次数"/>
 				<field id="eNodeB_S1RESET_ERAB_QCI9" desc="eNodeB发起的S1 RESET导致的QCI为9的E-RAB异常释放次数"/>
 				<field id="eNodeB_Trig_ERAB_REL_TOT" desc="eNodeB触发的E-RAB异常释放总次数"/>
-				<field id="ERAB_REL_ANORM_TOT" desc="E-RAB异常释放总次数"/>
-				<field id="ERAB_REL_NORM_TOT" desc="E-RAB正常释放总次数"/>
+				<field id="ERAB_REL_ANORM_TOT" desc="E-RAB异常释放总次数" masterKey="yes"/>
+				<field id="ERAB_REL_NORM_TOT" desc="E-RAB正常释放总次数" masterKey="yes"/>
 				<field id="MME_ERAB_REL_TOT" desc="MME发起的E-RAB释放总次数"/>
 				<field id="MME_ERAB_REL_TOT_QCI1" desc="MME发起的QCI为1的E-RAB释放次数"/>
 				<field id="MME_ERAB_REL_TOT_QCI2" desc="MME发起的QCI为2的E-RAB释放次数"/>
@@ -141,7 +141,7 @@
 				<field id="ACT_VOICE_ERAB_ABREL" desc="重同步失败导致的激活的语音业务E-RAB异常释放次数"/>
 			</fields>
 		</sourceMetaData>
-		<outputMetaData outputPath="${outputPath}" errorPath="${outputPath}">
+		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
 			<values delimiter="|">
 				<field id="STAT_TIME"/>
 				<field id="STAT_PERIOD"/>

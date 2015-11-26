@@ -126,7 +126,7 @@ public class FlatDS extends AbstractDataSource {
 				BufferedReader reader = new BufferedReader(
 						new InputStreamReader(input, Constants.DEFAULT_ENCODING));
 				while ((line = reader.readLine()) != null) {
-					String[] lines = line.split(this.delimiter);
+					String[] lines = line.split(this.delimiter , -1);
 					if (lines.length != this.fields.size()) {
 						throw new ParseException("datasource field count:"
 								+ this.fields.size() + ",but line count:"

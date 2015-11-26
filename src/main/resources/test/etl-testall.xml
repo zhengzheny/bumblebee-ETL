@@ -192,10 +192,10 @@
 			</paths>
 		</sourceMetaData>
 		<outputMetaData outputPath="${agg_outputPath}" errorPath="${agg_errorPath}">
-			<keys delimiter="001">
+			<values delimiter="001">
 				<field id="*" />
 				<field id="hostId"/>
-			</keys>
+			</values>
 		</outputMetaData>
 		<transforms>
 			<transform scope="map">

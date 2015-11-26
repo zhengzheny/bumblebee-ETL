@@ -29,7 +29,10 @@ public class ETLException extends AbstractException implements Serializable{
 	public final static String USERLOCATION_SPLIT_ERROR = SOURCE + "008";
 	public final static String KEYS_NOT_EQUAL_VALUES = SOURCE + "009";
 	public final static String MRO_XML_ERROR = SOURCE + "010";
-	public final static String KPI_XML_ERROR = SOURCE + "011";
+	public final static String GET_ATTR_VALUE_ERROR = SOURCE + "011";
+	public final static String GET_TAG_VALUE_ERROR = SOURCE + "012";
+	public final static String MRO_XML_ID_ERROR = SOURCE + "013";
+	public final static String KPI_XML_ERROR = SOURCE + "014";
 
 	public final static String NULL_FIELD_NAMES = OUTPUT + "001";
 

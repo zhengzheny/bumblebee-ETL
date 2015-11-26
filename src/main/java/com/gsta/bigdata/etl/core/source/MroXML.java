@@ -36,7 +36,7 @@ public class MroXML extends AbstractSourceMetaData {
 	private String mmeGroupId;
 	private String mmeUeS1apId;
 	private String mmeCode;
-	private String[] smrs;
+	private List<String> smrs = new ArrayList<String>();
 
 	private ETLData etlData = new ETLData();
 
@@ -83,118 +83,140 @@ public class MroXML extends AbstractSourceMetaData {
 	@Override
 	public ETLData parseLine(String line, Set<String> invalidRecords)
 			throws ETLException, ValidatorException {
-		try {
-			if (line.indexOf(beginFileHeader) != -1) {
-				this.startTime = this.getAttrValue(line, ATTR_STARTTIME).replace(
-						"T", " ");
-				this.endTime = this.getAttrValue(line, ATTR_ENDTIME).replace("T",
-						" ");
-			}
+		if (line.indexOf(beginFileHeader) != -1) {
+			this.startTime = this.getAttrValue(line, ATTR_STARTTIME).replace(
+					"T", " ");
+			this.endTime = this.getAttrValue(line, ATTR_ENDTIME).replace("T",
+					" ");
+		}
 
-			if (line.indexOf(beginObject) != -1) {
-				this.etlData.clear();
+		if (line.indexOf(beginObject) != -1) {
+			this.etlData.clear();
 
-				this.timeStamp = this.getAttrValue(line, ATTR_TIMESTAMP).replace(
-						"T", " ");
-				String id = this.getAttrValue(line, ATTR_ID).trim();
-				if(StringUtils.isNotBlank(id)){
-					String [] ids = id.split("-");
-					//mro-zte object id
-					if(ids.length == 1){
-						this.eNodeID = String.valueOf(Integer.parseInt(id) / 256);
-						this.cellID = String.valueOf(Integer.parseInt(id) % 256);
-					}
-					//mro-hw object id
-					if(ids.length == 2){
-						this.eNodeID = ids[0];
-						this.cellID = ids[1];
+			this.timeStamp = this.getAttrValue(line, ATTR_TIMESTAMP).replace(
+					"T", " ");
+			String id = this.getAttrValue(line, ATTR_ID).trim();
+			if (StringUtils.isNotBlank(id)) {
+				String[] ids = id.split("-");
+				// mro-zte object id
+				if (ids.length == 1) {
+					try {
+						this.eNodeID = String
+								.valueOf(Integer.parseInt(id) / 256);
+						this.cellID = String
+								.valueOf(Integer.parseInt(id) % 256);
+					} catch (NumberFormatException e) {
+						throw new ETLException(ETLException.MRO_XML_ID_ERROR,
+								"mro xml id is error,id=" + id);
 					}
 				}
-				
-				this.mmeGroupId = this.getAttrValue(line, ATTR_MMEGROUPID);
-				this.mmeUeS1apId = this.getAttrValue(line, ATTR_MMEUES1APID);
-				this.mmeCode = this.getAttrValue(line, ATTR_MMECODE);
-			}
-
-			if(line.indexOf(beginSmr) != -1){
-				String smr = this.getTagValue(line, TAG_SMR);
-				if (StringUtils.isNotBlank(smr)) {
-					this.smrs = smr.replace(".", "_").split(" ");
+				// mro-hw object id
+				if (ids.length == 2) {
+					this.eNodeID = ids[0];
+					this.cellID = ids[1];
 				}
 			}
 
-			if (line.indexOf(beginV) != -1) {
-				String v = this.getTagValue(line, TAG_V);
-				if (StringUtils.isNotBlank(v)) {
-					String[] values = v.split(" ");
-					if (this.smrs.length != values.length) {
-						throw new ETLException(ETLException.KEYS_NOT_EQUAL_VALUES,
-								"MmeUeS1apId:" + this.mmeUeS1apId + ",smr size=" + this.smrs.length
-										+ ",but v size=" + values.length);
-					} else {
-						for (int i = 0; i < this.smrs.length; i++) {
-							etlData.addData(smrs[i], values[i]);
-						}
-					}
-				}
-				
-				this.etlData.addData(FIELD_STARTTIME, this.startTime);
-				this.etlData.addData(FIELD_ENDTIME, this.endTime);
-				this.etlData.addData(FIELD_TIMESTAMP, this.timeStamp);
-				this.etlData.addData(FIELD_ENODEBID, this.eNodeID);
-				this.etlData.addData(FIELD_CELLID, this.cellID);
-				this.etlData.addData(FIELD_MMEGROUPID, this.mmeGroupId);
-				this.etlData.addData(FIELD_MMEUES1APID, this.mmeUeS1apId);
-				this.etlData.addData(FIELD_MMECODE, this.mmeCode);
+			this.mmeGroupId = this.getAttrValue(line, ATTR_MMEGROUPID);
+			this.mmeUeS1apId = this.getAttrValue(line, ATTR_MMEUES1APID);
+			this.mmeCode = this.getAttrValue(line, ATTR_MMECODE);
+		}
 
-				if (this.fieldIds != null && this.fieldIds.size() > 0) {
-					for (String fieldName : etlData.getFieldNames()) {
-						// check data field
-						if (this.fieldIds.contains(fieldName)) {
-							Field field = super.getFieldById(fieldName);
-							String fieldValue = etlData.getData().get(fieldName);
-							super.fieldValidate(field, fieldValue, fieldValue,
-									invalidRecords);
-						}
+		if (line.indexOf(beginSmr) != -1) {
+			this.smrs.clear();
+
+			String smr = this.getTagValue(line, TAG_SMR);
+			if (StringUtils.isNotBlank(smr)) {
+				String[] tempSmr = smr.replace(".", "_").split(" ");
+				for (String temp : tempSmr) {
+					this.smrs.add(temp);
+				}
+			}
+		}
+
+		if (line.indexOf(beginV) != -1) {
+			String v = this.getTagValue(line, TAG_V);
+			if (StringUtils.isNotBlank(v)) {
+				String[] values = v.split(" ");
+				if (this.smrs.size() != values.length) {
+					throw new ETLException(ETLException.KEYS_NOT_EQUAL_VALUES,
+							"MmeUeS1apId:" + this.mmeUeS1apId + ",smr size="
+									+ this.smrs.size() + ",but v size="
+									+ values.length);
+				} else {
+					for (int i = 0; i < this.smrs.size(); i++) {
+						etlData.addData(this.smrs.get(i), values[i]);
 					}
 				}
-				return etlData;
 			}
-		} catch (Exception e) {
-			throw new ETLException(ETLException.MRO_XML_ERROR,"MroXML error:" + e.toString());
+
+			this.etlData.addData(FIELD_STARTTIME, this.startTime);
+			this.etlData.addData(FIELD_ENDTIME, this.endTime);
+			this.etlData.addData(FIELD_TIMESTAMP, this.timeStamp);
+			this.etlData.addData(FIELD_ENODEBID, this.eNodeID);
+			this.etlData.addData(FIELD_CELLID, this.cellID);
+			this.etlData.addData(FIELD_MMEGROUPID, this.mmeGroupId);
+			this.etlData.addData(FIELD_MMEUES1APID, this.mmeUeS1apId);
+			this.etlData.addData(FIELD_MMECODE, this.mmeCode);
+
+			// when the source field is not contain the master key,throws
+			// exception
+			if (this.fieldIds != null && this.fieldIds.size() > 0) {
+				List<String> fieldNames = this.etlData.getFieldNames();
+				List<String> tempFieldIds = new ArrayList<String>();
+				tempFieldIds.addAll(this.fieldIds);
+				tempFieldIds.removeAll(fieldNames);
+				if (tempFieldIds.size() > 0) {
+					String errorMsg = tempFieldIds.toString();
+					String errorCode = String.valueOf(errorMsg.hashCode());
+					throw new ETLException(errorCode,
+							"mro xml miss master key field:" + errorMsg
+									+ ",current smr is:" + this.smrs.toString());
+				}
+			}
+			return etlData;
 		}
 
 		return null;
 	}
 
-	private String getAttrValue(String str, String attrName) {
+	private String getAttrValue(String str, String attrName)
+			throws ETLException {
 		if (attrName == null || attrName.trim().length() == 0) {
 			return null;
 		}
 
 		String ret = null;
-		int index = str.indexOf(attrName);
-		if (index != -1) {
-			int begin = index + attrName.length() + 2;
-			String temp = str.substring(begin);
-			int end = temp.indexOf("\"");
-			ret = temp.substring(0, end);
+		try {
+			int index = str.indexOf(attrName);
+			if (index != -1) {
+				int begin = index + attrName.length() + 2;
+				String temp = str.substring(begin);
+				int end = temp.indexOf("\"");
+				ret = temp.substring(0, end);
+			}
+		} catch (Exception e) {
+			throw new ETLException(ETLException.GET_ATTR_VALUE_ERROR,"get attribute value error,attr=" + str);
 		}
 
 		return ret;
 	}
 
-	private String getTagValue(String str, String tagName) {
+	private String getTagValue(String str, String tagName) throws ETLException {
 		if (StringUtils.isBlank(str) || StringUtils.isBlank(tagName)) {
 			return null;
 		}
 
 		String ret = null;
-		int index = str.indexOf(tagName);
-		if (index != -1) {
-			int begin = index + tagName.length() + 1;
-			int end = str.lastIndexOf("<");
-			ret = str.substring(begin, end);
+		try {
+			int index = str.indexOf(tagName);
+			if (index != -1) {
+				int begin = index + tagName.length() + 1;
+				int end = str.lastIndexOf("<");
+				ret = str.substring(begin, end);
+			}
+		} catch (Exception e) {
+			throw new ETLException(ETLException.GET_TAG_VALUE_ERROR,"get tag value error,tag=" + str);
 		}
 
 		return ret;

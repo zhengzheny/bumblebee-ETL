@@ -45,9 +45,12 @@ public class KpiXML extends AbstractSourceMetaData {
 	
 	@JsonProperty
 	private Map<String, String> sourceFields = new HashMap<String, String>();
+	@JsonProperty
+	private List<String> masterKeyFieldList = new ArrayList<String>();
 
 	private List<String> mts = new ArrayList<String>();
 	private List<String> rs = new ArrayList<String>();
+	
 	// record moid
 	private Map<String, String> moidMap = new HashMap<String, String>();
 
@@ -72,13 +75,15 @@ public class KpiXML extends AbstractSourceMetaData {
 		while (iter.hasNext()) {
 			Field field = iter.next();
 			this.sourceFields.put(field.getDesc(), field.getId());
+			if(field.isMasterKey()){
+				this.masterKeyFieldList.add(field.getDesc());
+			}
 		}
 	}
 
 	@Override
 	public ETLData parseLine(String line, Set<String> invalidRecords)
 			throws ETLException, ValidatorException {
-		try {
 			if (line.contains(beginMi)) {
 				this.etlData.clear();
 				this.mts.clear();
@@ -119,7 +124,7 @@ public class KpiXML extends AbstractSourceMetaData {
 			//from the second mts begin output value
 			if (line.indexOf(endMv) != -1 && this.mtsCounter.get() >= 2) {
 				if (this.mts.size() != this.rs.size()) {
-					throw new ETLException("moid:" + this.moid + ",mt size="
+					throw new ETLException(ETLException.KEYS_NOT_EQUAL_VALUES,"moid:" + this.moid + ",mt size="
 							+ this.mts.size() + ",but r size=" + this.rs.size());
 				}
 
@@ -136,14 +141,22 @@ public class KpiXML extends AbstractSourceMetaData {
 					String key = this.mts.get(i);
 					this.etlData.addData(sourceFields.get(key), this.rs.get(i));
 				}
+				
+				//when the source field is not contain the master key,throws exception
+			if (this.masterKeyFieldList.size() > 0) {
+				List<String> tempFieldIds = new ArrayList<String>();
+				tempFieldIds.addAll(this.masterKeyFieldList);
+				tempFieldIds.removeAll(this.mts);
+				if (tempFieldIds.size() > 0) {
+					String errorMsg = tempFieldIds.toString();
+					String errorCode = String.valueOf(errorMsg.hashCode());
+					throw new ETLException(errorCode,
+							"kpi xml miss master key field:" + errorMsg + ",current mts is:" + this.mts.toString());
+				}
+			}
 
 				return etlData;
 			}
-
-		} catch (Exception e) {
-			throw new ETLException(ETLException.KPI_XML_ERROR, "KpiXml error:"
-					+ e.toString());
-		}
 
 		return null;
 	}
@@ -159,22 +172,28 @@ public class KpiXML extends AbstractSourceMetaData {
 		if (split != null && split.length > 0) {
 			for (String s : split) {
 				String[] value = s.trim().split("=");
-				this.moidMap.put(value[0], value[1]);
+				if(value.length >= 2){
+					this.moidMap.put(value[0], value[1]);
+				}
 			}
 		}
 	}
 
-	private String getTagValue(String str, String tagName) {
+	private String getTagValue(String str, String tagName) throws ETLException {
 		if (StringUtils.isBlank(str) || StringUtils.isBlank(tagName)) {
 			return null;
 		}
 
 		String ret = null;
-		int index = str.indexOf(tagName);
-		if (index != -1) {
-			int begin = index + tagName.length() + 1;
-			int end = str.lastIndexOf("<");
-			ret = str.substring(begin, end);
+		try {
+			int index = str.indexOf(tagName);
+			if (index != -1) {
+				int begin = index + tagName.length() + 1;
+				int end = str.lastIndexOf("<");
+				ret = str.substring(begin, end);
+			}
+		} catch (Exception e) {
+			throw new ETLException(ETLException.GET_TAG_VALUE_ERROR,"get tag value error,tag=" + str);
 		}
 
 		return ret;
