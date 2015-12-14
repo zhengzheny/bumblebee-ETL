@@ -1,0 +1,70 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<contextProperty location="etl-sgw.properties" />
+	
+	<process id="sgw">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat"/>
+			<!-- <property key="mapreduce.map.output.compress" value="true"/>
+			<property key="mapreduce.map.output.compress.codec" 
+			value="com.hadoop.compression.lzo.LzopCodec"/>
+			<property key="mapreduce.output.fileoutputformat.compress" value="true"/>
+            <property key="mapreduce.output.fileoutputformat.compress.codec" 
+            value="com.hadoop.compression.lzo.LzopCodec"/> -->
+		</computingFrameworkConfigs>
+		<sourceMetaData type="sgwXML">
+			<paths>
+				<inputPath path="${inputPath}" />
+			</paths>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
+			<values delimiter="|">
+				<field id="recType" />
+				<field id="networkInitiation" />
+				<field id="IMSI" />
+				<field id="pGWAddr" />
+				<field id="chargID" />
+				<field id="NodeAddr" />
+				<field id="APN" />
+				<field id="pdpPDNType" />
+				<field id="PDPPDNAddr" />
+				<field id="dAddrFlag" />
+				<field id="listTraffic_Uplink" />
+				<field id="listTraffic_downlink" />
+				<field id="recOpenT" />
+				<field id="duration" />
+				<field id="cause" />
+				<field id="diagn" />
+				<field id="recSeqNum" />
+				<field id="nodeID" />
+				<field id="recExt" />
+				<field id="localSeqNum" />
+				<field id="apnSMode" />
+				<field id="MSISDN" />
+				<field id="chargChar" />
+				<field id="chChSMode" />
+				<field id="iMSsignalCon" />
+				<field id="NodePLMNId" />
+				<field id="IMEISV" />
+				<field id="rATType" />
+				<field id="mSTZone" />
+				<field id="userLocation" />
+				<field id="PLMN" />
+				<field id="TAI" />
+				<field id="ECGI" />
+				<field id="cAMELCharg" />
+				<field id="NodeType" />
+				<field id="pGWAddrUsed" />
+				<field id="pGWPLMNId" />
+				<field id="start" />
+				<field id="stopT" />
+				<field id="gpp2MEID" />
+				<field id="pDNConChargID" />
+				<field id="iMSIunauthFlag" />
+				<field id="userCSG" />
+				<field id="dAddrFlagExt" />
+			</values>
+		</outputMetaData>
+	</process>
+</etl>
