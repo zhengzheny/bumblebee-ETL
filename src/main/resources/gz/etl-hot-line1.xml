@@ -1,0 +1,48 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<contextProperty location="conf/etl-hot-line.properties" />
+	
+	<process id="hot-line1"  outputPath="${outputPath}">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" />
+		</computingFrameworkConfigs>
+		<sourceMetaData type="fixedLengthFlat">
+			<paths>
+				<inputPath path="${inputPath}" />
+			</paths>
+			<fields>
+				<field id="f1"  length="10" type="int" strictCheck="yes"/>
+				<field id="f2"  length="20"/>
+				<field id="f3"  length="23" type="long"/>
+				<field id="f4"  length="23" type="long"/>
+				<field id="f5"  length="23"/>
+				<field id="f6"  length="20"/>
+				<field id="f7"  length="20"/>
+				<field id="f8"  length="8" type="int"/>
+				<field id="f9"  length="8" type="int"/>
+				<field id="f10" length="24"/>
+				<field id="f11" length="20" type="long"/>
+				<field id="f12" length="20" type="float"/>
+				<field id="f13" length="20" type="float"/>
+			</fields>
+		</sourceMetaData>
+		<mapOutputMetaData>
+			<values delimiter="|">
+				<field id="f1"/>
+				<field id="f2"/>
+				<field id="f3"/>
+				<field id="f4"/>
+				<field id="f5"/>
+				<field id="f6"/>
+				<field id="f7"/>
+				<field id="f8"/>
+				<field id="f9"/>
+				<field id="f10"/>
+				<field id="f11"/>
+				<field id="f12"/>
+				<field id="f13"/>
+			</values>
+		</mapOutputMetaData>
+	</process>
+</etl>

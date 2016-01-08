@@ -1,0 +1,293 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+
+	<contextProperty location="D:/bigdata/gstaetl/src/main/resources/redis.properties" />
+	<contextProperty location="D:/bigdata/gstaetl/src/main/resources/etl.properties" />
+
+	<process id="ex1" outputPath="${outputPath1}">
+		<computingFrameworkConfigs>
+			<property key="mapperClass" value="com.gsta.bigdata.etl.mapreduce.ETLMapper"/>
+			<property key="errorRecordWriteThreshold" value="1"/>
+		</computingFrameworkConfigs>
+		<sourceMetaData type="simpleFlat" delimiter="\|" >
+			<paths>
+				<!-- etl.data
+					c|192.168.1.1|168897678|test
+					a|192.168.1.2|168897678|test|www
+					b|192.168.1.3|168897678|test|hello
+				 -->
+				<inputPath path="${inputPath1}" />
+			</paths>
+			<fields>
+				<field id="t1" desc="" type="int"/>
+				<field id="ip" desc="" type="int" />
+				<field id="f1" desc="" />
+				<field id="f2" desc="" />
+			</fields>
+		</sourceMetaData>
+		<mapOutputMetaData>
+			<keys delimiter="$">
+				<field id="*" />
+				<field id="f2" />
+				<field id="f3" />
+			</keys>
+			<values delimiter="*">
+				<field id="*" />
+				<field id="f3" />
+			</values>
+		</mapOutputMetaData>
+		<transforms>
+			<transform scope="map,reduce">
+				<filter name="in" input="t1" list="a,b,c"/>
+				<function name="IP2Long" input="ip" />
+				<function name="Long2IP" input="f1" output="f3"/>
+			</transform>
+		</transforms>
+	</process>
+	
+	<process id="ex2" outputPath="hdfs://10.17.36.71:8020/user/chenc/tt/output">
+		<computingFrameworkConfigs>
+			<property key="mapperClass" value="com.gsta.bigdata.etl.mapreduce.ETLMapper"/>
+			<property key="errorRecordWriteThreshold" value="1"/>
+		</computingFrameworkConfigs>
+		<sourceMetaData type="noSettingFieldsFlat" delimiter="\|">
+			<paths>
+				<!-- etl1.data
+					c|192.168.1.1|168897678|test
+					a|192.168.1.2|168897678|hello etl
+				 -->
+				<inputPath path="hdfs://10.17.36.71:8020/user/chenc/tt/etl1.data" />
+			</paths>
+		</sourceMetaData>
+		<mapOutputMetaData>
+			<keys delimiter="$">
+				<field id="_2" />
+				<field id="f3" />
+			</keys>
+			<values delimiter="*">
+				<field id="*" />
+				<field id="f3" />
+			</values>
+		</mapOutputMetaData>
+		<transforms>
+			<transform scope="map,reduce">
+				<filter name="in" input="_1" list="a,b,c"/>
+				<function name="IP2Long" input="_2" />
+				<function name="Long2IP" input="_3" output="f3"/>
+			</transform>
+		</transforms>
+	</process>
+	
+	<process id="ex3" outputPath="hdfs://10.17.36.71:8020/user/chenc/tt/output">
+		<computingFrameworkConfigs>
+			<property key="mapperClass" value="com.gsta.bigdata.etl.mapreduce.ETLMapper"/>
+			<property key="errorRecordWriteThreshold" value="1"/>
+		</computingFrameworkConfigs>
+		<sourceMetaData type="simpleFlat" delimiter="\|" >
+			<paths>
+				<!-- etl2.data
+					c|192.168.1.1|168897678|test|77|abc@hotmail.com       ok
+					a|192.168.1.2|168897679|test|hello|abc@hotmail.com    invalid type
+					b|192.168.1.3|168897680|ww|66|abc@hotmail.com         minLen
+					d|192.168.1.4|168897678|hello etl|66|abc@hotmail.com  maxLen
+					e|192.168.1.5|168897678|test|66|abc@hotmail.com       filter by in
+					a|192.168.1.6|168897678|test|66|88|abc@hotmail.com    error,more fields
+					c|192.168.1.7|168897678|test|99|hello world       invalid type,but go on transform
+					f|192.168.1.8|168897678|test|100|hello etl       invalid type,but go on transform
+				 -->
+				<inputPath path="hdfs://10.17.36.71:8020/user/chenc/tt/etl2.data" />
+			</paths>
+			<fields>
+				<field id="t1" desc="" />
+				<field id="ip" desc=""/>
+				<field id="f1" desc="" />
+				<field id="f2" desc="" notNull="yes" minLength="3" maxLength="5"/>
+				<field id="f4" desc="" type="int" strictCheck="yes"/>
+				<field id="f5" desc="" type="email" strictCheck="yes"/>
+			</fields>
+		</sourceMetaData>
+		<mapOutputMetaData>
+			<keys delimiter="|">
+				<field id="*" />
+				<field id="f3" />
+			</keys>
+			<values delimiter="|">
+				<field id="*" />
+				<field id="f3" />
+			</values>
+		</mapOutputMetaData>
+		<transforms>
+			<transform scope="map,reduce">
+				<filter name="in" input="t1" list="a,b,c,d,f"/>
+				<function name="IP2Long" input="ip" output="f0"/>
+				<function name="Long2IP" input="f1" output="f3"/>
+			</transform>
+		</transforms>
+	</process>
+	
+	<process id="ex4" outputPath="hdfs://10.17.36.71:8020/user/chenc/tt/output">
+		<computingFrameworkConfigs>
+			<property key="mapperClass" value="com.gsta.bigdata.etl.mapreduce.ETLMapper"/>
+			<property key="errorRecordWriteThreshold" value="1"/>
+		</computingFrameworkConfigs>
+		<sourceMetaData type="noSettingFieldsFlat" delimiter="\|">
+			<paths>
+				<!-- etl1.data
+					c|192.168.1.1|168897678|test
+					a|192.168.1.2|168897678|hello etl
+				 -->
+				<inputPath path="hdfs://10.17.36.71:8020/user/chenc/tt/etl1.data" />
+			</paths>
+			<fields>
+				<field  id="_4" desc="" notNull="yes" minLength="3" maxLength="5" strictCheck="no"/>
+			</fields>
+		</sourceMetaData>
+		<mapOutputMetaData>
+			<keys delimiter="$">
+				<field id="_2" />
+				<field id="f3" />
+			</keys>
+			<values delimiter="*">
+				<field id="*" />
+				<field id="f3" />
+			</values>
+		</mapOutputMetaData>
+		<transforms>
+			<transform scope="map,reduce">
+				<filter name="in" input="_1" list="a,b,c"/>
+				<function name="IP2Long" input="_2" />
+				<function name="Long2IP" input="_3" output="f3"/>
+			</transform>
+		</transforms>
+	</process>
+	
+	<process id="ex5" outputPath="hdfs://10.17.36.71:8020/user/chenc/tt/output">
+		<sourceMetaData type="simpleFlat" delimiter="\|" >
+			<paths>
+				<inputPath path="hdfs://10.17.36.71:8020/user/chenc/tt/etl5.data" />
+			</paths>
+			<fields>
+				<field id="t1"/>
+			</fields>
+		</sourceMetaData>
+		<mapOutputMetaData>
+			<values delimiter="*">
+				<field id="t1" />
+			</values>
+		</mapOutputMetaData>
+		<transforms>
+			<transform scope="map">
+				<function name="IP2Long" input="*" />
+			</transform>
+		</transforms>
+	</process>
+	
+	<process id="ex6" outputPath="hdfs://10.17.36.71:8020/user/chenc/tt/output">
+		<sourceMetaData type="simpleFlat" delimiter="\|" >
+			<paths>
+				<inputPath path="hdfs://10.17.36.71:8020/user/chenc/tt/etl6.data" />
+			</paths>
+			<fields>
+				<field id="t1"/>
+				<field id="t2"/>
+				<field id="t3"/>
+			</fields>
+		</sourceMetaData>
+		<mapOutputMetaData>
+			<values delimiter="*">
+				<field id="*" />
+			</values>
+		</mapOutputMetaData>
+		<transforms>
+			<transform scope="map">
+				<function name="IP2Long" input="t1,t2" />
+			</transform>
+		</transforms>
+	</process>
+	
+	<process id="fixedlength"  outputPath="hdfs://10.17.36.71:8020/user/chenc/tt/output">
+		<sourceMetaData type="fixedLengthFlat">
+			<paths>
+				<inputPath path="hdfs://10.17.36.71:8020/user/chenc/tt/OtherHotLine_201503_2_utf8.TXT" />
+			</paths>
+			<fields>
+				<field id="f1"  length="10" type="int" strictCheck="yes"/>
+				<field id="f2"  length="20"/>
+				<field id="f3"  length="23" type="long"/>
+				<field id="f4"  length="23" type="long"/>
+				<field id="f5"  length="23"/>
+				<field id="f6"  length="20"/>
+				<field id="f7"  length="20"/>
+				<field id="f8"  length="8" type="int"/>
+				<field id="f9"  length="8" type="int"/>
+				<field id="f10" length="24"/>
+				<field id="f11" length="20" type="long"/>
+				<field id="f12" length="20" type="float"/>
+				<field id="f13" length="20" type="float"/>
+			</fields>
+		</sourceMetaData>
+		<mapOutputMetaData>
+			<values delimiter="|">
+				<field id="f1"/>
+				<field id="f2"/>
+				<field id="f3"/>
+				<field id="f4"/>
+				<field id="f5"/>
+				<field id="f6"/>
+				<field id="f7"/>
+				<field id="f8"/>
+				<field id="f9"/>
+				<field id="f10"/>
+				<field id="f11"/>
+				<field id="f12"/>
+				<field id="f13"/>
+			</values>
+		</mapOutputMetaData>
+		<transforms>
+			
+		</transforms>
+	</process>
+	
+	<process id="fixedLengthByLine"  outputPath="hdfs://10.17.36.71:8020/user/chenc/tt/output">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass" value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat"/>
+		</computingFrameworkConfigs>
+		<sourceMetaData type="fixedLengthByLineFlat" refLine="${refLine}">
+			<paths>
+				<inputPath path="hdfs://10.17.36.71:8020/user/chenc/tt/OtherHotLine_201503_2_utf8.TXT" />
+			</paths>
+			<fields>
+				<field id="f1" type="int" strictCheck="yes"/>
+				<field id="f2" />
+				<field id="f3" type="long"/>
+				<field id="f4" type="long"/>
+				<field id="f5" />
+				<field id="f6" />
+				<field id="f7" />
+				<field id="f8" />
+				<field id="f9" />
+				<field id="f10"/>
+				<field id="f11" type="long"/>
+				<field id="f12" type="float"/>
+				<field id="f13" type="float"/>
+			</fields>
+		</sourceMetaData>
+		<mapOutputMetaData>
+			<values delimiter="|">
+				<field id="f1"/>
+				<field id="f2"/>
+				<field id="f3"/>
+				<field id="f4"/>
+				<field id="f5"/>
+				<field id="f6"/>
+				<field id="f7"/>
+				<field id="f8"/>
+				<field id="f9"/>
+				<field id="f10"/>
+				<field id="f11"/>
+				<field id="f12"/>
+				<field id="f13"/>
+			</values>
+		</mapOutputMetaData>
+	</process>
+</etl>
