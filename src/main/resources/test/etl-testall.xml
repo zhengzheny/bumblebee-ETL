@@ -27,6 +27,9 @@
 		<computingFrameworkConfigs>
 			<property key="outputFormatClass"
 				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat"/>
+			<property key="mapreduce.output.fileoutputformat.compress" value="true"/>
+            <property key="mapreduce.output.fileoutputformat.compress.codec" 
+            		value="com.hadoop.compression.lzo.LzopCodec"/>
 		</computingFrameworkConfigs>
 		<sourceMetaData type="simpleFlat" delimiter="\|">
 			<paths>

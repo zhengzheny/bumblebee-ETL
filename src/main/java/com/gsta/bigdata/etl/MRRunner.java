@@ -141,24 +141,33 @@ public class MRRunner extends Configured implements Tool, IRunner {
 		this.rmrDir(process.getErrorPath(), conf);
 		FileOutputFormat.setOutputPath(job, new Path(process.getOutputPath()));
 		
-		String flag = process.getConf(Constants.HADOOP_MAP_OUTPUT_COMPRESS_FLAG);
+		/*String flag = process.getConf(Constants.HADOOP_MAP_OUTPUT_COMPRESS_FLAG);
+		logger.info("outputCompressFlag=" + flag);
 		if (flag != null && flag.equals("true")) {
 			conf.setBoolean(Constants.HADOOP_MAP_OUTPUT_COMPRESS_FLAG, true);
-			String code = process.getConf(
+			code = process.getConf(
 					Constants.HADOOP_MAP_OUTPUT_COMPRESS_CODEC,
 					"org.apache.hadoop.io.compress.Lz4Codec");
+			logger.info("code=" + code);
 			conf.setClass(Constants.HADOOP_MAP_OUTPUT_COMPRESS_CODEC,
 					this.loadClass(code), CompressionCodec.class);
-		}
+		}*/
 		
-		flag = process.getConf(Constants.HADOOP_OUTPUT_COMPRESS_FLAG);
+		String flag = process.getConf(Constants.HADOOP_OUTPUT_COMPRESS_FLAG);
+		logger.info("format flag=" + flag);
 		if (flag != null && flag.equals("true")) {
 			conf.setBoolean(Constants.HADOOP_OUTPUT_COMPRESS_FLAG, true);
 			String code = process.getConf(
 					Constants.HADOOP_OUTPUT_COMPRESS_CODEC,
 					"org.apache.hadoop.io.compress.Lz4Codec");
+			
 			conf.setClass(Constants.HADOOP_OUTPUT_COMPRESS_CODEC,
 					this.loadClass(code), CompressionCodec.class);
+			
+			//compress test
+			logger.info("format code=" + code);
+			FileOutputFormat.setCompressOutput(job, Boolean.parseBoolean(flag));  
+	        FileOutputFormat.setOutputCompressorClass(job, this.loadClass(code));
 		}
 		
 		//set multiple output

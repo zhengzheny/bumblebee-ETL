@@ -160,8 +160,8 @@ public class Constants {
 	public final static String HADOOP_OUTPUTKEY_CLASS = "outputKeyClass";
 	public final static String HADOOP_OUTPUTVALUE_CLASS = "outputValueClass";
 	
-	public final static String HADOOP_MAP_OUTPUT_COMPRESS_FLAG = "mapreduce.map.output.compress";
-	public final static String HADOOP_MAP_OUTPUT_COMPRESS_CODEC = "mapreduce.map.output.compress.codec";
+	//public final static String HADOOP_MAP_OUTPUT_COMPRESS_FLAG = "mapreduce.map.output.compress";
+	//public final static String HADOOP_MAP_OUTPUT_COMPRESS_CODEC = "mapreduce.map.output.compress.codec";
 	public final static String HADOOP_OUTPUT_COMPRESS_FLAG = "mapreduce.output.fileoutputformat.compress";
 	public final static String HADOOP_OUTPUT_COMPRESS_CODEC = "mapreduce.output.fileoutputformat.compress.codec"; 
 	
