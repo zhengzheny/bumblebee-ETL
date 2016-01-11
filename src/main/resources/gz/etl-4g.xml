@@ -2,9 +2,9 @@
 <etl>
 	<writeLog property="conf/log/dblog.properties" />
 
-	<contextProperty location="etl-3a.properties" />
+	<contextProperty location="etl-4g.properties" />
 	
-	<process id="3a">
+	<process id="4g">
 		<computingFrameworkConfigs>
 			<property key="outputFormatClass"
 				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" />
@@ -21,7 +21,7 @@
 		</outputMetaData>
 		<transforms>
 			<transform scope="map">		
-				<function name="delTab" input="_5" output="_5"/>
+				<function name="delTab" input="_10" output="_10"/>
 			</transform>
 		</transforms>
 	</process>

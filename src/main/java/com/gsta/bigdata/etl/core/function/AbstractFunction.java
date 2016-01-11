@@ -47,6 +47,8 @@ import com.gsta.bigdata.utils.XmlTools;
 		@JsonSubTypes.Type(value = ParseSearchKeywords.class, name = "ParseSearchKeywords"),
 		@JsonSubTypes.Type(value = ParseUserAgent.class, name = "ParseUserAgent"),
 		@JsonSubTypes.Type(value = GetURLClass.class, name = "GetURLClass"),
+		@JsonSubTypes.Type(value = String2HexAscii.class, name = "String2HexAscii"),
+		@JsonSubTypes.Type(value = DelTab.class, name = "DelTab"),
 		@JsonSubTypes.Type(value = HostQuery.class, name = "HostQuery")})
 public abstract class AbstractFunction extends AbstractETLObject {
 	private static final long serialVersionUID = 8920066337876631884L;

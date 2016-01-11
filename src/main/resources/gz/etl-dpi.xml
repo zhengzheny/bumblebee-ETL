@@ -4,11 +4,6 @@
 	<contextProperty location="etl-dpi.properties" />
 
 	<process id="gzdpi">
-		<functionRules>
-			<rule id="UserAgentRuleManager" filePath="conf/gz/uaRule.properties" statisFileDir=""/>
-			<rule id="UrlClassRuleManager" filePath="conf/gz/urlClassRule.txt" statisFileDir=""/>
-			<rule id="SearchWordsRuleManager" filePath="conf/gz/searchWordsRule.properties" statisFileDir=""/>
-		</functionRules>
 		<computingFrameworkConfigs>
 			<property key="outputFormatClass"
 				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" />
@@ -83,21 +78,9 @@
 		</outputMetaData>
 		<transforms>
 			<transform scope="map">
-				<!-- <function name="long2IP" input="srcip" />
-				<function name="long2IP" input="dstip" /> -->
-				<!-- <function name="parseURL" input="url">
-					<output id="urldomain" />
-					<output id="urlhost" />
-					<output id="urlpath" />
-					<output id="urlquery" />
-				</function>
-				<function name="parseURL" input="ref">
-					<output id="refdomain" />
-					<output id="refhost" />
-					<output id="refpath" />
-					<output id="refquery" />
-				</function> -->
-				<function name="parseUserAgent" input="ua" refRule="UserAgentRuleManager">
+				<function name="long2IP" input="srcip" />
+				<function name="long2IP" input="dstip" />
+				<function name="parseUserAgent" input="ua" ruleFile="uaRule.properties">
 					<output id="appname" />
 					<output id="appversion" />
 					<output id="terminalbrand" />
@@ -111,11 +94,28 @@
 					<output id="matchflag" />
 					<output id="useragentruleid" />
 				</function>
-				<!-- <function name="getURLClass" input="url" refUrl="ref" refRule="UrlClassRuleManager">
+				<function name="parseCookie" input="cookie">
+					<output id="cookiekey" />
+					<output id="cookie" />
+				</function>
+				<function name="parseURL" input="url">
+					<output id="urldomain" />
+					<output id="urlhost" />
+					<output id="urlpath" />
+					<output id="urlquery" />
+				</function>
+				<function name="parseURL" input="ref">
+					<output id="refdomain" />
+					<output id="refhost" />
+					<output id="refpath" />
+					<output id="refquery" />
+				</function>
+				<function name="getURLClass" input="url" refUrl="ref" ruleFile="urlClassRule.txt">
 					<output id="urlclassid" />
 					<output id="urlclassruleid" />
-				</function> -->
-				<!-- <function name="parseSearchKeywords" input="url" output="searchkeywords" refRule="SearchWordsRuleManager"/> -->
+				</function>
+				<function name="parseSearchKeywords" input="url" output="searchkeywords" ruleFile="searchWordsRule.properties"/>
+			</transform>
 		</transforms>
 	</process>
 </etl>

@@ -2,7 +2,7 @@
 <etl>
 	<contextProperty location="/etl-hot-line.properties" />
 	
-	<process id="hot-line2">
+	<process id="hot-line2"  outputPath="${outputPath}">
 		<computingFrameworkConfigs>
 			<property key="outputFormatClass"
 				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" />
@@ -27,7 +27,7 @@
 				<field id="f13" type="float"/>
 			</fields>
 		</sourceMetaData>
-		<outputMetaData  outputPath="${outputPath}" errorPath="${errorPath}">
+		<mapOutputMetaData>
 			<values delimiter="|">
 				<field id="f1"/>
 				<field id="f2"/>
@@ -43,6 +43,6 @@
 				<field id="f12"/>
 				<field id="f13"/>
 			</values>
-		</outputMetaData>
+		</mapOutputMetaData>
 	</process>
 </etl>
