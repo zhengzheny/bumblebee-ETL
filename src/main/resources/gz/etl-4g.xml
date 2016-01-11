@@ -8,7 +8,6 @@
 		<computingFrameworkConfigs>
 			<property key="outputFormatClass"
 				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" />
-			<property key="sourceEncoding" value="GBK" />
 		</computingFrameworkConfigs>
 		<sourceMetaData type="noSettingFieldsFlat" delimiter=",">
 			<paths>
