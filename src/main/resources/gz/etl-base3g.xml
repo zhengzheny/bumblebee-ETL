@@ -23,6 +23,7 @@
 		<transforms>
 			<transform scope="map">		
 				<function name="string2HexAscii" input="_9" output="bsid"/>
+				<function name="delWrapper" input="_12,_13,_14,_15,_16" wrapper="&quot;"/>
 			</transform>
 		</transforms>
 	</process>
