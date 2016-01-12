@@ -1,0 +1,49 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<process id="cellerabaddho" type="localFileProcess">
+		<computingFrameworkConfigs>
+			<property key="localFileBufferSize" value="1048576"/>
+			<property key="localFileDirMaxFile" value="1000"/>
+		</computingFrameworkConfigs>
+		<sourceMetaData type="zteENODEBXML" >
+			<paths>
+				<inputPath path="${inputPath}" charset="GBK" fileSuffix="xml" fileNamePattern="CELLERABADDHO"/>
+			</paths>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${outputPath}" fileSuffix="txt" charset="utf-8">
+			<values delimiter="|">
+				<field id="COLLECTTIME" />
+				<field id="SBNID" />
+				<field id="ENODEBID" />
+				<field id="CellID" />
+				<field id="C373546243" />
+				<field id="C373546245" />
+				<field id="C373546246" />
+				<field id="C373546257" />
+				<field id="C373546258" />
+				<field id="C373546259" />
+				<field id="C373546260" />
+				<field id="C373546261" />
+				<field id="C373546262" />
+				<field id="C373546263" />
+				<field id="C373546264" />
+				<field id="C373546265" />
+				<field id="C373546266" />
+				<field id="C373546267" />
+				<field id="C373546268" />
+				<field id="C373546269" />
+				<field id="C373546270" />
+				<field id="C373546271" />
+				<field id="C373546272" />
+				<field id="C373546273" />
+				<field id="C373546274" />
+				<field id="C373546275" />
+				<field id="C373546276" />
+				<field id="C373546277" />
+				<field id="C373546278" />
+				<field id="C373546279" />
+				<field id="C373546280" />
+			</values>
+		</outputMetaData>
+	</process>
+</etl>
