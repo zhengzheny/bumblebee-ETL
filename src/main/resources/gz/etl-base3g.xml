@@ -17,11 +17,12 @@
 		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
 			<values delimiter="|">
 				<field id="*"/>
+				<field id="bsid"/>
 			</values>
 		</outputMetaData>
 		<transforms>
 			<transform scope="map">		
-				<function name="string2HexAscii" input="_9" output="_9"/>
+				<function name="string2HexAscii" input="_9" output="bsid"/>
 			</transform>
 		</transforms>
 	</process>

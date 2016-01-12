@@ -19,8 +19,6 @@ public class HandlerFactory {
 		type = StringUtils.upperCaseFirstChar(type);
 		if (Constants.SOURCE_ZTE_NODEB_XML.equals(type)) {
 			return new ZteNODEBXMLHandler(process);
-		}else if(Constants.SOURCE_PGW_XML.equals(type)){
-			return new PgwXMLHandler(process);
 		}else{
 			//default is simple flat handler
 			return new SimpleFlatHandler(process);

@@ -21,7 +21,7 @@
 		</outputMetaData>
 		<transforms>
 			<transform scope="map">		
-				<function name="delTab" input="_5" output="_5"/>
+				<function name="delTab" input="_6" output="_6"/>
 			</transform>
 		</transforms>
 	</process>

@@ -34,13 +34,11 @@ import com.gsta.bigdata.utils.XmlTools;
  * @author tianxq
  * 
  */
-@SuppressWarnings("deprecation")
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "@class")
 @JsonSubTypes({
 		@JsonSubTypes.Type(value = SimpleFlat.class, name = "simpleFlat"),
 		@JsonSubTypes.Type(value = NoSettingFieldsFlat.class, name = "noSettingFieldsFlat"),
 		@JsonSubTypes.Type(value = FixedLengthFlat.class, name = "fixedLengthFlat"),
-		@JsonSubTypes.Type(value = PgwXML.class, name = "pgwXML"),
 		@JsonSubTypes.Type(value = PgwXMLByString.class, name = "pgwXMLByString"),
 		@JsonSubTypes.Type(value = SgwXML.class, name = "sgwXML"),
 		@JsonSubTypes.Type(value = KafkaStream.class, name = "kafkaStream"),
