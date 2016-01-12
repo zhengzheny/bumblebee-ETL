@@ -46,7 +46,8 @@ public class String2HexAscii extends AbstractFunction {
 		StringBuffer sb = new StringBuffer();
 		try {
 			byte[] b = str.getBytes();
-			sb.append("Ox");
+			//sb.append("Ox");
+			sb.append("0x");
 			for (int i = 0; i < b.length; i++) {
 				sb.append(Integer.toString((b[i] & 0xff) + 0x100, 16)
 						.substring(1));
