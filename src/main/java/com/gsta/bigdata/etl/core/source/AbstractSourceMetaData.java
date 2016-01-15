@@ -41,6 +41,7 @@ import com.gsta.bigdata.utils.XmlTools;
 		@JsonSubTypes.Type(value = FixedLengthFlat.class, name = "fixedLengthFlat"),
 		@JsonSubTypes.Type(value = PgwXMLByString.class, name = "pgwXMLByString"),
 		@JsonSubTypes.Type(value = SgwXML.class, name = "sgwXML"),
+		@JsonSubTypes.Type(value = HSgwCdrXML.class, name = "hSgwCdrXML"),
 		@JsonSubTypes.Type(value = KafkaStream.class, name = "kafkaStream"),
 		@JsonSubTypes.Type(value = KpiXML.class, name = "kpiXML"),
 		@JsonSubTypes.Type(value = MroXML.class, name = "mroXML"),
