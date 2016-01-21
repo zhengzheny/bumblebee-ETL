@@ -42,8 +42,8 @@ public class ParseUserAgent extends AbstractFunction {
 
 	@JsonProperty
 	private Map<String, MatchedUseragent> useragentCacheMap;
-	@JsonProperty
-	private Map<String, Long> ruleStatMap;
+/*	@JsonProperty
+	private Map<String, Long> ruleStatMap;*/
 
 	private UseragentCacheCleaner cacheCleanThread;
 	@JsonProperty
@@ -123,7 +123,7 @@ public class ParseUserAgent extends AbstractFunction {
 				.getFilePath();
 		this.getDpiCacheByFilePath(filePath);
 
-		this.ruleStatMap = new ConcurrentHashMap<String, Long>();
+		//this.ruleStatMap = new ConcurrentHashMap<String, Long>();
 		useragentCacheSize = this.cacheSize;
 		if (useragentCacheSize >= 0) {
 			useragentCacheMap = new HashMap<String, MatchedUseragent>(
@@ -199,7 +199,7 @@ public class ParseUserAgent extends AbstractFunction {
 		}
 
 		// set rulestatMap
-		ruleManager.setRuleMatchedStats(ruleStatMap);
+		//ruleManager.setRuleMatchedStats(ruleStatMap);
 
 		return retMap;
 	}
@@ -299,8 +299,10 @@ public class ParseUserAgent extends AbstractFunction {
 		if (ruleReg == null) {
 			return;
 		}
+		
+		Map<String,Long> ruleStatMap = this.ruleManager.getRuleMatchedStats();
 		if (ruleStatMap == null) {
-			ruleStatMap = new HashMap<String/* rule */, Long/* counter */>();
+			ruleStatMap = new ConcurrentHashMap<String/* rule */, Long/* counter */>();
 		}
 
 		Long ruleCounter = (Long) ruleStatMap.get(ruleReg);
@@ -309,7 +311,8 @@ public class ParseUserAgent extends AbstractFunction {
 		} else {
 			ruleCounter += 1;
 		}
-		ruleStatMap.put(ruleReg, ruleCounter);
+		//ruleStatMap.put(ruleReg, ruleCounter);
+		this.ruleManager.getRuleMatchedStats().put(ruleReg, ruleCounter);
 	}
 
 	/**
