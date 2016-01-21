@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
@@ -41,7 +42,7 @@ public class UserAgentRuleManager implements IRuleMgr,Serializable{
 	@JsonProperty
 	private UseragentParserRule[] allUeragentRules;
 	
-	private Map<String, Long> ruleMatchedStats = new HashMap<String, Long>();
+	private Map<String, Long> ruleMatchedStats = new ConcurrentHashMap<String, Long>();
 
 	private static Pattern useragentKeywordPattern;
 	
