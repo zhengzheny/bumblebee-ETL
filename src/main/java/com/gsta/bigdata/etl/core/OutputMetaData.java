@@ -40,6 +40,9 @@ public class OutputMetaData extends AbstractETLObject {
 	private String keysDelimiter = "\\|";
 	@JsonProperty
 	private List<Field> keysFields = new ArrayList<Field>();
+	//spark streaming write to kafka,don't need json serial 
+	private String brokers;
+	private String topic;
 
 	public OutputMetaData() {
 		super.tagName = Constants.PATH_OUTPUT_METADATA;
@@ -59,20 +62,21 @@ public class OutputMetaData extends AbstractETLObject {
 	@Override
 	protected void initAttrs(Element element) throws ParseException {
 		this.outputPath = super.getAttr(Constants.ATTR_OUTPUT_PATH);
-		if (this.outputPath == null) {
-			throw new ParseException("output path is null");
-		}
+		if (this.outputPath != null) {
+			if (this.outputPath.endsWith("/") || this.outputPath.endsWith("\\")) {
+				this.outputPath = this.outputPath.substring(0,
+						this.outputPath.length() - 1);
+			}
 
-		if (this.outputPath.endsWith("/") || this.outputPath.endsWith("\\")) {
-			this.outputPath = this.outputPath.substring(0,
-					this.outputPath.length() - 1);
+			this.errorPath = super.getAttr(Constants.ATTR_ERROR_PATH);
+			if (this.errorPath == null || "".equals(this.errorPath)) {
+				// don't use File.separator,or don't pass test in windows platform
+				this.errorPath = this.outputPath + "/error";
+			}
 		}
-
-		this.errorPath = super.getAttr(Constants.ATTR_ERROR_PATH);
-		if (this.errorPath == null || "".equals(this.errorPath)) {
-			// don't use File.separator,or don't pass test in windows platform
-			this.errorPath = this.outputPath + "/error";
-		}
+		
+		this.brokers = super.getAttr(Constants.ATTR_BROKERS);
+		this.topic = super.getAttr(Constants.ATTR_TOPIC);
 
 		this.charset = super.getAttr(Constants.ATTR_CHARSET, "utf-8");
 		this.fileSuffix = super.getAttr(Constants.ATTR_FILE_SUFFIX, "txt");
@@ -300,6 +304,14 @@ public class OutputMetaData extends AbstractETLObject {
 	
 	public List<Field> getValuesFields() {
 		return valuesFields;
+	}
+
+	public String getBrokers() {
+		return brokers;
+	}
+
+	public String getTopic() {
+		return topic;
 	}
 
 	public String toString() {

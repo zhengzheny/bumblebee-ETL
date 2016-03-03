@@ -288,6 +288,22 @@ public class ETLProcess extends AbstractETLObject {
 
 		return null;
 	}
+	
+	public String getOutputKafkaBrokers(){
+		if (this.outputMetaData != null) {
+			return this.outputMetaData.getBrokers();
+		}
+
+		return null;
+	}
+	
+	public String getOutputKafkaTopic(){
+		if (this.outputMetaData != null) {
+			return this.outputMetaData.getTopic();
+		}
+
+		return null;
+	}
 
 	@JsonIgnore
 	public String getErrorPath() {

@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<contextProperty location="etl-combine.properties" />
+	
+	<process id="combine">
+		<computingFrameworkConfigs>
+			<property key="inputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.CombineSmallfileInputFormat"/>
+		</computingFrameworkConfigs>
+		<sourceMetaData type="noSettingFieldsFlat" delimiter="\001">
+			<paths>
+				<inputPath path="${inputPath}" />
+			</paths>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" >
+			<values delimiter="|">
+				<field id="*"/>
+			</values>
+		</outputMetaData>
+	</process>
+</etl>

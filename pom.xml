@@ -75,11 +75,11 @@
             <artifactId>sax</artifactId>
             <version>2.0.1</version>
         </dependency>
-        <dependency>
+        <!-- dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>2.6.0-rc1</version>
-        </dependency>
+        </dependency-->
         <dependency>
             <groupId>commons-validator</groupId>
             <artifactId>commons-validator</artifactId>
@@ -105,7 +105,29 @@
             <artifactId>spark-streaming-kafka_2.10</artifactId>
             <version>1.5.1</version>
         </dependency>
+        <dependency>
+		    <groupId>org.cloudera.spark.streaming.kafka</groupId>
+		    <artifactId>spark-kafka-writer</artifactId>
+		    <version>0.1.0</version>
+  		</dependency>
+  		<dependency>
+		    <groupId>dibbhatt</groupId>
+		    <artifactId>kafka-spark-consumer</artifactId>
+		    <version>1.0.6</version>
+  		</dependency>
     </dependencies>
+
+	<repositories>
+		<!-- list of other repositories -->
+		<repository>
+			<id>SparkPackagesRepo</id>
+			<url>http://dl.bintray.com/spark-packages/maven</url>
+		</repository>
+		<repository>
+			<id>clouderaPackagesRepo</id>
+			<url>https://repository.cloudera.com/artifactory/cloudera-repos</url>
+		</repository>
+	</repositories>
 
     <build>
         <plugins>

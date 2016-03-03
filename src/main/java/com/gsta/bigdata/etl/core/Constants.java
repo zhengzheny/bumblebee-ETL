@@ -29,7 +29,7 @@ public class Constants {
 	public final static String DEFAULT_COMPUTING_FRAMEWORK_MR = "MRProcess";
 	public final static String CF_NAME_LOCAL_FILE_PROCESS = "LocalFileProcess";
 	public final static String CF_NAME_SLICE_LOCAL_FILE_PROCESS = "SliceLocalFileProcess";
-	public final static String CF_NAME_SPARK_STREAMING_PROCESS = "SparkStreamingProcess";
+	public final static String CF_NAME_SPARK_KAFKA_PROCESS = "SparkKafkaProcess";
 	
 	public final static String DEFAULT_SOURCE_METADATA_FLAT = SimpleFlat.class.getSimpleName();
 	public final static String DEFAULT_LKP_DS_PROPERTY_PATH = "path";
@@ -126,10 +126,26 @@ public class Constants {
 	public final static String ATTR_CHARSET = "charset";
 	public final static String ATTR_DEFAULT_VALUE = "defaultValue";
 	public final static String ATTR_BROKERS = "brokers";
-	public final static String ATTR_TOPICS = "topics";
+	public final static String ATTR_TOPIC = "topic";
 	public final static String ATTR_REFURL = "refUrl";
 	public final static String ATTR_REFRULE = "refRule";
 	public final static String ATTR_MASTER_KEY = "masterKey";
+	@Deprecated
+	public final static String ATTR_ZK_ROOT = "zkroot";
+	public final static String ATTR_GROUP = "group";
+	public final static String ATTR_RECEIVES_NUM = "receivesNum";
+	public final static String ATTR_PARTITIONS_NUM = "partitionsNum";
+	public final static String ATTR_HOSTS = "hosts";
+	public final static String ATTR_PORT = "port";
+	public final static String ATTR_CONSUMER_ZK = "consumerZK";
+	public final static String ATTR_CONSUMER_ZK_PATH = "consumerZKPath";
+	public final static String ATTR_FETCHSIZE_BYTES = "fetchsizebytes";
+	public final static String ATTR_BACK_PRESSURE = "backpressure";
+	public final static String ATTR_FORCE_FROM_START = "forcefromstart";
+	public final static String ATTR_RESULT_MODE = "resultMode";
+	
+	public final static String ATTR_STORAGE_LEVEL = "storageLevel";
+	public final static String ATTR_DURATION = "duration";
 	
 	public final static String TAG_FIELD = "field";
 	public final static String TAG_INPUTPATH = "inputPath";

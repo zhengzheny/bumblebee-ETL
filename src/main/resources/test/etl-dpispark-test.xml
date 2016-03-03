@@ -1,13 +1,21 @@
 <?xml version = "1.0" encoding = "utf-8"?>
 <etl>
-    <contextProperty location="etl-dpispark-test.properties" />
-
-    <process id="dpi" type="sparkStreamingProcess">
-        <computingFrameworkConfigs>        
-            <property key="duration" value="${duration}"/>
-        </computingFrameworkConfigs>
+    <!-- contextProperty location="etl-dpispark-test.properties" /-->
+    <contextProperty location="etl-dpispark-test-kafka.properties" />
+    
+    <!-- process id="dpi" type="sparkStreamingProcess"-->
+    <process id="dpi" type="sparkKafkaProcess">
+        <!-- sourceMetaData type="kafkaStream" delimiter="\001" -->
         <sourceMetaData type="kafkaStream" delimiter="\|">
-            <kafka brokers="${brokers}" topics="${topics}"/>
+            <!-- kafka brokers="${brokers}" topic="${topics}"/-->
+            <!-- kafka zkroot="${zkroot}" topic="${topics}" group="${group}" receivesNum="${receivesNum}" partitionsNum="${partitionsNum}" duration="${duration}"/-->
+            <kafka hosts="${hosts}" port="${port}" brokers="${brokers}"
+				   consumerZK="${consumerZK}" consumerZKPath="${consumerZKPath}" 
+				   fetchsizebytes="${fetchsizebytes}" backpressure="${backpressure}"
+				   forcefromstart="${forcefromstart}"
+				   storageLevel="${storageLevel}" resultMode="${resultMode}"
+				   topic="${topic}" group="${group}"  receivesNum="${receivesNum}"
+				   partitionsNum="${partitionsNum}" duration="${duration}" />
             <fields>
                 <field id="ts" type="string" />
                 <field id="ad" type="string" />
@@ -25,7 +33,7 @@
                 <field id="collectHost"/>
             </fields>
         </sourceMetaData>
-        <outputMetaData outputPath="${outputPath}">
+        <outputMetaData brokers="${outputKafkaBroker}" topic="${outputTopic}">
             <values delimiter="|">
                 <!-- urlInfo basic -->
                 <field id="urldomain" defaultValue="\\N" />

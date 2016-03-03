@@ -7,8 +7,8 @@ then
   exit -1
 fi
 
-SPARK_HOME=/home/chenc/tt/spark
-SPARK_URL=spark://10.17.35.16:7077
+SPARK_HOME=/usr/local/spark
+SPARK_URL=spark://192.168.9.80:7077
 
 paras=`echo $@  | awk '{for(i=1;i<=NF;i++) print $i}' `
 for para in $paras
@@ -21,7 +21,6 @@ done
 
 if [ -n "$configFile" ]
 then  
-  #run hadoop map/reduce
   BASEDIR=`dirname "$0"`/..
   cd $BASEDIR
 
