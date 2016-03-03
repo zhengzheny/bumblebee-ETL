@@ -43,8 +43,23 @@ public class SparkKafkaRunner implements IRunner ,Serializable{
 		this.process = process;
 	}
 	
-	private Properties getReceiveKafkaConf(KafkaStream kafkaStream){
+	@SuppressWarnings("serial")
+	@Override
+	public int etlRun() throws ETLException {
+		if(this.process == null){
+			throw new ETLException("process object is null...");
+		}
+		
+		KafkaStream kafkaStream = null;
+		if (process.getSourceMetaData() instanceof KafkaStream) {
+			kafkaStream = (KafkaStream) process.getSourceMetaData();
+		}
+		if(kafkaStream == null){
+			throw new ETLException("kafkaStream object is null,maybe config is wrong...");
+		}
+		
 		Properties props = new Properties();
+		
 		props.put("zookeeper.hosts", kafkaStream.getHosts());
 		props.put("zookeeper.port",kafkaStream.getPort());
 		props.put("zookeeper.broker.path", kafkaStream.getBrokers());
@@ -59,60 +74,40 @@ public class SparkKafkaRunner implements IRunner ,Serializable{
 		props.put("consumer.backpressure.enabled", kafkaStream.getBackpressure());
 		props.put("kafka.message.handler.class",
 				"consumer.kafka.IdentityMessageHandler");
+
+		SparkConf sparkConf = new SparkConf();
+		sparkConf.setAppName(process.getId());
 		
-		return props;
-	}
-	
-	private void printInfo(KafkaStream kafkaStream){
+		JavaStreamingContext jsc = new JavaStreamingContext(sparkConf,
+				Durations.seconds(kafkaStream.getDuration()));
+
+		// Specify number of Receivers you need.
+		int receiversNum = kafkaStream.getReceivesNum();
+		
 		logger.info("\nprocessId=" + process.getId() + 
 				"\nconfig:" + kafkaStream.toString() +
 				"\noutput:\n" +
 				"outputPath=" + this.process.getOutputPath() + 
 				"\nkafka brokers=" + this.process.getOutputKafkaBrokers() +
 				"\nkafka topic=" + this.process.getOutputKafkaTopic());
-	}
-	
-	@SuppressWarnings("serial")
-	@Override
-	public int etlRun() throws ETLException {
-		if(this.process == null){
-			throw new ETLException("process object is null...");
-		}
-		KafkaStream kafkaStream = null;
-		if (process.getSourceMetaData() instanceof KafkaStream) {
-			kafkaStream = (KafkaStream) process.getSourceMetaData();
-		}
-		if(kafkaStream == null){
-			throw new ETLException("kafkaStream object is null,maybe config is wrong...");
-		}
-		this.printInfo(kafkaStream);
 		
-		SparkConf sparkConf = new SparkConf();
-		sparkConf.setAppName(process.getId());
-		JavaStreamingContext jsc = new JavaStreamingContext(sparkConf,
-				Durations.seconds(kafkaStream.getDuration()));
-		
-		// Specify number of Receivers you need.
-		int receiversNum = kafkaStream.getReceivesNum();
 		JavaDStream<MessageAndMetadata> unionStreams = ReceiverLauncher.launch(
-				jsc, this.getReceiveKafkaConf(kafkaStream), receiversNum,
-				kafkaStream.getStorageLevel());
+				jsc, props, receiversNum, kafkaStream.getStorageLevel());
 
-		JavaDStream<String> dpis = unionStreams
-				.map(new Function<MessageAndMetadata, String>() {
-					@Override
-					public String call(MessageAndMetadata tuple) {
-						String payload = new String(tuple.getPayload());
-						return parseLine(payload);
-					}
-				}).filter(new Function<String, Boolean>() {
-					public Boolean call(String dpi) {
-						if (dpi == null) {
-							return false;
-						}
-						return true;
-					}
-				});
+		JavaDStream<String> lines = unionStreams.map(new Function<MessageAndMetadata, String>() {
+			@Override
+	        public String call(MessageAndMetadata tuple) {
+				String ret = new String(tuple.getPayload());
+	        	return ret;
+	        }
+	      });
+		
+		JavaDStream<String> dpis = lines.map(new Function<String,String>(){
+			public String call(String dpi){
+				//return dpi;
+				return parseLine(dpi);
+			}
+		});
 		
 		String resultMode = kafkaStream.getResultMode();
 		if(RESULT_MODE_HDFS.equals(resultMode)){
@@ -122,6 +117,7 @@ public class SparkKafkaRunner implements IRunner ,Serializable{
 		}
 			
 		JavaDStream<Long> dpiCounts = dpis.count();
+
 		dpiCounts.foreachRDD(new Function<JavaRDD<Long>, Void>() {
 			@Override
 			public Void call(JavaRDD<Long> rdds) throws Exception {
@@ -140,18 +136,17 @@ public class SparkKafkaRunner implements IRunner ,Serializable{
 		return 0;
 	}
 	
-	private void writeKafka(JavaDStream<String> dpis) {
+	private void writeKafka(JavaDStream<String> dpis){
 		Properties producerConf = new Properties();
-		producerConf.put("serializer.class", "kafka.serializer.DefaultEncoder");
-		producerConf.put("key.serializer.class","kafka.serializer.StringEncoder");
-		producerConf.put("metadata.broker.list",this.process.getOutputKafkaBrokers());
-		producerConf.put("request.required.acks", "1");
-
-		String topic = this.process.getOutputKafkaTopic();
-		JavaDStreamKafkaWriter<String> writer = JavaDStreamKafkaWriterFactory
-				.fromJavaDStream(dpis);
-
-		writer.writeToKafka(producerConf, new ProcessingFunc(topic));
+	    producerConf.put("serializer.class", "kafka.serializer.DefaultEncoder");
+	    producerConf.put("key.serializer.class", "kafka.serializer.StringEncoder");
+	    producerConf.put("metadata.broker.list", this.process.getOutputKafkaBrokers());
+	    producerConf.put("request.required.acks", "1");
+	    
+	    String topic = this.process.getOutputKafkaTopic();
+	    JavaDStreamKafkaWriter<String> writer = JavaDStreamKafkaWriterFactory.fromJavaDStream(dpis);
+	    
+	    writer.writeToKafka(producerConf, new ProcessingFunc(topic));
 	}
 	
 	@SuppressWarnings("serial")
@@ -165,7 +160,8 @@ public class SparkKafkaRunner implements IRunner ,Serializable{
 		public KeyedMessage<String, byte[]> call(String in) throws Exception {
 			if(in == null){
 				return new KeyedMessage<String, byte[]>(this.topic, null,null);
-			}		
+			}
+			
 			return new KeyedMessage<String, byte[]>(this.topic, null,in.getBytes());
 		}
 	}
@@ -180,6 +176,7 @@ public class SparkKafkaRunner implements IRunner ,Serializable{
 						return new Tuple2<String, String>(s, "");
 					}
 				});
+
 		JavaPairDStream<String, String> splitPairDpis = pairDPIs
 				.repartition(kafkaStream.getPartitionsNum());
 
@@ -194,7 +191,7 @@ public class SparkKafkaRunner implements IRunner ,Serializable{
 	
 	private String parseLine(String line){
 		if(line == null || "".equals(line)){
-			return null;
+			return "";
 		}
 		
 		try {
@@ -208,6 +205,6 @@ public class SparkKafkaRunner implements IRunner ,Serializable{
 			logger.error(e.toString());
 		}
 		
-		return null;
+		return "";
 	}
 }

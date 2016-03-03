@@ -316,6 +316,7 @@ public class OutputMetaData extends AbstractETLObject {
 
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
+		
 		sb.append("\r\noutputPath=").append(this.outputPath);
 		sb.append("values delmiter=").append(this.valuesDelimiter);
 		sb.append("\r\nvalues field=");
@@ -324,9 +325,6 @@ public class OutputMetaData extends AbstractETLObject {
 		sb.append("\r\nkeys delimiter=").append(this.keysDelimiter);
 		sb.append("\r\nkeys field=");
 		sb.append(this.keysFields.toString());
-		
-		sb.append("\nbrokers=").append(this.brokers);
-		sb.append("\topic=").append(this.topic);
 
 		return sb.toString();
 	}
