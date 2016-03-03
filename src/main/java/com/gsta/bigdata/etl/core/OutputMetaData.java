@@ -324,6 +324,9 @@ public class OutputMetaData extends AbstractETLObject {
 		sb.append("\r\nkeys delimiter=").append(this.keysDelimiter);
 		sb.append("\r\nkeys field=");
 		sb.append(this.keysFields.toString());
+		
+		sb.append("\nbrokers=").append(this.brokers);
+		sb.append("\topic=").append(this.topic);
 
 		return sb.toString();
 	}
