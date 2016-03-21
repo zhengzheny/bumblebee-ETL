@@ -15,6 +15,7 @@ import org.apache.spark.streaming.Durations;
 import org.apache.spark.streaming.api.java.JavaDStream;
 import org.apache.spark.streaming.api.java.JavaPairDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
+import org.apache.spark.streaming.api.java.JavaStreamingContextFactory;
 import org.cloudera.spark.streaming.kafka.JavaDStreamKafkaWriter;
 import org.cloudera.spark.streaming.kafka.JavaDStreamKafkaWriterFactory;
 import org.slf4j.Logger;
@@ -56,7 +57,7 @@ public class SparkKafkaRunner implements IRunner ,Serializable{
 		// Optional Properties
 		props.put("consumer.forcefromstart", kafkaStream.getForcefromstart());
 		props.put("consumer.fetchsizebytes", kafkaStream.getFetchsizebytes());
-		props.put("consumer.fillfreqms", "250");
+		props.put("consumer.fillfreqms", kafkaStream.getFillfreqms());
 		props.put("consumer.backpressure.enabled", kafkaStream.getBackpressure());
 		props.put("kafka.message.handler.class",
 				"consumer.kafka.IdentityMessageHandler");
@@ -87,11 +88,27 @@ public class SparkKafkaRunner implements IRunner ,Serializable{
 		}
 		this.printInfo(kafkaStream);
 
-		SparkConf sparkConf = new SparkConf();
+		final SparkConf sparkConf = new SparkConf();
 		sparkConf.setAppName(process.getId());
+		final long duration = kafkaStream.getDuration();
+		final String chkPath = kafkaStream.getChkPointPath();
 		
-		JavaStreamingContext jsc = new JavaStreamingContext(sparkConf,
-				Durations.seconds(kafkaStream.getDuration()));
+		JavaStreamingContext jsc = null;
+		if (kafkaStream.isCheckPoint()) {
+			JavaStreamingContextFactory contextFactory = new JavaStreamingContextFactory() {
+				@Override
+				public JavaStreamingContext create() {
+					JavaStreamingContext tempJSC = new JavaStreamingContext(
+							sparkConf, Durations.seconds(duration));
+					tempJSC.checkpoint(chkPath); 
+					return tempJSC;
+				}
+			};
+
+			jsc = JavaStreamingContext.getOrCreate(chkPath, contextFactory);
+		}else{
+			jsc = new JavaStreamingContext(sparkConf,Durations.seconds(duration));
+		}
 
 		// Specify number of Receivers you need.
 		int receiversNum = kafkaStream.getReceivesNum();
@@ -103,6 +120,7 @@ public class SparkKafkaRunner implements IRunner ,Serializable{
 					@Override
 					public String call(MessageAndMetadata tuple) {
 						String payload = new String(tuple.getPayload());
+						//return payload;
 						return parseLine(payload);
 					}
 				}).filter(new Function<String, Boolean>() {
@@ -126,6 +144,7 @@ public class SparkKafkaRunner implements IRunner ,Serializable{
 			@Override
 			public Void call(JavaRDD<Long> rdds) throws Exception {
 				List<Long> counters = rdds.collect();
+				
 				for (Long c : counters) {
 					logger.info("dpi count=" + c);
 				}

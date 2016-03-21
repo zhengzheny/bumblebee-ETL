@@ -15,6 +15,7 @@ import com.gsta.bigdata.etl.ETLException;
 import com.gsta.bigdata.etl.core.ETLData;
 import com.gsta.bigdata.etl.core.Field;
 import com.gsta.bigdata.etl.core.ParseException;
+import com.gsta.bigdata.utils.SourceXmlTool;
 
 /**
  * parse pgwXml by string
@@ -395,7 +396,7 @@ public class PgwXMLByString extends AbstractSourceMetaData {
 		Map<Integer, String> tempMap = new HashMap<Integer, String>();
 		for (String str : list) {
 			if (str.indexOf(tagName) != -1) {
-				tempMap.put(++i, getValueByTagName(str, tagName));
+				tempMap.put(++i, SourceXmlTool.getTagValue(str, tagName));
 			}
 		}
 
@@ -410,7 +411,7 @@ public class PgwXMLByString extends AbstractSourceMetaData {
 		int sum = 0;
 		for (String str : list) {
 			if (str.indexOf("<" + tagName + ">") != -1) {
-				sum += Integer.parseInt(getValueByTagName(str, tagName));
+				sum += Integer.parseInt(SourceXmlTool.getTagValue(str, tagName));
 			}
 		}
 
@@ -425,27 +426,10 @@ public class PgwXMLByString extends AbstractSourceMetaData {
 		String ret = null;
 		for (String str : list) {
 			if (str.indexOf("<" + tagName + ">") != -1) {
-				ret = getValueByTagName(str, tagName);
+				ret = SourceXmlTool.getTagValue(str, tagName);
 			}
 		}
 
 		return ret;
 	}
-
-	private String getValueByTagName(String str, String tagName) {
-		if (StringUtils.isBlank(str) || StringUtils.isBlank(tagName)) {
-			return null;
-		}
-
-		String ret = null;
-		int index = str.indexOf(tagName);
-		if (index != -1) {
-			int begin = index + tagName.length();
-			int end = str.lastIndexOf("<");
-			ret = str.substring(begin + 1, end);
-		}
-
-		return ret;
-	}
-
 }

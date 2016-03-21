@@ -15,6 +15,7 @@ import com.gsta.bigdata.etl.ETLException;
 import com.gsta.bigdata.etl.core.ETLData;
 import com.gsta.bigdata.etl.core.Field;
 import com.gsta.bigdata.etl.core.ParseException;
+import com.gsta.bigdata.utils.SourceXmlTool;
 
 /**
  * parse zte xml by String
@@ -77,7 +78,7 @@ public class ZteENODEBXML extends AbstractSourceMetaData {
 		}
 
 		if (line.startsWith(beginMeasCollec)) {
-			this.beginTime = this.getAttrValue(line, ATTR_BEGINTIME);
+			this.beginTime = SourceXmlTool.getAttrValue(line, ATTR_BEGINTIME);
 			if (StringUtils.isNotBlank(this.beginTime)) {
 				try {
 					this.beginTime = com.gsta.bigdata.utils.StringUtils
@@ -89,15 +90,15 @@ public class ZteENODEBXML extends AbstractSourceMetaData {
 			}
 		}
 
-		String measObjLdn = this.getAttrValue(line, ATTR_MEASOBJLDN);
+		String measObjLdn = SourceXmlTool.getAttrValue(line, ATTR_MEASOBJLDN);
 		this.splitMeasObjLdn(measObjLdn);
 
-		String measTypes = this.getTagValue(line, TAG_MEASTYPES);
+		String measTypes = SourceXmlTool.getTagValue(line, TAG_MEASTYPES);
 		if (StringUtils.isNotBlank(measTypes)) {
 			this.types = measTypes.split(" ");
 		}
 
-		String measResults = this.getTagValue(line, TAG_MEASRESULTS);
+		String measResults = SourceXmlTool.getTagValue(line, TAG_MEASRESULTS);
 		if (StringUtils.isNotBlank(measResults)) {
 			String[] values = measResults.split(" ");
 			if (this.types.length != values.length) {
@@ -148,38 +149,4 @@ public class ZteENODEBXML extends AbstractSourceMetaData {
 			}
 		}
 	}
-
-	private String getAttrValue(String str, String attrName) {
-		if (attrName == null || attrName.trim().length() == 0) {
-			return null;
-		}
-
-		String ret = null;
-		int index = str.indexOf(attrName);
-		if (index != -1) {
-			int begin = index + attrName.length() + 2;
-			String temp = str.substring(begin);
-			int end = temp.indexOf("\"");
-			ret = temp.substring(0, end);
-		}
-
-		return ret;
-	}
-
-	private String getTagValue(String str, String tagName) {
-		if (StringUtils.isBlank(str) || StringUtils.isBlank(tagName)) {
-			return null;
-		}
-
-		String ret = null;
-		int index = str.indexOf(tagName);
-		if (index != -1) {
-			int begin = index + tagName.length() + 1;
-			int end = str.lastIndexOf("<");
-			ret = str.substring(begin, end);
-		}
-
-		return ret;
-	}
-
 }

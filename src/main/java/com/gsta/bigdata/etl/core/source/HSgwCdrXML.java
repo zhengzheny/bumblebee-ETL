@@ -15,6 +15,7 @@ import com.gsta.bigdata.etl.ETLException;
 import com.gsta.bigdata.etl.core.ETLData;
 import com.gsta.bigdata.etl.core.Field;
 import com.gsta.bigdata.etl.core.ParseException;
+import com.gsta.bigdata.utils.SourceXmlTool;
 
 /**
  * parse HSGW-CDR Xml by string
@@ -245,8 +246,6 @@ public class HSgwCdrXML extends AbstractSourceMetaData {
 
 	}
 
-
-
 	private List<String> getList(String str, int length) {
 		if (StringUtils.isBlank(str)) {
 			return null;
@@ -274,7 +273,7 @@ public class HSgwCdrXML extends AbstractSourceMetaData {
 		Map<Integer, String> tempMap = new HashMap<Integer, String>();
 		for (String str : list) {
 			if (str.indexOf(tagName) != -1) {
-				tempMap.put(++i, getValueByTagName(str, tagName));
+				tempMap.put(++i, SourceXmlTool.getTagValue(str, tagName));
 			}
 		}
 
@@ -289,7 +288,7 @@ public class HSgwCdrXML extends AbstractSourceMetaData {
 		int sum = 0;
 		for (String str : list) {
 			if (str.indexOf("<" + tagName + ">") != -1) {
-				sum += Integer.parseInt(getValueByTagName(str, tagName));
+				sum += Integer.parseInt(SourceXmlTool.getTagValue(str, tagName));
 			}
 		}
 
@@ -304,35 +303,15 @@ public class HSgwCdrXML extends AbstractSourceMetaData {
 		String ret = null;
 		for (String str : list) {
 			if (str.indexOf("<" + tagName + ">") != -1) {
-				ret = getValueByTagName(str, tagName);
+				ret = SourceXmlTool.getTagValue(str, tagName);
 			}
 		}
 
 		return ret;
 	}
 
-	private String getValueByTagName(String str, String tagName) {
-		if (StringUtils.isBlank(str) || StringUtils.isBlank(tagName)) {
-			return null;
-		}
-
-		String ret = null;
-		try {
-			int index = str.indexOf(tagName);
-			if (index != -1) {
-				int begin = index + tagName.length() + 1;
-				int end = str.lastIndexOf("<");
-				ret = str.substring(begin, end);
-			}
-		} catch (Exception e) {
-			throw new ETLException(ETLException.GET_TAG_VALUE_ERROR,"get tag value error,tag=" + str);
-		}
-
-		return ret;
-	}
-	
 	// split gpp2UserLocation to SID,NID,CellID
-		private void splitGpp2UserLocation(String gpp2UserLocation, ETLData data) throws ETLException{
+	private void splitGpp2UserLocation(String gpp2UserLocation, ETLData data) throws ETLException{
 			if (gpp2UserLocation == null || gpp2UserLocation.trim().length() <= 0) {
 				data.addData(TAG_SID, "");
 				data.addData(TAG_NID, "");
@@ -356,7 +335,7 @@ public class HSgwCdrXML extends AbstractSourceMetaData {
 			}
 		}
 	
-		private String getIDByList(List<String> list) {
+	private String getIDByList(List<String> list) {
 			if (list == null || list.size() <= 0) {
 				return "";
 			}

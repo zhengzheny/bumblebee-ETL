@@ -1,5 +1,9 @@
 package com.gsta.bigdata.etl.core.source;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Set;
 
 import org.w3c.dom.Element;
@@ -86,5 +90,34 @@ public class SimpleFlat extends AbstractSourceMetaData {
 		}
 
 		return etlData;
+	}
+	
+	public static void main(String[] args) {
+		 File file = new File("D:\\github\\a");
+	        BufferedReader reader = null;
+	        try {
+	            
+	            reader = new BufferedReader(new FileReader(file));
+	            String tempString = null;
+	           
+	            while ((tempString = reader.readLine()) != null) {
+	            	String[] data = StringUtils.splitByWrapper(tempString, 
+	        				"\001",null);
+	            	System.out.println("--------------------------\ndata len=" + data.length);
+	            	for(int i=0;i<data.length;i++){
+	            		System.out.println("data[" + i +"]=" + data[i]);
+	            	}
+	            }
+	            reader.close();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        } finally {
+	            if (reader != null) {
+	                try {
+	                    reader.close();
+	                } catch (IOException e1) {
+	                }
+	            }
+	        }
 	}
 }

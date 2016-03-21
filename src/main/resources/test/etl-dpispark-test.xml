@@ -5,14 +5,15 @@
     
     <!-- process id="dpi" type="sparkStreamingProcess"-->
     <process id="dpi" type="sparkKafkaProcess">
-        <!-- sourceMetaData type="kafkaStream" delimiter="\001" -->
-        <sourceMetaData type="kafkaStream" delimiter="\|">
+        <sourceMetaData type="kafkaStream" delimiter="\001" >
+        <!-- sourceMetaData type="kafkaStream" delimiter="\|" -->
             <!-- kafka brokers="${brokers}" topic="${topics}"/-->
             <!-- kafka zkroot="${zkroot}" topic="${topics}" group="${group}" receivesNum="${receivesNum}" partitionsNum="${partitionsNum}" duration="${duration}"/-->
             <kafka hosts="${hosts}" port="${port}" brokers="${brokers}"
 				   consumerZK="${consumerZK}" consumerZKPath="${consumerZKPath}" 
 				   fetchsizebytes="${fetchsizebytes}" backpressure="${backpressure}"
-				   forcefromstart="${forcefromstart}"
+				   forcefromstart="${forcefromstart}" fillfreqms="${fillfreqms}"
+				   checkPoint="${chechPoint}" chkPointPath="${chkPointPath}"
 				   storageLevel="${storageLevel}" resultMode="${resultMode}"
 				   topic="${topic}" group="${group}"  receivesNum="${receivesNum}"
 				   partitionsNum="${partitionsNum}" duration="${duration}" />
@@ -24,10 +25,10 @@
                 <field id="dstip" type="string" />
                 <field id="dstport" type="string" />
                 <field id="host" type="string" />
-                <field id="url" type="string" minLength="6" />
-                <field id="ua" type="string" minLength="5" />
+                <field id="url" type="string"  />
+                <field id="ua" type="string" />
                 <field id="cookie" type="string" />
-                <field id="ref" type="string" minLength="6" />
+                <field id="ref" type="string"  />
                 <field id="seq" type="string" />
                 <field id="ack" type="string" />
                 <field id="collectHost"/>

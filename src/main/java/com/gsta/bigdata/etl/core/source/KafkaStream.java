@@ -29,6 +29,9 @@ public class KafkaStream extends SimpleFlat {
 	private String forcefromstart = "true";	
 	private int storageLevel = 0;	
 	private String resultMode = "hdfs";
+	private String fillfreqms;
+	private boolean checkPoint = false;
+	private String chkPointPath;
 	
 	public KafkaStream() {
 		super();
@@ -60,6 +63,8 @@ public class KafkaStream extends SimpleFlat {
 			
 			this.backpressure = ContextMgr.getValue(
 					node.getAttribute(Constants.ATTR_BACK_PRESSURE));
+			this.fillfreqms = ContextMgr.getValue(
+					node.getAttribute(Constants.ATTR_FILL_FREQMS));
 			this.forcefromstart = ContextMgr.getValue(
 					node.getAttribute(Constants.ATTR_FORCE_FROM_START));
 			this.resultMode = ContextMgr.getValue(
@@ -97,17 +102,30 @@ public class KafkaStream extends SimpleFlat {
 			if(temp != null && !"".equals(temp)){
 				this.storageLevel = Integer.parseInt(temp);
 			}
+			
+			temp = ContextMgr.getValue(
+					node.getAttribute(Constants.ATTR_CHK_POINT));
+			if(temp != null && "true".equals(temp)){
+				this.checkPoint = true;
+			}
+			
+			this.chkPointPath = ContextMgr.getValue(
+					node.getAttribute(Constants.ATTR_CHK_POINT_PATH));
 		}
+	}
+
+	public boolean isCheckPoint() {
+		return checkPoint;
+	}
+
+	public String getChkPointPath() {
+		return chkPointPath;
 	}
 
 	public String getResultMode() {
 		return resultMode;
 	}
-
-	public void setResultMode(String resultMode) {
-		this.resultMode = resultMode;
-	}
-
+	
 	public String getBrokers() {
 		return brokers;
 	}
@@ -187,6 +205,10 @@ public class KafkaStream extends SimpleFlat {
 		return StorageLevel.MEMORY_ONLY();
 	}
 
+	public String getFillfreqms() {
+		return fillfreqms;
+	}
+
 	public String toString(){
 		StringBuffer sb  = new StringBuffer();
 		
@@ -197,14 +219,17 @@ public class KafkaStream extends SimpleFlat {
 				.append("\ngroup=").append(this.group)
 				.append("\nconsumerZK=").append(this.consumerZK)
 				.append("\nconsumerZKPath=").append(this.consumerZKPath)
+				.append("\nbackpressure=").append(this.backpressure)
+				.append("\nfillfreqms=").append(this.fillfreqms)
 				.append("\nfetchsizebytes=").append(this.fetchsizebytes)
 				.append("\nforcefromstart=").append(this.forcefromstart)
-				.append("\nstorageLevel=").append(this.getStorageLevel())
-				.append("\nbackpressure=").append(this.backpressure)
+				.append("\nstorageLevel=").append(this.getStorageLevel())				
 				.append("\nduration=").append(this.duration)
 				.append("\nreceivesNum=").append(this.receivesNum)
 				.append("\nresultMode=").append(this.resultMode)
-				.append("\npartitionsNum=").append(this.partitionsNum);
+				.append("\npartitionsNum=").append(this.partitionsNum)
+				.append("\ncheckPoint=").append(this.checkPoint)
+				.append("\ncheckPointPath=").append(this.chkPointPath);
 		
 		return sb.toString();
 	}

@@ -141,11 +141,13 @@ public class Constants {
 	public final static String ATTR_CONSUMER_ZK_PATH = "consumerZKPath";
 	public final static String ATTR_FETCHSIZE_BYTES = "fetchsizebytes";
 	public final static String ATTR_BACK_PRESSURE = "backpressure";
+	public final static String ATTR_FILL_FREQMS = "fillfreqms";
 	public final static String ATTR_FORCE_FROM_START = "forcefromstart";
 	public final static String ATTR_RESULT_MODE = "resultMode";
-	
 	public final static String ATTR_STORAGE_LEVEL = "storageLevel";
 	public final static String ATTR_DURATION = "duration";
+	public final static String ATTR_CHK_POINT = "checkPoint";
+	public final static String ATTR_CHK_POINT_PATH = "chkPointPath";
 	
 	public final static String TAG_FIELD = "field";
 	public final static String TAG_INPUTPATH = "inputPath";

@@ -13,6 +13,7 @@ import com.gsta.bigdata.etl.ETLException;
 import com.gsta.bigdata.etl.core.ETLData;
 import com.gsta.bigdata.etl.core.Field;
 import com.gsta.bigdata.etl.core.ParseException;
+import com.gsta.bigdata.utils.SourceXmlTool;
 
 /**
  * parse MRO xml by String
@@ -84,18 +85,18 @@ public class MroXML extends AbstractSourceMetaData {
 	public ETLData parseLine(String line, Set<String> invalidRecords)
 			throws ETLException, ValidatorException {
 		if (line.indexOf(beginFileHeader) != -1) {
-			this.startTime = this.getAttrValue(line, ATTR_STARTTIME).replace(
+			this.startTime = SourceXmlTool.getAttrValue(line, ATTR_STARTTIME).replace(
 					"T", " ");
-			this.endTime = this.getAttrValue(line, ATTR_ENDTIME).replace("T",
+			this.endTime = SourceXmlTool.getAttrValue(line, ATTR_ENDTIME).replace("T",
 					" ");
 		}
 
 		if (line.indexOf(beginObject) != -1) {
 			this.etlData.clear();
 
-			this.timeStamp = this.getAttrValue(line, ATTR_TIMESTAMP).replace(
+			this.timeStamp = SourceXmlTool.getAttrValue(line, ATTR_TIMESTAMP).replace(
 					"T", " ");
-			String id = this.getAttrValue(line, ATTR_ID).trim();
+			String id = SourceXmlTool.getAttrValue(line, ATTR_ID).trim();
 			if (StringUtils.isNotBlank(id)) {
 				String[] ids = id.split("-");
 				// mro-zte object id
@@ -117,15 +118,15 @@ public class MroXML extends AbstractSourceMetaData {
 				}
 			}
 
-			this.mmeGroupId = this.getAttrValue(line, ATTR_MMEGROUPID);
-			this.mmeUeS1apId = this.getAttrValue(line, ATTR_MMEUES1APID);
-			this.mmeCode = this.getAttrValue(line, ATTR_MMECODE);
+			this.mmeGroupId = SourceXmlTool.getAttrValue(line, ATTR_MMEGROUPID);
+			this.mmeUeS1apId = SourceXmlTool.getAttrValue(line, ATTR_MMEUES1APID);
+			this.mmeCode = SourceXmlTool.getAttrValue(line, ATTR_MMECODE);
 		}
 
 		if (line.indexOf(beginSmr) != -1) {
 			this.smrs.clear();
 
-			String smr = this.getTagValue(line, TAG_SMR);
+			String smr = SourceXmlTool.getTagValue(line, TAG_SMR);
 			if (StringUtils.isNotBlank(smr)) {
 				String[] tempSmr = smr.replace(".", "_").split(" ");
 				for (String temp : tempSmr) {
@@ -135,7 +136,7 @@ public class MroXML extends AbstractSourceMetaData {
 		}
 
 		if (line.indexOf(beginV) != -1) {
-			String v = this.getTagValue(line, TAG_V);
+			String v = SourceXmlTool.getTagValue(line, TAG_V);
 			if (StringUtils.isNotBlank(v)) {
 				String[] values = v.split(" ");
 				if (this.smrs.size() != values.length) {
@@ -179,47 +180,4 @@ public class MroXML extends AbstractSourceMetaData {
 
 		return null;
 	}
-
-	private String getAttrValue(String str, String attrName)
-			throws ETLException {
-		if (attrName == null || attrName.trim().length() == 0) {
-			return null;
-		}
-
-		String ret = null;
-		try {
-			int index = str.indexOf(attrName);
-			if (index != -1) {
-				int begin = index + attrName.length() + 2;
-				String temp = str.substring(begin);
-				int end = temp.indexOf("\"");
-				ret = temp.substring(0, end);
-			}
-		} catch (Exception e) {
-			throw new ETLException(ETLException.GET_ATTR_VALUE_ERROR,"get attribute value error,attr=" + str);
-		}
-
-		return ret;
-	}
-
-	private String getTagValue(String str, String tagName) throws ETLException {
-		if (StringUtils.isBlank(str) || StringUtils.isBlank(tagName)) {
-			return null;
-		}
-
-		String ret = null;
-		try {
-			int index = str.indexOf(tagName);
-			if (index != -1) {
-				int begin = index + tagName.length() + 1;
-				int end = str.lastIndexOf("<");
-				ret = str.substring(begin, end);
-			}
-		} catch (Exception e) {
-			throw new ETLException(ETLException.GET_TAG_VALUE_ERROR,"get tag value error,tag=" + str);
-		}
-
-		return ret;
-	}
-
 }

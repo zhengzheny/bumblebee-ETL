@@ -17,6 +17,7 @@ import com.gsta.bigdata.etl.ETLException;
 import com.gsta.bigdata.etl.core.ETLData;
 import com.gsta.bigdata.etl.core.Field;
 import com.gsta.bigdata.etl.core.ParseException;
+import com.gsta.bigdata.utils.SourceXmlTool;
 
 /**
  * parse kpi xml by String
@@ -92,11 +93,11 @@ public class KpiXML extends AbstractSourceMetaData {
 			if (line.indexOf(beginMts) != -1) {
 				this.mtsCounter.getAndIncrement();
 				
-				this.statTime = this.getTagValue(line, TAG_MTS);
+				this.statTime = SourceXmlTool.getTagValue(line, TAG_MTS);
 			}
 
 			if (line.indexOf(beginGp) != -1) {
-				this.statPeriod = this.getTagValue(line, TAG_GP);
+				this.statPeriod = SourceXmlTool.getTagValue(line, TAG_GP);
 				if (StringUtils.isNotBlank(this.statPeriod)) {
 					this.statPeriod = String.valueOf(Integer
 							.parseInt(this.statPeriod) * 60);
@@ -104,7 +105,7 @@ public class KpiXML extends AbstractSourceMetaData {
 			}
 
 			if (line.indexOf(beginMt) != -1) {
-				String mt = this.getTagValue(line, TAG_MT).trim();
+				String mt = SourceXmlTool.getTagValue(line, TAG_MT).trim();
 				this.mts.add(mt);
 			}
 
@@ -112,12 +113,12 @@ public class KpiXML extends AbstractSourceMetaData {
 				this.moidMap.clear();
 				this.rs.clear();
 
-				this.moid = this.getTagValue(line, TAG_MOID);
+				this.moid = SourceXmlTool.getTagValue(line, TAG_MOID);
 				this.splitMoid(this.moid);
 			}
 
 			if (line.indexOf(beginR) != -1) {
-				String r = this.getTagValue(line, TAG_R);
+				String r = SourceXmlTool.getTagValue(line, TAG_R);
 				this.rs.add(r);
 			}
 			
@@ -178,25 +179,4 @@ public class KpiXML extends AbstractSourceMetaData {
 			}
 		}
 	}
-
-	private String getTagValue(String str, String tagName) throws ETLException {
-		if (StringUtils.isBlank(str) || StringUtils.isBlank(tagName)) {
-			return null;
-		}
-
-		String ret = null;
-		try {
-			int index = str.indexOf(tagName);
-			if (index != -1) {
-				int begin = index + tagName.length() + 1;
-				int end = str.lastIndexOf("<");
-				ret = str.substring(begin, end);
-			}
-		} catch (Exception e) {
-			throw new ETLException(ETLException.GET_TAG_VALUE_ERROR,"get tag value error,tag=" + str);
-		}
-
-		return ret;
-	}
-
 }
