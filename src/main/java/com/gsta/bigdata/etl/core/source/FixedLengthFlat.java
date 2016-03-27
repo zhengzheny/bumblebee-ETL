@@ -170,4 +170,11 @@ public class FixedLengthFlat extends AbstractSourceMetaData {
 		
 		return result;
 	}
+
+	@Override
+	public List<ETLData> parseLine(String line) throws ETLException,
+			ValidatorException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -39,24 +39,25 @@ import com.gsta.bigdata.utils.SourceXmlTool;
  * @author tianxq
  *
  */
-public class AbstractMroSource extends AbstractSourceMetaData {
+public class MroHuaWei extends AbstractSourceMetaData {
 	private static final long serialVersionUID = 1L;
 	@JsonProperty
 	private List<String> fieldIds = new ArrayList<String>();
 
-	protected ETLData etlData = new ETLData();
+	protected ETLData etlData;
 
 	protected String startTime;
 	protected String endTime;
 	// the son of object "v"
 	protected List<SMRObj> smrObjs = new ArrayList<SMRObj>();
 	// object element
-	protected MroObj mroObj = new MroObj();
+	private HuaweiMroObj mroObj ;
 	// smr fields
 	protected List<String> smrs = new ArrayList<String>();
 
 	protected static final String ATTR_STARTTIME = "startTime";
 	protected static final String ATTR_ENDTIME = "endTime";
+	
 	protected static final String ATTR_TIMESTAMP = "TimeStamp";
 	protected static final String ATTR_ID = "id";
 	protected static final String ATTR_MMEGROUPID = "MmeGroupId";
@@ -75,7 +76,7 @@ public class AbstractMroSource extends AbstractSourceMetaData {
 	protected static final String FIELD_MMEUES1APID = "MmeUeS1apId";
 	protected static final String FIELD_MMECODE = "MmeCode";
 
-	public AbstractMroSource() {
+	public MroHuaWei() {
 		super();
 	}
 
@@ -103,7 +104,7 @@ public class AbstractMroSource extends AbstractSourceMetaData {
 		}
 	}
 
-	protected void computeSmrs(String line) {
+	private void computeSmrs(String line) {
 		if (line == null || "".equals(line)) {
 			return;
 		}
@@ -120,15 +121,15 @@ public class AbstractMroSource extends AbstractSourceMetaData {
 		}
 	}
 
-	protected void computeObj(String line) {
+	private void computeObj(String line) {
 		if (line == null || "".equals(line)) {
 			return;
 		}
 		
 		if (line.indexOf("<object") != -1) {
-			this.etlData.clear();
+			this.etlData =  new ETLData();
 			this.smrObjs.clear();
-			this.mroObj.clear();
+			this.mroObj = new HuaweiMroObj();
 
 			String timeStamp = SourceXmlTool.getAttrValue(line, ATTR_TIMESTAMP).replace("T", " ");
 			String id = SourceXmlTool.getAttrValue(line, ATTR_ID).trim();
@@ -140,9 +141,13 @@ public class AbstractMroSource extends AbstractSourceMetaData {
 		}
 	}
 
-	protected void computeV(String line) {
+	protected void computeV(String line) throws ETLException{
 		if (line == null || "".equals(line)) {
 			return;
+		}
+		
+		if(this.etlData == null){
+			throw new ETLException("ETLData obj is null.");
 		}
 		
 		if (line.indexOf("<v>") != -1) {
@@ -172,9 +177,13 @@ public class AbstractMroSource extends AbstractSourceMetaData {
 	}
 
 	@SuppressWarnings("static-access")
-	protected boolean emitData(String line) {
+	protected boolean emitData(String line,HuaweiMroObj mroObj) throws ETLException{
 		if (line == null || "".equals(line)) {
 			return false;
+		}
+		
+		if(this.etlData == null){
+			throw new ETLException("ETLData obj is null.");
 		}
 		
 		// emit data
@@ -182,20 +191,21 @@ public class AbstractMroSource extends AbstractSourceMetaData {
 			this.etlData.addData(FIELD_STARTTIME, this.startTime);
 			this.etlData.addData(FIELD_ENDTIME, this.endTime);
 
-			this.etlData.addData(FIELD_TIMESTAMP, this.mroObj.getTimeStamp());
-			this.etlData.addData(FIELD_ENODEBID, this.mroObj.geteNodeID());
-			this.etlData.addData(FIELD_CELLID, this.mroObj.getCellID());
-			this.etlData.addData(FIELD_MMEGROUPID, this.mroObj.getMmeGroupId());
-			this.etlData.addData(FIELD_MMEUES1APID,this.mroObj.getMmeUeS1apId());
-			this.etlData.addData(FIELD_MMECODE, this.mroObj.getMmeCode());
+			this.etlData.addData(FIELD_TIMESTAMP, mroObj.getTimeStamp());
+			this.etlData.addData(FIELD_ENODEBID, mroObj.geteNodeID());
+			this.etlData.addData(FIELD_CELLID, mroObj.getCellID());
+			this.etlData.addData(FIELD_MMEGROUPID, mroObj.getMmeGroupId());
+			this.etlData.addData(FIELD_MMEUES1APID,mroObj.getMmeUeS1apId());
+			this.etlData.addData(FIELD_MMECODE, mroObj.getMmeCode());
 
 			Collections.sort(this.smrObjs);
 			for (int i = 0; i < this.smrObjs.size(); i++) {
 				SMRObj smrObj = this.smrObjs.get(i);
-				this.etlData.addData(smrObj.FIELD_MR_LteNcEarfcn + i,smrObj.getMR_LteNcEarfcn());
-				this.etlData.addData(smrObj.FIELD_MR_LteNcPci + i,smrObj.getMR_LteNcPci());
-				this.etlData.addData(smrObj.FIELD_MR_LteNcRSRP + i,smrObj.getMR_LteNcRSRP());
-				this.etlData.addData(smrObj.FIELD_MR_LteNcRSRQ + i,smrObj.getMR_LteNcRSRQ());
+				int j = i + 1;
+				this.etlData.addData(smrObj.FIELD_MR_LteNcEarfcn + j,smrObj.getMR_LteNcEarfcn());
+				this.etlData.addData(smrObj.FIELD_MR_LteNcPci + j,smrObj.getMR_LteNcPci());
+				this.etlData.addData(smrObj.FIELD_MR_LteNcRSRP + j,smrObj.getMR_LteNcRSRP());
+				this.etlData.addData(smrObj.FIELD_MR_LteNcRSRQ + j,smrObj.getMR_LteNcRSRQ());
 			}
 			
 			return true;
@@ -211,7 +221,7 @@ public class AbstractMroSource extends AbstractSourceMetaData {
 		this.computeSmrs(line);
 		this.computeObj(line);
 		this.computeV(line);
-		if (this.emitData(line)) {
+		if (this.emitData(line,this.mroObj)) {
 			this.verifyKeyField();
 			return etlData;
 		}
@@ -238,5 +248,12 @@ public class AbstractMroSource extends AbstractSourceMetaData {
 						+ ",current smr is:" + this.smrs.toString());
 			}
 		}
+	}
+
+	@Override
+	public List<ETLData> parseLine(String line) throws ETLException,
+			ValidatorException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

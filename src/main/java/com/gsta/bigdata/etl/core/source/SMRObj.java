@@ -1,6 +1,5 @@
 package com.gsta.bigdata.etl.core.source;
 
-
 public class SMRObj implements Comparable<SMRObj> {
 	private String MR_LteNcRSRP;
 	private String MR_LteNcRSRQ;
@@ -21,6 +20,9 @@ public class SMRObj implements Comparable<SMRObj> {
 	}
 
 	@Override
+	/**
+	 * reverse order
+	 */
 	public int compareTo(SMRObj o) {
 		return Integer.parseInt(o.getMR_LteNcRSRP())
 				- Integer.parseInt(this.MR_LteNcRSRP);

@@ -350,4 +350,11 @@ public class HSgwCdrXML extends AbstractSourceMetaData {
 			return Long.toString(Long.parseLong(sb.toString(), 16));
 		}
 
+	@Override
+	public List<ETLData> parseLine(String line) throws ETLException,
+			ValidatorException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

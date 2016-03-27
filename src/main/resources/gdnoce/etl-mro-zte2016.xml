@@ -1,0 +1,93 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<process id="mro-zte2016">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat"/>
+			<property key="mapperClass"
+				value="com.gsta.bigdata.etl.mapreduce.MultiETLMapper"/>
+		</computingFrameworkConfigs>
+		<sourceMetaData type="MroZte" >
+			<paths>
+				<inputPath path="${inputPath}"/>
+			</paths>
+			<fields>
+				<field id="MR_LteScRSRP" masterKey="yes"/>
+				<field id="MR_LteScRSRQ" masterKey="yes"/>
+			</fields>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
+			<values delimiter="|">
+				<field id="startTime" />
+				<field id="endTime" />
+				<field id="TimeStamp" />
+				<field id="ENODEID" />
+				<field id="CELLID" />
+				<field id="MmeGroupId" />
+				<field id="MmeUeS1apId" />
+				<field id="MmeCode" />
+				<field id="MR_LteScEarfcn" />
+				<field id="MR_LteScPci" />
+				<field id="MR_LteScRSRP" />
+				<field id="MR_LteScRSRQ" />
+				<field id="MR_LteScTadv" />
+				<field id="MR_LteScPHR" />
+				<field id="MR_LteScAOA" />
+				<field id="MR_LteScSinrUL" />
+				<field id="MR_LteScRI1" />
+				<field id="MR_LteScRI2" />
+				<field id="MR_LteScRI4" />
+				<field id="MR_LteScRI8" />
+				<field id="MR_LteScBSR" />
+				<field id="MR_LteScPUSCHPRBNum" />
+				<field id="MR_LteScPDSCHPRBNum" />
+				<field id="MR_CQI0" />
+				<field id="MR_CQI1" />
+				<field id="MR_Longitude" />
+				<field id="MR_Latitude" />
+				<field id="MR_LteNcEarfcn1"  defaultValue="NIL"/>
+				<field id="MR_LteNcEarfcn2"  defaultValue="NIL"/>
+				<field id="MR_LteNcEarfcn3"  defaultValue="NIL"/>
+				<field id="MR_LteNcEarfcn4"  defaultValue="NIL"/>
+				<field id="MR_LteNcEarfcn5"  defaultValue="NIL"/>
+				<field id="MR_LteNcPci1"  defaultValue="NIL"/>
+				<field id="MR_LteNcPci2"  defaultValue="NIL"/>
+				<field id="MR_LteNcPci3"  defaultValue="NIL"/>
+				<field id="MR_LteNcPci4"  defaultValue="NIL"/>
+				<field id="MR_LteNcPci5"  defaultValue="NIL"/>
+				<field id="MR_LteNcRSRP1"  defaultValue="NIL"/>
+				<field id="MR_LteNcRSRP2"  defaultValue="NIL"/>
+				<field id="MR_LteNcRSRP3"  defaultValue="NIL"/>
+				<field id="MR_LteNcRSRP4"  defaultValue="NIL"/>
+				<field id="MR_LteNcRSRP5"  defaultValue="NIL"/>
+				<field id="MR_LteNcRSRQ1"  defaultValue="NIL"/>
+				<field id="MR_LteNcRSRQ2"  defaultValue="NIL"/>
+				<field id="MR_LteNcRSRQ3"  defaultValue="NIL"/>
+				<field id="MR_LteNcRSRQ4"  defaultValue="NIL"/>
+				<field id="MR_LteNcRSRQ5"  defaultValue="NIL"/>
+				<field id="MR_LteScPlrULQci1" />
+				<field id="MR_LteScPlrULQci2" />
+				<field id="MR_LteScPlrULQci3" />
+				<field id="MR_LteScPlrULQci4" />
+				<field id="MR_LteScPlrULQci5" />
+				<field id="MR_LteScPlrULQci6" />
+				<field id="MR_LteScPlrULQci7" />
+				<field id="MR_LteScPlrULQci8" />
+				<field id="MR_LteScPlrULQci9" />
+				<field id="MR_LteScPlrDLQci1" />
+				<field id="MR_LteScPlrDLQci2" />
+				<field id="MR_LteScPlrDLQci3" />
+				<field id="MR_LteScPlrDLQci4" />
+				<field id="MR_LteScPlrDLQci5" />
+				<field id="MR_LteScPlrDLQci6" />
+				<field id="MR_LteScPlrDLQci7" />
+				<field id="MR_LteScPlrDLQci8" />
+				<field id="MR_LteScPlrDLQci9" />
+				<field id="MR_LteScRIP" />
+				<field id="MR_LteSccgi" />
+				<field id="MR_LteScUeRxTxTD" />
+				<field id="MR_LteSceEuRxTxTD" />
+			</values>
+		</outputMetaData>
+	</process>
+</etl>

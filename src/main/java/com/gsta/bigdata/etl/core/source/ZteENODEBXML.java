@@ -149,4 +149,11 @@ public class ZteENODEBXML extends AbstractSourceMetaData {
 			}
 		}
 	}
+
+	@Override
+	public List<ETLData> parseLine(String line) throws ETLException,
+			ValidatorException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

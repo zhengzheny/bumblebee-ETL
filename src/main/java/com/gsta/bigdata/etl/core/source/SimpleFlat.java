@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
 import org.w3c.dom.Element;
@@ -119,5 +120,12 @@ public class SimpleFlat extends AbstractSourceMetaData {
 	                }
 	            }
 	        }
+	}
+
+	@Override
+	public List<ETLData> parseLine(String line) throws ETLException,
+			ValidatorException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

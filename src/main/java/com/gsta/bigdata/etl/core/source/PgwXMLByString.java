@@ -432,4 +432,11 @@ public class PgwXMLByString extends AbstractSourceMetaData {
 
 		return ret;
 	}
+
+	@Override
+	public List<ETLData> parseLine(String line) throws ETLException,
+			ValidatorException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

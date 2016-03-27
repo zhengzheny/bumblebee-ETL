@@ -126,6 +126,9 @@ public abstract class AbstractSourceMetaData extends AbstractETLObject {
 	 */
 	public abstract ETLData parseLine(String line, Set<String> invalidRecords)
 			throws ETLException, ValidatorException;
+	
+	public abstract List<ETLData> parseLine(String line)
+			throws ETLException, ValidatorException;
 
 	public static AbstractSourceMetaData newInstance(Element element)
 			throws ParseException {

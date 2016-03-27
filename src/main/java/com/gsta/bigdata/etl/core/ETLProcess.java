@@ -172,6 +172,15 @@ public class ETLProcess extends AbstractETLObject {
 		return this.sourceMetaData.parseLine(line, invalidRecords);
 	}
 	
+	public List<ETLData> parseLine(String line)
+			throws ETLException, ValidatorException {
+		if (this.sourceMetaData == null) {
+			throw new ETLException(ETLException.NULL_SOURCE_META,"sourceMetaData object is null.");
+		}
+
+		return this.sourceMetaData.parseLine(line);
+	}
+	
 	/**
 	 * verify source field,if want to keep original error record,
 	 * please set it to invalidRecords object

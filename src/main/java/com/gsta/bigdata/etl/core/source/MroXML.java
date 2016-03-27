@@ -180,4 +180,11 @@ public class MroXML extends AbstractSourceMetaData {
 
 		return null;
 	}
+
+	@Override
+	public List<ETLData> parseLine(String line) throws ETLException,
+			ValidatorException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

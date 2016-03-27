@@ -27,6 +27,14 @@ public class ETLData implements Serializable{
 		this.fieldNames.add(fieldName);
 	}
 	
+	public void addData(ETLData data){
+		if(data != null){
+			for(Map.Entry<String, String> entry:data.getData().entrySet()){
+				this.addData(entry.getKey(), entry.getValue());
+			}
+		}
+	}
+	
 	public String getValue(String key){
 		return this.data.get(key);
 	}

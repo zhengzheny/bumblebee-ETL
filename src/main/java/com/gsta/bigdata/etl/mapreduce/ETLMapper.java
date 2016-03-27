@@ -32,29 +32,29 @@ import com.gsta.bigdata.utils.BeansUtils;
  * 
  */
 public class ETLMapper extends Mapper<Object, Text, Text, Text> {
-	private ETLProcess process;
+	protected ETLProcess process;
 
-	private Text txtKey = new Text();
-	private Text txtValue = new Text();
+	protected Text txtKey = new Text();
+	protected Text txtValue = new Text();
 	private Text outText = new Text();  
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	// how many error records for writing error file
-	private int errorRecordThreshold = 1000;
+	protected int errorRecordThreshold = 1000;
 
 	// save error line set,if have multiple errors in the same line,write once
-	private Set<String> errorRecords = new CopyOnWriteArraySet<String>();
+	protected Set<String> errorRecords = new CopyOnWriteArraySet<String>();
 	// invalid records after verify,if have multiple invalid error in the same
 	// line,write once
-	private Set<String> invalidRecords = new CopyOnWriteArraySet<String>();
+	protected Set<String> invalidRecords = new CopyOnWriteArraySet<String>();
 	// key is error code
 	private Map<String, ErrorCodeCount> errorInfos = new ConcurrentHashMap<String, ErrorCodeCount>();
 	
 	private MultipleOutputs<Text, Text> multiOutput ; 
-	private String errorPath;
-	private String outputPath;
-	private String encoding;
+	protected String errorPath;
+	protected String outputPath;
+	protected String encoding;
 	
 	@Override
 	protected void setup(Mapper<Object, Text, Text, Text>.Context context)
@@ -93,7 +93,7 @@ public class ETLMapper extends Mapper<Object, Text, Text, Text> {
 	 * @param encoding must be the same and file encoding, otherwise it will be converted into garbled
 	 * @return
 	 */
-	private Text transformTextToUTF8(Text text, String encoding)
+	protected Text transformTextToUTF8(Text text, String encoding)
 			throws UnsupportedEncodingException {
 		String value = new String(text.getBytes(), 0, text.getLength(),
 				encoding);
@@ -179,7 +179,7 @@ public class ETLMapper extends Mapper<Object, Text, Text, Text> {
 		}
 	}
 
-	private void recordErrorInfo(AbstractException e) {
+	protected void recordErrorInfo(AbstractException e) {
 		String errorCode = e.getErrorCode();
 		String errorMessage = e.getMessage();
 		
@@ -215,7 +215,7 @@ public class ETLMapper extends Mapper<Object, Text, Text, Text> {
 		return errorInfo;
 	}
 	
-	private void writeFiles(String dir, String namedOutput, Set<String> records)
+	protected void writeFiles(String dir, String namedOutput, Set<String> records)
 			throws IOException, InterruptedException {
 		if (namedOutput == null || dir == null) {
 			logger.error("write output file,namedOutput or dir is null.");

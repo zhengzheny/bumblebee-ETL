@@ -2,16 +2,14 @@ package com.gsta.bigdata.etl.core.source;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.gsta.bigdata.etl.ETLException;
-
-public class MroObj {
-	private String id;
-	private String eNodeID;
-	private String cellID;
-	private String mmeGroupId;
-	private String mmeUeS1apId;
-	private String mmeCode;
-	private String timeStamp;
+public class HuaweiMroObj {
+	protected String id;
+	protected String eNodeID;
+	protected String cellID;
+	protected String mmeGroupId;
+	protected String mmeUeS1apId;
+	protected String mmeCode;
+	protected String timeStamp;
 	
 	public void setValues(String id,String mmeGroupId,String mmeUeS1apId,String mmeCode,String timeStamp){
 		this.id = id;
@@ -31,8 +29,8 @@ public class MroObj {
 			return true;
 		}
 		
-		if(obj.getClass() == MroObj.class){
-			MroObj mroObj = (MroObj)obj;
+		if(obj.getClass() == HuaweiMroObj.class){
+			HuaweiMroObj mroObj = (HuaweiMroObj)obj;
 			return mroObj.getId().equals(this.id) &&
 				   mroObj.getMmeUeS1apId().equals(this.mmeUeS1apId) &&
 				   mroObj.getMmeCode().equals(this.mmeCode) &&
@@ -42,16 +40,6 @@ public class MroObj {
 		return false;
 	}
 	
-	public void clear(){
-		this.cellID = null;
-		this.eNodeID = null;
-		this.id = null;
-		this.mmeCode = null;
-		this.mmeGroupId = null;
-		this.mmeUeS1apId = null;
-		this.timeStamp = null;
-	}
-	
 	public void computeNodeAndCell(){
 		if(this.id == null || "".equals(this.id)){
 			return;
@@ -59,15 +47,6 @@ public class MroObj {
 		
 		if (StringUtils.isNotBlank(this.id)) {
 			String[] ids = this.id.split("-");
-			// mro-zte object id
-			if (ids.length == 1) {
-				try {
-					this.eNodeID = String.valueOf(Integer.parseInt(this.id) / 256);
-					this.cellID = String.valueOf(Integer.parseInt(this.id) % 256);
-				} catch (NumberFormatException e) {
-					throw new ETLException(ETLException.MRO_XML_ID_ERROR,"mro xml id is error,id=" + id);
-				}
-			}
 			// mro-hw object id
 			if (ids.length == 2) {
 				this.eNodeID = ids[0];

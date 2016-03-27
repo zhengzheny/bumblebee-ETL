@@ -10,28 +10,25 @@ public class SourceXmlTool {
 	 * @param str eg:<fileHeader startTime="2016-03-13T06:30:00.000" endTime="2016-03-13T06:45:00.000"/>
 	 * @param attrName:startTime
 	 * @return 2016-03-13T06:30:00.000
-	 * @throws ETLException
 	 */
-	public static String getAttrValue(String str, String attrName)
-			throws ETLException {
-		if (attrName == null || attrName.trim().length() == 0) {
+	public static String getAttrValue(String str, String attrName) {
+		if (str == null || "".equals(str)) {
 			return null;
 		}
 
-		String ret = null;
-		try {
-			int index = str.indexOf(attrName);
-			if (index != -1) {
-				int begin = index + attrName.length() + 2;
-				String temp = str.substring(begin);
-				int end = temp.indexOf("\"");
-				ret = temp.substring(0, end);
-			}
-		} catch (Exception e) {
-			throw new ETLException(ETLException.GET_ATTR_VALUE_ERROR,"get attribute value error,attr=" + str);
+		if (attrName == null || "".equals(str)) {
+			return null;
 		}
 
-		return ret;
+		int index = str.indexOf(attrName);
+		if (index != -1) {
+			int begin = index + attrName.length() + 2;  //2 means ="
+			String temp = str.substring(begin);
+			int end = temp.indexOf("\"");
+			return temp.substring(0, end);
+		}
+
+		return null;
 	}
 
 	/**
