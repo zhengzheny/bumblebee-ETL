@@ -1,5 +1,40 @@
 <?xml version = "1.0" encoding = "utf-8"?>
 <etl>
+	<lookup>
+	    <datasources>
+	    	<datasource id="d1" type="dim">
+				<property name="path" value="${hdfsPath}" />
+				<fields delimiter="\,">
+					<field id="city" />
+					<field id="eNodeB_ID" />
+					<field id="CELL_ID" />
+					<field id="high" />
+					<field id="Cell_power" />
+					<field id="longitude" />
+					<field id="latitude" />
+					<field id="ANT_gain" />
+					<field id="ANT_azimuth" />
+					<field id="down_band" />
+					<field id="band_width" />
+					<field id="nc_city" />
+					<field id="nc_eNodeB_ID" />
+					<field id="nc_CELL_ID" />
+					<field id="nc_high" />
+					<field id="nc_Cell_power" />
+					<field id="nc_longitude" />
+					<field id="nc_latitude" />
+					<field id="nc_ANT_gain" />
+					<field id="nc_ANT_azimuth" />
+					<field id="nc_down_band" />
+					<field id="nc_band_width" />
+				</fields>
+			</datasource>
+	    </datasources>
+		<table id="dim_service">
+			<datasource ref="d1"/>
+			<map key="eNodeB_ID,CELL_ID" value="DIMObj" />
+		</table>
+	</lookup>
 	<process id="mro-huawei2016">
 		<computingFrameworkConfigs>
 			<property key="outputFormatClass"
@@ -72,7 +107,59 @@
 				<field id="MR_LteNcPci4" defaultValue="NIL"/>
 				<field id="MR_LteNcPci5" defaultValue="NIL"/>
 				<field id="MR_LteScAOA" />
+				<field id="nc1_city" />
+				<field id="nc1_eNodeB_ID" />
+				<field id="nc1_CELL_ID" />
+				<field id="nc1_high" />
+				<field id="nc1_Cell_power" />
+				<field id="nc1_longitude" />
+				<field id="nc1_latitude" />
+				<field id="nc1_ANT_gain" />
+				<field id="nc1_ANT_azimuth" />
+				<field id="nc1_down_band" />
+				<field id="nc1_band_width" />
+				<field id="nc2_city" />
+				<field id="nc2_eNodeB_ID" />
+				<field id="nc2_CELL_ID" />
+				<field id="nc2_high" />
+				<field id="nc2_Cell_power" />
+				<field id="nc2_longitude" />
+				<field id="nc2_latitude" />
+				<field id="nc2_ANT_gain" />
+				<field id="nc2_ANT_azimuth" />
+				<field id="nc2_down_band" />
+				<field id="nc2_band_width" />
 			</values>
 		</outputMetaData>
+		<transforms>
+			<transform scope="map">
+				<function name="DIMQuery" key="ENODEID,CELLID" pciIndex="MR_LteNcPci1" lookupTable="dim_service" >
+					<output id="nc1_city" />
+					<output id="nc1_eNodeB_ID" />
+					<output id="nc1_CELL_ID" />
+					<output id="nc1_high" />
+					<output id="nc1_Cell_power" />
+					<output id="nc1_longitude" />
+					<output id="nc1_latitude" />
+					<output id="nc1_ANT_gain" />
+					<output id="nc1_ANT_azimuth" />
+					<output id="nc1_down_band" />
+					<output id="nc1_band_width" />
+				</function>
+				<function name="DIMQuery" key="ENODEID,CELLID" pciIndex="MR_LteNcPci2" lookupTable="dim_service" >
+					<output id="nc2_city" />
+					<output id="nc2_eNodeB_ID" />
+					<output id="nc2_CELL_ID" />
+					<output id="nc2_high" />
+					<output id="nc2_Cell_power" />
+					<output id="nc2_longitude" />
+					<output id="nc2_latitude" />
+					<output id="nc2_ANT_gain" />
+					<output id="nc2_ANT_azimuth" />
+					<output id="nc2_down_band" />
+					<output id="nc2_band_width" />
+				</function>
+			</transform>
+		</transforms>
 	</process>
 </etl>

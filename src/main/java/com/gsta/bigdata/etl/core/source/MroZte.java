@@ -10,6 +10,8 @@ import org.apache.commons.lang.StringUtils;
 
 import com.gsta.bigdata.etl.ETLException;
 import com.gsta.bigdata.etl.core.ETLData;
+import com.gsta.bigdata.etl.core.source.mro.ZTEMroObj;
+import com.gsta.bigdata.etl.core.source.mro.ZTEMroObj_1;
 import com.gsta.bigdata.utils.SourceXmlTool;
 
 public class MroZte extends MroHuaWei {
@@ -30,6 +32,7 @@ public class MroZte extends MroHuaWei {
 	private String eNBId;
 	private final static String ATTR_ENBID = "MR.eNBId";
 	private final static String ATTR_MROBJ_ID = "MR.objectId";
+	public final static String KEY_DELIMITER = "&";
 	
 	//1-smr include MR.LteScRSRP;2-include MR.LteScPlrULQci1;3-include MR.LteScRIP
 	private int smrType = 0;
@@ -87,7 +90,7 @@ public class MroZte extends MroHuaWei {
 				String MRLteScRIP = SourceXmlTool.getTagValue(line, TAG_V);
 				Long value = Long.parseLong(MRLteScRIP);
 				String timeStamp = this.mroObj.getTimeStamp();
-				String key = this.mroObj.getCgi() + "-" + timeStamp;
+				String key = this.mroObj.getCgi() + KEY_DELIMITER + timeStamp;
 				if(this.thirdObjDatas.containsKey(key)){
 					this.thirdObjDatas.get(key).add(value);
 				}else{

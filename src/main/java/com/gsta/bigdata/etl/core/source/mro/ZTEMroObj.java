@@ -1,6 +1,5 @@
-package com.gsta.bigdata.etl.core.source;
+package com.gsta.bigdata.etl.core.source.mro;
 
-import org.apache.commons.lang3.StringUtils;
 
 public class ZTEMroObj extends HuaweiMroObj{
 	protected String cgi;
@@ -35,24 +34,36 @@ public class ZTEMroObj extends HuaweiMroObj{
 		return false;
 	}
 	
-	public void computeNodeAndCellAndCgi(){
-		if(StringUtils.isNotBlank(super.id)){
-			String temp;
-			if(super.id.indexOf(":") != -1){
-				temp = super.id.substring(0, super.id.indexOf(":"));
-			}else{
-				temp = super.id;
-			}
-			if(temp != null){
-				super.eNodeID = String.valueOf(Integer.parseInt(temp) / 256);
-				super.cellID = String.valueOf(Integer.parseInt(temp) % 256);
-				this.cgi = temp;
-			}
-		}else{
+	public void computeNodeAndCellAndCgi() {
+		int id = this.getId(super.id);
+		if (id > 0) {
+			super.eNodeID = String.valueOf(id / 256);
+			super.cellID = String.valueOf(id % 256);
+			this.cgi = String.valueOf(id);
+		} else {
 			super.eNodeID = this.eNBId;
 			super.cellID = this.mrObjId;
 			this.cgi = String.valueOf(Integer.parseInt(super.eNodeID) * 256
-					+ Integer.parseInt(this.mrObjId));
+					+ this.getId(this.mrObjId));
+		}
+	}
+	
+	private int getId(String id){
+		if(id == null || "".equals(id)){
+			return -1;
+		}
+		
+		String temp ;
+		if(id.indexOf(":") != -1){
+			temp = id.substring(0, id.indexOf(":"));
+		}else{
+			temp = id;
+		}
+		
+		if(temp != null){
+			return Integer.parseInt(temp);
+		}else{
+			return -1;
 		}
 	}
 	

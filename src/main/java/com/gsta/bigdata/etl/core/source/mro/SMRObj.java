@@ -1,4 +1,4 @@
-package com.gsta.bigdata.etl.core.source;
+package com.gsta.bigdata.etl.core.source.mro;
 
 public class SMRObj implements Comparable<SMRObj> {
 	private String MR_LteNcRSRP;
@@ -11,7 +11,7 @@ public class SMRObj implements Comparable<SMRObj> {
 	public final static String  FIELD_MR_LteNcEarfcn = "MR_LteNcEarfcn";
 	public final static String  FIELD_MR_LteNcPci = "MR_LteNcPci";
 	
-	SMRObj(String MR_LteNcRSRP,String MR_LteNcRSRQ,
+	public SMRObj(String MR_LteNcRSRP,String MR_LteNcRSRQ,
 			String MR_LteNcEarfcn,String MR_LteNcPci){
 		this.MR_LteNcEarfcn = MR_LteNcEarfcn;
 		this.MR_LteNcPci = MR_LteNcPci;

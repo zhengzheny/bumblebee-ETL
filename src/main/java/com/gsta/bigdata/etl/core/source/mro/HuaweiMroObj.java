@@ -1,4 +1,4 @@
-package com.gsta.bigdata.etl.core.source;
+package com.gsta.bigdata.etl.core.source.mro;
 
 import org.apache.commons.lang.StringUtils;
 

@@ -50,9 +50,9 @@ public class DimensionQuery extends AbstractFunction {
  		String queryValue = null;
  		//value/r means finding value-key search
  		if(value.indexOf("/r") != -1){
- 			queryValue = this.table.getValue(value, true);
+ 			queryValue = (String)this.table.getValue(value, true);
  		}else{
- 			queryValue = this.table.getValue(value);
+ 			queryValue = (String)this.table.getValue(value);
  		}
  		
  		return queryValue;

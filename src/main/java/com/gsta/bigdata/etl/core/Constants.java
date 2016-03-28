@@ -56,6 +56,7 @@ public class Constants {
 	public static final String LKP_FLAT_TYPE_DS = "flat";
 	public static final String LKP_HDFS_TYPE_DS = "hdfs";
 	public static final String LKP_MYSQL_TYPE_DS = "mysql";
+	public static final String LKP_DIM_TYPE_DS = "dim";
 	
 	//element path in xml configure file
 	public final static String PATH_PROCESS = "process";

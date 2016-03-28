@@ -65,7 +65,7 @@ public class HdfsDS extends FlatDS {
 	 * @param value
 	 * @param key
 	 */
-	public Map<String, String> load(String key, String value)
+	public Map<String, Object> load(String key, String value)
 			throws LoadException {
 		if ((null == key || "".equals(key))
 				|| (null == value || "".equals(value))) {
@@ -82,7 +82,7 @@ public class HdfsDS extends FlatDS {
 
 		// get hdfs result
 		List<String> fields = super.getFields();
-		Map<String, String> retMap = new HashMap<String, String>();
+		Map<String, Object> retMap = new HashMap<String, Object>();
 		for (String path : paths) {
 			InputStream input = null;
 			try {

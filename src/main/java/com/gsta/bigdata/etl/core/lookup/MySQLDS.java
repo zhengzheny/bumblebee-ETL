@@ -87,7 +87,7 @@ public class MySQLDS extends AbstractDataSource{
 	 * @param value
 	 * @param key
 	 */
-	public Map<String, String> load(String key, String value) throws LoadException{
+	public Map<String, Object> load(String key, String value) throws LoadException{
 		if ((null == key || "".equals(key))
 				|| (null == value || "".equals(value))) {
 			throw new LoadException("key or value is null.");
@@ -116,7 +116,7 @@ public class MySQLDS extends AbstractDataSource{
 			throw new LoadException(e);
 		}
 
-		Map<String, String> retMap = new HashMap<String, String>();
+		Map<String, Object> retMap = new HashMap<String, Object>();
 		for (Map<String, Object> map : mysqlResult) {
 			String tempKey = "";
 			String tempValue = "";

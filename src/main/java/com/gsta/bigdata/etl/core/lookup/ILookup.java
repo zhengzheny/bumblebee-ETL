@@ -16,7 +16,7 @@ public interface ILookup {
 	 * find value by key
 	 * @param key
 	 */
-	public String getValue(String key);
+	public Object getValue(String key);
 
 	/**
 	 * judge key is or not exist
@@ -30,6 +30,6 @@ public interface ILookup {
 	 * @param key
 	 * @param isReverse
 	 */
-	public String getValue(String key, boolean isReverse);
+	public Object getValue(String key, boolean isReverse);
 
 }

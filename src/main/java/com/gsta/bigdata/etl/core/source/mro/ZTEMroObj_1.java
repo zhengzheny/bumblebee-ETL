@@ -1,4 +1,6 @@
-package com.gsta.bigdata.etl.core.source;
+package com.gsta.bigdata.etl.core.source.mro;
+
+import com.gsta.bigdata.etl.core.source.MroZte;
 
 public class ZTEMroObj_1 extends ZTEMroObj {
 	public ZTEMroObj_1(ZTEMroObj zteMroObj) {
@@ -8,7 +10,7 @@ public class ZTEMroObj_1 extends ZTEMroObj {
 	
 	public ZTEMroObj_1(String key){
 		if(key != null){
-			String[] ids = this.id.split("-");
+			String[] ids = key.split(MroZte.KEY_DELIMITER);
 			if(ids.length == 2){
 				super.cgi = ids[0];
 				super.timeStamp = ids[1];

@@ -14,6 +14,8 @@ import com.gsta.bigdata.etl.ETLException;
 import com.gsta.bigdata.etl.core.ETLData;
 import com.gsta.bigdata.etl.core.Field;
 import com.gsta.bigdata.etl.core.ParseException;
+import com.gsta.bigdata.etl.core.source.mro.HuaweiMroObj;
+import com.gsta.bigdata.etl.core.source.mro.SMRObj;
 import com.gsta.bigdata.utils.SourceXmlTool;
 
 /**

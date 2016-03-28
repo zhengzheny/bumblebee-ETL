@@ -21,7 +21,7 @@ public class LKPTableMgr extends AbstractETLObject{
 	private static final long serialVersionUID = 6161565893183576211L;
 	//will not be used in mr,so don't need serialization
 	@JsonIgnore
-	private Map<String, LKPTable> mapTables = new HashMap<String, LKPTable>();
+	private Map<String, AbstractLKPTable> mapTables = new HashMap<String, AbstractLKPTable>();
 	private static final LKPTableMgr instance = new LKPTableMgr();
 
 	public LKPTableMgr() {
@@ -45,13 +45,13 @@ public class LKPTableMgr extends AbstractETLObject{
 	 * @param id
 	 */
 	@JsonIgnore
-	public LKPTable getTable(String id) {
+	public AbstractLKPTable getTable(String id) {
 		return this.mapTables.get(id);
 	}
 
 	public void loadTables(){
 		for (String tableId : this.mapTables.keySet()) {
-			LKPTable table = this.mapTables.get(tableId);
+			AbstractLKPTable table = this.mapTables.get(tableId);
 			table.load();
 		}
 	}
@@ -60,7 +60,7 @@ public class LKPTableMgr extends AbstractETLObject{
 		return instance;
 	}
 
-	public Map<String, LKPTable> getMapTables() {
+	public Map<String, AbstractLKPTable> getMapTables() {
 		return mapTables;
 	}
 
@@ -83,7 +83,7 @@ public class LKPTableMgr extends AbstractETLObject{
 			
 			if (element.getNodeType() == Node.ELEMENT_NODE
 					&& element.getNodeName().equals(Constants.PATH_LKP_TABLE)) {
-				LKPTable lkpTable = new LKPTable();
+				AbstractLKPTable lkpTable = AbstractLKPTable.newInstance((Element)element);
 				lkpTable.init((Element) element);
 				
 				this.mapTables.put(lkpTable.getId(), lkpTable);

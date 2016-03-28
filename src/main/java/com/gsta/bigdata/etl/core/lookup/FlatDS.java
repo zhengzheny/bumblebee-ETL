@@ -55,13 +55,11 @@ public class FlatDS extends AbstractDataSource {
 
 		if (node.getNodeName().equals(Constants.PATH_LKP_DATASOURCE_FIELDS)) {
 			try {
-				this.delimiter = XmlTools.getNodeAttr(node,
-						Constants.ATTR_DELIMITER);
+				this.delimiter = XmlTools.getNodeAttr(node,Constants.ATTR_DELIMITER);
 				if (null == this.delimiter || "".equals(this.delimiter)) {
 					this.delimiter = DEFAULT_DELIMIETER;
 				}
-				List<Element> fields = XmlTools.getChildrenByTagName(node,
-						Constants.TAG_FIELD);
+				List<Element> fields = XmlTools.getChildrenByTagName(node,Constants.TAG_FIELD);
 				for (Element field : fields) {
 					String id = XmlTools.getNodeAttr(field, Constants.ATTR_ID);
 					this.fields.add(id);
@@ -101,7 +99,7 @@ public class FlatDS extends AbstractDataSource {
 	 * @param value
 	 * @param key
 	 */
-	public Map<String, String> load(String key, String value)
+	public Map<String, Object> load(String key, String value)
 			throws LoadException {
 		if ((null == key || "".equals(key))
 				|| (null == value || "".equals(value))) {
@@ -117,7 +115,7 @@ public class FlatDS extends AbstractDataSource {
 		}
 
 		// get flat result
-		Map<String, String> retMap = new HashMap<String, String>();
+		Map<String, Object> retMap = new HashMap<String, Object>();
 		for (String path : paths) {
 			InputStream input = null;
 			try {
@@ -129,9 +127,8 @@ public class FlatDS extends AbstractDataSource {
 					String[] lines = line.split(this.delimiter , -1);
 					if (lines.length != this.fields.size()) {
 						throw new ParseException("datasource field count:"
-								+ this.fields.size() + ",but line count:"
-								+ lines.length);
-					}
+								+ this.fields.size() + ",but line count:" + lines.length);
+					}  
 					String tempKey = "";
 					String tempValue = "";
 					for (int i = 0; i < this.fields.size(); i++) {

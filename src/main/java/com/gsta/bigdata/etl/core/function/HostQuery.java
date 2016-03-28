@@ -44,30 +44,29 @@ public class HostQuery extends AbstractFunction {
 		this.inputField = super.getAttr(Constants.ATTR_INPUT);
 		String tableId = super.getAttr(Constants.ATTR_LOOKUP_TABLE);
 
-		LKPTable table = LKPTableMgr.getInstance().getTable(tableId);
+		LKPTable table = (LKPTable)LKPTableMgr.getInstance().getTable(tableId);
 		if (table == null) {
 			throw new ParseException("there is no table " + tableId
 					+ " in configure file.");
 		}
 
-		List<Map.Entry<String, String>> dimensionList = new ArrayList<Map.Entry<String, String>>();
-		for (Map.Entry<String, String> entry : table.getDimensions()
-				.entrySet()) {
+		List<Map.Entry<String, Object>> dimensionList = new ArrayList<Map.Entry<String, Object>>();
+		for (Map.Entry<String, Object> entry : table.getDimensions().entrySet()) {
 			dimensionList.add(entry);
 		}
 		
 		// order by key's length desc
 		Collections.sort(dimensionList,
-				new Comparator<Map.Entry<String, String>>() {
+				new Comparator<Map.Entry<String, Object>>() {
 					@Override
-					public int compare(Map.Entry<String, String> o1,
-							Map.Entry<String, String> o2) {
+					public int compare(Map.Entry<String, Object> o1,
+							Map.Entry<String, Object> o2) {
 						return o2.getKey().length() - o1.getKey().length();
 					}
 				});
 
-		for (Map.Entry<String, String> entry : dimensionList) {
-			this.sortedMap.put(entry.getKey(), entry.getValue());
+		for (Map.Entry<String, Object> entry : dimensionList) {
+			this.sortedMap.put(entry.getKey(), (String)entry.getValue());
 		}
 	}
 

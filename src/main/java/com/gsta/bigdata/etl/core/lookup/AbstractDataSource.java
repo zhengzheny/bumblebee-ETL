@@ -89,7 +89,7 @@ public abstract class AbstractDataSource extends AbstractETLObject {
 
 	}
 	
-	public abstract Map<String,String> load(String key, String value) throws LoadException;
+	public abstract Map<String,Object> load(String key, String value) throws LoadException;
 
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
