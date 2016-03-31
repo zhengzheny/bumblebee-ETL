@@ -88,7 +88,12 @@ public class MroZte extends MroHuaWei {
 			//only one v line
 			if(line.indexOf("<v>") != -1){
 				String MRLteScRIP = SourceXmlTool.getTagValue(line, TAG_V);
-				Long value = Long.parseLong(MRLteScRIP);
+				Long value;
+				try{
+					value = Long.parseLong(MRLteScRIP);
+				}catch (NumberFormatException e) {
+					value = 0L;
+				}
 				String timeStamp = this.mroObj.getTimeStamp();
 				String key = this.mroObj.getCgi() + KEY_DELIMITER + timeStamp;
 				if(this.thirdObjDatas.containsKey(key)){
@@ -174,11 +179,13 @@ public class MroZte extends MroHuaWei {
 		
 		if (line.indexOf("<object") != -1) {
 			super.etlData =  new ETLData();
-			super.etlData.clear();
 			super.smrObjs.clear();
 			this.mroObj = new ZTEMroObj();
 
-			String timeStamp = SourceXmlTool.getAttrValue(line, ATTR_TIMESTAMP).replace("T", " ");
+			String timeStamp = SourceXmlTool.getAttrValue(line, ATTR_TIMESTAMP);
+			if(timeStamp != null){
+				timeStamp = timeStamp.replace("T", " ");
+			}
 			String id = SourceXmlTool.getAttrValue(line, ATTR_ID);
 			String mmeGroupId = SourceXmlTool.getAttrValue(line,ATTR_MMEGROUPID);
 			String mmeUeS1apId = SourceXmlTool.getAttrValue(line,ATTR_MMEUES1APID);

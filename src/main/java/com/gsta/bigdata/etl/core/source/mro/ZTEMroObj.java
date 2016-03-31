@@ -64,8 +64,12 @@ public class ZTEMroObj extends HuaweiMroObj{
 		} else {
 			super.eNodeID = this.eNBId;
 			super.cellID = this.mrObjId;
-			this.cgi = String.valueOf(Integer.parseInt(super.eNodeID) * 256
-					+ this.getId(this.mrObjId));
+			try {
+				this.cgi = String.valueOf(Integer.parseInt(super.eNodeID) * 256
+						+ this.getId(this.mrObjId));
+			} catch (NumberFormatException e) {
+				this.cgi = null;
+			}
 		}
 	}
 	

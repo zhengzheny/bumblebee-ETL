@@ -101,8 +101,14 @@ public class MroHuaWei extends AbstractSourceMetaData {
 		}
 
 		if (line.indexOf("<fileHeader") != -1) {
-			this.startTime = SourceXmlTool.getAttrValue(line, ATTR_STARTTIME).replace("T", " ");
-			this.endTime = SourceXmlTool.getAttrValue(line, ATTR_ENDTIME).replace("T", " ");
+			this.startTime = SourceXmlTool.getAttrValue(line, ATTR_STARTTIME);
+			if(this.startTime != null){
+				this.startTime = this.startTime.replace("T", " ");
+			}
+			this.endTime = SourceXmlTool.getAttrValue(line, ATTR_ENDTIME);
+			if(this.endTime != null){
+				this.endTime = this.endTime.replace("T", " ");
+			}
 		}
 	}
 
@@ -130,7 +136,6 @@ public class MroHuaWei extends AbstractSourceMetaData {
 		
 		if (line.indexOf("<object") != -1) {
 			this.etlData =  new ETLData();
-			this.etlData.clear();
 			this.smrObjs.clear();
 			this.mroObj = new HuaweiMroObj();
 
@@ -185,7 +190,7 @@ public class MroHuaWei extends AbstractSourceMetaData {
 	 * @param line
 	 * @param mroObj
 	 * @param type only type=1,fill MR_LteNcRSRP,MR_LteNcRSRQ,MR_LteNcEarfcn,MR_LteNcPci
-	 * huawei type always is 1,zte and ers type=2 or 3,don't fill,or cover MR_LteNcEarfcn1
+	 * huawei type always is 1,ZTE and ERICSSON type=2 or 3,don't fill,or cover MR_LteNcEarfcn1 and occur error
 	 * @return
 	 * @throws ETLException
 	 */
@@ -267,7 +272,7 @@ public class MroHuaWei extends AbstractSourceMetaData {
 	@Override
 	public List<ETLData> parseLine(String line) throws ETLException,
 			ValidatorException {
-		// TODO Auto-generated method stub
+		//don't need emit multi data
 		return null;
 	}
 }
