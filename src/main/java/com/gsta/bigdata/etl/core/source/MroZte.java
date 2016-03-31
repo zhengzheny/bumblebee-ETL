@@ -67,7 +67,7 @@ public class MroZte extends MroHuaWei {
 		switch (this.smrType) {
 		case 1:
 			super.computeV(line);
-			if(super.emitData(line,this.mroObj)){
+			if(super.emitData(line,this.mroObj,this.smrType)){
 				super.verifyKeyField();
 				int idx = this.etlDataIndex.getAndIncrement();
 				this.objDatas.add(idx, super.etlData);
@@ -77,7 +77,7 @@ public class MroZte extends MroHuaWei {
 			break;
 		case 2:
 			super.computeV(line);
-			if(super.emitData(line,this.mroObj) &&
+			if(super.emitData(line,this.mroObj,this.smrType) &&
 					this.firstSMRIdxs.containsKey(this.mroObj)){
 				//merge one record
 				Integer idx = this.firstSMRIdxs.get(this.mroObj);
@@ -174,6 +174,7 @@ public class MroZte extends MroHuaWei {
 		
 		if (line.indexOf("<object") != -1) {
 			super.etlData =  new ETLData();
+			super.etlData.clear();
 			super.smrObjs.clear();
 			this.mroObj = new ZTEMroObj();
 

@@ -22,6 +22,7 @@ import com.gsta.bigdata.etl.core.ETLData;
 import com.gsta.bigdata.etl.core.ETLProcess;
 import com.gsta.bigdata.etl.core.IRuleMgr;
 import com.gsta.bigdata.etl.core.GeneralRuleMgr;
+import com.gsta.bigdata.etl.core.lookup.LookupMgr;
 import com.gsta.bigdata.etl.core.source.ValidatorException;
 import com.gsta.bigdata.utils.BeansUtils;
 
@@ -74,6 +75,12 @@ public class ETLMapper extends Mapper<Object, Text, Text, Text> {
 		GeneralRuleMgr ruleStatisMgr = BeansUtils.json2obj(json, GeneralRuleMgr.class);
 		if(ruleStatisMgr != null){
 			GeneralRuleMgr.getInstance().clone(ruleStatisMgr);
+		}
+		
+		json = context.getConfiguration().get(Constants.JSON_LOOKUP_MGR);
+		LookupMgr lookupMgr = BeansUtils.json2obj(json, LookupMgr.class);
+		if(lookupMgr != null){
+			LookupMgr.getInstance().clone(lookupMgr);
 		}
 
 		this.errorPath = this.process.getErrorPath();

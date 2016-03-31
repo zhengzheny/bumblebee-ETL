@@ -16,22 +16,14 @@
 					<field id="ANT_azimuth" />
 					<field id="down_band" />
 					<field id="band_width" />
-					<field id="nc_city" />
 					<field id="nc_eNodeB_ID" />
 					<field id="nc_CELL_ID" />
-					<field id="nc_high" />
-					<field id="nc_Cell_power" />
-					<field id="nc_longitude" />
-					<field id="nc_latitude" />
-					<field id="nc_ANT_gain" />
-					<field id="nc_ANT_azimuth" />
-					<field id="nc_down_band" />
-					<field id="nc_band_width" />
 				</fields>
 			</datasource>
 	    </datasources>
-		<table id="dim_service">
+		<table id="dim_service" type="DIMTable">
 			<datasource ref="d1"/>
+			<!-- value allow null -->
 			<map key="eNodeB_ID,CELL_ID" value="DIMObj" />
 		</table>
 	</lookup>
@@ -129,11 +121,31 @@
 				<field id="nc2_ANT_azimuth" />
 				<field id="nc2_down_band" />
 				<field id="nc2_band_width" />
+				<field id="city" />
+				<field id="high" />
+				<field id="Cell_power" />
+				<field id="longitude" />
+				<field id="latitude" />
+				<field id="ANT_gain" />
+				<field id="ANT_azimuth" />
+				<field id="down_band" />
+				<field id="band_width" />
 			</values>
 		</outputMetaData>
 		<transforms>
 			<transform scope="map">
-				<function name="DIMQuery" key="ENODEID,CELLID" pciIndex="MR_LteNcPci1" lookupTable="dim_service" >
+				<function name="DIMInfoQuery" key="ENODEID,CELLID" lookupTable="dim_service" >
+					<output id="city" />
+					<output id="high" />
+					<output id="Cell_power" />
+					<output id="longitude" />
+					<output id="latitude" />
+					<output id="ANT_gain" />
+					<output id="ANT_azimuth" />
+					<output id="down_band" />
+					<output id="band_width" />
+				</function>
+				<function name="DIMNCQuery" key="ENODEID,CELLID" pciIndex="MR_LteNcPci1" lookupTable="dim_service" >
 					<output id="nc1_city" />
 					<output id="nc1_eNodeB_ID" />
 					<output id="nc1_CELL_ID" />
@@ -146,7 +158,7 @@
 					<output id="nc1_down_band" />
 					<output id="nc1_band_width" />
 				</function>
-				<function name="DIMQuery" key="ENODEID,CELLID" pciIndex="MR_LteNcPci2" lookupTable="dim_service" >
+				<function name="DIMNCQuery" key="ENODEID,CELLID" pciIndex="MR_LteNcPci2" lookupTable="dim_service" >
 					<output id="nc2_city" />
 					<output id="nc2_eNodeB_ID" />
 					<output id="nc2_CELL_ID" />

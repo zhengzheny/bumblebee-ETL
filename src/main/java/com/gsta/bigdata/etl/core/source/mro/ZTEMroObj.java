@@ -11,6 +11,9 @@ public class ZTEMroObj extends HuaweiMroObj{
 		super.setValues(id, mmeGroupId, mmeUeS1apId, mmeCode, timeStamp);
 		this.eNBId = eNBId;
 		this.mrObjId = mrObjId;
+		if(super.id == null){
+			super.id = this.mrObjId;
+		}
 	}
 	
 	@Override
@@ -34,6 +37,24 @@ public class ZTEMroObj extends HuaweiMroObj{
 		return false;
 	}
 	
+	@Override
+	public int hashCode() {
+		int ret = 0;
+		if(this.id != null){
+			ret += this.id.hashCode();
+		}
+		if(this.mmeUeS1apId != null){
+			ret += this.mmeUeS1apId.hashCode();
+		}
+		if(this.mmeCode != null){
+			ret += this.mmeCode.hashCode();
+		}
+		if(this.timeStamp != null){
+			ret += this.timeStamp.hashCode();
+		}
+		return ret;
+	}
+
 	public void computeNodeAndCellAndCgi() {
 		int id = this.getId(super.id);
 		if (id > 0) {

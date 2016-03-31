@@ -10,6 +10,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.google.api.client.repackaged.com.google.common.base.Preconditions;
 import com.gsta.bigdata.etl.core.AbstractETLObject;
 import com.gsta.bigdata.etl.core.ChildrenTag;
@@ -24,7 +26,11 @@ import com.gsta.bigdata.utils.XmlTools;
  * @author Shine
  * 
  */
-
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "@class")
+@JsonSubTypes({ @JsonSubTypes.Type(value = DIMDS.class, name = "DIMDS"),
+		@JsonSubTypes.Type(value = FlatDS.class, name = "FlatDS"),
+		@JsonSubTypes.Type(value = HdfsDS.class, name = "HdfsDS"),
+		@JsonSubTypes.Type(value = HdfsDS.class, name = "MySQLDS")})
 public abstract class AbstractDataSource extends AbstractETLObject {
 	private static final long serialVersionUID = 5383557013146555625L;
 	@JsonIgnore

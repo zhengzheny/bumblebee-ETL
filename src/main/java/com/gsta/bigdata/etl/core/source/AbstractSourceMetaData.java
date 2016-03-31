@@ -46,6 +46,9 @@ import com.gsta.bigdata.utils.XmlTools;
 		@JsonSubTypes.Type(value = KpiXML.class, name = "kpiXML"),
 		@JsonSubTypes.Type(value = MroXML.class, name = "mroXML"),
 		@JsonSubTypes.Type(value = KafkaStream.class, name = "kafkaStream"),
+		@JsonSubTypes.Type(value = MroHuaWei.class, name = "mroHuaWei"),
+		@JsonSubTypes.Type(value = MroZte.class, name = "mroZte"),
+		@JsonSubTypes.Type(value = ZteENODEBXML.class, name = "zteENODEBXML"),
 		@JsonSubTypes.Type(value = FixedLengthByLineFlat.class, name = "fixedLengthByLineFlat") })
 public abstract class AbstractSourceMetaData extends AbstractETLObject {
 	private static final long serialVersionUID = -3147671855217097901L;

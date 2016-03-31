@@ -9,7 +9,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Preconditions;
 import com.gsta.bigdata.etl.core.AbstractETLObject;
 import com.gsta.bigdata.etl.core.ChildrenTag;
@@ -24,7 +24,7 @@ import com.gsta.bigdata.utils.XmlTools;
  */
 public class DataSourceMgr extends AbstractETLObject {
 	private static final long serialVersionUID = 2450386303954516847L;
-	@JsonIgnore
+	@JsonProperty
 	private Map<String,AbstractDataSource> mapDataSource = new HashMap<String,AbstractDataSource>();
 	private static final DataSourceMgr instance = new DataSourceMgr();
 

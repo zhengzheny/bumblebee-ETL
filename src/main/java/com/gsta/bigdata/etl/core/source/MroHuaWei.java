@@ -130,6 +130,7 @@ public class MroHuaWei extends AbstractSourceMetaData {
 		
 		if (line.indexOf("<object") != -1) {
 			this.etlData =  new ETLData();
+			this.etlData.clear();
 			this.smrObjs.clear();
 			this.mroObj = new HuaweiMroObj();
 
@@ -179,7 +180,16 @@ public class MroHuaWei extends AbstractSourceMetaData {
 	}
 
 	@SuppressWarnings("static-access")
-	protected boolean emitData(String line,HuaweiMroObj mroObj) throws ETLException{
+	/**
+	 * 
+	 * @param line
+	 * @param mroObj
+	 * @param type only type=1,fill MR_LteNcRSRP,MR_LteNcRSRQ,MR_LteNcEarfcn,MR_LteNcPci
+	 * huawei type always is 1,zte and ers type=2 or 3,don't fill,or cover MR_LteNcEarfcn1
+	 * @return
+	 * @throws ETLException
+	 */
+	protected boolean emitData(String line,HuaweiMroObj mroObj,int type) throws ETLException{
 		if (line == null || "".equals(line)) {
 			return false;
 		}
@@ -200,14 +210,16 @@ public class MroHuaWei extends AbstractSourceMetaData {
 			this.etlData.addData(FIELD_MMEUES1APID,mroObj.getMmeUeS1apId());
 			this.etlData.addData(FIELD_MMECODE, mroObj.getMmeCode());
 
-			Collections.sort(this.smrObjs);
-			for (int i = 0; i < this.smrObjs.size(); i++) {
-				SMRObj smrObj = this.smrObjs.get(i);
-				int j = i + 1;
-				this.etlData.addData(smrObj.FIELD_MR_LteNcEarfcn + j,smrObj.getMR_LteNcEarfcn());
-				this.etlData.addData(smrObj.FIELD_MR_LteNcPci + j,smrObj.getMR_LteNcPci());
-				this.etlData.addData(smrObj.FIELD_MR_LteNcRSRP + j,smrObj.getMR_LteNcRSRP());
-				this.etlData.addData(smrObj.FIELD_MR_LteNcRSRQ + j,smrObj.getMR_LteNcRSRQ());
+			if(type == 1){
+				Collections.sort(this.smrObjs);
+				for (int i = 0; i < this.smrObjs.size(); i++) {
+					SMRObj smrObj = this.smrObjs.get(i);
+					int j = i + 1;
+					this.etlData.addData(smrObj.FIELD_MR_LteNcEarfcn + j,smrObj.getMR_LteNcEarfcn());
+					this.etlData.addData(smrObj.FIELD_MR_LteNcPci + j,smrObj.getMR_LteNcPci());
+					this.etlData.addData(smrObj.FIELD_MR_LteNcRSRP + j,smrObj.getMR_LteNcRSRP());
+					this.etlData.addData(smrObj.FIELD_MR_LteNcRSRQ + j,smrObj.getMR_LteNcRSRQ());
+				}
 			}
 			
 			return true;
@@ -223,7 +235,7 @@ public class MroHuaWei extends AbstractSourceMetaData {
 		this.computeSmrs(line);
 		this.computeObj(line);
 		this.computeV(line);
-		if (this.emitData(line,this.mroObj)) {
+		if (this.emitData(line,this.mroObj,1)) {
 			this.verifyKeyField();
 			return etlData;
 		}

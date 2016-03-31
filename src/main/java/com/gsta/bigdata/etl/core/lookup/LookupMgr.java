@@ -10,6 +10,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gsta.bigdata.etl.core.Constants;
 import com.gsta.bigdata.utils.FileUtils;
 import com.gsta.bigdata.utils.XmlTools;
@@ -21,7 +22,9 @@ import com.gsta.bigdata.utils.XmlTools;
  */
 public class LookupMgr implements Serializable{
 	private static final long serialVersionUID = -1760796135606853073L;
+	@JsonProperty
 	private DataSourceMgr dataSourceMgr;
+	@JsonProperty
 	private LKPTableMgr lkpTableMgr;
 	private static final LookupMgr instance = new LookupMgr();
 	private static final String ATTR_IMPORT = "import";
@@ -76,6 +79,19 @@ public class LookupMgr implements Serializable{
 		return instance;
 	}
 	
+	public void clone(LookupMgr lookupMgr){
+		if(lookupMgr == null){
+			return;
+		}
+		
+		this.dataSourceMgr = lookupMgr.getDataSourceMgr();
+		this.lkpTableMgr = lookupMgr.getLkpTableMgr();
+	}
+	
+	public DataSourceMgr getDataSourceMgr() {
+		return dataSourceMgr;
+	}
+
 	private Element importLookupXml(String importPath) {
 		InputStream inputStream = null;
 		try {
@@ -104,6 +120,6 @@ public class LookupMgr implements Serializable{
 	}
 
 	public LKPTableMgr getLkpTableMgr() {
-		return lkpTableMgr;
+		return this.lkpTableMgr;
 	}
 }

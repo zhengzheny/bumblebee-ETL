@@ -3,12 +3,8 @@ package com.gsta.bigdata.etl.core.lookup;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gsta.bigdata.etl.core.ContextMgr;
-import com.gsta.bigdata.etl.core.ParseException;
 
 /**
  * @author shine
@@ -16,37 +12,12 @@ import com.gsta.bigdata.etl.core.ParseException;
 public class LKPTable extends AbstractLKPTable{
 	private static final long serialVersionUID = 1950990165957160536L;
 	@JsonProperty
-	private Map<String, Object> reverseDimensions = new HashMap<String, Object>();
+	private Map<String, String> reverseDimensions = new HashMap<String, String>();
+	@JsonProperty
+	private Map<String, String> dimensions = new HashMap<String, String>();
 
 	public LKPTable() {
 		super();
-	}
-
-	/**
-	 * 
-	 * @param node
-	 * @exception ParseException
-	 */
-	protected void createChildNode(Element node) throws ParseException {
-		super.createChildNode(node);
-	}
-
-	/**
-	 * 
-	 * @param nodeList
-	 * @exception ParseException
-	 */
-	protected void createChildNodeList(NodeList nodeList) throws ParseException {
-		super.createChildNodeList(nodeList);
-	}
-
-	/**
-	 * 
-	 * @param element
-	 * @exception ParseException
-	 */
-	protected void initAttrs(Element element) throws ParseException {
-		super.initAttrs(element);
 	}
 
 	/**
@@ -60,12 +31,42 @@ public class LKPTable extends AbstractLKPTable{
 				return this.reverseDimensions.get(key);
 			}
 		} else {
-			if (super.dimensions != null) {
-				return super.dimensions.get(key);
+			if (this.dimensions != null) {
+				return this.dimensions.get(key);
 			}
 		}
 
 		return null;
+	}
+	
+	/**
+	 * 
+	 * @param key
+	 */
+	@Override
+	public Object getValue(String key) {
+		if (this.dimensions != null) {
+			return this.dimensions.get(key);
+		}
+
+		return null;
+	}
+	
+	/**
+	 * 
+	 * @param key
+	 */
+	@Override
+	public boolean isExist(String key) {
+		if (this.dimensions != null) {
+			return this.dimensions.containsKey(key);
+		}
+
+		return false;
+	}
+
+	public Map<String, String> getDimensions() {
+		return this.dimensions;
 	}
 
 	public void load() {
@@ -75,7 +76,7 @@ public class LKPTable extends AbstractLKPTable{
 				String value = super.tableMaps.get(key);
 				value = ContextMgr.getValue(value);
 
-				super.dimensions.put(key, value);
+				this.dimensions.put(key, value);
 				this.reverseDimensions.put(value, key);
 			}
 
@@ -85,9 +86,13 @@ public class LKPTable extends AbstractLKPTable{
 		String key = super.tableMaps.firstKey();
 		String value = super.tableMaps.get(key);
 
-		super.dimensions = super.dataSource.load(key, value);
-		for (String tempKey : super.dimensions.keySet()) {
-			this.reverseDimensions.put((String)super.dimensions.get(tempKey), tempKey);
+		Map<String, Object> map = super.dataSource.load(key, value);
+		for (Map.Entry<String, Object> entry : map.entrySet()) {
+			this.dimensions.put(entry.getKey(), (String)entry.getValue());
+		}
+
+		for (String tempKey : this.dimensions.keySet()) {
+			this.reverseDimensions.put(this.dimensions.get(tempKey), tempKey);
 		}
 	}
 }

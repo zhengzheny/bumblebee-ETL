@@ -38,6 +38,7 @@ import com.gsta.bigdata.etl.core.ETLProcess;
 import com.gsta.bigdata.etl.core.IRuleMgr;
 import com.gsta.bigdata.etl.core.GeneralRuleMgr;
 import com.gsta.bigdata.etl.core.WriteLog;
+import com.gsta.bigdata.etl.core.lookup.LookupMgr;
 import com.gsta.bigdata.etl.core.source.InputPath;
 import com.gsta.bigdata.etl.mapreduce.ErrorCodeCount;
 import com.gsta.bigdata.utils.BeansUtils;
@@ -89,7 +90,8 @@ public class MRRunner extends Configured implements Tool, IRunner {
 		conf.set(Constants.HADOOP_CONF_ETLPROCESS,
 				BeansUtils.obj2json(this.process));
 		conf.set(Constants.JSON_RULE_STATIS_MGR, BeansUtils.obj2json(GeneralRuleMgr.getInstance()));
-
+		conf.set(Constants.JSON_LOOKUP_MGR, BeansUtils.obj2json(LookupMgr.getInstance()));
+		
 		Date startTime = new Date();
 		Job job = Job.getInstance(conf, this.process.getId());
 		job.setJarByClass(getClass());

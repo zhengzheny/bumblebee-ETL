@@ -1,7 +1,5 @@
 package com.gsta.bigdata.etl.core.lookup;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.TreeMap;
 
 import javax.xml.xpath.XPathExpressionException;
@@ -21,6 +19,12 @@ import com.gsta.bigdata.etl.core.ParseException;
 import com.gsta.bigdata.utils.StringUtils;
 import com.gsta.bigdata.utils.XmlTools;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "@class")
+@JsonSubTypes({ @JsonSubTypes.Type(value = DIMTable.class, name = "DIMTable"),
+		@JsonSubTypes.Type(value = LKPTable.class, name = "LKPTable")})
 public abstract class AbstractLKPTable extends AbstractETLObject implements ILookup{
 	private static final long serialVersionUID = 6860744642692654179L;
 	@JsonProperty
@@ -32,8 +36,6 @@ public abstract class AbstractLKPTable extends AbstractETLObject implements ILoo
 	//only direct map has one or more field,general is one key/value
 	@JsonIgnore
 	protected TreeMap<String, String> tableMaps = new TreeMap<String, String>();
-	@JsonProperty
-	protected Map<String, Object> dimensions = new HashMap<String, Object>();
 	
 	public AbstractLKPTable(){
 		super.tagName = Constants.PATH_LKP_TABLE;
@@ -100,40 +102,13 @@ public abstract class AbstractLKPTable extends AbstractETLObject implements ILoo
 		}
 	}
 
+	/**
+	 * load data to memory
+	 */
 	public abstract void load();
 	
 	public String getId() {
-		return id;
-	}
-	
-	public Map<String, Object> getDimensions() {
-		return dimensions;
-	}
-	
-	/**
-	 * 
-	 * @param key
-	 */
-	@Override
-	public Object getValue(String key) {
-		if (this.dimensions != null) {
-			return this.dimensions.get(key);
-		}
-
-		return null;
-	}
-	
-	/**
-	 * 
-	 * @param key
-	 */
-	@Override
-	public boolean isExist(String key) {
-		if (this.dimensions != null) {
-			return this.dimensions.containsKey(key);
-		}
-
-		return false;
+		return this.id;
 	}
 	
 	public static AbstractLKPTable newInstance(Element element)

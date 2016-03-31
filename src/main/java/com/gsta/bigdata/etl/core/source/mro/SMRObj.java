@@ -24,8 +24,12 @@ public class SMRObj implements Comparable<SMRObj> {
 	 * reverse order
 	 */
 	public int compareTo(SMRObj o) {
-		return Integer.parseInt(o.getMR_LteNcRSRP())
-				- Integer.parseInt(this.MR_LteNcRSRP);
+		try {
+			return Integer.parseInt(o.getMR_LteNcRSRP())
+					- Integer.parseInt(this.MR_LteNcRSRP);
+		} catch (NumberFormatException e) {
+			return -1;
+		}
 	}
 
 	public String getMR_LteNcRSRP() {

@@ -8,6 +8,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.api.client.repackaged.com.google.common.base.Preconditions;
 import com.gsta.bigdata.etl.core.AbstractETLObject;
 import com.gsta.bigdata.etl.core.ChildrenTag;
@@ -20,7 +21,7 @@ import com.gsta.bigdata.etl.core.ParseException;
 public class LKPTableMgr extends AbstractETLObject{
 	private static final long serialVersionUID = 6161565893183576211L;
 	//will not be used in mr,so don't need serialization
-	@JsonIgnore
+	@JsonProperty
 	private Map<String, AbstractLKPTable> mapTables = new HashMap<String, AbstractLKPTable>();
 	private static final LKPTableMgr instance = new LKPTableMgr();
 

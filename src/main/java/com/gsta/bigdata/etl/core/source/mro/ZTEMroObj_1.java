@@ -36,4 +36,16 @@ public class ZTEMroObj_1 extends ZTEMroObj {
 		
 		return false;
 	}
+	
+	@Override
+	public int hashCode() {
+		int ret = 0;
+		if(super.cgi != null){
+			ret += super.cgi.hashCode();
+		}
+		if(this.timeStamp != null){
+			ret += this.timeStamp.hashCode();
+		}
+		return ret;
+	}
 }
