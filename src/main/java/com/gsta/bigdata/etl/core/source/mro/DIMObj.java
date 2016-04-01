@@ -71,11 +71,19 @@ public class DIMObj implements java.io.Serializable{
 	 * @param pciIdx
 	 * @return
 	 */
-	public String[] getkeyByPCIIdx(int pciIdx){
-		String[] ret = new String[2];
-		ret[0] = this.nc_eNodeB_ID[pciIdx];
-		ret[1] = this.nc_CELL_ID[pciIdx];
-		return ret;
+	public String[] getkeyByPCIIdx(int pciIdx) {
+		if (pciIdx < 0) {
+			return null;
+		}
+
+		if (pciIdx < this.nc_eNodeB_ID.length && pciIdx < this.nc_CELL_ID.length) {
+			String[] ret = new String[2];
+			ret[0] = this.nc_eNodeB_ID[pciIdx];
+			ret[1] = this.nc_CELL_ID[pciIdx];
+			return ret;
+		}
+
+		return null;
 	}
 	
 	/**

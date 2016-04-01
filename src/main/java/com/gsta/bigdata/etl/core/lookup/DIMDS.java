@@ -26,6 +26,11 @@ import com.gsta.bigdata.etl.core.ParseException;
 import com.gsta.bigdata.etl.core.source.mro.DIMObj;
 import com.gsta.bigdata.utils.HdfsUtils;
 
+/**
+ * load DIM table to memory,the data comes from all file of the directory or single file
+ * @author tianxq
+ *
+ */
 public class DIMDS extends FlatDS {
 	private static final long serialVersionUID = 1813144801854068504L;
 	private Logger logger = LoggerFactory.getLogger(getClass());
@@ -56,20 +61,28 @@ public class DIMDS extends FlatDS {
 		for (String path : paths) {
 			try {
 				FileSystem fs = FileSystem.get(URI.create(path), conf);
-				FileStatus fileList[] = fs.listStatus(new Path(path));
-				for (int i = 0; i < fileList.length; i++) {
-					if (!fileList[i].isDirectory()) {
-						String tempPath = path + "/" + fileList[i].getPath().getName();
-						retMap.putAll(this.loadSingleFile(tempPath,fields, keyFields));
-						logger.info("load file " + tempPath + " to memory...");
+				Path file = new Path(path);
+				FileStatus status = fs.getFileStatus(file);
+				if (status.isDirectory()) {
+					FileStatus fileList[] = fs.listStatus(file);
+					for (int i = 0; i < fileList.length; i++) {
+						if (!fileList[i].isDirectory()) {
+							String tempPath = path + "/" + fileList[i].getPath().getName();
+							retMap.putAll(this.loadSingleFile(tempPath, fields,keyFields));
+							logger.info("loaded file " + tempPath + " to memory...");
+						}
 					}
+				} else {
+					//single file
+					retMap.putAll(this.loadSingleFile(path, fields, keyFields));
+					logger.info("loaded file " + path + " to memory...");
 				}
 				fs.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 				throw new LoadException(e);
 			}
-		}
+		}//end for
 
 		return retMap;
 	}
@@ -138,21 +151,5 @@ public class DIMDS extends FlatDS {
 		keyStr = keyStr.substring(0, keyStr.length() - DIMObj.KEY_FIELD_DELIMITER.length());
 		
 		return keyStr;
-	}
-	
-	public static void main(String[] args){
-		Configuration conf = new Configuration();
-		String path = "hdfs://10.17.35.120:8020/user/tianxq/etldata/DIM/DIM_demo";
-		FileSystem fs;
-		try {
-			fs = FileSystem.get(URI.create(path), conf);
-			FileStatus fileList[] = fs.listStatus(new Path(path));
-			for (int i = 0; i < fileList.length; i++) {
-				System.out.println(fileList[i].getPath().getName());
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
 	}
 }

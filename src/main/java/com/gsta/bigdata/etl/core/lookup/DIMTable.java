@@ -8,8 +8,8 @@ import com.gsta.bigdata.etl.core.source.mro.DIMObj;
 
 public class DIMTable extends AbstractLKPTable {
 	private static final long serialVersionUID = 8738059030705233503L;
+	//must save dimensions in all sub-class,or occur cast error
 	@JsonProperty
-	
 	private Map<String, DIMObj> dimensions = new HashMap<String, DIMObj>();
 	
 	public DIMTable() {
@@ -62,8 +62,4 @@ public class DIMTable extends AbstractLKPTable {
 		//don't need reverse search
 		return null;
 	}
-
-	/*public Map<String, DIMObj> getDimensions() {
-		return this.dimensions;
-	}*/
 }
