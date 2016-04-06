@@ -12,6 +12,7 @@
             <kafka hosts="${hosts}" port="${port}" brokers="${brokers}"
 				   consumerZK="${consumerZK}" consumerZKPath="${consumerZKPath}" 
 				   fetchsizebytes="${fetchsizebytes}" backpressure="${backpressure}"
+				   proportional="${proportional}" integral="${integral}" derivative="${derivative}"
 				   forcefromstart="${forcefromstart}" fillfreqms="${fillfreqms}"
 				   checkPoint="${chechPoint}" chkPointPath="${chkPointPath}"
 				   storageLevel="${storageLevel}" resultMode="${resultMode}"

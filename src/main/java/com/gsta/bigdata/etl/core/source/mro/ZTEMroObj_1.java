@@ -30,8 +30,14 @@ public class ZTEMroObj_1 extends ZTEMroObj {
 		
 		if(obj.getClass() == ZTEMroObj_1.class){
 			ZTEMroObj_1 mroObj = (ZTEMroObj_1)obj;
-			return mroObj.getCgi().equals(super.cgi) &&
-				   mroObj.getTimeStamp().equals(super.timeStamp);
+			boolean flag1 = false,flag2=false;
+			if(mroObj.getCgi() != null){
+				flag1 = mroObj.getCgi().equals(super.cgi);
+			}
+			if(mroObj.getTimeStamp() != null){
+				flag2 = mroObj.getTimeStamp().equals(super.timeStamp);
+			}
+			return flag1 && flag2;
 		}
 		
 		return false;

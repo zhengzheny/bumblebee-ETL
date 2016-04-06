@@ -151,6 +151,9 @@ public class Constants {
 	public final static String ATTR_DURATION = "duration";
 	public final static String ATTR_CHK_POINT = "checkPoint";
 	public final static String ATTR_CHK_POINT_PATH = "chkPointPath";
+	public final static String ATTR_PROPORTIONAL = "proportional";
+	public final static String ATTR_INTEGRAL = "integral";
+	public final static String ATTR_DERIVATIVE = "derivative";
 	
 	public final static String TAG_FIELD = "field";
 	public final static String TAG_INPUTPATH = "inputPath";

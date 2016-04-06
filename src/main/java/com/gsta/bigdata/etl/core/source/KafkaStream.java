@@ -32,6 +32,9 @@ public class KafkaStream extends SimpleFlat {
 	private String fillfreqms;
 	private boolean checkPoint = false;
 	private String chkPointPath;
+	private String proportional;
+	private String integral;
+	private String derivative;
 	
 	public KafkaStream() {
 		super();
@@ -63,6 +66,13 @@ public class KafkaStream extends SimpleFlat {
 			
 			this.backpressure = ContextMgr.getValue(
 					node.getAttribute(Constants.ATTR_BACK_PRESSURE));
+			this.proportional = ContextMgr.getValue(
+					node.getAttribute(Constants.ATTR_PROPORTIONAL));
+			this.integral = ContextMgr.getValue(
+					node.getAttribute(Constants.ATTR_INTEGRAL));
+			this.derivative = ContextMgr.getValue(
+					node.getAttribute(Constants.ATTR_DERIVATIVE));
+			
 			this.fillfreqms = ContextMgr.getValue(
 					node.getAttribute(Constants.ATTR_FILL_FREQMS));
 			this.forcefromstart = ContextMgr.getValue(
@@ -209,6 +219,18 @@ public class KafkaStream extends SimpleFlat {
 		return fillfreqms;
 	}
 
+	public String getProportional() {
+		return proportional;
+	}
+
+	public String getIntegral() {
+		return integral;
+	}
+
+	public String getDerivative() {
+		return derivative;
+	}
+
 	public String toString(){
 		StringBuffer sb  = new StringBuffer();
 		
@@ -220,6 +242,9 @@ public class KafkaStream extends SimpleFlat {
 				.append("\nconsumerZK=").append(this.consumerZK)
 				.append("\nconsumerZKPath=").append(this.consumerZKPath)
 				.append("\nbackpressure=").append(this.backpressure)
+				.append("\nproportional=").append(this.proportional)
+				.append("\nintegral=").append(this.integral)
+				.append("\nderivative=").append(this.derivative)
 				.append("\nfillfreqms=").append(this.fillfreqms)
 				.append("\nfetchsizebytes=").append(this.fetchsizebytes)
 				.append("\nforcefromstart=").append(this.forcefromstart)

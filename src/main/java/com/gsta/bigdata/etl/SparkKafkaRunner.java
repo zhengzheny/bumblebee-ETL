@@ -59,6 +59,9 @@ public class SparkKafkaRunner implements IRunner ,Serializable{
 		props.put("consumer.fetchsizebytes", kafkaStream.getFetchsizebytes());
 		props.put("consumer.fillfreqms", kafkaStream.getFillfreqms());
 		props.put("consumer.backpressure.enabled", kafkaStream.getBackpressure());
+		props.put("consumer.backpressure.proportional", kafkaStream.getProportional());
+		props.put("consumer.backpressure.integral", kafkaStream.getIntegral());
+		props.put("consumer.backpressure.derivative", kafkaStream.getDerivative());
 		props.put("kafka.message.handler.class",
 				"consumer.kafka.IdentityMessageHandler");
 		
@@ -114,7 +117,7 @@ public class SparkKafkaRunner implements IRunner ,Serializable{
 		int receiversNum = kafkaStream.getReceivesNum();
 		JavaDStream<MessageAndMetadata> unionStreams = ReceiverLauncher.launch(
 				jsc, this.getReceiveKafkaConf(kafkaStream), receiversNum, kafkaStream.getStorageLevel());
-
+		
 		JavaDStream<String> dpis = unionStreams.map(
 				new Function<MessageAndMetadata, String>() {
 					@Override
@@ -168,7 +171,6 @@ public class SparkKafkaRunner implements IRunner ,Serializable{
 	    
 	    String topic = this.process.getOutputKafkaTopic();
 	    JavaDStreamKafkaWriter<String> writer = JavaDStreamKafkaWriterFactory.fromJavaDStream(dpis);
-	    
 	    writer.writeToKafka(producerConf, new ProcessingFunc(topic));
 	}
 	
