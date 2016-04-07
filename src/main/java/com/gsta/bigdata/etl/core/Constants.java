@@ -95,6 +95,8 @@ public class Constants {
 	public final static String PATH_LKP_DATASOURCE_FIELDS = "fields";
 	public final static String PATH_LKP_DATASOURCE_FIELDS_FIELD = "fields/field";
 	public final static String PATH_LKP_DATASOURCE_FIELDS_SQL = "fields/sql";
+	public final static String PATH_TAG_FIELD = "tagField";
+	public final static String PATH_SEGMENT_FIELD = "segmentField";
 	
 	//element attribute name
 	public final static String ATTR_DELIMITER = "delimiter";
@@ -188,4 +190,6 @@ public class Constants {
 	public final static String HADOOP_DEFAULT_INPUTFORMAT_CLASS = TextInputFormat.class.getName();
 	public final static String HADOOP_DEFAULT_OUTPUTFORMAT_CLASS = TextOutputFormat.class.getName();
 	public final static String HADOOP_IO_TEXT_CLASS = Text.class.getName(); 
+	
+	public final static String HADOOP_REDUCE_TASKS = "mapred.reduce.tasks";
 }

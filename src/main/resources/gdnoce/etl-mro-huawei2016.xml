@@ -31,6 +31,7 @@
 		<computingFrameworkConfigs>
 			<property key="outputFormatClass"
 				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat"/>
+			<property key="mapred.reduce.tasks" value="0"/>
 		</computingFrameworkConfigs>
 		<sourceMetaData type="MroHuaWei" >
 			<paths>

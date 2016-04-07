@@ -24,6 +24,7 @@
 		<computingFrameworkConfigs>
 			<property key="outputFormatClass"
 				value="com.gsta.bigdata.etl.mapreduce.OnlyKeyOutputFormat" />
+			<property key="mapred.reduce.tasks" value="0"/>
 		</computingFrameworkConfigs>
 		<sourceMetaData type="noSettingFieldsFlat" delimiter="\001"  fieldNum="ge 21">
 			<paths>

@@ -6,6 +6,7 @@
 				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat"/>
 			<property key="mapperClass"
 				value="com.gsta.bigdata.etl.mapreduce.MultiETLMapper"/>
+			<property key="mapred.reduce.tasks" value="0"/>
 		</computingFrameworkConfigs>
 		<sourceMetaData type="MroZte" >
 			<paths>

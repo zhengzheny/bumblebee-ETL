@@ -49,6 +49,7 @@ import com.gsta.bigdata.utils.XmlTools;
 		@JsonSubTypes.Type(value = MroHuaWei.class, name = "mroHuaWei"),
 		@JsonSubTypes.Type(value = MroZte.class, name = "mroZte"),
 		@JsonSubTypes.Type(value = ZteENODEBXML.class, name = "zteENODEBXML"),
+		@JsonSubTypes.Type(value = SimpleXML.class, name = "simpleXML"),
 		@JsonSubTypes.Type(value = FixedLengthByLineFlat.class, name = "fixedLengthByLineFlat") })
 public abstract class AbstractSourceMetaData extends AbstractETLObject {
 	private static final long serialVersionUID = -3147671855217097901L;

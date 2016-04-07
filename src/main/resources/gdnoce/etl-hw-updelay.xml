@@ -5,6 +5,7 @@
 			<property key="outputFormatClass"
 				value="com.gsta.bigdata.etl.mapreduce.GBKValueOutputFormat"/>
 			<property key="sourceEncoding" value="GBK" />
+			<property key="mapred.reduce.tasks" value="0"/>
 		</computingFrameworkConfigs>
 		<sourceMetaData type="KpiXML" >
 			<paths>

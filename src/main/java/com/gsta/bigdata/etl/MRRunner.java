@@ -95,7 +95,7 @@ public class MRRunner extends Configured implements Tool, IRunner {
 		Date startTime = new Date();
 		Job job = Job.getInstance(conf, this.process.getId());
 		job.setJarByClass(getClass());
-
+		
 		String mapperClass = process.getConf(Constants.HADOOP_MAPPER_CLASS,
 				Constants.HADOOP_DEFAULT_MAPPER_CLASS);
 		job.setMapperClass(this.loadClass(mapperClass));
@@ -108,6 +108,11 @@ public class MRRunner extends Configured implements Tool, IRunner {
 		String combinerClass = process.getConf(Constants.HADOOP_COMBINER_CLASS);
 		if (null != combinerClass && !"".equals(combinerClass)) {
 			job.setCombinerClass(this.loadClass(combinerClass));
+		}
+		
+		String reduceTask = process.getConf(Constants.HADOOP_REDUCE_TASKS);
+		if(null != reduceTask){
+			job.setNumReduceTasks(Integer.parseInt(reduceTask));
 		}
 
 		String inputFormatClass = process.getConf(

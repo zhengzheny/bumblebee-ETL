@@ -1,0 +1,57 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<process id="jt-webbrowsing">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat"/>
+			<property key="mapred.reduce.tasks" value="0"/>
+		</computingFrameworkConfigs>
+		<sourceMetaData type="SimpleXML">
+			<tagField>IMSI,MEID,PhoneType,OSVersion,BaseBand,Kernel,InnerVersion,RamUsage,CpuUsage,Longitude,Latitude,LocationDesc,Province,City,NetType,APN,CdmaSid,CdmaNid,CdmaBsid,CdmadBm,LteCi,LtePci,LteTac,LteRsrp,LteSinr,InnerIP,OuterIP,VideoName,VideoURL,VideoIP,VideoTestTime,VideoAvgSpeed,VideoPeakSpeed,TCLASS,BufferCounter,VideoSize</tagField>
+			<segmentField>Message</segmentField>
+			<paths>
+				<inputPath path="${inputPath}"/>
+			</paths>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
+			<values delimiter="|">
+				<field id="IMSI" />
+				<field id="MEID" />
+				<field id="PhoneType" />
+				<field id="OSVersion" />
+				<field id="BaseBand" />
+				<field id="Kernel" />
+				<field id="InnerVersion" />
+				<field id="RamUsage" />
+				<field id="CpuUsage" />
+				<field id="Longitude" />
+				<field id="Latitude" />
+				<field id="LocationDesc" />
+				<field id="Province" />
+				<field id="City" />
+				<field id="NetType" />
+				<field id="APN" />
+				<field id="CdmaSid" />
+				<field id="CdmaNid" />
+				<field id="CdmaBsid" />
+				<field id="CdmadBm" />
+				<field id="LteCi" />
+				<field id="LtePci" />
+				<field id="LteTac" />
+				<field id="LteRsrp" />
+				<field id="LteSinr" />
+				<field id="InnerIP" />
+				<field id="OuterIP" />
+				<field id="VideoName" />
+				<field id="VideoURL" />
+				<field id="VideoIP" />
+				<field id="VideoTestTime" />
+				<field id="VideoAvgSpeed" />
+				<field id="VideoPeakSpeed" />
+				<field id="TCLASS" />
+				<field id="BufferCounter" />
+				<field id="VideoSize" />
+			</values>
+		</outputMetaData>
+	</process>
+</etl>

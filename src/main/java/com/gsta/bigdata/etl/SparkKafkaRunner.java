@@ -139,7 +139,7 @@ public class SparkKafkaRunner implements IRunner ,Serializable{
 		if(RESULT_MODE_HDFS.equals(resultMode)){
 			this.writeHdfs(dpis, this.process.getOutputPath(), kafkaStream);
 		}else if(RESULT_MODE_KAFKA.equals(resultMode)){
-			this.writeKafka(dpis);
+		//	this.writeKafka(dpis);
 		}
 			
 		JavaDStream<Long> dpiCounts = dpis.count();
