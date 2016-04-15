@@ -5,6 +5,8 @@ import java.util.Set;
 
 import javax.xml.xpath.XPathExpressionException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -84,6 +86,7 @@ public class SimpleXML extends AbstractSourceMetaData {
 	private String beginSegmentField;
 	@JsonProperty
 	private String endSegmentField;
+	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	public SimpleXML() {
 		super();
@@ -145,7 +148,12 @@ public class SimpleXML extends AbstractSourceMetaData {
 			String tag = "<" + field + ">";
 			if(line.indexOf(tag) != -1){
 				String value = SourceXmlTool.getTagValue(line, field);
-				this.etlData.addData(field, value);
+				//xml segment maybe cut by mapper,so etlData object isn't be initialized. 
+				if(this.etlData != null){
+					this.etlData.addData(field, value);
+				}else{
+					logger.error(line);
+				}
 			}
 		}
 		

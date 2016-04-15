@@ -49,6 +49,7 @@ public class Constants {
 	public final static String CF_LOCAL_FILE_SLICE_THREAD_SIZE = "localFileSliceThreadSize";
 	public final static String CF_SPARK_DURATION = "duration";
 	public final static String CF_SOURCE_ENCODING = "sourceEncoding";
+	public final static String CF_PRODUCER_POOL_SIZE = "producerPoolSize";
 	
 	//local file's data source
 	public final static String SOURCE_ZTE_NODEB_XML = ZteENODEBXML.class.getSimpleName();

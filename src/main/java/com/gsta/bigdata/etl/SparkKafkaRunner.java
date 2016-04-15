@@ -17,7 +17,6 @@ import org.apache.spark.streaming.api.java.JavaPairDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
 import org.apache.spark.streaming.api.java.JavaStreamingContextFactory;
 import org.cloudera.spark.streaming.kafka.JavaDStreamKafkaWriter;
-import org.cloudera.spark.streaming.kafka.JavaDStreamKafkaWriterFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,14 +38,13 @@ public class SparkKafkaRunner implements IRunner ,Serializable{
 	
 	private final static String RESULT_MODE_HDFS = "hdfs";
 	private final static String RESULT_MODE_KAFKA = "kafka";
-	
+		
 	public SparkKafkaRunner(ETLProcess process){
 		this.process = process;
 	}
 	
 	private Properties getReceiveKafkaConf(KafkaStream kafkaStream){
 		Properties props = new Properties();
-		
 		props.put("zookeeper.hosts", kafkaStream.getHosts());
 		props.put("zookeeper.port",kafkaStream.getPort());
 		props.put("zookeeper.broker.path", kafkaStream.getBrokers());
@@ -62,8 +60,7 @@ public class SparkKafkaRunner implements IRunner ,Serializable{
 		props.put("consumer.backpressure.proportional", kafkaStream.getProportional());
 		props.put("consumer.backpressure.integral", kafkaStream.getIntegral());
 		props.put("consumer.backpressure.derivative", kafkaStream.getDerivative());
-		props.put("kafka.message.handler.class",
-				"consumer.kafka.IdentityMessageHandler");
+		props.put("kafka.message.handler.class","consumer.kafka.IdentityMessageHandler");
 		
 		return props;
 	}
@@ -112,7 +109,7 @@ public class SparkKafkaRunner implements IRunner ,Serializable{
 		}else{
 			jsc = new JavaStreamingContext(sparkConf,Durations.seconds(duration));
 		}
-
+		
 		// Specify number of Receivers you need.
 		int receiversNum = kafkaStream.getReceivesNum();
 		JavaDStream<MessageAndMetadata> unionStreams = ReceiverLauncher.launch(
@@ -138,8 +135,8 @@ public class SparkKafkaRunner implements IRunner ,Serializable{
 		String resultMode = kafkaStream.getResultMode();
 		if(RESULT_MODE_HDFS.equals(resultMode)){
 			this.writeHdfs(dpis, this.process.getOutputPath(), kafkaStream);
-		}else if(RESULT_MODE_KAFKA.equals(resultMode)){
-		//	this.writeKafka(dpis);
+		} else if (RESULT_MODE_KAFKA.equals(resultMode)) {
+			this.writeKafka(dpis);
 		}
 			
 		JavaDStream<Long> dpiCounts = dpis.count();
@@ -147,7 +144,6 @@ public class SparkKafkaRunner implements IRunner ,Serializable{
 			@Override
 			public Void call(JavaRDD<Long> rdds) throws Exception {
 				List<Long> counters = rdds.collect();
-				
 				for (Long c : counters) {
 					logger.info("dpi count=" + c);
 				}
@@ -170,8 +166,9 @@ public class SparkKafkaRunner implements IRunner ,Serializable{
 	    producerConf.put("request.required.acks", "1");
 	    
 	    String topic = this.process.getOutputKafkaTopic();
-	    JavaDStreamKafkaWriter<String> writer = JavaDStreamKafkaWriterFactory.fromJavaDStream(dpis);
-	    writer.writeToKafka(producerConf, new ProcessingFunc(topic));
+	    //JavaDStreamKafkaWriter<String> writer = JavaDStreamKafkaWriterFactory.fromJavaDStream(dpis);
+	    //writer.writeToKafka(producerConf, new ProcessingFunc(topic));
+	    JavaDStreamKafkaWriter.writeToKafka(dpis, producerConf, new ProcessingFunc(topic));
 	}
 	
 	@SuppressWarnings("serial")

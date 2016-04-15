@@ -105,11 +105,16 @@
             <artifactId>spark-streaming-kafka_2.10</artifactId>
             <version>1.5.1</version>
         </dependency>
-        <dependency>
+        <!-- dependency>
 		    <groupId>org.cloudera.spark.streaming.kafka</groupId>
 		    <artifactId>spark-kafka-writer</artifactId>
 		    <version>0.1.0</version>
-  		</dependency>
+  		</dependency-->
+  		<dependency>  
+            <groupId>org.cloudera.spark.streaming.kafka</groupId>  
+            <artifactId>spark-kafka-writer</artifactId>  
+            <version>0.1.1-SNAPSHOT</version>  
+        </dependency>  
   		<dependency>
 		    <groupId>dibbhatt</groupId>
 		    <artifactId>kafka-spark-consumer</artifactId>
