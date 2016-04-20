@@ -16,7 +16,6 @@ import com.gsta.bigdata.etl.ETLException;
 import com.gsta.bigdata.etl.core.ETLData;
 import com.gsta.bigdata.etl.core.ETLProcess;
 import com.gsta.bigdata.etl.core.LoadException;
-import com.gsta.bigdata.etl.core.TransformException;
 import com.gsta.bigdata.utils.XmlTools;
 
 /**
@@ -299,7 +298,7 @@ public class PgwXMLHandler extends AbstractHandler {
 
 			super.recordCount++;
 
-		} catch (ETLException|TransformException e) {
+		} catch (ETLException e) {
 			super.errorRecords.add(e.getMessage());
 			super.errorCount++;
 

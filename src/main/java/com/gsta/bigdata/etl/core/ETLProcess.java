@@ -216,7 +216,7 @@ public class ETLProcess extends AbstractETLObject {
 	 * @param data
 	 *            - source file data line
 	 */
-	public void onTransform(ETLData data) throws ETLException {
+	public void onTransform(ETLData data) throws TransformException {
 		if (this.transforms == null) {
 			// throw new ETLException("transforms object is null.");
 			// if has no transforms tag,don't transform

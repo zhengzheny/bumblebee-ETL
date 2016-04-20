@@ -24,6 +24,7 @@ import scala.Tuple2;
 
 import com.gsta.bigdata.etl.core.ETLData;
 import com.gsta.bigdata.etl.core.ETLProcess;
+import com.gsta.bigdata.etl.core.TransformException;
 import com.gsta.bigdata.etl.core.source.KafkaStream;
 import com.gsta.bigdata.etl.core.source.ValidatorException;
 import com.gsta.bigdata.etl.mapreduce.OnlyKeyOutputFormat;
@@ -225,6 +226,9 @@ public class SparkKafkaRunner implements IRunner ,Serializable{
 			}
 		} catch (ETLException | ValidatorException e) {
 			logger.error(e.toString());
+		}catch(TransformException e){
+			//ignore write filter error
+			logger.debug(e.toString());
 		}
 		
 		return null;

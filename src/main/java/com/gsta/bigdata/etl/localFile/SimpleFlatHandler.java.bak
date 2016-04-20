@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import com.gsta.bigdata.etl.ETLException;
 import com.gsta.bigdata.etl.core.ETLData;
 import com.gsta.bigdata.etl.core.ETLProcess;
-import com.gsta.bigdata.etl.core.TransformException;
 import com.gsta.bigdata.etl.core.source.ValidatorException;
 
 /**
@@ -69,7 +68,7 @@ public class SimpleFlatHandler extends AbstractHandler {
 
 				super.recordCount++;
 			}
-		} catch (ETLException|TransformException e) {
+		} catch (ETLException e) {
 			logger.error("dataline=" + line + ",error:" + e.getMessage());
 
 			// write error file

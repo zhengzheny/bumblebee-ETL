@@ -65,7 +65,7 @@ public class Transforms extends AbstractETLObject {
 	 * @param context
 	 * @throws ETLException
 	 */
-	public void onTransform(ETLData data,ShellContext context) throws ETLException {
+	public void onTransform(ETLData data,ShellContext context) throws TransformException {
 		Iterator<Transform> iter = this.transforms.iterator();
 		while (iter.hasNext()) {
 			Transform transform = iter.next();

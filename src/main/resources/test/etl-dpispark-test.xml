@@ -4,12 +4,8 @@
      <!-- contextProperty location="etl-dpispark-test-kafka-local.properties" /-->
     <contextProperty location="etl-dpispark-test-kafka.properties" />
      
-    
     <!-- process id="dpi" type="sparkStreamingProcess"-->
     <process id="dpi" type="sparkKafkaProcess">
-    	<computingFrameworkConfigs>
-			<property key="producerPoolSize" value="${producerPoolSize}" />
-		</computingFrameworkConfigs>
         <sourceMetaData type="kafkaStream" delimiter="\001" >
         <!-- sourceMetaData type="kafkaStream" delimiter="\|" -->
             <!-- kafka brokers="${brokers}" topic="${topics}"/-->
@@ -64,5 +60,10 @@
                 <field id="collectHost"/>
             </values>
         </outputMetaData>
+        <transforms>
+			<transform scope="map,reduce">
+				<filter name="DPIFilter" urlSuffixFile="${urlSuffixFile}"/>
+			</transform>
+		</transforms>
     </process>
 </etl>

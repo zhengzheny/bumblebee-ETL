@@ -14,6 +14,62 @@ import com.gsta.bigdata.etl.core.source.mro.ZTEMroObj;
 import com.gsta.bigdata.etl.core.source.mro.ZTEMroObj_1;
 import com.gsta.bigdata.utils.SourceXmlTool;
 
+/**
+ * source file,output line=three measurement
+<?xml version="1.0" encoding="UTF-8"?>
+<bulkPmMrDataFile>
+<fileHeader fileFormatVersion="V1.0" reportTime="2016-03-13T07:00:00.000" startTime="2016-03-13T06:45:00.000" endTime="2016-03-13T07:00:00.000" period="15"/>
+<eNB MR.eNBId="550984">
+<measurement>
+<smr>MR.LteScEarfcn MR.LteScPci MR.LteScRSRP MR.LteScRSRQ MR.LteScTadv MR.LteScPHR MR.LteScAOA MR.LteScSinrUL MR.LteScRI1 MR.LteScRI2 MR.LteScRI4 MR.LteScRI8 MR.LteScBSR MR.LteScPUSCHPRBNum MR.LteScPDSCHPRBNum MR.CQI0 MR.CQI1 MR.Longitude MR.Latitude MR.LteNcEarfcn MR.LteNcPci MR.LteNcRSRP MR.LteNcRSRQ MR.CDMAtype MR.CDMANcArfcn MR.CDMAPNphase MR.LteCDMAorHRPDNcPilotStrength MR.CDMANcBand MR.CDMANcPci</smr>
+<object MR.MmeCode="1" MR.MmeGroupId="17409" MR.MmeUeS1apId="427874925" MR.TimeStamp="2016-03-13T06:45:35.360" MR.objectId="2">
+<v>100 117 20 21 0 19 NIL 24 0 0 0 0 1 34 80 6 NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL</v>
+</object>
+</measurement>
+<measurement>
+<smr>MR.LteScPlrULQci1 MR.LteScPlrULQci2 MR.LteScPlrULQci3 MR.LteScPlrULQci4 MR.LteScPlrULQci5 MR.LteScPlrULQci6 MR.LteScPlrULQci7 MR.LteScPlrULQci8 MR.LteScPlrULQci9 MR.LteScPlrDLQci1 MR.LteScPlrDLQci2 MR.LteScPlrDLQci3 MR.LteScPlrDLQci4 MR.LteScPlrDLQci5 MR.LteScPlrDLQci6 MR.LteScPlrDLQci7 MR.LteScPlrDLQci8 MR.LteScPlrDLQci9</smr>
+<object MR.MmeCode="1" MR.MmeGroupId="17409" MR.MmeUeS1apId="427874925" MR.TimeStamp="2016-03-13T06:45:35.360" MR.objectId="2">
+<v>NIL NIL NIL NIL NIL NIL NIL NIL 0 NIL NIL NIL NIL NIL NIL NIL NIL 0</v>
+</object>
+</measurement>
+<measurement>
+<smr>MR.LteScRIP</smr>
+<object MR.MmeCode="NIL" MR.MmeGroupId="NIL" MR.MmeUeS1apId="NIL" MR.TimeStamp="2016-03-13T06:45:35.360" MR.objectId="2:100:0">
+<v>81</v>
+</object>
+<object MR.MmeCode="NIL" MR.MmeGroupId="NIL" MR.MmeUeS1apId="NIL" MR.TimeStamp="2016-03-13T06:45:35.360" MR.objectId="2:100:1">
+<v>81</v>
+</object>
+<object MR.MmeCode="NIL" MR.MmeGroupId="NIL" MR.MmeUeS1apId="NIL" MR.TimeStamp="2016-03-13T06:45:35.360" MR.objectId="2:100:2">
+<v>81</v>
+</object>
+<object MR.MmeCode="NIL" MR.MmeGroupId="NIL" MR.MmeUeS1apId="NIL" MR.TimeStamp="2016-03-13T06:45:35.360" MR.objectId="2:100:3">
+<v>81</v>
+</object>
+<object MR.MmeCode="NIL" MR.MmeGroupId="NIL" MR.MmeUeS1apId="NIL" MR.TimeStamp="2016-03-13T06:45:35.360" MR.objectId="2:100:4">
+<v>81</v>
+</object>
+<object MR.MmeCode="NIL" MR.MmeGroupId="NIL" MR.MmeUeS1apId="NIL" MR.TimeStamp="2016-03-13T06:45:35.360" MR.objectId="2:100:5">
+<v>81</v>
+</object>
+<object MR.MmeCode="NIL" MR.MmeGroupId="NIL" MR.MmeUeS1apId="NIL" MR.TimeStamp="2016-03-13T06:45:35.360" MR.objectId="2:100:6">
+<v>82</v>
+</object>
+<object MR.MmeCode="NIL" MR.MmeGroupId="NIL" MR.MmeUeS1apId="NIL" MR.TimeStamp="2016-03-13T06:45:35.360" MR.objectId="2:100:7">
+<v>80</v>
+</object>
+<object MR.MmeCode="NIL" MR.MmeGroupId="NIL" MR.MmeUeS1apId="NIL" MR.TimeStamp="2016-03-13T06:45:35.360" MR.objectId="2:100:8">
+<v>81</v>
+</object>
+<object MR.MmeCode="NIL" MR.MmeGroupId="NIL" MR.MmeUeS1apId="NIL" MR.TimeStamp="2016-03-13T06:45:35.360" MR.objectId="2:100:9">
+<v>81</v>
+</object>
+</measurement>
+</eNB>
+</bulkPmMrDataFile>
+ * @author tianxq
+ *
+ */
 public class MroZte extends MroHuaWei {
 	private static final long serialVersionUID = 1L;
 	//the first and tow smr data,key=ZTEMroObj,value= objDatas index in list

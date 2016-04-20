@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import com.gsta.bigdata.etl.ETLException;
 import com.gsta.bigdata.etl.core.Constants;
 import com.gsta.bigdata.etl.core.ETLData;
+import com.gsta.bigdata.etl.core.TransformException;
 import com.gsta.bigdata.etl.core.source.ValidatorException;
 
 public class MultiETLMapper extends ETLMapper {
@@ -82,7 +83,7 @@ public class MultiETLMapper extends ETLMapper {
 					context.write(this.txtKey, this.txtValue);
 				}
 			}
-		} catch (ETLException e) {
+		} catch (ETLException|TransformException e) {
 			logger.error("dataline=" + value.toString() + ",error:" + e.getMessage());
 			
 			//record error information

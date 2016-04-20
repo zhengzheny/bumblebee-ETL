@@ -3,14 +3,12 @@ package com.gsta.bigdata.etl.core;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.api.client.repackaged.com.google.common.base.Preconditions;
-import com.gsta.bigdata.etl.ETLException;
 import com.gsta.bigdata.etl.core.filter.AbstractFilter;
 import com.gsta.bigdata.etl.core.function.AbstractFunction;
 
@@ -76,9 +74,9 @@ public class Transform extends AbstractETLObject {
 			}
 		}
 		
-		if(this.functions.size() <= 0){
+		/*if(this.functions.size() <= 0){
 			throw new ParseException("transform must have one or more functions.");
-		}
+		}*/
 	}
 
 	/**
@@ -86,7 +84,7 @@ public class Transform extends AbstractETLObject {
 	 * @param data
 	 */
 	protected void onTransform(ETLData data, ShellContext context)
-			throws ETLException {
+			throws TransformException {
 		boolean accept = true;
 		String filterName = null;
 
@@ -104,7 +102,7 @@ public class Transform extends AbstractETLObject {
 
 		//filter failure,write error file,don't write output file
 		if (!accept) {
-			throw new ETLException(ETLException.FILTER_ACCEPT,"filter by " + filterName);
+			throw new TransformException("filter by " + filterName);
 		}
 		
 		// function

@@ -157,6 +157,8 @@ public class Constants {
 	public final static String ATTR_PROPORTIONAL = "proportional";
 	public final static String ATTR_INTEGRAL = "integral";
 	public final static String ATTR_DERIVATIVE = "derivative";
+	public final static String ATTR_URL = "url";
+	public final static String ATTR_HOST = "host";
 	
 	public final static String TAG_FIELD = "field";
 	public final static String TAG_INPUTPATH = "inputPath";

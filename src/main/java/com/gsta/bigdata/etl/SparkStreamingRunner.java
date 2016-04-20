@@ -22,6 +22,7 @@ import scala.Tuple2;
 
 import com.gsta.bigdata.etl.core.ETLData;
 import com.gsta.bigdata.etl.core.ETLProcess;
+import com.gsta.bigdata.etl.core.TransformException;
 import com.gsta.bigdata.etl.core.source.KafkaStream;
 import com.gsta.bigdata.etl.core.source.ValidatorException;
 import com.gsta.bigdata.etl.mapreduce.OnlyKeyOutputFormat;
@@ -173,6 +174,8 @@ public class SparkStreamingRunner implements IRunner,Serializable {
 				return this.process.getOutputValue(data);
 			}
 		} catch (ETLException | ValidatorException e) {
+			logger.debug(e.toString());
+		}catch(TransformException e){
 			logger.debug(e.toString());
 		}
 		

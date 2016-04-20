@@ -22,6 +22,7 @@ import com.gsta.bigdata.etl.core.ETLData;
 import com.gsta.bigdata.etl.core.ETLProcess;
 import com.gsta.bigdata.etl.core.IRuleMgr;
 import com.gsta.bigdata.etl.core.GeneralRuleMgr;
+import com.gsta.bigdata.etl.core.TransformException;
 import com.gsta.bigdata.etl.core.lookup.LookupMgr;
 import com.gsta.bigdata.etl.core.source.ValidatorException;
 import com.gsta.bigdata.utils.BeansUtils;
@@ -171,7 +172,7 @@ public class ETLMapper extends Mapper<Object, Text, Text, Text> {
 
 				context.write(this.txtKey, this.txtValue);
 			}
-		} catch (ETLException e) {
+		} catch (ETLException|TransformException e) {
 			logger.error("dataline=" + value.toString() + ",error:" + e.getMessage());
 			
 			//record error information

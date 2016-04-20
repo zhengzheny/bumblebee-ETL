@@ -18,7 +18,6 @@ import org.xml.sax.SAXException;
 import com.gsta.bigdata.etl.ETLException;
 import com.gsta.bigdata.etl.core.ETLData;
 import com.gsta.bigdata.etl.core.ETLProcess;
-import com.gsta.bigdata.etl.core.TransformException;
 import com.gsta.bigdata.utils.StringUtils;
 import com.gsta.bigdata.utils.XmlTools;
 
@@ -177,7 +176,7 @@ public class ZteNODEBXMLHandler extends AbstractHandler {
 				}
 
 				super.recordCount++;
-			} catch (ETLException|TransformException e) {
+			} catch (ETLException e) {
 				String info = " measObjLdn:" + measObjLdn + ",measTypes=" + e.getMessage() + " does not exist";
 				super.errorRecords.add(info);
 				super.errorCount++;
