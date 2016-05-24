@@ -7,7 +7,7 @@
 			<property key="mapred.reduce.tasks" value="0"/>
 		</computingFrameworkConfigs>
 		<sourceMetaData type="SimpleXML" >
-			<tagField>IMSI,MEID,PhoneType,OSVersion,BaseBand,Kernel,InnerVersion,RamUsage,CpuUsage,Longitude,Latitude,LocationDesc,Province,City,NetType,APN,CdmaSid,CdmaNid,CdmaBsid,CdmadBm,LteCi,LtePci,LteTac,LteRsrp,LteSinr,InnerIP,OuterIP,WebsiteName,PageURL,PageIP,PageSurfTime,FirstByteDelay,PageOpenDelay,RRCSetupDelay,DnsDelay,ConnDelay,ReqDelay,ResDelay,TCLASS,Success</tagField>
+			<tagField>IMSI,MEID,PhoneType,OSVersion,BaseBand,Kernel,InnerVersion,RamUsage,CpuUsage,Longitude,Latitude,LocationDesc,Province,City,NetType,APN,CdmaSid,CdmaNid,CdmaBsid,CdmadBm,LteCi,LtePci,LteTac,LteRsrp,LteSinr,InnerIP,OuterIP,Ecio,Snr,LteRsrq,WebsiteName,PageURL,PageIP,PageSurfTime,FirstByteDelay,PageOpenDelay,RRCSetupDelay,DnsDelay,ConnDelay,ReqDelay,ResDelay,TCLASS,Success,DnsIP,PageSize,PageAvgSpeed</tagField>
 			<segmentField>Message</segmentField>
 			<paths>
 				<inputPath path="${inputPath}"/>
@@ -42,6 +42,9 @@
 				<field id="LteSinr" />
 				<field id="InnerIP" />
 				<field id="OuterIP" />
+				<field id="Ecio" />
+				<field id="Snr" />
+				<field id="LteRsrq" />
 				<field id="WebsiteName" />
 				<field id="PageURL" />
 				<field id="PageIP" />
@@ -55,6 +58,9 @@
 				<field id="ResDelay" />
 				<field id="TCLASS" />
 				<field id="Success" />
+				<field id="DnsIP" />
+				<field id="PageSize" />
+				<field id="PageAvgSpeed" />
 			</values>
 		</outputMetaData>
 	</process>
