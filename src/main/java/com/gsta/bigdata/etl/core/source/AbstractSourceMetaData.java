@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.xml.xpath.XPathExpressionException;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
@@ -83,7 +84,8 @@ public abstract class AbstractSourceMetaData extends AbstractETLObject {
 			type = Constants.DEFAULT_SOURCE_METADATA_FLAT;
 		}
 
-		this.wrapper = super.getAttr(Constants.ATTR_WRAPPER);
+		this.wrapper = StringEscapeUtils.unescapeJava(super
+				.getAttr(Constants.ATTR_WRAPPER));
 	}
 
 	@Override

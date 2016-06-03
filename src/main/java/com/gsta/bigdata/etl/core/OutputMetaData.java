@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.xml.xpath.XPathExpressionException;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -33,7 +34,7 @@ public class OutputMetaData extends AbstractETLObject {
 	private String fileSuffix;
 	@JsonProperty
 	private String valuesDelimiter = "\\|";
-	protected static final String NotSeeCharDefineInConf = "001";
+	//protected static final String NotSeeCharDefineInConf = "001";
 	@JsonProperty
 	private List<Field> valuesFields = new ArrayList<Field>();
 	@JsonProperty
@@ -91,11 +92,13 @@ public class OutputMetaData extends AbstractETLObject {
 			try {
 				String delimiter = XmlTools.getNodeAttr(node,
 						Constants.ATTR_DELIMITER);
-				this.valuesDelimiter = ContextMgr.getValue(delimiter);
+				/*this.valuesDelimiter = ContextMgr.getValue(delimiter);
 				// special deal with not see char
 				if (NotSeeCharDefineInConf.equals(this.valuesDelimiter)) {
 					this.valuesDelimiter = "\001";
-				}
+				}*/
+				this.valuesDelimiter = StringEscapeUtils
+						.unescapeJava(ContextMgr.getValue(delimiter));
 			} catch (XPathExpressionException e) {
 				throw new ParseException(e);
 			}
@@ -106,11 +109,13 @@ public class OutputMetaData extends AbstractETLObject {
 			try {
 				String delimiter = XmlTools.getNodeAttr(node,
 						Constants.ATTR_DELIMITER);
-				this.keysDelimiter = ContextMgr.getValue(delimiter);
+				/*this.keysDelimiter = ContextMgr.getValue(delimiter);
 				// special deal with not see char
 				if (NotSeeCharDefineInConf.equals(this.keysDelimiter)) {
 					this.keysDelimiter = "\001";
-				}
+				}*/
+				this.keysDelimiter = StringEscapeUtils.unescapeJava(ContextMgr
+						.getValue(delimiter));
 			} catch (XPathExpressionException e) {
 				throw new ParseException(e);
 			}
