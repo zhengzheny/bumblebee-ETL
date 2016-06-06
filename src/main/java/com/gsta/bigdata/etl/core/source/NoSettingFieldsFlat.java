@@ -30,7 +30,16 @@ public class NoSettingFieldsFlat extends SimpleFlat {
 	private List<String> fieldIds = new ArrayList<String>();
 
 	private static final String ATTR_FIELD_NUM = "fieldNum";
-	private static final String[] OPERATORS = { "gt", "lt", "ge", "le" };
+	@JsonProperty
+	private int nums = 0;
+	@JsonProperty
+	private int operator = EQ;
+	
+	private static final int EQ = 0;
+	private static final int GT = 1;
+	private static final int LT = 2;
+	private static final int GE = 3;
+	private static final int LE = 4;
 
 	public NoSettingFieldsFlat() {
 		super();
@@ -54,6 +63,24 @@ public class NoSettingFieldsFlat extends SimpleFlat {
 		super.initAttrs(element);
 
 		this.fieldNum = super.getAttr(ATTR_FIELD_NUM);
+		this.nums = Integer.parseInt(StringUtils.getNumbers(this.fieldNum));
+		String str = StringUtils.getNotNumbers(this.fieldNum).trim();
+		switch (str) {
+		case "gt":
+			this.operator = GT;
+			break;
+		case "lt":
+			this.operator = LT;
+			break;
+		case "ge":
+			this.operator = GE;
+			break;
+		case "le":
+			this.operator = LE;
+			break;
+		default:
+			this.operator = EQ;
+		}
 	}
 
 	@Override
@@ -76,52 +103,46 @@ public class NoSettingFieldsFlat extends SimpleFlat {
 		}
 
 		if (null != this.fieldNum && !"".equals(this.fieldNum)) {
-			// if fieldNum attribute all digit,judge notequal
-			if (StringUtils.isDigit(this.fieldNum)) {
-				if (Integer.parseInt(this.fieldNum) != datas.length) {
+			switch(this.operator){
+			case EQ:
+				if (this.nums != datas.length) {
 					throw new ETLException(ETLException.DATA_NOT_EQUAL_DEFINITION,"data " + line + " record count="
 							+ datas.length + ",but source definition fieldNum="
 							+ this.fieldNum);
 				}
-			} else {
-				String nums = StringUtils.getNumbers(this.fieldNum);
-				String noNums = StringUtils.getNotNumbers(this.fieldNum).trim();
-				// if operator is gt,remove less and equal filed numbers line
-				if (noNums.equals(OPERATORS[0])) {
-					if (datas.length <= Integer.parseInt(nums)) {
-						throw new ETLException(ETLException.DATA_NOT_EQUAL_DEFINITION,
-								"source definition fieldNum must greater than "
-										+ nums + ",but source " + line
-										+ " record count=" + datas.length);
-					}
-					// if operator is lt,remove greater and equal filed numbers
-					// line
-				} else if (noNums.equals(OPERATORS[1])) {
-					if (datas.length >= Integer.parseInt(nums)) {
-						throw new ETLException(ETLException.DATA_NOT_EQUAL_DEFINITION,
-								"source definition fieldNum must less than "
-										+ nums + ",but source " + line
-										+ " record count=" + datas.length);
-					}
-					// if operator is ge,remove less filed numbers line
-				} else if (noNums.equals(OPERATORS[2])) {
-					if (datas.length < Integer.parseInt(nums)) {
-						throw new ETLException(ETLException.DATA_NOT_EQUAL_DEFINITION,
-								"source definition fieldNum must greater and equal than "
-										+ nums + ",but source " + line
-										+ " record count=" + datas.length);
-					}
-					// if operator is le,remove greater filed numbers line
-				} else if (noNums.equals(OPERATORS[3])) {
-					if (datas.length > Integer.parseInt(nums)) {
-						throw new ETLException(ETLException.DATA_NOT_EQUAL_DEFINITION,
-								"source definition fieldNum must less and equal than "
-										+ nums + ",but source " + line
-										+ " record count=" + datas.length);
-					}
-				} else {
-					throw new ETLException(ETLException.DATA_NOT_EQUAL_DEFINITION,"fieldNum written error");
+				break;
+			case GT:
+				if (this.nums <= datas.length) {
+					throw new ETLException(ETLException.DATA_NOT_EQUAL_DEFINITION,
+							"source definition fieldNum must greater than "
+									+ nums + ",but source " + line
+									+ " record count=" + datas.length);
 				}
+				break;
+			case LT:
+				if (this.nums >= datas.length) {
+					throw new ETLException(ETLException.DATA_NOT_EQUAL_DEFINITION,
+							"source definition fieldNum must less than "
+									+ nums + ",but source " + line
+									+ " record count=" + datas.length);
+				}
+				break;
+			case GE:
+				if (this.nums < datas.length) {
+					throw new ETLException(ETLException.DATA_NOT_EQUAL_DEFINITION,
+							"source definition fieldNum must greater and equal than "
+									+ nums + ",but source " + line
+									+ " record count=" + datas.length);
+				}
+				break;
+			case LE:
+				if (this.nums > datas.length) {
+					throw new ETLException(ETLException.DATA_NOT_EQUAL_DEFINITION,
+							"source definition fieldNum must less and equal than "
+									+ nums + ",but source " + line
+									+ " record count=" + datas.length);
+				}
+				break;
 			}
 		}
 
