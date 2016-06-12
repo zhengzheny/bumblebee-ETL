@@ -41,6 +41,7 @@ import com.gsta.bigdata.etl.core.WriteLog;
 import com.gsta.bigdata.etl.core.lookup.LookupMgr;
 import com.gsta.bigdata.etl.core.source.InputPath;
 import com.gsta.bigdata.etl.mapreduce.ErrorCodeCount;
+import com.gsta.bigdata.etl.mapreduce.ZTEOutputReducer;
 import com.gsta.bigdata.utils.BeansUtils;
 import com.gsta.bigdata.utils.HdfsUtils;
 import com.gsta.bigdata.utils.JDBCUtils;
@@ -79,7 +80,7 @@ public class MRRunner extends Configured implements Tool, IRunner {
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public int run(String[] args) throws Exception {
 		Configuration conf = getConf();
 		// process class to json
@@ -102,7 +103,13 @@ public class MRRunner extends Configured implements Tool, IRunner {
 
 		String reducerClass = process.getConf(Constants.HADOOP_REDUCER_CLASS);
 		if (null != reducerClass && !"".equals(reducerClass)) {
-			job.setReducerClass(this.loadClass(reducerClass));
+			Class clazz = this.loadClass(reducerClass);
+			job.setReducerClass(clazz);
+			
+			//init zte multi output
+			if(clazz.getSimpleName().equals(ZTEOutputReducer.class.getSimpleName())){
+				ZTEOutputReducer.setMultipleOutputs(job, process);
+			}
 		}
 
 		String combinerClass = process.getConf(Constants.HADOOP_COMBINER_CLASS);
@@ -134,6 +141,11 @@ public class MRRunner extends Configured implements Tool, IRunner {
 				Constants.HADOOP_OUTPUTVALUE_CLASS,
 				Constants.HADOOP_IO_TEXT_CLASS);
 		job.setOutputValueClass(this.loadClass(outputValueClass));
+		
+		String partitionerClass = process.getConf(Constants.HADOOP_PARTITIONER_CLASS);
+		if(partitionerClass != null && !"".equals(partitionerClass)){
+			job.setPartitionerClass(this.loadClass(partitionerClass));
+		}
 
 		List<InputPath> inputPaths = process.getInputPaths();
 		Iterator<InputPath> iter = inputPaths.iterator();
@@ -148,18 +160,6 @@ public class MRRunner extends Configured implements Tool, IRunner {
 		this.rmrDir(process.getErrorPath(), conf);
 		FileOutputFormat.setOutputPath(job, new Path(process.getOutputPath()));
 		
-		/*String flag = process.getConf(Constants.HADOOP_MAP_OUTPUT_COMPRESS_FLAG);
-		logger.info("outputCompressFlag=" + flag);
-		if (flag != null && flag.equals("true")) {
-			conf.setBoolean(Constants.HADOOP_MAP_OUTPUT_COMPRESS_FLAG, true);
-			code = process.getConf(
-					Constants.HADOOP_MAP_OUTPUT_COMPRESS_CODEC,
-					"org.apache.hadoop.io.compress.Lz4Codec");
-			logger.info("code=" + code);
-			conf.setClass(Constants.HADOOP_MAP_OUTPUT_COMPRESS_CODEC,
-					this.loadClass(code), CompressionCodec.class);
-		}*/
-		
 		String flag = process.getConf(Constants.HADOOP_OUTPUT_COMPRESS_FLAG);
 		logger.info("format flag=" + flag);
 		if (flag != null && flag.equals("true")) {
@@ -171,7 +171,6 @@ public class MRRunner extends Configured implements Tool, IRunner {
 			conf.setClass(Constants.HADOOP_OUTPUT_COMPRESS_CODEC,
 					this.loadClass(code), CompressionCodec.class);
 			
-			//compress test
 			logger.info("format code=" + code);
 			FileOutputFormat.setCompressOutput(job, Boolean.parseBoolean(flag));  
 	        FileOutputFormat.setOutputCompressorClass(job, this.loadClass(code));
@@ -355,11 +354,22 @@ public class MRRunner extends Configured implements Tool, IRunner {
 							"MAP_INPUT_RECORDS").getValue();
 			logger.info("total lines:" + totalLines);
 
-			long outputLines = job.getCounters()
+			long mapOutputLines = job.getCounters()
+					.findCounter("org.apache.hadoop.mapred.Task$Counter",
+							"MAP_OUTPUT_RECORDS").getValue();
+			logger.info("map output lines: " + mapOutputLines);
+			
+			long reduceOutputLines = job.getCounters()
 					.findCounter("org.apache.hadoop.mapred.Task$Counter",
 							"REDUCE_OUTPUT_RECORDS").getValue();
-			logger.info("output lines: " + outputLines);
+			logger.info("reduce output lines: " + reduceOutputLines);
+			
+			long outputLines = reduceOutputLines;
+			if(outputLines <= 0 ){
+				outputLines = mapOutputLines;
+			}
 
+			logger.info("output lines: " + outputLines);
 			long errorLines = totalLines - outputLines;
 			logger.info("error lines: " + errorLines);
 

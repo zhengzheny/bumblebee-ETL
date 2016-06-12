@@ -322,6 +322,24 @@ public class ETLProcess extends AbstractETLObject {
 
 		return null;
 	}
+	
+	@JsonIgnore
+	public String getOutputFilePrefix(){
+		if(this.outputMetaData != null){
+			return this.outputMetaData.getFilePrefix();
+		}
+		
+		return null;
+	}
+	
+	@JsonIgnore
+	public String getOutputFileSuffix(){
+		if(this.outputMetaData != null){
+			return this.outputMetaData.getFileSuffix();
+		}
+		
+		return null;
+	}
 
 	public OutputMetaData getOutputMetaData() {
 		return this.outputMetaData;

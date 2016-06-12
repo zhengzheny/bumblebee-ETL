@@ -72,6 +72,11 @@ public class MultiETLMapper extends ETLMapper {
 		try {
 			if (null != datas) {
 				for (ETLData etlData : datas) {
+					//add filename to output if you need
+					if (super.outputSourceFileName) {
+						etlData.addData(Constants.OUTPUT_FIELD_FILE_NAME, super.sourceFileName);
+					}
+					
 					super.process.onTransform(etlData);
 
 					String outputKey = this.process.getOutputKey(etlData);

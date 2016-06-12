@@ -35,9 +35,7 @@ public class ETLException extends AbstractException implements Serializable{
 	public final static String KPI_XML_ERROR = SOURCE + "014";
 
 	public final static String NULL_FIELD_NAMES = OUTPUT + "001";
-
 	public final static String FILTER_ACCEPT = FILTER + "001";
-	
 	public final static String DATE_FORMAT = FUNCTION + "001";
 	public final static String LONG_TO_IP = FUNCTION + "002";
 	public final static String STRING_TO_ASCII = FUNCTION + "003";

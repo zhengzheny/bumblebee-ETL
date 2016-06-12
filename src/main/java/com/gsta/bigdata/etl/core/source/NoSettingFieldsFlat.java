@@ -63,23 +63,31 @@ public class NoSettingFieldsFlat extends SimpleFlat {
 		super.initAttrs(element);
 
 		this.fieldNum = super.getAttr(ATTR_FIELD_NUM);
-		this.nums = Integer.parseInt(StringUtils.getNumbers(this.fieldNum));
-		String str = StringUtils.getNotNumbers(this.fieldNum).trim();
-		switch (str) {
-		case "gt":
-			this.operator = GT;
-			break;
-		case "lt":
-			this.operator = LT;
-			break;
-		case "ge":
-			this.operator = GE;
-			break;
-		case "le":
-			this.operator = LE;
-			break;
-		default:
-			this.operator = EQ;
+		if(this.fieldNum == null || "".equals(this.fieldNum)){
+			return;
+		}
+		
+		try {
+			this.nums = Integer.parseInt(StringUtils.getNumbers(this.fieldNum));
+			String str = StringUtils.getNotNumbers(this.fieldNum).trim();
+			switch (str) {
+			case "gt":
+				this.operator = GT;
+				break;
+			case "lt":
+				this.operator = LT;
+				break;
+			case "ge":
+				this.operator = GE;
+				break;
+			case "le":
+				this.operator = LE;
+				break;
+			default:
+				this.operator = EQ;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

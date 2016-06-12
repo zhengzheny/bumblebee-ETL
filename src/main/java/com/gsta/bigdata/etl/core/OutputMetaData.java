@@ -33,6 +33,8 @@ public class OutputMetaData extends AbstractETLObject {
 	@JsonProperty
 	private String fileSuffix;
 	@JsonProperty
+	private String filePrefix;
+	@JsonProperty
 	private String valuesDelimiter = "\\|";
 	//protected static final String NotSeeCharDefineInConf = "001";
 	@JsonProperty
@@ -81,6 +83,7 @@ public class OutputMetaData extends AbstractETLObject {
 
 		this.charset = super.getAttr(Constants.ATTR_CHARSET, "utf-8");
 		this.fileSuffix = super.getAttr(Constants.ATTR_FILE_SUFFIX, "txt");
+		this.filePrefix = super.getAttr(Constants.ATTR_FILE_PREFIX, "etl");
 	}
 
 	@Override
@@ -92,13 +95,10 @@ public class OutputMetaData extends AbstractETLObject {
 			try {
 				String delimiter = XmlTools.getNodeAttr(node,
 						Constants.ATTR_DELIMITER);
-				/*this.valuesDelimiter = ContextMgr.getValue(delimiter);
-				// special deal with not see char
-				if (NotSeeCharDefineInConf.equals(this.valuesDelimiter)) {
-					this.valuesDelimiter = "\001";
-				}*/
-				this.valuesDelimiter = StringEscapeUtils
-						.unescapeJava(ContextMgr.getValue(delimiter));
+				delimiter = StringEscapeUtils.unescapeJava(ContextMgr.getValue(delimiter));
+				if(delimiter != null){
+					this.valuesDelimiter = delimiter;
+				}
 			} catch (XPathExpressionException e) {
 				throw new ParseException(e);
 			}
@@ -109,13 +109,10 @@ public class OutputMetaData extends AbstractETLObject {
 			try {
 				String delimiter = XmlTools.getNodeAttr(node,
 						Constants.ATTR_DELIMITER);
-				/*this.keysDelimiter = ContextMgr.getValue(delimiter);
-				// special deal with not see char
-				if (NotSeeCharDefineInConf.equals(this.keysDelimiter)) {
-					this.keysDelimiter = "\001";
-				}*/
-				this.keysDelimiter = StringEscapeUtils.unescapeJava(ContextMgr
-						.getValue(delimiter));
+				delimiter = StringEscapeUtils.unescapeJava(ContextMgr.getValue(delimiter));
+				if(delimiter != null){
+					this.keysDelimiter = delimiter;
+				}
 			} catch (XPathExpressionException e) {
 				throw new ParseException(e);
 			}
@@ -317,6 +314,10 @@ public class OutputMetaData extends AbstractETLObject {
 
 	public String getTopic() {
 		return topic;
+	}
+
+	public String getFilePrefix() {
+		return filePrefix;
 	}
 
 	public String toString() {

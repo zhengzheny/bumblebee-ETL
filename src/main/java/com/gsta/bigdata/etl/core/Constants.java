@@ -50,6 +50,8 @@ public class Constants {
 	public final static String CF_SPARK_DURATION = "duration";
 	public final static String CF_SOURCE_ENCODING = "sourceEncoding";
 	public final static String CF_PRODUCER_POOL_SIZE = "producerPoolSize";
+	public final static String CF_OUTPUT_SOURCE_FILENAME = "output.source.fileName";
+	public final static String CF_REDUCE_OUTPUT_FILE_COUNT = "reduce.output.fileCount";
 	
 	//local file's data source
 	public final static String SOURCE_ZTE_NODEB_XML = ZteENODEBXML.class.getSimpleName();
@@ -128,6 +130,7 @@ public class Constants {
 	public final static String ATTR_LOOKUP_TABLE = "lookupTable";
 	public final static String ATTR_PROPERTY = "property";
 	public final static String ATTR_FILE_SUFFIX = "fileSuffix";
+	public final static String ATTR_FILE_PREFIX = "filePrefix";
 	public final static String ATTR_FILENAME_PATTERN = "fileNamePattern";
 	public final static String ATTR_CHARSET = "charset";
 	public final static String ATTR_DEFAULT_VALUE = "defaultValue";
@@ -164,6 +167,8 @@ public class Constants {
 	public final static String TAG_INPUTPATH = "inputPath";
 	public final static String TAG_WRITELOG = "writeLog";
 	
+	public final static String OUTPUT_FIELD_FILE_NAME = "fileName";
+	
 	//mysql record fields
 	public final static String LOG_RECORD_TABLE_NAME = "tableName";
 	public final static String LOG_RECORD_STAT_DATE = "statDate";
@@ -183,6 +188,7 @@ public class Constants {
 	public final static String HADOOP_OUTPUTFORMAT_CLASS = "outputFormatClass";
 	public final static String HADOOP_OUTPUTKEY_CLASS = "outputKeyClass";
 	public final static String HADOOP_OUTPUTVALUE_CLASS = "outputValueClass";
+	public final static String HADOOP_PARTITIONER_CLASS = "partitionerClass";
 	
 	//public final static String HADOOP_MAP_OUTPUT_COMPRESS_FLAG = "mapreduce.map.output.compress";
 	//public final static String HADOOP_MAP_OUTPUT_COMPRESS_CODEC = "mapreduce.map.output.compress.codec";

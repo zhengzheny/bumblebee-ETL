@@ -5,15 +5,21 @@ public class ZTEMroObj extends HuaweiMroObj{
 	protected String cgi;
 	protected String eNBId;
 	protected String mrObjId;
+	protected String eNBIdName;
+	//if id is null,instead of mrObjId
+	private String compareId;
 	
 	public void setValues(String id, String mmeGroupId, String mmeUeS1apId,
-			String mmeCode, String timeStamp,String eNBId,String mrObjId) {
+			String mmeCode, String timeStamp,String eNBId,String mrObjId,String eNBIdName) {
 		super.setValues(id, mmeGroupId, mmeUeS1apId, mmeCode, timeStamp);
 		this.eNBId = eNBId;
 		this.mrObjId = mrObjId;
-		if(super.id == null){
-			super.id = this.mrObjId;
+		
+		this.compareId = super.id;
+		if(this.compareId == null){
+			this.compareId = this.mrObjId;
 		}
+		this.eNBIdName = eNBIdName;
 	}
 	
 	@Override
@@ -28,7 +34,7 @@ public class ZTEMroObj extends HuaweiMroObj{
 		
 		if(obj.getClass() == ZTEMroObj.class){
 			ZTEMroObj mroObj = (ZTEMroObj)obj;
-			return mroObj.getId().equals(this.id) &&
+			return mroObj.getCompareId().equals(this.compareId) &&
 				   mroObj.getMmeUeS1apId().equals(this.mmeUeS1apId) &&
 				   mroObj.getMmeCode().equals(this.mmeCode) &&
 				   mroObj.getTimeStamp().equals(this.timeStamp);
@@ -56,7 +62,7 @@ public class ZTEMroObj extends HuaweiMroObj{
 	}
 
 	public void computeNodeAndCellAndCgi() {
-		int id = this.getId(super.id);
+		int id = this.parseId(super.id);
 		if (id > 0) {
 			super.eNodeID = String.valueOf(id / 256);
 			super.cellID = String.valueOf(id % 256);
@@ -66,14 +72,14 @@ public class ZTEMroObj extends HuaweiMroObj{
 			super.cellID = this.mrObjId;
 			try {
 				this.cgi = String.valueOf(Integer.parseInt(super.eNodeID) * 256
-						+ this.getId(this.mrObjId));
+						+ this.parseId(this.mrObjId));
 			} catch (NumberFormatException e) {
 				this.cgi = null;
 			}
 		}
 	}
 	
-	private int getId(String id){
+	private int parseId(String id){
 		if(id == null || "".equals(id)){
 			return -1;
 		}
@@ -94,5 +100,21 @@ public class ZTEMroObj extends HuaweiMroObj{
 	
 	public String getCgi() {
 		return cgi;
+	}
+
+	public String geteNBId() {
+		return eNBId;
+	}
+
+	public String getMrObjId() {
+		return mrObjId;
+	}
+
+	public String geteNBIdName() {
+		return eNBIdName;
+	}
+
+	public String getCompareId() {
+		return compareId;
 	}
 }

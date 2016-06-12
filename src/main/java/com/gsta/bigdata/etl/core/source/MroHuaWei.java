@@ -59,12 +59,15 @@ public class MroHuaWei extends AbstractSourceMetaData {
 
 	protected static final String ATTR_STARTTIME = "startTime";
 	protected static final String ATTR_ENDTIME = "endTime";
-	
 	protected static final String ATTR_TIMESTAMP = "TimeStamp";
+	protected static final String ATTR_MR_TIMESTAMP = "MR.TimeStamp";
 	protected static final String ATTR_ID = "id";
 	protected static final String ATTR_MMEGROUPID = "MmeGroupId";
+	protected static final String ATTR_MR_MMEGROUPID = "MR.MmeGroupId";
 	protected static final String ATTR_MMEUES1APID = "MmeUeS1apId";
+	protected static final String ATTR_MR_MMEUES1APID = "MR.MmeUeS1apId";
 	protected static final String ATTR_MMECODE = "MmeCode";
+	protected static final String ATTR_MR_MMECODE = "MR.MmeCode";
 
 	protected static final String TAG_SMR = "smr";
 	protected static final String TAG_V = "v";
@@ -139,11 +142,26 @@ public class MroHuaWei extends AbstractSourceMetaData {
 			this.smrObjs.clear();
 			this.mroObj = new HuaweiMroObj();
 
-			String timeStamp = SourceXmlTool.getAttrValue(line, ATTR_TIMESTAMP).replace("T", " ");
+			String timeStamp = SourceXmlTool.getAttrValue(line, ATTR_TIMESTAMP);
+			if(timeStamp == null){
+				timeStamp = SourceXmlTool.getAttrValue(line, ATTR_MR_TIMESTAMP);
+			}
+			if(timeStamp != null){
+				timeStamp = timeStamp.replace("T", " ");
+			}
 			String id = SourceXmlTool.getAttrValue(line, ATTR_ID).trim();
 			String mmeGroupId = SourceXmlTool.getAttrValue(line,ATTR_MMEGROUPID);
+			if(mmeGroupId == null){
+				mmeGroupId = SourceXmlTool.getAttrValue(line,ATTR_MR_MMEGROUPID);
+			}
 			String mmeUeS1apId = SourceXmlTool.getAttrValue(line,ATTR_MMEUES1APID);
+			if(mmeUeS1apId == null){
+				mmeUeS1apId = SourceXmlTool.getAttrValue(line,ATTR_MR_MMEUES1APID);
+			}
 			String mmeCode = SourceXmlTool.getAttrValue(line, ATTR_MMECODE);
+			if(mmeCode == null){
+				mmeCode = SourceXmlTool.getAttrValue(line, ATTR_MR_MMECODE);
+			}
 			this.mroObj.setValues(id, mmeGroupId, mmeUeS1apId, mmeCode,timeStamp);
 			this.mroObj.computeNodeAndCell();
 		}

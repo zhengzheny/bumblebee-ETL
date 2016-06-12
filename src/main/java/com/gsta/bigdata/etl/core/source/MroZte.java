@@ -1,6 +1,8 @@
 package com.gsta.bigdata.etl.core.source;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +12,7 @@ import org.apache.commons.lang.StringUtils;
 
 import com.gsta.bigdata.etl.ETLException;
 import com.gsta.bigdata.etl.core.ETLData;
+import com.gsta.bigdata.etl.core.source.mro.SMRObj;
 import com.gsta.bigdata.etl.core.source.mro.ZTEMroObj;
 import com.gsta.bigdata.etl.core.source.mro.ZTEMroObj_1;
 import com.gsta.bigdata.utils.SourceXmlTool;
@@ -83,12 +86,14 @@ public class MroZte extends MroHuaWei {
 	private ZTEMroObj mroObj;
 	private ZTEMroObj_1 mroObj_1;
 	//key=object cig+timestamp,value=v of the same timestamp
-	private Map<String,List<Long>> thirdObjDatas = new HashMap<String,List<Long>>();
+	private Map<String,List<Float>> thirdObjDatas = new HashMap<String,List<Float>>();
 	
 	private String eNBId;
+	private String eNBIdName = "";
 	private final static String ATTR_ENBID = "MR.eNBId";
 	private final static String ATTR_MROBJ_ID = "MR.objectId";
 	public final static String KEY_DELIMITER = "&";
+	private DecimalFormat df = new DecimalFormat("#.00");
 	
 	//1-smr include MR.LteScRSRP;2-include MR.LteScPlrULQci1;3-include MR.LteScRIP
 	private int smrType = 0;
@@ -123,7 +128,8 @@ public class MroZte extends MroHuaWei {
 		switch (this.smrType) {
 		case 1:
 			super.computeV(line);
-			if(super.emitData(line,this.mroObj,this.smrType)){
+			//if(super.emitData(line,this.mroObj,this.smrType)){
+			if(this.emitZteData(line, this.smrType)){
 				super.verifyKeyField();
 				int idx = this.etlDataIndex.getAndIncrement();
 				this.objDatas.add(idx, super.etlData);
@@ -133,7 +139,8 @@ public class MroZte extends MroHuaWei {
 			break;
 		case 2:
 			super.computeV(line);
-			if(super.emitData(line,this.mroObj,this.smrType) &&
+			//if(super.emitData(line,this.mroObj,this.smrType) &&
+			if(this.emitZteData(line, this.smrType) &&
 					this.firstSMRIdxs.containsKey(this.mroObj)){
 				//merge one record
 				Integer idx = this.firstSMRIdxs.get(this.mroObj);
@@ -144,37 +151,37 @@ public class MroZte extends MroHuaWei {
 			//only one v line
 			if(line.indexOf("<v>") != -1){
 				String MRLteScRIP = SourceXmlTool.getTagValue(line, TAG_V);
-				Long value;
+				Float value;
 				try{
-					value = Long.parseLong(MRLteScRIP);
+					value = Float.parseFloat(MRLteScRIP);
 				}catch (NumberFormatException e) {
-					value = 0L;
+					value = 0.0F;
 				}
 				String timeStamp = this.mroObj.getTimeStamp();
 				String key = this.mroObj.getCgi() + KEY_DELIMITER + timeStamp;
 				if(this.thirdObjDatas.containsKey(key)){
 					this.thirdObjDatas.get(key).add(value);
 				}else{
-					List<Long> values = new ArrayList<Long>();
+					List<Float> values = new ArrayList<Float>();
 					values.add(value);
 					this.thirdObjDatas.put(key, values);
 				}
 			}
 			//emit all third measurement data
 			if(line.indexOf("</measurement>") != -1){
-				for(Map.Entry<String, List<Long>> entry:this.thirdObjDatas.entrySet()){
+				for(Map.Entry<String, List<Float>> entry:this.thirdObjDatas.entrySet()){
 					String key = entry.getKey();
-					List<Long> values = entry.getValue();
-					long sum = 0;
-					for(Long v:values){
-						sum += v.longValue();
+					List<Float> values = entry.getValue();
+					Float sum = 0.0F;
+					for(Float v:values){
+						sum += v.floatValue();
 					}
-					long average = sum / values.size();
+					Float average = sum / values.size();
 					ZTEMroObj_1 zteMroObj1 = new ZTEMroObj_1(key);
 					if (this.thirdSMRIdxs.containsKey(zteMroObj1)) {
 						Integer idx = this.thirdSMRIdxs.get(zteMroObj1);
 						this.objDatas.get(idx.intValue()).addData(
-								super.smrs.get(0), String.valueOf(average));
+								super.smrs.get(0), df.format(average));
 					}
 				}//end for
 			}
@@ -192,7 +199,53 @@ public class MroZte extends MroHuaWei {
 		
 		return null;
 	}
-	
+
+	@SuppressWarnings("static-access")
+	private boolean emitZteData(String line, int type) throws ETLException {
+		if (line == null || "".equals(line)) {
+			return false;
+		}
+		
+		if(super.etlData == null){
+			throw new ETLException("ETLData obj is null.");
+		}
+		
+		// emit data
+		if (line.indexOf("</object>") != -1) {
+			//add for print eNBid,ObjId,MrObjId,only for debug
+			super.etlData.addData("eNBId",this.mroObj.geteNBId());
+			super.etlData.addData("objId", this.mroObj.getId());
+			super.etlData.addData(ATTR_MROBJ_ID, this.mroObj.getMrObjId());
+			super.etlData.addData("eNBIdField", this.mroObj.geteNBIdName());
+			
+			super.etlData.addData(FIELD_STARTTIME, super.startTime);
+			super.etlData.addData(FIELD_ENDTIME, super.endTime);
+
+			super.etlData.addData(FIELD_TIMESTAMP, this.mroObj.getTimeStamp());
+			super.etlData.addData(FIELD_ENODEBID, this.mroObj.geteNodeID());
+			super.etlData.addData(FIELD_CELLID, this.mroObj.getCellID());
+			super.etlData.addData(FIELD_MMEGROUPID, this.mroObj.getMmeGroupId());
+			super.etlData.addData(FIELD_MMEUES1APID,this.mroObj.getMmeUeS1apId());
+			super.etlData.addData(FIELD_MMECODE, this.mroObj.getMmeCode());
+
+			if(type == 1){
+				Collections.sort(super.smrObjs);
+				for (int i = 0; i < super.smrObjs.size(); i++) {
+					SMRObj smrObj = super.smrObjs.get(i);
+					int j = i + 1;
+					super.etlData.addData(smrObj.FIELD_MR_LteNcEarfcn + j,smrObj.getMR_LteNcEarfcn());
+					super.etlData.addData(smrObj.FIELD_MR_LteNcPci + j,smrObj.getMR_LteNcPci());
+					super.etlData.addData(smrObj.FIELD_MR_LteNcRSRP + j,smrObj.getMR_LteNcRSRP());
+					super.etlData.addData(smrObj.FIELD_MR_LteNcRSRQ + j,smrObj.getMR_LteNcRSRQ());
+				}
+			}
+			
+			return true;
+		}
+		
+		return false;
+	}
+
 	private void computeENBId(String line){
 		if (line == null || "".equals(line)) {
 			return;
@@ -200,6 +253,14 @@ public class MroZte extends MroHuaWei {
 
 		if (line.indexOf("<eNB") != -1) {
 			this.eNBId = SourceXmlTool.getAttrValue(line, ATTR_ENBID);
+			if(this.eNBId == null){
+				this.eNBId = SourceXmlTool.getAttrValue(line,ATTR_ID);
+				if(this.eNBId != null){
+					this.eNBIdName = ATTR_ID;
+				}
+			}else{
+				this.eNBIdName = ATTR_ENBID;
+			}
 		}
 	}
 	
@@ -239,15 +300,27 @@ public class MroZte extends MroHuaWei {
 			this.mroObj = new ZTEMroObj();
 
 			String timeStamp = SourceXmlTool.getAttrValue(line, ATTR_TIMESTAMP);
+			if(timeStamp == null){
+				timeStamp = SourceXmlTool.getAttrValue(line, ATTR_MR_TIMESTAMP);
+			}
 			if(timeStamp != null){
 				timeStamp = timeStamp.replace("T", " ");
 			}
 			String id = SourceXmlTool.getAttrValue(line, ATTR_ID);
 			String mmeGroupId = SourceXmlTool.getAttrValue(line,ATTR_MMEGROUPID);
+			if(mmeGroupId == null){
+				mmeGroupId = SourceXmlTool.getAttrValue(line,ATTR_MR_MMEGROUPID);
+			}
 			String mmeUeS1apId = SourceXmlTool.getAttrValue(line,ATTR_MMEUES1APID);
+			if(mmeUeS1apId == null){
+				mmeUeS1apId = SourceXmlTool.getAttrValue(line,ATTR_MR_MMEUES1APID);
+			}
 			String mmeCode = SourceXmlTool.getAttrValue(line, ATTR_MMECODE);
+			if(mmeCode == null){
+				mmeCode = SourceXmlTool.getAttrValue(line, ATTR_MR_MMECODE);
+			}
 			String mrObjId = SourceXmlTool.getAttrValue(line, ATTR_MROBJ_ID);
-			this.mroObj.setValues(id, mmeGroupId, mmeUeS1apId, mmeCode,timeStamp,eNBId,mrObjId);
+			this.mroObj.setValues(id, mmeGroupId, mmeUeS1apId, mmeCode,timeStamp,eNBId,mrObjId,eNBIdName);
 			this.mroObj.computeNodeAndCellAndCgi();
 			
 			this.mroObj_1 = new ZTEMroObj_1(this.mroObj);

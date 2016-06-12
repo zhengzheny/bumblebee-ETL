@@ -10,6 +10,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
+import org.apache.hadoop.mapreduce.lib.input.FileSplit;
 import org.apache.hadoop.mapreduce.lib.output.MultipleOutputs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,6 +58,8 @@ public class ETLMapper extends Mapper<Object, Text, Text, Text> {
 	protected String errorPath;
 	protected String outputPath;
 	protected String encoding;
+	protected String sourceFileName;
+	protected boolean outputSourceFileName = false;
 	
 	@Override
 	protected void setup(Mapper<Object, Text, Text, Text>.Context context)
@@ -93,6 +96,11 @@ public class ETLMapper extends Mapper<Object, Text, Text, Text> {
 		}
 		
 		this.encoding = process.getConf(Constants.CF_SOURCE_ENCODING);
+		this.sourceFileName = ((FileSplit) context.getInputSplit()).getPath().getName();
+		String temp = process.getConf(Constants.CF_OUTPUT_SOURCE_FILENAME,"false");
+		if ("true".equals(temp)) {
+			this.outputSourceFileName = true;
+		}
 	}
 	
 	/**
@@ -130,6 +138,10 @@ public class ETLMapper extends Mapper<Object, Text, Text, Text> {
 		ETLData data = null;
 		try {
 			data = this.process.parseLine(value.toString(), this.invalidRecords);
+			//add filename to output if you need
+			if (this.outputSourceFileName) {
+				data.addData(Constants.OUTPUT_FIELD_FILE_NAME, this.sourceFileName);
+			}
 		} catch (ETLException e) {
 			logger.error("dataline=" + value.toString() + ",error:" + e.getMessage());
 

@@ -2,9 +2,15 @@
 <etl>
 	<process id="mro-huawei2016">
 		<computingFrameworkConfigs>
-			<property key="outputFormatClass"
+			<!-- property key="outputFormatClass"
 				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat"/>
-			<property key="mapred.reduce.tasks" value="0"/>
+			<property key="mapred.reduce.tasks" value="0"/-->
+			<property key="partitionerClass" 
+				value="com.gsta.bigdata.etl.mapreduce.ETLHashPartition"/>
+			<property key="reducerClass"
+                value="com.gsta.bigdata.etl.mapreduce.ZTEOutputReducer" />
+			<property key="mapred.reduce.tasks" value="${taskNum}"/>
+			<property key="reduce.output.fileCount" value="${fileCount}"/>
 		</computingFrameworkConfigs>
 		<sourceMetaData type="MroHuaWei" >
 			<paths>
@@ -15,7 +21,10 @@
 				<field id="MR_LteScRSRQ" masterKey="yes"/>
 			</fields>
 		</sourceMetaData>
-		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
+		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}" filePrefix="mrdata">
+			<keys>
+				<field id="ENODEID" />
+			</keys>
 			<values delimiter="|">
 				<field id="startTime" />
 				<field id="endTime" />
