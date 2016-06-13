@@ -120,35 +120,35 @@ public class NoSettingFieldsFlat extends SimpleFlat {
 				}
 				break;
 			case GT:
-				if (this.nums <= datas.length) {
+				if (datas.length <= this.nums) {
 					throw new ETLException(ETLException.DATA_NOT_EQUAL_DEFINITION,
 							"source definition fieldNum must greater than "
 									+ nums + ",but source " + line
-									+ " record count=" + datas.length);
+									+ ",record count=" + datas.length);
 				}
 				break;
 			case LT:
-				if (this.nums >= datas.length) {
+				if (datas.length >= this.nums) {
 					throw new ETLException(ETLException.DATA_NOT_EQUAL_DEFINITION,
 							"source definition fieldNum must less than "
 									+ nums + ",but source " + line
-									+ " record count=" + datas.length);
+									+ ",record count=" + datas.length);
 				}
 				break;
 			case GE:
-				if (this.nums < datas.length) {
+				if (datas.length < this.nums) {
 					throw new ETLException(ETLException.DATA_NOT_EQUAL_DEFINITION,
 							"source definition fieldNum must greater and equal than "
 									+ nums + ",but source " + line
-									+ " record count=" + datas.length);
+									+ ",record count=" + datas.length);
 				}
 				break;
 			case LE:
-				if (this.nums > datas.length) {
+				if (datas.length > this.nums) {
 					throw new ETLException(ETLException.DATA_NOT_EQUAL_DEFINITION,
 							"source definition fieldNum must less and equal than "
 									+ nums + ",but source " + line
-									+ " record count=" + datas.length);
+									+ ",record count=" + datas.length);
 				}
 				break;
 			}

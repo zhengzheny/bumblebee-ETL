@@ -60,8 +60,11 @@ public class IsHoliday extends AbstractFunction {
 	 * @return
 	 */
 	private String isHoliday(String strDate) {
+		if(strDate == null || "".equals(strDate)){
+			return null;
+		}
+			
 		String result = null;
-
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat(this.formatter);
 			

@@ -46,7 +46,7 @@ public class SimpleDPI extends AbstractSourceMetaData {
 		}
 		
 		if (data.length != super.getFields().size()) {
-			throw new ETLException(ETLException.DATA_NOT_EQUAL_DEFINITION,"data " + line + " record count="
+			throw new ETLException(ETLException.DATA_NOT_EQUAL_DEFINITION,"data " + line + " £¬record count="
 					+ data.length + ",but source definition field count="
 					+ super.getFields().size());
 		}

@@ -107,5 +107,9 @@ public class ZTEOutputReducer extends Reducer<Text, Text, Text, Text> {
 			}
 		int x = 853906 /50 % 10;
 		System.out.println("idx=" + x);
+		
+		String s = "1|1|02004480325@163.gd|79200|2016-05-31 01:59:59.000|2016-05-31 23:59:59.000|3678251096|5480047602|";
+		String deli = "\\|";
+		System.out.println(s.split(deli,-1).length);
 	}
 }

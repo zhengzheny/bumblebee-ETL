@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -38,8 +37,7 @@ public class SimpleFlat extends AbstractSourceMetaData {
 	@Override
 	protected void initAttrs(Element element) throws ParseException {
 		super.initAttrs(element);
-		this.delimiter = StringEscapeUtils.unescapeJava(super
-				.getAttr(Constants.ATTR_DELIMITER));
+		this.delimiter =super.getAttr(Constants.ATTR_DELIMITER);
 	}
 
 	@Override
@@ -78,7 +76,7 @@ public class SimpleFlat extends AbstractSourceMetaData {
 		}
 		
 		if (data.length != super.getFields().size()) {
-			throw new ETLException(ETLException.DATA_NOT_EQUAL_DEFINITION,"data " + line + " record count="
+			throw new ETLException(ETLException.DATA_NOT_EQUAL_DEFINITION,"data " + line + " £¬record count="
 					+ data.length + ",but source definition field count="
 					+ super.getFields().size());
 		}
