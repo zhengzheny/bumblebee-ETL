@@ -39,7 +39,7 @@ public class ETLRunner {
 	 * @param processId
 	 * @return
 	 */
-	private Element getProcessNode(String configFile, String processId) {
+	public Element getProcessNode(String configFile, String processId) {
 		Preconditions.checkNotNull(configFile, "configFile is null.");
 
 		InputStream inputStream = null;

@@ -1,0 +1,278 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<process id="hw-pdcpflow">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" />
+			<property key="sourceEncoding" value="GBK" />
+			<property key="mapred.reduce.tasks" value="0" />
+		</computingFrameworkConfigs>
+		<sourceMetaData type="KpiXML">
+			<paths>
+				<inputPath path="${inputPath}" />
+			</paths>
+			<fields>
+				<field id="ENODEB_NMAE" desc="eNodeB名称" />
+				<field id="LOCACELLID" desc="本地小区标识" />
+				<field id="CELLID_NAME" desc="小区名称" />
+				<field id="ENODEB_ID" desc="eNodeB标识" />
+				<field id="CELDUPLEXMODE" desc="小区双工模式" />
+				<field id="PDCP_SRB_SEND_TOT" desc="PDCP层小区级的SRB上成功发送信令的SDU比特总量" />
+				<field id="PDCP_SRB_REC_TOT" desc="PDCP层小区级的SRB上成功接收信令的SDU比特总量" />
+				<field id="PDCP_QCI1_UL_TOT" desc="QCI为1的业务PDCP上行总吞吐量" />
+				<field id="PDCP_QCI1_DL_TOT" desc="QCI为1的业务PDCP下行总吞吐量" />
+				<field id="PDCP_QCI1_DL_PERIOD" desc="QCI为1的业务PDCP发送下行数据的时长" />
+				<field id="PDCP_QCI1_UL_MAX" desc="QCI为1的业务PDCP层上行最大总吞吐量" />
+				<field id="PDCP_QCI1_DL_MAX" desc="QCI为1的业务PDCP层下行最大总吞吐量" />
+				<field id="PDCP_QCI1_UL_PERIOD" desc="QCI为1的业务PDCP接收上行数据的时长" />
+				<field id="PDCP_QCI2_UL_TOT" desc="QCI为2的业务PDCP上行总吞吐量" />
+				<field id="PDCP_QCI2_DL_TOT" desc="QCI为2的业务PDCP下行总吞吐量" />
+				<field id="PDCP_QCI2_DL_PERIOD" desc="QCI为2的业务PDCP发送下行数据的时长" />
+				<field id="PDCP_QCI2_UL_MAX" desc="QCI为2的业务PDCP层上行最大总吞吐量" />
+				<field id="PDCP_QCI2_DL_MAX" desc="QCI为2的业务PDCP层下行最大总吞吐量" />
+				<field id="PDCP_QCI2_UL_PERIOD" desc="QCI为2的业务PDCP接收上行数据的时长" />
+				<field id="PDCP_QCI3_UL_TOT" desc="QCI为3的业务PDCP上行总吞吐量" />
+				<field id="PDCP_QCI3_DL_TOT" desc="QCI为3的业务PDCP下行总吞吐量" />
+				<field id="PDCP_QCI3_DL_PERIOD" desc="QCI为3的业务PDCP发送下行数据的时长" />
+				<field id="PDCP_QCI3_UL_MAX" desc="QCI为3的业务PDCP层上行最大总吞吐量" />
+				<field id="PDCP_QCI3_DL_MAX" desc="QCI为3的业务PDCP层下行最大总吞吐量" />
+				<field id="PDCP_QCI3_UL_PERIOD" desc="QCI为3的业务PDCP接收上行数据的时长" />
+				<field id="PDCP_QCI4_UL_TOT" desc="QCI为4的业务PDCP上行总吞吐量" />
+				<field id="PDCP_QCI4_DL_TOT" desc="QCI为4的业务PDCP下行总吞吐量" />
+				<field id="PDCP_QCI4_DL_PERIOD" desc="QCI为4的业务PDCP发送下行数据的时长" />
+				<field id="PDCP_QCI4_UL_MAX" desc="QCI为4的业务PDCP层上行最大总吞吐量" />
+				<field id="PDCP_QCI4_DL_MAX" desc="QCI为4的业务PDCP层下行最大总吞吐量" />
+				<field id="PDCP_QCI4_UL_PERIOD" desc="QCI为4的业务PDCP接收上行数据的时长" />
+				<field id="PDCP_QCI5_UL_TOT" desc="QCI为5的业务PDCP上行总吞吐量" />
+				<field id="PDCP_QCI5_DL_TOT" desc="QCI为5的业务PDCP下行总吞吐量" />
+				<field id="PDCP_QCI5_DL_PERIOD" desc="QCI为5的业务PDCP发送下行数据的时长" />
+				<field id="PDCP_QCI5_UL_MAX" desc="QCI为5的业务PDCP层上行最大总吞吐量" />
+				<field id="PDCP_QCI5_DL_MAX" desc="QCI为5的业务PDCP层下行最大总吞吐量" />
+				<field id="PDCP_QCI5_UL_PERIOD" desc="QCI为5的业务PDCP接收上行数据的时长" />
+				<field id="PDCP_QCI6_UL_TOT" desc="QCI为6的业务PDCP上行总吞吐量" />
+				<field id="PDCP_QCI6_DL_TOT" desc="QCI为6的业务PDCP下行总吞吐量" />
+				<field id="PDCP_QCI6_DL_PERIOD" desc="QCI为6的业务PDCP发送下行数据的时长" />
+				<field id="PDCP_QCI6_UL_MAX" desc="QCI为6的业务PDCP层上行最大总吞吐量" />
+				<field id="PDCP_QCI6_DL_MAX" desc="QCI为6的业务PDCP层下行最大总吞吐量" />
+				<field id="PDCP_QCI6_UL_PERIOD" desc="QCI为6的业务PDCP接收上行数据的时长" />
+				<field id="PDCP_QCI7_UL_TOT" desc="QCI为7的业务PDCP上行总吞吐量" />
+				<field id="PDCP_QCI7_DL_TOT" desc="QCI为7的业务PDCP下行总吞吐量" />
+				<field id="PDCP_QCI7_DL_PERIOD" desc="QCI为7的业务PDCP发送下行数据的时长" />
+				<field id="PDCP_QCI7_UL_MAX" desc="QCI为7的业务PDCP层上行最大总吞吐量" />
+				<field id="PDCP_QCI7_DL_MAX" desc="QCI为7的业务PDCP层下行最大总吞吐量" />
+				<field id="PDCP_QCI7_UL_PERIOD" desc="QCI为7的业务PDCP接收上行数据的时长" />
+				<field id="PDCP_QCI8_UL_TOT" desc="QCI为8的业务PDCP上行总吞吐量" />
+				<field id="PDCP_QCI8_DL_TOT" desc="QCI为8的业务PDCP下行总吞吐量" />
+				<field id="PDCP_QCI8_DL_PERIOD" desc="QCI为8的业务PDCP发送下行数据的时长" />
+				<field id="PDCP_QCI8_UL_MAX" desc="QCI为8的业务PDCP层上行最大总吞吐量" />
+				<field id="PDCP_QCI8_DL_MAX" desc="QCI为8的业务PDCP层下行最大总吞吐量" />
+				<field id="PDCP_QCI8_UL_PERIOD" desc="QCI为8的业务PDCP接收上行数据的时长" />
+				<field id="PDCP_QCI9_UL_TOT" desc="QCI为9的业务PDCP上行总吞吐量" />
+				<field id="PDCP_QCI9_DL_TOT" desc="QCI为9的业务PDCP下行总吞吐量" />
+				<field id="PDCP_QCI9_DL_PERIOD" desc="QCI为9的业务PDCP发送下行数据的时长" />
+				<field id="PDCP_QCI9_UL_MAX" desc="QCI为9的业务PDCP层上行最大总吞吐量" />
+				<field id="PDCP_QCI9_DL_MAX" desc="QCI为9的业务PDCP层下行最大总吞吐量" />
+				<field id="PDCP_QCI9_UL_PERIOD" desc="QCI为9的业务PDCP接收上行数据的时长" />
+				<field id="SFN_UL_TOT" desc="SFN小区上行独立调度用户的上行总吞吐量" />
+				<field id="SFN_DL_TOT" desc="SFN小区下行独立调度用户的下行总吞吐量" />
+				<field id="PDCP_SMALL_UL_TOT" desc="上行小包调度的PDCP吞吐量" />
+				<field id="QCI1_LAST_PDCP_TOT" desc="使QCI为1的业务缓存为空的最后一个TTI所传的下行PDCP吞吐量" />
+				<field id="QCI2_LAST_PDCP_TOT" desc="使QCI为2的业务缓存为空的最后一个TTI所传的下行PDCP吞吐量" />
+				<field id="QCI3_LAST_PDCP_TOT" desc="使QCI为3的业务缓存为空的最后一个TTI所传的下行PDCP吞吐量" />
+				<field id="QCI4_LAST_PDCP_TOT" desc="使QCI为4的业务缓存为空的最后一个TTI所传的下行PDCP吞吐量" />
+				<field id="QCI5_LAST_PDCP_TOT" desc="使QCI为5的业务缓存为空的最后一个TTI所传的下行PDCP吞吐量" />
+				<field id="QCI6_LAST_PDCP_TOT" desc="使QCI为6的业务缓存为空的最后一个TTI所传的下行PDCP吞吐量" />
+				<field id="QCI7_LAST_PDCP_TOT" desc="使QCI为7的业务缓存为空的最后一个TTI所传的下行PDCP吞吐量" />
+				<field id="QCI8_LAST_PDCP_TOT" desc="使QCI为8的业务缓存为空的最后一个TTI所传的下行PDCP吞吐量" />
+				<field id="QCI9_LAST_PDCP_TOT" desc="使QCI为9的业务缓存为空的最后一个TTI所传的下行PDCP吞吐量" />
+				<field id="PDCP_LAST_UL_TOT" desc="使UE缓存为空的最后一个TTI所传的上行PDCP吞吐量" />
+				<field id="PDCP_LAST_DL_TOT" desc="使缓存为空的最后一个TTI所传的下行PDCP吞吐量" />
+				<field id="PDCP_DL_PERIOD" desc="小区PDCP发送下行数据的总时长" />
+				<field id="PDCP_CA_DL_PERIOD" desc="小区PDCP层CA激活用户发送下行数据的总时长" />
+				<field id="PDCP_CA_DL_TOT" desc="小区PDCP层CA激活用户所发送的下行数据的总吞吐量" />
+				<field id="PDCP_DL_SEND_TOT" desc="小区PDCP层所发送的下行数据的总吞吐量" />
+				<field id="PDCP_DL_SEND_BYTOT" desc="小区PDCP层所发送的下行边缘用户数据的总吞吐量" />
+				<field id="PDCP_DL_SEND_BYPERIOD" desc="小区PDCP层所发送的下行边缘用户数据的总时长" />
+				<field id="PDCP_DL_REC_TOT" desc="小区PDCP层所接收到的上行数据的总吞吐量" />
+				<field id="PDCP_UL_REC_BYTOT" desc="小区PDCP层所接收到的上行边缘用户数据的总吞吐量" />
+				<field id="PDCP_UL_REC_BYPERIOD" desc="小区PDCP层所接收到的上行边缘用户数据的总时长" />
+				<field id="PDCP_UL_PERIOD" desc="小区PDCP接收上行数据的总时长" />
+				<field id="QCI1_DATA_TOTPERIOD" desc="小区QCI为1的业务有数据传输总时长" />
+				<field id="QCI1_DATA_TOTPER_100" desc="小区QCI为1的业务有数据传输总时长(100ms精度)" />
+				<field id="QCI2_DATA_TOTPERIOD" desc="小区QCI为2的业务有数据传输总时长" />
+				<field id="QCI2_DATA_TOTPER_100" desc="小区QCI为2的业务有数据传输总时长(100ms精度)" />
+				<field id="QCI3_DATA_TOTPERIOD" desc="小区QCI为3的业务有数据传输总时长" />
+				<field id="QCI3_DATA_TOTPER_100" desc="小区QCI为3的业务有数据传输总时长(100ms精度)" />
+				<field id="QCI4_DATA_TOTPERIOD" desc="小区QCI为4的业务有数据传输总时长" />
+				<field id="QCI4_DATA_TOTPER_100" desc="小区QCI为4的业务有数据传输总时长(100ms精度)" />
+				<field id="QCI5_DATA_TOTPERIOD" desc="小区QCI为5的业务有数据传输总时长" />
+				<field id="QCI5_DATA_TOTPER_100" desc="小区QCI为5的业务有数据传输总时长(100ms精度)" />
+				<field id="QCI6_DATA_TOTPERIOD" desc="小区QCI为6的业务有数据传输总时长" />
+				<field id="QCI6_DATA_TOTPER_100" desc="小区QCI为6的业务有数据传输总时长(100ms精度)" />
+				<field id="QCI7_DATA_TOTPERIOD" desc="小区QCI为7的业务有数据传输总时长" />
+				<field id="QCI7_DATA_TOTPER_100" desc="小区QCI为7的业务有数据传输总时长(100ms精度)" />
+				<field id="QCI8_DATA_TOTPERIOD" desc="小区QCI为8的业务有数据传输总时长" />
+				<field id="QCI8_DATA_TOTPER_100" desc="小区QCI为8的业务有数据传输总时长(100ms精度)" />
+				<field id="QCI9_DATA_TOTPERIOD" desc="小区QCI为9的业务有数据传输总时长" />
+				<field id="QCI9_DATA_TOTPER_100" desc="小区QCI为9的业务有数据传输总时长(100ms精度)" />
+				<field id="UE_DATA_TOTPERIOD" desc="小区UE有数据传输总时长" />
+				<field id="UE_DATA_TOTPERIOD_100" desc="小区UE有数据传输总时长(100ms精度)" />
+				<field id="DATA_UL_TOT_PERIOD" desc="小区上行有数据传输总时长" />
+				<field id="DATA_UL_TOT_PERIOD_1" desc="小区上行有数据传输总时长(1ms精度)" />
+				<field id="DATA_DL_TOT_PERIOD" desc="小区下行有数据传输总时长" />
+				<field id="DATA_DL_TOT_PERIOD_1" desc="小区下行有数据传输总时长(1ms精度)" />
+				<field id="DATA_TOT_PERIOD_100" desc="小区业务有数据传输总时长(100ms精度)" />
+				<field id="ALL_PDCP_UL_MAXTOT" desc="所有业务PDCP层上行最大总吞吐量" />
+				<field id="ALL_PDCP_DL_MAXTOT" desc="所有业务PDCP层下行最大总吞吐量" />
+				<field id="QCI1_DL_TTI_PEROID" desc="扣除使QCI为1的下行缓存为空的最后一个TTI之后的数传时长" />
+				<field id="QCI2_DL_TTI_PEROID" desc="扣除使QCI为2的下行缓存为空的最后一个TTI之后的数传时长" />
+				<field id="QCI3_DL_TTI_PEROID" desc="扣除使QCI为3的下行缓存为空的最后一个TTI之后的数传时长" />
+				<field id="QCI4_DL_TTI_PEROID" desc="扣除使QCI为4的下行缓存为空的最后一个TTI之后的数传时长" />
+				<field id="QCI5_DL_TTI_PEROID" desc="扣除使QCI为5的下行缓存为空的最后一个TTI之后的数传时长" />
+				<field id="QCI6_DL_TTI_PEROID" desc="扣除使QCI为6的下行缓存为空的最后一个TTI之后的数传时长" />
+				<field id="QCI7_DL_TTI_PEROID" desc="扣除使QCI为7的下行缓存为空的最后一个TTI之后的数传时长" />
+				<field id="QCI8_DL_TTI_PEROID" desc="扣除使QCI为8的下行缓存为空的最后一个TTI之后的数传时长" />
+				<field id="QCI9_DL_TTI_PEROID" desc="扣除使QCI为9的下行缓存为空的最后一个TTI之后的数传时长" />
+				<field id="UE_LAST_TTI_UL_PER" desc="扣除使UE缓存为空的最后一个TTI之后的上行数传时长" />
+				<field id="UE_LAST_TTI_DL_PER" desc="扣除使下行缓存为空的最后一个TTI之后的数传时长" />
+				<field id="SMALL_UL_PER" desc="扣除小包调度之后的上行数传时长" />
+				<field id="EXC_LAST_DL_PER" desc="扣除特定Last TTI小包的调度之后的上行数传时长" />
+				<field id="LAST_TTI_PDCP_TOT" desc="特定Last TTI小包的调度所传的上行PDCP吞吐量" />
+			</fields>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
+			<values delimiter="|">
+				<field id="STAT_TIME" />
+				<field id="STAT_PERIOD" />
+				<field id="ENODEB_NMAE" />
+				<field id="LOCACELLID" />
+				<field id="CELLID_NAME" />
+				<field id="ENODEB_ID" />
+				<field id="CELDUPLEXMODE" />
+				<field id="PDCP_SRB_SEND_TOT" />
+				<field id="PDCP_SRB_REC_TOT" />
+				<field id="PDCP_QCI1_UL_TOT" />
+				<field id="PDCP_QCI1_DL_TOT" />
+				<field id="PDCP_QCI1_DL_PERIOD" />
+				<field id="PDCP_QCI1_UL_MAX" />
+				<field id="PDCP_QCI1_DL_MAX" />
+				<field id="PDCP_QCI1_UL_PERIOD" />
+				<field id="PDCP_QCI2_UL_TOT" />
+				<field id="PDCP_QCI2_DL_TOT" />
+				<field id="PDCP_QCI2_DL_PERIOD" />
+				<field id="PDCP_QCI2_UL_MAX" />
+				<field id="PDCP_QCI2_DL_MAX" />
+				<field id="PDCP_QCI2_UL_PERIOD" />
+				<field id="PDCP_QCI3_UL_TOT" />
+				<field id="PDCP_QCI3_DL_TOT" />
+				<field id="PDCP_QCI3_DL_PERIOD" />
+				<field id="PDCP_QCI3_UL_MAX" />
+				<field id="PDCP_QCI3_DL_MAX" />
+				<field id="PDCP_QCI3_UL_PERIOD" />
+				<field id="PDCP_QCI4_UL_TOT" />
+				<field id="PDCP_QCI4_DL_TOT" />
+				<field id="PDCP_QCI4_DL_PERIOD" />
+				<field id="PDCP_QCI4_UL_MAX" />
+				<field id="PDCP_QCI4_DL_MAX" />
+				<field id="PDCP_QCI4_UL_PERIOD" />
+				<field id="PDCP_QCI5_UL_TOT" />
+				<field id="PDCP_QCI5_DL_TOT" />
+				<field id="PDCP_QCI5_DL_PERIOD" />
+				<field id="PDCP_QCI5_UL_MAX" />
+				<field id="PDCP_QCI5_DL_MAX" />
+				<field id="PDCP_QCI5_UL_PERIOD" />
+				<field id="PDCP_QCI6_UL_TOT" />
+				<field id="PDCP_QCI6_DL_TOT" />
+				<field id="PDCP_QCI6_DL_PERIOD" />
+				<field id="PDCP_QCI6_UL_MAX" />
+				<field id="PDCP_QCI6_DL_MAX" />
+				<field id="PDCP_QCI6_UL_PERIOD" />
+				<field id="PDCP_QCI7_UL_TOT" />
+				<field id="PDCP_QCI7_DL_TOT" />
+				<field id="PDCP_QCI7_DL_PERIOD" />
+				<field id="PDCP_QCI7_UL_MAX" />
+				<field id="PDCP_QCI7_DL_MAX" />
+				<field id="PDCP_QCI7_UL_PERIOD" />
+				<field id="PDCP_QCI8_UL_TOT" />
+				<field id="PDCP_QCI8_DL_TOT" />
+				<field id="PDCP_QCI8_DL_PERIOD" />
+				<field id="PDCP_QCI8_UL_MAX" />
+				<field id="PDCP_QCI8_DL_MAX" />
+				<field id="PDCP_QCI8_UL_PERIOD" />
+				<field id="PDCP_QCI9_UL_TOT" />
+				<field id="PDCP_QCI9_DL_TOT" />
+				<field id="PDCP_QCI9_DL_PERIOD" />
+				<field id="PDCP_QCI9_UL_MAX" />
+				<field id="PDCP_QCI9_DL_MAX" />
+				<field id="PDCP_QCI9_UL_PERIOD" />
+				<field id="SFN_UL_TOT" />
+				<field id="SFN_DL_TOT" />
+				<field id="PDCP_SMALL_UL_TOT" />
+				<field id="QCI1_LAST_PDCP_TOT" />
+				<field id="QCI2_LAST_PDCP_TOT" />
+				<field id="QCI3_LAST_PDCP_TOT" />
+				<field id="QCI4_LAST_PDCP_TOT" />
+				<field id="QCI5_LAST_PDCP_TOT" />
+				<field id="QCI6_LAST_PDCP_TOT" />
+				<field id="QCI7_LAST_PDCP_TOT" />
+				<field id="QCI8_LAST_PDCP_TOT" />
+				<field id="QCI9_LAST_PDCP_TOT" />
+				<field id="PDCP_LAST_UL_TOT" />
+				<field id="PDCP_LAST_DL_TOT" />
+				<field id="PDCP_DL_PERIOD" />
+				<field id="PDCP_CA_DL_PERIOD" />
+				<field id="PDCP_CA_DL_TOT" />
+				<field id="PDCP_UL_AVE_SPEED" />
+				<field id="PDCP_DL_AVE_SPEED" />
+				<field id="PDCP_DL_SEND_TOT" />
+				<field id="PDCP_DL_SEND_BYTOT" />
+				<field id="PDCP_DL_SEND_BYPERIOD" />
+				<field id="PDCP_DL_REC_TOT" />
+				<field id="PDCP_UL_REC_BYTOT" />
+				<field id="PDCP_UL_REC_BYPERIOD" />
+				<field id="PDCP_UL_PERIOD" />
+				<field id="QCI1_DATA_TOTPERIOD"/>
+				<field id="QCI1_DATA_TOTPER_100"/>
+				<field id="QCI2_DATA_TOTPERIOD"/>
+				<field id="QCI2_DATA_TOTPER_100"/>
+				<field id="QCI3_DATA_TOTPERIOD"/>
+				<field id="QCI3_DATA_TOTPER_100"/>
+				<field id="QCI4_DATA_TOTPERIOD"/>
+				<field id="QCI4_DATA_TOTPER_100"/>
+				<field id="QCI5_DATA_TOTPERIOD"/>
+				<field id="QCI5_DATA_TOTPER_100"/>
+				<field id="QCI6_DATA_TOTPERIOD"/>
+				<field id="QCI6_DATA_TOTPER_100"/>
+				<field id="QCI7_DATA_TOTPERIOD"/>
+				<field id="QCI7_DATA_TOTPER_100"/>
+				<field id="QCI8_DATA_TOTPERIOD"/>
+				<field id="QCI8_DATA_TOTPER_100"/>
+				<field id="QCI9_DATA_TOTPERIOD"/>
+				<field id="QCI9_DATA_TOTPER_100"/>
+				<field id="UE_DATA_TOTPERIOD" />
+				<field id="UE_DATA_TOTPERIOD_100" />
+				<field id="DATA_UL_TOT_PERIOD" />
+				<field id="DATA_UL_TOT_PERIOD_1" />
+				<field id="DATA_DL_TOT_PERIOD" />
+				<field id="DATA_DL_TOT_PERIOD_1" />
+				<field id="DATA_TOT_PERIOD_100" />
+				<field id="ALL_PDCP_UL_MAXTOT" />
+				<field id="ALL_PDCP_DL_MAXTOT" />
+				<field id="QCI1_DL_TTI_PEROID" />
+				<field id="QCI2_DL_TTI_PEROID" />
+				<field id="QCI3_DL_TTI_PEROID" />
+				<field id="QCI4_DL_TTI_PEROID" />
+				<field id="QCI5_DL_TTI_PEROID" />
+				<field id="QCI6_DL_TTI_PEROID" />
+				<field id="QCI7_DL_TTI_PEROID" />
+				<field id="QCI8_DL_TTI_PEROID" />
+				<field id="QCI9_DL_TTI_PEROID" />
+				<field id="UE_LAST_TTI_UL_PER" />
+				<field id="UE_LAST_TTI_DL_PER" />
+				<field id="SMALL_UL_PER" />
+				<field id="EXC_LAST_DL_PER" />
+				<field id="LAST_TTI_PDCP_TOT" />
+			</values>
+		</outputMetaData>
+	</process>
+</etl>

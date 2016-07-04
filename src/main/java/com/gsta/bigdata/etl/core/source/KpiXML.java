@@ -123,7 +123,8 @@ public class KpiXML extends AbstractSourceMetaData {
 			}
 			
 			//from the second mts begin output value
-			if (line.indexOf(endMv) != -1 && this.mtsCounter.get() >= 2) {
+			//if (line.indexOf(endMv) != -1 && this.mtsCounter.get() >= 2) {
+			if (line.indexOf(endMv) != -1 ) {
 				if (this.mts.size() != this.rs.size()) {
 					throw new ETLException(ETLException.KEYS_NOT_EQUAL_VALUES,"moid:" + this.moid + ",mt size="
 							+ this.mts.size() + ",but r size=" + this.rs.size());
@@ -144,7 +145,7 @@ public class KpiXML extends AbstractSourceMetaData {
 				}
 				
 				//when the source field is not contain the master key,throws exception
-			if (this.masterKeyFieldList.size() > 0) {
+				if (this.masterKeyFieldList.size() > 0) {
 				List<String> tempFieldIds = new ArrayList<String>();
 				tempFieldIds.addAll(this.masterKeyFieldList);
 				tempFieldIds.removeAll(this.mts);

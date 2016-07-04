@@ -2,7 +2,7 @@
 	xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
-	<id>linux</id>
+	<id>flume</id>
 	<includeBaseDirectory>false</includeBaseDirectory>
 	<formats>
 		<format>tar.gz</format>
@@ -12,32 +12,43 @@
 			<directory>${basedir}/src/main/assembly/bin</directory>
 			<outputDirectory>bin/</outputDirectory>
 			<includes>
-				<include>*.sh</include>
+				<include>etl-flume.sh</include>
 			</includes>
 			<fileMode>0755</fileMode>
 		</fileSet>
 		<fileSet>
-			<directory>${basedir}/src/main/resources</directory>
+			<directory>${basedir}/src/main/resources/gdnoce</directory>
 			<outputDirectory>conf/</outputDirectory>
+			<includes>
+				<include>**/flume*.conf</include>
+				<include>**/log4j.properties</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>${basedir}/src/main/resources/gdnoce</directory>
+			<outputDirectory>conf/gdnoce</outputDirectory>
 			<includes>
 				<include>**/*.xml</include>
 				<include>**/*.properties</include>
-				<include>**/*.txt</include>
-				<include>**/*.log</include>
-				<include>**/*.conf</include>
 			</includes>
 			<excludes>
-                <exclude>**/core-site.xml</exclude>
-                <exclude>**/hdfs-site.xml</exclude>
-                <exclude>**/ssl-client.xml</exclude>
+                <exclude>**/flume*.conf</exclude>
+                <exclude>**/log4j.properties</exclude>
             </excludes>
+		</fileSet>
+		<fileSet>
+			<directory>${project.build.directory}/</directory>
+			<outputDirectory>plugins.d/FlumeInterceptor/lib</outputDirectory>
+			<includes>
+				<include>etl-1.0.jar</include>
+			</includes>
 		</fileSet>
 		<!-- include compile source jar -->
 		<fileSet>
-			<directory>${project.build.directory}/</directory>
+			<directory>${basedir}/lib</directory>
 			<outputDirectory>lib/</outputDirectory>
 			<includes>
-				<include>*jar-with-dependencies.jar</include>
+				<include>google*.jar</include>
 			</includes>
 		</fileSet>
 	</fileSets>
