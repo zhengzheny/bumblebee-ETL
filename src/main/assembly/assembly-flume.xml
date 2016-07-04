@@ -17,12 +17,8 @@
 			<fileMode>0755</fileMode>
 		</fileSet>
 		<fileSet>
-			<directory>${basedir}/src/main/resources/gdnoce</directory>
+			<directory>${basedir}/src/main/resources/flume</directory>
 			<outputDirectory>conf/</outputDirectory>
-			<includes>
-				<include>**/flume*.conf</include>
-				<include>**/log4j.properties</include>
-			</includes>
 		</fileSet>
 		<fileSet>
 			<directory>${basedir}/src/main/resources/gdnoce</directory>
@@ -31,10 +27,6 @@
 				<include>**/*.xml</include>
 				<include>**/*.properties</include>
 			</includes>
-			<excludes>
-                <exclude>**/flume*.conf</exclude>
-                <exclude>**/log4j.properties</exclude>
-            </excludes>
 		</fileSet>
 		<fileSet>
 			<directory>${project.build.directory}/</directory>
