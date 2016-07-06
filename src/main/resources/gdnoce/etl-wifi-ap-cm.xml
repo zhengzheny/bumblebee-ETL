@@ -1,0 +1,60 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<process id="wifi-ap-cm">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" />
+			<property key="mapred.reduce.tasks" value="0" />
+		</computingFrameworkConfigs>
+		<sourceMetaData type="SimpleXML">
+			<tagField>apindex,hotpointindex,hotpointname,district,filiale,isfit,acindex,mac,location,manufacturer,type,snno,coverway,aplevel,ipaddress,maskaddress,gateaddress,apuser,appw,upbandwidth,downbandwidth,snmpreadonly,snmpreadwrite,linkno,port,brasid,nasportid,other1,uplinkaccess,aptype,ssid,channel,coverregion,apvlanid</tagField>
+			<segmentField>ApCMData</segmentField>
+			<paths>
+				<inputPath path="${inputPath}" />
+			</paths>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
+			<values delimiter="|">
+				<field id="apindex" />
+				<field id="hotpointindex" />
+				<field id="hotpointname" />
+				<field id="district" />
+				<field id="filiale" />
+				<field id="isfit" />
+				<field id="acindex" />
+				<field id="mac" />
+				<field id="location" />
+				<field id="manufacturer" />
+				<field id="type" />
+				<field id="snno" />
+				<field id="coverway" />
+				<field id="aplevel" />
+				<field id="ipaddress" />
+				<field id="maskaddress" />
+				<field id="gateaddress" />
+				<field id="apuser" />
+				<field id="appw" />
+				<field id="upbandwidth" />
+				<field id="downbandwidth" />
+				<field id="snmpreadonly" />
+				<field id="snmpreadwrite" />
+				<field id="linkno" />
+				<field id="port" />
+				<field id="brasid" />
+				<field id="nasportid" />
+				<field id="other1" />
+				<field id="uplinkaccess" />
+				<field id="aptype" />
+				<field id="ssid" />
+				<field id="channel" />
+				<field id="coverregion" />
+				<field id="apvlanid" />
+			</values>
+		</outputMetaData>
+		<transforms>
+			<transform scope="map">
+				<function name="delCDATA" input="*" />
+			</transform>
+		</transforms>
+	</process>
+</etl>

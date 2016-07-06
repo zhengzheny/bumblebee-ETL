@@ -74,8 +74,8 @@ public class MroHuaWei extends AbstractSourceMetaData {
 
 	protected static final String FIELD_STARTTIME = "startTime";
 	protected static final String FIELD_ENDTIME = "endTime";
-	protected static final String FIELD_TIMESTAMP = "TimeStamp";
-	protected static final String FIELD_ENODEBID = "ENODEID";
+	public static final String FIELD_TIMESTAMP = "TimeStamp";
+	public static final String FIELD_ENODEBID = "ENODEID";
 	protected static final String FIELD_CELLID = "CELLID";
 	protected static final String FIELD_MMEGROUPID = "MmeGroupId";
 	protected static final String FIELD_MMEUES1APID = "MmeUeS1apId";

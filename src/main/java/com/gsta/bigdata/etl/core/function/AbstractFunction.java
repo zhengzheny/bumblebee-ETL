@@ -49,6 +49,7 @@ import com.gsta.bigdata.utils.XmlTools;
 		@JsonSubTypes.Type(value = GetURLClass.class, name = "GetURLClass"),
 		@JsonSubTypes.Type(value = String2HexAscii.class, name = "String2HexAscii"),
 		@JsonSubTypes.Type(value = DelTab.class, name = "DelTab"),
+		@JsonSubTypes.Type(value = DelCDATA.class, name = "DelCDATA"),
 		@JsonSubTypes.Type(value = DIMInfoQuery.class, name = "DIMInfoQuery"),
 		@JsonSubTypes.Type(value = DIMNCQuery.class, name = "DIMNCQuery"),
 		@JsonSubTypes.Type(value = HostQuery.class, name = "HostQuery")})

@@ -51,4 +51,8 @@ public class ETLData implements Serializable{
 		data.clear();
 		fieldNames.clear();
 	}
+	
+	public String toString(){
+		return this.data.toString();
+	}
 }

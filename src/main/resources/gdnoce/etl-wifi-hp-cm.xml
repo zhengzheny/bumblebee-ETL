@@ -1,0 +1,61 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<process id="wifi-hp-cm">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" />
+			<property key="mapred.reduce.tasks" value="0" />
+		</computingFrameworkConfigs>
+		<sourceMetaData type="SimpleXML">
+			<tagField>hotpointindex,filiale,district,hotpointname,address,longitude,latitude,type,wlanregion,apnum,contactname,contacttel,managername,managertel,dealmanname,dealmantel,designunit,consturct,documentno,firstchect,endcheck,typecategories,landmarks,startip,endip,aptype,coverage,status,monday,tuesday,wednesday,thursday,friday,saturday,sunday</tagField>
+			<segmentField>HpCMData</segmentField>
+			<paths>
+				<inputPath path="${inputPath}" />
+			</paths>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
+			<values delimiter="|">
+				<field id="hotpointindex" />
+				<field id="filiale" />
+				<field id="district" />
+				<field id="hotpointname" />
+				<field id="address" />
+				<field id="longitude" />
+				<field id="latitude" />
+				<field id="type" />
+				<field id="wlanregion" />
+				<field id="apnum" />
+				<field id="contactname" />
+				<field id="contacttel" />
+				<field id="managername" />
+				<field id="managertel" />
+				<field id="dealmanname" />
+				<field id="dealmantel" />
+				<field id="designunit" />
+				<field id="consturct" />
+				<field id="documentno" />
+				<field id="firstchect" />
+				<field id="endcheck" />
+				<field id="typecategories" />
+				<field id="landmarks" />
+				<field id="startip" />
+				<field id="endip" />
+				<field id="aptype" />
+				<field id="coverage" />
+				<field id="status" />
+				<field id="monday" />
+				<field id="tuesday" />
+				<field id="wednesday" />
+				<field id="thursday" />
+				<field id="friday" />
+				<field id="saturday" />
+				<field id="sunday" />
+			</values>
+		</outputMetaData>
+		<transforms>
+			<transform scope="map">
+				<function name="delCDATA" input="*" />
+			</transform>
+		</transforms>
+	</process>
+</etl>

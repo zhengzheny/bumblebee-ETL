@@ -1,0 +1,42 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<process id="wifi-ac-cm">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" />
+			<property key="mapred.reduce.tasks" value="0" />
+		</computingFrameworkConfigs>
+		<sourceMetaData type="SimpleXML">
+			<tagField>acindex,hotpointindex,filiale,district,hotpointname,mac,location,manufacturer,type,ipaddress,maskaddress,gateaddress,acuser,acpw,snmpreadonly,snmpreadwrite</tagField>
+			<segmentField>AcCMData</segmentField>
+			<paths>
+				<inputPath path="${inputPath}" />
+			</paths>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
+			<values delimiter="|">
+				<field id="acindex" />
+				<field id="hotpointindex" />
+				<field id="filiale" />
+				<field id="district" />
+				<field id="hotpointname" />
+				<field id="mac" />
+				<field id="location" />
+				<field id="manufacturer" />
+				<field id="type" />
+				<field id="ipaddress" />
+				<field id="maskaddress" />
+				<field id="gateaddress" />
+				<field id="acuser" />
+				<field id="acpw" />
+				<field id="snmpreadonly" />
+				<field id="snmpreadwrite" />
+			</values>
+		</outputMetaData>
+		<transforms>
+			<transform scope="map">
+				<function name="delCDATA" input="*" />
+			</transform>
+		</transforms>
+	</process>
+</etl>
