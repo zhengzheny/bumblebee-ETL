@@ -253,7 +253,7 @@ public class MroHuaWei extends AbstractSourceMetaData {
 
 	@Override
 	public ETLData parseLine(String line, Set<String> invalidRecords)
-			throws ETLException, ValidatorException {
+			throws ETLException, ValidatorException {		
 		this.computeHeader(line);
 		this.computeSmrs(line);
 		this.computeObj(line);

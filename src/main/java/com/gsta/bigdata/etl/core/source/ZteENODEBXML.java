@@ -77,7 +77,7 @@ public class ZteENODEBXML extends AbstractSourceMetaData {
 			this.etlData.clear();
 		}
 
-		if (line.startsWith(beginMeasCollec)) {
+		if (line.trim().startsWith(beginMeasCollec)) {
 			this.beginTime = SourceXmlTool.getAttrValue(line, ATTR_BEGINTIME);
 			if (StringUtils.isNotBlank(this.beginTime)) {
 				try {

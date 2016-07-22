@@ -1,6 +1,5 @@
 package com.gsta.bigdata.etl.core.source.mro;
 
-
 public class ZTEMroObj extends HuaweiMroObj{
 	protected String cgi;
 	protected String eNBId;
@@ -8,6 +7,7 @@ public class ZTEMroObj extends HuaweiMroObj{
 	protected String eNBIdName;
 	//if id is null,instead of mrObjId
 	private String compareId;
+	//private Logger logger = LoggerFactory.getLogger(getClass());
 	
 	public void setValues(String id, String mmeGroupId, String mmeUeS1apId,
 			String mmeCode, String timeStamp,String eNBId,String mrObjId,String eNBIdName) {
@@ -20,6 +20,12 @@ public class ZTEMroObj extends HuaweiMroObj{
 			this.compareId = this.mrObjId;
 		}
 		this.eNBIdName = eNBIdName;
+	}
+	
+	@Override
+	public String toString() {
+		return "cgi=" + cgi + ",eNBId=" + eNBId + ",mrObjId=" + mrObjId
+				+ ",eNBIdName=" + eNBIdName + ",compareId=" + compareId;
 	}
 	
 	@Override

@@ -1,16 +1,20 @@
-package com.gsta.bigdata.etl;
+package com.gsta.bigdata.etl.flume;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.flume.Context;
 import org.apache.flume.Event;
+import org.apache.flume.event.SimpleEvent;
 import org.apache.flume.interceptor.Interceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 
 import com.google.common.collect.Lists;
+import com.gsta.bigdata.etl.ETLRunner;
+import com.gsta.bigdata.etl.core.Constants;
 import com.gsta.bigdata.etl.core.ETLData;
 import com.gsta.bigdata.etl.core.ETLProcess;
 import com.gsta.bigdata.etl.core.source.MroHuaWei;
@@ -23,12 +27,14 @@ import com.gsta.bigdata.etl.core.source.MroHuaWei;
  *
  */
 public class FlumeMROInterceptor implements Interceptor {
-	private Logger logger = LoggerFactory.getLogger(getClass());
+	private static final Logger logger = LoggerFactory.getLogger(FlumeMROInterceptor.class);
 	private String configFile;
 	private String timeStampHeader;
 	private String eNodeIdHeader;
 	private int fileCount;
 	private ETLProcess process = new ETLProcess();
+	//mode=0,single parse;mode=1,multi parse
+	private int mode = 0;
 
 	public FlumeMROInterceptor(String configFile, String timeStampHeader,
 			String eNodeIdHeader,int fileCount) {
@@ -47,7 +53,11 @@ public class FlumeMROInterceptor implements Interceptor {
 			throw new RuntimeException("get null process node...");
 		}
 
-		process.init(processNode);
+		this.process.init(processNode);
+		String mapperClass = this.process.getConf(Constants.HADOOP_MAPPER_CLASS);
+		if(mapperClass != null && mapperClass.contains("MultiETLMapper")){
+			this.mode = 1;
+		}
 	}
 
 	@Override
@@ -81,7 +91,70 @@ public class FlumeMROInterceptor implements Interceptor {
 		return null;
 	}
 	
-	//timeStamp = "2016-06-04 00:00:01.893";
+	private List<Event> multiIntercept(Event event) {
+		if (event == null) {
+			return null;
+		}
+
+		List<Event> retEvents = new ArrayList<Event>();
+		String line = new String(event.getBody());
+		try {
+			List<ETLData> datas = this.process.parseLine(line);
+			if (datas != null) {
+				for (ETLData etlData : datas) {
+					this.process.onTransform(etlData);
+					String output = this.process.getOutputValue(etlData);
+
+					Event tempEvent = new SimpleEvent();
+					tempEvent.setBody(output.getBytes());
+
+					tempEvent.setHeaders(event.getHeaders());
+					Map<String, String> headers = tempEvent.getHeaders();				
+					headers.put(this.timeStampHeader, this.getTimeStamp(etlData
+							.getValue(MroHuaWei.FIELD_TIMESTAMP)));
+					headers.put(this.eNodeIdHeader, this.getEnodeId(etlData
+							.getValue(MroHuaWei.FIELD_ENODEBID)));
+					
+					retEvents.add(tempEvent);
+				}
+			}
+		} catch (Exception e) {
+			logger.error("dataline=" + line + ",error:" + e.getMessage());
+		}
+
+		return retEvents;
+	}
+	
+	@Override
+	public List<Event> intercept(List<Event> events) {
+		List<Event> intercepted = Lists.newArrayListWithCapacity(events.size());
+
+		for (Event event : events) {
+			switch (this.mode) {
+			case 0:
+				Event interceptedEvent = this.intercept(event);
+				if (interceptedEvent != null) {
+					intercepted.add(interceptedEvent);
+				}
+				break;
+			case 1:
+				List<Event> lstEvent = this.multiIntercept(event);
+				if (lstEvent != null && lstEvent.size() > 0) {
+					intercepted.addAll(lstEvent);
+				}
+				break;
+			}
+		}
+
+		return intercepted;
+	}
+
+	@Override
+	public void close() {
+
+	}
+	
+	// timeStamp = "2016-06-04 00:00:01.893";
 	private String getTimeStamp(String timeStamp) {
 		String ret = "unknown";
 		if (timeStamp != null && timeStamp.contains(":")) {
@@ -91,40 +164,21 @@ public class FlumeMROInterceptor implements Interceptor {
 
 		return ret;
 	}
-	
-	private String getEnodeId(String eNodeId){
+
+	private String getEnodeId(String eNodeId) {
 		String ret = "unknown";
-		if(eNodeId == null){
+		if (eNodeId == null) {
 			return ret;
 		}
-		
-		try{
+
+		try {
 			int id = Integer.parseInt(eNodeId);
 			return String.valueOf(id % this.fileCount);
-		}catch(NumberFormatException e){
+		} catch (NumberFormatException e) {
 			logger.warn("eNodeId is not number...");
 		}
-		
+
 		return ret;
-	}
-
-	@Override
-	public List<Event> intercept(List<Event> events) {
-		List<Event> intercepted = Lists.newArrayListWithCapacity(events.size());
-		
-		for (Event event : events) {
-			Event interceptedEvent = intercept(event);
-			if (interceptedEvent != null) {
-				intercepted.add(interceptedEvent);
-			}
-		}
-		
-		return intercepted;
-	}
-
-	@Override
-	public void close() {
-
 	}
 
 	public static class Builder implements Interceptor.Builder {
@@ -152,12 +206,5 @@ public class FlumeMROInterceptor implements Interceptor {
 			return new FlumeMROInterceptor(this.configFile,
 					this.timeStampHeader, this.eNodeIdHeader, this.fileCount);
 		}
-	}
-
-	public static void  main(String[] args){
-		String timeStamp = "2016-06-04 00:00:01.893";
-		timeStamp = "aaaaa";
-		String s = timeStamp.substring(0, timeStamp.indexOf(":")).replace('-', ' ').replace(" ", "");
-		System.out.println(s);
 	}
 }

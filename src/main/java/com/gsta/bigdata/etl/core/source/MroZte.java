@@ -220,7 +220,6 @@ public class MroZte extends MroHuaWei {
 			
 			super.etlData.addData(FIELD_STARTTIME, super.startTime);
 			super.etlData.addData(FIELD_ENDTIME, super.endTime);
-
 			super.etlData.addData(FIELD_TIMESTAMP, this.mroObj.getTimeStamp());
 			super.etlData.addData(FIELD_ENODEBID, this.mroObj.geteNodeID());
 			super.etlData.addData(FIELD_CELLID, this.mroObj.getCellID());

@@ -123,8 +123,8 @@ public class KpiXML extends AbstractSourceMetaData {
 			}
 			
 			//from the second mts begin output value
-			//if (line.indexOf(endMv) != -1 && this.mtsCounter.get() >= 2) {
-			if (line.indexOf(endMv) != -1 ) {
+			if (line.indexOf(endMv) != -1 && this.mtsCounter.get() >= 2) {
+			//if (line.indexOf(endMv) != -1 ) {
 				if (this.mts.size() != this.rs.size()) {
 					throw new ETLException(ETLException.KEYS_NOT_EQUAL_VALUES,"moid:" + this.moid + ",mt size="
 							+ this.mts.size() + ",but r size=" + this.rs.size());
