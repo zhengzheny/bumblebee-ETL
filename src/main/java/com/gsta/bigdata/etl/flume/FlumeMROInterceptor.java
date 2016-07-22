@@ -31,18 +31,21 @@ public class FlumeMROInterceptor implements Interceptor {
 	private String configFile;
 	private String timeStampHeader;
 	private String eNodeIdHeader;
+	private String strHeaderFields;
+	private String[] headerFields;
 	private int fileCount;
 	private ETLProcess process = new ETLProcess();
 	//mode=0,single parse;mode=1,multi parse
 	private int mode = 0;
 
 	public FlumeMROInterceptor(String configFile, String timeStampHeader,
-			String eNodeIdHeader,int fileCount) {
+			String eNodeIdHeader,int fileCount,String headerFields) {
 		super();
 		this.configFile = configFile;
 		this.timeStampHeader = timeStampHeader;
 		this.eNodeIdHeader = eNodeIdHeader;
 		this.fileCount = fileCount;
+		this.strHeaderFields = headerFields;
 	}
 
 	@Override
@@ -58,6 +61,11 @@ public class FlumeMROInterceptor implements Interceptor {
 		if(mapperClass != null && mapperClass.contains("MultiETLMapper")){
 			this.mode = 1;
 		}
+		
+		if(this.strHeaderFields != null){
+			this.headerFields = this.strHeaderFields.split(",", -1);
+			logger.info("head fields=" + this.strHeaderFields);
+		}
 	}
 
 	@Override
@@ -71,16 +79,10 @@ public class FlumeMROInterceptor implements Interceptor {
 			ETLData data = this.process.parseLine(line, null);
 			if (data != null) {
 				this.process.onTransform(data);
-				String ret = this.process.getOutputValue(data);
-				if (ret != null) {
-					event.setBody(ret.getBytes());
-					
-					Map<String, String> headers = event.getHeaders();
-					headers.put(this.timeStampHeader, this.getTimeStamp(data
-							.getValue(MroHuaWei.FIELD_TIMESTAMP)));
-					headers.put(this.eNodeIdHeader, this.getEnodeId(data
-							.getValue(MroHuaWei.FIELD_ENODEBID)));
+				String output = this.process.getOutputValue(data);
 
+				if (output != null) {
+					this.buildEvent(event, output, data);
 					return event;
 				}
 			}
@@ -98,6 +100,7 @@ public class FlumeMROInterceptor implements Interceptor {
 
 		List<Event> retEvents = new ArrayList<Event>();
 		String line = new String(event.getBody());
+		//logger.info("fileName=" + event.getHeaders().get("basename"));
 		try {
 			List<ETLData> datas = this.process.parseLine(line);
 			if (datas != null) {
@@ -106,15 +109,8 @@ public class FlumeMROInterceptor implements Interceptor {
 					String output = this.process.getOutputValue(etlData);
 
 					Event tempEvent = new SimpleEvent();
-					tempEvent.setBody(output.getBytes());
+					this.buildEvent(tempEvent, output, etlData);
 
-					tempEvent.setHeaders(event.getHeaders());
-					Map<String, String> headers = tempEvent.getHeaders();				
-					headers.put(this.timeStampHeader, this.getTimeStamp(etlData
-							.getValue(MroHuaWei.FIELD_TIMESTAMP)));
-					headers.put(this.eNodeIdHeader, this.getEnodeId(etlData
-							.getValue(MroHuaWei.FIELD_ENODEBID)));
-					
 					retEvents.add(tempEvent);
 				}
 			}
@@ -123,6 +119,31 @@ public class FlumeMROInterceptor implements Interceptor {
 		}
 
 		return retEvents;
+	}
+	
+	private void buildEvent(Event event, String output, ETLData etlData) {
+		if (event == null || output == null || etlData == null) {
+			return;
+		}
+
+		event.setBody(output.getBytes());
+
+		Map<String, String> headers = event.getHeaders();
+		if (this.timeStampHeader != null) {
+			headers.put(this.timeStampHeader, this.getTimeStamp(etlData
+					.getValue(MroHuaWei.FIELD_TIMESTAMP)));
+		}
+		
+		if (this.eNodeIdHeader != null) {
+			headers.put(this.eNodeIdHeader,
+					this.getEnodeId(etlData.getValue(MroHuaWei.FIELD_ENODEBID)));
+		}
+		
+		if(this.headerFields != null){
+			for(String field:this.headerFields){
+				headers.put(field, etlData.getValue(field));
+			}
+		}
 	}
 	
 	@Override
@@ -186,14 +207,17 @@ public class FlumeMROInterceptor implements Interceptor {
 		private String timeStampHeader;
 		private String eNodeIdHeader;
 		private int fileCount;
+		private String headerFields;
 
 		@Override
 		public void configure(Context context) {
 			this.configFile = context.getString("configFile");
 			this.timeStampHeader = context.getString("timeStampHeader");
 			this.eNodeIdHeader = context.getString("eNodeIdHeader");
+			this.headerFields = context.getString("headerFields");
 			
 			String str = context.getString("fileCount");
+		
 			try{
 				this.fileCount = Integer.parseInt(str);
 			}catch(NumberFormatException e){
@@ -204,7 +228,8 @@ public class FlumeMROInterceptor implements Interceptor {
 		@Override
 		public Interceptor build() {
 			return new FlumeMROInterceptor(this.configFile,
-					this.timeStampHeader, this.eNodeIdHeader, this.fileCount);
+					this.timeStampHeader, this.eNodeIdHeader, this.fileCount,
+					this.headerFields);
 		}
 	}
 }
