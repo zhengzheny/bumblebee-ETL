@@ -37,8 +37,6 @@ public class ETLProcess extends AbstractETLObject {
 	private ShellContext etlContext;
 	@JsonProperty
 	private OutputMetaData outputMetaData;
-	
-	private GeneralRuleMgr generalRuleMgr;
 
 	public ETLProcess() {
 		super.tagName = Constants.PATH_PROCESS;
@@ -89,9 +87,6 @@ public class ETLProcess extends AbstractETLObject {
 		}else if (node.getNodeName().equals(Constants.PATH_OUTPUT_METADATA)) {
 			this.outputMetaData = new OutputMetaData();
 			this.outputMetaData.init(node);
-		}else if(node.getNodeName().equals(Constants.PATH_DPI_FUNCTIONRULES)){
-			this.generalRuleMgr = GeneralRuleMgr.getInstance();
-			this.generalRuleMgr.init(node);
 		}
 	}
 
@@ -339,6 +334,23 @@ public class ETLProcess extends AbstractETLObject {
 		}
 		
 		return null;
+	}
+	
+	@JsonIgnore
+	/**
+	 * mode=0,single parse;mode=1,multi parse
+	 * @return
+	 */
+	public int getMode() {
+		if (this.computingFrameworkConfigs != null) {
+			String mapperClass = this.computingFrameworkConfigs.getCFConf(Constants.HADOOP_MAPPER_CLASS);
+			if (mapperClass != null && mapperClass.contains("MultiETLMapper")) {
+				return 1;
+			}
+			return 0;
+		}
+
+		return -1;
 	}
 
 	public OutputMetaData getOutputMetaData() {

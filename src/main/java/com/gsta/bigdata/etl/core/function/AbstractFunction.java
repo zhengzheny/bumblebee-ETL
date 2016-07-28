@@ -52,6 +52,11 @@ import com.gsta.bigdata.utils.XmlTools;
 		@JsonSubTypes.Type(value = DelCDATA.class, name = "DelCDATA"),
 		@JsonSubTypes.Type(value = DIMInfoQuery.class, name = "DIMInfoQuery"),
 		@JsonSubTypes.Type(value = DIMNCQuery.class, name = "DIMNCQuery"),
+		@JsonSubTypes.Type(value = Md5.class, name = "Md5"),
+		@JsonSubTypes.Type(value = LTEUPLong2IP.class, name = "LTEUPLong2IP"),
+		@JsonSubTypes.Type(value = Trim.class, name = "Trim"),
+		@JsonSubTypes.Type(value = LTEUPFlag.class, name = "LTEUPFlag"),
+		@JsonSubTypes.Type(value = LTEUPUePort.class, name = "LTEUPUePort"),
 		@JsonSubTypes.Type(value = HostQuery.class, name = "HostQuery")})
 public abstract class AbstractFunction extends AbstractETLObject {
 	private static final long serialVersionUID = 8920066337876631884L;

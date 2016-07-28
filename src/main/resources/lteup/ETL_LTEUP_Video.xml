@@ -1,0 +1,217 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<process id="ETL_LTEUP_HttpWap">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" />
+		</computingFrameworkConfigs>
+		<sourceMetaData type="simpleFlat" delimiter="\001">
+			<paths>
+				<inputPath path="${inputPath}" />
+			</paths>
+			<fields>
+				<field id="IMSI" />
+				<field id="MSISDN" />
+				<field id="pt_tsn" />
+				<field id="Tid" />
+				<field id="CGI" />
+				<field id="TAC" />
+				<field id="network" />
+				<field id="eNB_id" />
+				<field id="eNB_ip" />
+				<field id="SGW_ip" />
+				<field id="ts_start" />
+				<field id="ts_end" />
+				<field id="ue_ip" />
+				<field id="ue_ipv6l" />
+				<field id="ue_ipv6h" />
+				<field id="ue_port" />
+				<field id="server_ip" />
+				<field id="server_ipv6l" />
+				<field id="server_ipv6h" />
+				<field id="server_port" />
+				<field id="IsTcp" />
+				<field id="SuccFlag" />
+				<field id="Session_Id" />
+				<field id="TcpLinks" />
+				<field id="cell_resel_num" />
+				<field id="cp_msg_num" />
+				<field id="lac_paging_num" />
+				<field id="Mids_Id" />
+				<field id="tbf_setup_num" />
+				<field id="radio_lost_num" />
+				<field id="ue_window" />
+				<field id="server_window" />
+				<field id="ue_window_scale" />
+				<field id="server_window_scale" />
+				<field id="ue_tcp_sack" />
+				<field id="server_tcp_sack" />
+				<field id="slice1" />
+				<field id="slice2" />
+				<field id="slice3" />
+				<field id="slice4" />
+				<field id="slice5" />
+				<field id="pkt_dl" />
+				<field id="pkt_small_dl" />
+				<field id="pkt_frag_dl" />
+				<field id="pkt_lost_dl" />
+				<field id="pkt_retrs_dl" />
+				<field id="pkt_disorder_dl" />
+				<field id="size_dl" />
+				<field id="latency_dl" />
+				<field id="ts_first_dl" />
+				<field id="ts_last_dl" />
+				<field id="pkt_ul" />
+				<field id="pkt_small_ul" />
+				<field id="pkt_frag_ul" />
+				<field id="pkt_lost_ul" />
+				<field id="pkt_retrs_ul" />
+				<field id="pkt_disorder_ul" />
+				<field id="size_ul" />
+				<field id="latency_ul" />
+				<field id="ts_first_ul" />
+				<field id="ts_last_ul" />
+				<field id="ts_syn" />
+				<field id="ts_syn_ack" />
+				<field id="ts_ack" />
+				<field id="ts_fin_svr" />
+				<field id="ts_fin_ue" />
+				<field id="ts_first_ack" />
+				<field id="category_id" />
+				<field id="sp_id" />
+				<field id="service_id" />
+				<field id="APN_Id" />
+				<field id="app_Id" />
+				<field id="DomainName" />
+				<field id="Channel" />
+				<field id="tag" />
+				<field id="RequestMethod" />
+				<field id="URI" />
+				<field id="StatusCode" />
+				<field id="ContentType" />
+				<field id="ContentType_Id" />
+				<field id="UserAgent" />
+				<field id="MethodNum" />
+				<field id="URI_Path" />
+				<field id="UAExt" />
+				<field id="ContentLen" />
+				<field id="x_online_host" />
+				<field id="accept" />
+				<field id="referer" />
+				<field id="ts_pl_dl_n" />
+				<field id="cookie" />
+				<field id="ttl" />
+			</fields>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
+			<values delimiter="|">
+				<field id="IMSI" />
+				<field id="MSISDN" />
+				<field id="pt_tsn" />
+				<field id="Tid" />
+				<field id="CGI" />
+				<field id="TAC" />
+				<field id="network" />
+				<field id="eNB_id" />
+				<field id="eNB_ip" />
+				<field id="SGW_ip" />
+				<field id="ts_start" />
+				<field id="ts_end" />
+				<field id="ue_ip" />
+				<field id="ue_ipv6l" />
+				<field id="ue_ipv6h" />
+				<field id="ue_port" />
+				<field id="server_ip" />
+				<field id="server_ipv6l" />
+				<field id="server_ipv6h" />
+				<field id="server_port" />
+				<field id="IsTcp" />
+				<field id="SuccFlag" />
+				<field id="Session_Id" />
+				<field id="TcpLinks" />
+				<field id="cell_resel_num" />
+				<field id="cp_msg_num" />
+				<field id="lac_paging_num" />
+				<field id="Mids_Id" />
+				<field id="tbf_setup_num" />
+				<field id="radio_lost_num" />
+				<field id="ue_window" />
+				<field id="server_window" />
+				<field id="ue_window_scale" />
+				<field id="server_window_scale" />
+				<field id="ue_tcp_sack" />
+				<field id="server_tcp_sack" />
+				<field id="slice1" />
+				<field id="slice2" />
+				<field id="slice3" />
+				<field id="slice4" />
+				<field id="slice5" />
+				<field id="pkt_dl" />
+				<field id="pkt_small_dl" />
+				<field id="pkt_frag_dl" />
+				<field id="pkt_lost_dl" />
+				<field id="pkt_retrs_dl" />
+				<field id="pkt_disorder_dl" />
+				<field id="size_dl" />
+				<field id="latency_dl" />
+				<field id="ts_first_dl" />
+				<field id="ts_last_dl" />
+				<field id="pkt_ul" />
+				<field id="pkt_small_ul" />
+				<field id="pkt_frag_ul" />
+				<field id="pkt_lost_ul" />
+				<field id="pkt_retrs_ul" />
+				<field id="pkt_disorder_ul" />
+				<field id="size_ul" />
+				<field id="latency_ul" />
+				<field id="ts_first_ul" />
+				<field id="ts_last_ul" />
+				<field id="ts_syn" />
+				<field id="ts_syn_ack" />
+				<field id="ts_ack" />
+				<field id="ts_fin_svr" />
+				<field id="ts_fin_ue" />
+				<field id="ts_first_ack" />
+				<field id="category_id" />
+				<field id="sp_id" />
+				<field id="service_id" />
+				<field id="APN_Id" />
+				<field id="app_Id" />
+				<field id="DomainName" />
+				<field id="Channel" />
+				<field id="tag" />
+				<field id="RequestMethod" />
+				<field id="URI" />
+				<field id="StatusCode" />
+				<field id="ContentType" />
+				<field id="ContentType_Id" />
+				<field id="UserAgent" />
+				<field id="MethodNum" />
+				<field id="URI_Path" />
+				<field id="UAExt" />
+				<field id="ContentLen" />
+				<field id="x_online_host" />
+				<field id="accept" />
+				<field id="referer" />
+				<field id="FLAG" />
+				<field id="ts_pl_dl_n" />
+				<field id="cookie" />
+				<field id="ttl" />
+			</values>
+		</outputMetaData>
+		<transforms>
+			<transform>
+				<!-- LTEUPFlag use original IMSI and MSISDN field,so it must lay first-->
+				<function name="LTEUPFlag"
+					flagField="IMSI,MSISDN,CGI,ts_end,ts_first_dl,ts_first_ul,ts_last_dl,service_id"
+					output="FLAG" />
+				<function name="md5" input="IMSI" />
+				<function name="MSISDNMd5" input="MSISDN" />
+				<function name="LTEUPUePort" input="ue_port" />
+				<function name="LTEUPLong2IP" input="eNB_ip,SGW_ip,ue_ip,server_ip" />
+				<function name="trim"
+					input="ts_start,ts_end,ts_first_dl,ts_last_dl,ts_first_ul,ts_last_ul,ts_syn,ts_syn_ack,ts_ack,ts_fin_svr,ts_fin_ue,ts_first_ack,,DomainName,Channel,URI,ContentType,UserAgent,URI_Path,UAExt,x_online_host,accept,referer" />				
+			</transform>
+		</transforms>
+	</process>
+</etl>

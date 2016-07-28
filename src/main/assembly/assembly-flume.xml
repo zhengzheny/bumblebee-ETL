@@ -29,6 +29,13 @@
 			</includes>
 		</fileSet>
 		<fileSet>
+			<directory>${basedir}/src/main/resources/lteup</directory>
+			<outputDirectory>conf/lteup</outputDirectory>
+			<includes>
+				<include>**/*.*</include>
+			</includes>
+		</fileSet>
+		<fileSet>
 			<directory>${project.build.directory}/</directory>
 			<outputDirectory>plugins.d/FlumeInterceptor/lib</outputDirectory>
 			<includes>
