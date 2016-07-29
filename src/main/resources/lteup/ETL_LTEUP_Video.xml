@@ -1,6 +1,6 @@
 <?xml version = "1.0" encoding = "utf-8"?>
 <etl>
-	<process id="ETL_LTEUP_HttpWap">
+	<process id="ETL_LTEUP_Video">
 		<computingFrameworkConfigs>
 			<property key="outputFormatClass"
 				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" />

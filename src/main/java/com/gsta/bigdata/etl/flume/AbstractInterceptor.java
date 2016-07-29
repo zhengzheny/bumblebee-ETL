@@ -10,7 +10,6 @@ import org.apache.flume.interceptor.Interceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.collect.Lists;
 import com.gsta.bigdata.etl.core.ETLData;
 import com.gsta.bigdata.etl.core.ETLProcess;
 
@@ -23,21 +22,26 @@ import com.gsta.bigdata.etl.core.ETLProcess;
  */
 public abstract class AbstractInterceptor implements Interceptor {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
+	private final static String HEADER_BASENAME = "basename";
+	
 	private FieldsHeader fieldsHeader;
 	private IFileNameHeader fileNameHeader;
 	private String fileNameHeaderType;
 
-	public AbstractInterceptor(String fileNameHeaders,String headerFields,int fileCount) {
+	public AbstractInterceptor(String fileNameHeaders, String headerFields,
+			int fileCount) {
 		super();
-		this.fieldsHeader = new FieldsHeader(headerFields,fileCount);
-		this.fileNameHeaderType = fileNameHeaders;
 		
+		this.fieldsHeader = new FieldsHeader(headerFields, fileCount);
+		this.fileNameHeaderType = fileNameHeaders;
+
 		logger.info("fileName header:" + this.fileNameHeaderType);
 		logger.info("fields header:" + headerFields);
 		logger.info("fileCount:" + fileCount);
 	}
-	
+
 	protected abstract String getFileType(String fileName);
+
 	protected abstract ETLProcess getProcess(String fileType);
 
 	@Override
@@ -58,17 +62,22 @@ public abstract class AbstractInterceptor implements Interceptor {
 			return null;
 		}
 
-		String fileName = event.getHeaders().get("basename");
+		String fileName = event.getHeaders().get(HEADER_BASENAME);
 		String fileType = getFileType(fileName);
+		ETLProcess process = getProcess(fileType);
+		if (process == null) {
+			return null;
+		}
+
 		String line = new String(event.getBody());
 		try {
-			ETLData data = getProcess(fileType).parseLine(line, null);
+			ETLData data = process.parseLine(line, null);
 			if (data != null) {
-				getProcess(fileType).onTransform(data);
-				String output = getProcess(fileType).getOutputValue(data);
+				process.onTransform(data);
+				String output = process.getOutputValue(data);
 
 				if (output != null) {
-					this.buildEvent(event, output, data,fileName);
+					this.buildEvent(event, output, data, fileName);
 					return event;
 				}
 			}
@@ -78,25 +87,49 @@ public abstract class AbstractInterceptor implements Interceptor {
 
 		return null;
 	}
-	
-	private List<Event> multiIntercept(Event event) {
-		if (event == null) {
+
+	private Event singleETL(Event event, ETLProcess process,
+			String fileName) {
+		if (event == null || process == null) {
+			return null;
+		}
+
+		String line = new String(event.getBody());
+		try {
+			ETLData data = process.parseLine(line, null);
+			if (data != null) {
+				process.onTransform(data);
+				String output = process.getOutputValue(data);
+
+				if (output != null) {
+					this.buildEvent(event, output, data, fileName);
+					return event;
+				}
+			}
+		} catch (Exception e) {
+			logger.error("dataline=" + line + ",error:" + e.getMessage());
+		}
+
+		return null;
+	}
+
+	private List<Event> multiETL(Event event, ETLProcess process,
+			String fileName) {
+		if (event == null || process == null) {
 			return null;
 		}
 
 		List<Event> retEvents = new ArrayList<Event>();
 		String line = new String(event.getBody());
-		String fileName = event.getHeaders().get("basename");
-		String fileType = getFileType(fileName);
 		try {
-			List<ETLData> datas = getProcess(fileType).parseLine(line);
+			List<ETLData> datas = process.parseLine(line);
 			if (datas != null) {
 				for (ETLData etlData : datas) {
-					getProcess(fileType).onTransform(etlData);
-					String output = getProcess(fileType).getOutputValue(etlData);
+					process.onTransform(etlData);
+					String output = process.getOutputValue(etlData);
 
 					Event tempEvent = new SimpleEvent();
-					this.buildEvent(tempEvent, output, etlData,fileName);
+					this.buildEvent(tempEvent, output, etlData, fileName);
 
 					retEvents.add(tempEvent);
 				}
@@ -107,34 +140,40 @@ public abstract class AbstractInterceptor implements Interceptor {
 
 		return retEvents;
 	}
-	
+
 	@Override
 	public List<Event> intercept(List<Event> events) {
-		List<Event> intercepted = Lists.newArrayListWithCapacity(events.size());
+		List<Event> retEvents = new ArrayList<Event>();
 
 		for (Event event : events) {
-			String fileName = event.getHeaders().get("basename");
+			String fileName = event.getHeaders().get(HEADER_BASENAME);
 			String fileType = getFileType(fileName);
-			switch (getProcess(fileType).getMode()) {
+			ETLProcess process = getProcess(fileType);
+			if (process == null) {
+				continue;
+			}
+
+			switch (process.getMode()) {
 			case 0:
-				Event interceptedEvent = this.intercept(event);
-				if (interceptedEvent != null) {
-					intercepted.add(interceptedEvent);
+				Event etlEvent = this.singleETL(event, process,fileName);
+				if (etlEvent != null) {
+					retEvents.add(etlEvent);
 				}
 				break;
 			case 1:
-				List<Event> lstEvent = this.multiIntercept(event);
+				List<Event> lstEvent = this.multiETL(event, process,fileName);
 				if (lstEvent != null && lstEvent.size() > 0) {
-					intercepted.addAll(lstEvent);
+					retEvents.addAll(lstEvent);
 				}
 				break;
 			}
 		}
 
-		return intercepted;
+		return retEvents;
 	}
-	
-	private void buildEvent(Event event, String output, ETLData etlData,String fileName) {
+
+	private void buildEvent(Event event, String output, ETLData etlData,
+			String fileName) {
 		if (event == null || output == null) {
 			return;
 		}
@@ -142,17 +181,17 @@ public abstract class AbstractInterceptor implements Interceptor {
 		event.setBody(output.getBytes());
 
 		Map<String, String> headers = event.getHeaders();
-		if(this.fileNameHeader != null && fileName != null){
+		if (this.fileNameHeader != null && fileName != null) {
 			headers.putAll(this.fileNameHeader.parseHeaders(fileName));
 		}
-		
-		if(this.fieldsHeader != null && etlData != null){
+
+		if (this.fieldsHeader != null && etlData != null) {
 			headers.putAll(this.fieldsHeader.parseHeaders(etlData));
 		}
 	}
 
 	@Override
 	public void close() {
-		
+
 	}
 }
