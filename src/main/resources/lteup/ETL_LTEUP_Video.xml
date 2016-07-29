@@ -208,7 +208,7 @@
 				<function name="md5" input="IMSI" />
 				<function name="MSISDNMd5" input="MSISDN" />
 				<function name="LTEUPUePort" input="ue_port" />
-				<function name="LTEUPLong2IP" input="eNB_ip,SGW_ip,ue_ip,server_ip" />
+				<function name="long2IP" input="eNB_ip,SGW_ip,ue_ip,server_ip" />
 				<function name="trim"
 					input="ts_start,ts_end,ts_first_dl,ts_last_dl,ts_first_ul,ts_last_ul,ts_syn,ts_syn_ack,ts_ack,ts_fin_svr,ts_fin_ue,ts_first_ack,,DomainName,Channel,URI,ContentType,UserAgent,URI_Path,UAExt,x_online_host,accept,referer" />				
 			</transform>

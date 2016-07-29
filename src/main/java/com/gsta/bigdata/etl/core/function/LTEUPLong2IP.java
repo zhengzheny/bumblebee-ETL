@@ -10,6 +10,7 @@ import com.gsta.bigdata.etl.core.Constants;
 import com.gsta.bigdata.etl.core.ParseException;
 import com.gsta.bigdata.etl.core.ShellContext;
 
+@Deprecated
 public class LTEUPLong2IP extends AbstractFunction {
 	private static final long serialVersionUID = -1736024035415593085L;
 	@JsonProperty

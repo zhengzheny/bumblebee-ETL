@@ -45,6 +45,10 @@ public class Long2IP extends AbstractFunction {
 		StringBuffer ip = new StringBuffer();
 		try {
 			Long ipLong = Long.parseLong(longIp);
+			if(ipLong < 0){
+				//-593129911  220.165.142.73
+				ipLong = ipLong & 0x0FFFFFFFFL;
+			}
 
 			ip.setLength(0);
 			for (int i = 0; i < 4; i++) {
