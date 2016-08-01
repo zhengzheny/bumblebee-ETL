@@ -35,6 +35,7 @@ import com.gsta.bigdata.utils.XmlTools;
  * @author tianxq
  * 
  */
+@SuppressWarnings("deprecation")
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "@class")
 @JsonSubTypes({ @JsonSubTypes.Type(value = IP2Long.class, name = "IP2Long"),
 		@JsonSubTypes.Type(value = Long2IP.class, name = "Long2IP"),
