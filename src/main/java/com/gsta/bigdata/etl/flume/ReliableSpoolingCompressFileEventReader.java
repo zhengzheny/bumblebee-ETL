@@ -38,8 +38,8 @@ import org.apache.flume.serialization.EventDeserializerFactory;
 import org.apache.flume.serialization.PositionTracker;
 import org.apache.flume.serialization.ResettableFileInputStream;
 import org.apache.flume.serialization.ResettableInputStream;
-import com.gsta.bigdata.etl.flume.SpoolDirectorySourceConfigurationConstants;
-import com.gsta.bigdata.etl.flume.SpoolDirectorySourceConfigurationConstants.ConsumeOrder;
+import com.gsta.bigdata.etl.flume.SpoolDirectorySourceConstants;
+import com.gsta.bigdata.etl.flume.SpoolDirectorySourceConstants.ConsumeOrder;
 import org.apache.flume.tools.PlatformDetect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -106,6 +106,7 @@ public class ReliableSpoolingCompressFileEventReader implements ReliableEventRea
 	private final String fileNameHeader;
 	private final String baseNameHeader;
 	private final String deletePolicy;
+	private final String deleteCompressFilePolicy;
 	private final Charset inputCharset;
 	private final DecodeErrorPolicy decodeErrorPolicy;
 	private final ConsumeOrder consumeOrder;
@@ -130,7 +131,8 @@ public class ReliableSpoolingCompressFileEventReader implements ReliableEventRea
 			String baseNameHeader, String deserializerType,
 			Context deserializerContext, String deletePolicy,
 			String inputCharset, DecodeErrorPolicy decodeErrorPolicy,
-			ConsumeOrder consumeOrder, boolean recursiveDirectorySearch)
+			ConsumeOrder consumeOrder, boolean recursiveDirectorySearch,
+			String deleteCompressFilePolicy)
 			throws IOException {
 
 		// Sanity checks
@@ -141,6 +143,7 @@ public class ReliableSpoolingCompressFileEventReader implements ReliableEventRea
 		Preconditions.checkNotNull(deserializerType);
 		Preconditions.checkNotNull(deserializerContext);
 		Preconditions.checkNotNull(deletePolicy);
+		Preconditions.checkNotNull(deleteCompressFilePolicy);
 		Preconditions.checkNotNull(inputCharset);
 
 		// validate delete policy
@@ -148,6 +151,13 @@ public class ReliableSpoolingCompressFileEventReader implements ReliableEventRea
 				&& !deletePolicy
 						.equalsIgnoreCase(DeletePolicy.IMMEDIATE.name())) {
 			throw new IllegalArgumentException("Delete policies other than "
+					+ "NEVER and IMMEDIATE are not yet supported");
+		}
+		
+		if (!deleteCompressFilePolicy.equalsIgnoreCase(DeletePolicy.NEVER.name())
+				&& !deleteCompressFilePolicy
+						.equalsIgnoreCase(DeletePolicy.IMMEDIATE.name())) {
+			throw new IllegalArgumentException("Delete compress file policies other than "
 					+ "NEVER and IMMEDIATE are not yet supported");
 		}
 
@@ -170,8 +180,7 @@ public class ReliableSpoolingCompressFileEventReader implements ReliableEventRea
 		try {
 			File canary = File.createTempFile("flume-spooldir-perm-check-",
 					".canary", spoolDirectory);
-			Files.write("testing flume file permissions\n", canary,
-					Charsets.UTF_8);
+			Files.write("testing flume file permissions\n", canary,Charsets.UTF_8);
 			List<String> lines = Files.readLines(canary, Charsets.UTF_8);
 			Preconditions.checkState(!lines.isEmpty(), "Empty canary file %s",
 					canary);
@@ -199,6 +208,7 @@ public class ReliableSpoolingCompressFileEventReader implements ReliableEventRea
 		this.decodeErrorPolicy = Preconditions.checkNotNull(decodeErrorPolicy);
 		this.consumeOrder = Preconditions.checkNotNull(consumeOrder);
 		this.recursiveDirectorySearch = recursiveDirectorySearch;
+		this.deleteCompressFilePolicy = deleteCompressFilePolicy;
 
 		File trackerDirectory = new File(trackerDirPath);
 
@@ -423,6 +433,12 @@ public class ReliableSpoolingCompressFileEventReader implements ReliableEventRea
 	}
 
 	private void applyRetentionPolicy(File fileToRoll) throws IOException {
+		// delete compress file(.gz)
+		if (deleteCompressFilePolicy.equalsIgnoreCase(DeletePolicy.IMMEDIATE
+				.name()) && fileToRoll.getName().endsWith(GZIP_FILE_EXTENSION)) {
+			deleteCurrentFile(fileToRoll);
+		}
+
 		if (deletePolicy.equalsIgnoreCase(DeletePolicy.NEVER.name())) {
 			rollCurrentFile(fileToRoll);
 		} else if (deletePolicy.equalsIgnoreCase(DeletePolicy.IMMEDIATE.name())) {
@@ -551,6 +567,7 @@ public class ReliableSpoolingCompressFileEventReader implements ReliableEventRea
 			return Optional.absent();
 		}
 
+		//unzip compress file
 		File selectedFile = candidateFileIter.next();
 		String fileName = selectedFile.getName();
 		if (fileName.endsWith(GZIP_FILE_EXTENSION)) {
@@ -763,22 +780,23 @@ public class ReliableSpoolingCompressFileEventReader implements ReliableEventRea
 	 */
 	public static class Builder {
 		private File spoolDirectory;
-		private String completedSuffix = SpoolDirectorySourceConfigurationConstants.SPOOLED_FILE_SUFFIX;
-		private String ignorePattern = SpoolDirectorySourceConfigurationConstants.DEFAULT_IGNORE_PAT;
-		private String trackerDirPath = SpoolDirectorySourceConfigurationConstants.DEFAULT_TRACKER_DIR;
-		private Boolean annotateFileName = SpoolDirectorySourceConfigurationConstants.DEFAULT_FILE_HEADER;
-		private String fileNameHeader = SpoolDirectorySourceConfigurationConstants.DEFAULT_FILENAME_HEADER_KEY;
-		private Boolean annotateBaseName = SpoolDirectorySourceConfigurationConstants.DEFAULT_BASENAME_HEADER;
-		private String baseNameHeader = SpoolDirectorySourceConfigurationConstants.DEFAULT_BASENAME_HEADER_KEY;
-		private String deserializerType = SpoolDirectorySourceConfigurationConstants.DEFAULT_DESERIALIZER;
+		private String completedSuffix = SpoolDirectorySourceConstants.SPOOLED_FILE_SUFFIX;
+		private String ignorePattern = SpoolDirectorySourceConstants.DEFAULT_IGNORE_PAT;
+		private String trackerDirPath = SpoolDirectorySourceConstants.DEFAULT_TRACKER_DIR;
+		private Boolean annotateFileName = SpoolDirectorySourceConstants.DEFAULT_FILE_HEADER;
+		private String fileNameHeader = SpoolDirectorySourceConstants.DEFAULT_FILENAME_HEADER_KEY;
+		private Boolean annotateBaseName = SpoolDirectorySourceConstants.DEFAULT_BASENAME_HEADER;
+		private String baseNameHeader = SpoolDirectorySourceConstants.DEFAULT_BASENAME_HEADER_KEY;
+		private String deserializerType = SpoolDirectorySourceConstants.DEFAULT_DESERIALIZER;
 		private Context deserializerContext = new Context();
-		private String deletePolicy = SpoolDirectorySourceConfigurationConstants.DEFAULT_DELETE_POLICY;
-		private String inputCharset = SpoolDirectorySourceConfigurationConstants.DEFAULT_INPUT_CHARSET;
+		private String deletePolicy = SpoolDirectorySourceConstants.DEFAULT_DELETE_POLICY;
+		private String deleteCompressFilePolicy = SpoolDirectorySourceConstants.DEFAULT_DELETE_POLICY;
+		private String inputCharset = SpoolDirectorySourceConstants.DEFAULT_INPUT_CHARSET;
 		private DecodeErrorPolicy decodeErrorPolicy = DecodeErrorPolicy
-				.valueOf(SpoolDirectorySourceConfigurationConstants.DEFAULT_DECODE_ERROR_POLICY
+				.valueOf(SpoolDirectorySourceConstants.DEFAULT_DECODE_ERROR_POLICY
 						.toUpperCase(Locale.ENGLISH));
-		private ConsumeOrder consumeOrder = SpoolDirectorySourceConfigurationConstants.DEFAULT_CONSUME_ORDER;
-		private boolean recursiveDirectorySearch = SpoolDirectorySourceConfigurationConstants.DEFAULT_RECURSIVE_DIRECTORY_SEARCH;
+		private ConsumeOrder consumeOrder = SpoolDirectorySourceConstants.DEFAULT_CONSUME_ORDER;
+		private boolean recursiveDirectorySearch = SpoolDirectorySourceConstants.DEFAULT_RECURSIVE_DIRECTORY_SEARCH;
 		//private boolean recursiveDirectorySearch = false;
 		
 		public Builder spoolDirectory(File directory) {
@@ -835,6 +853,11 @@ public class ReliableSpoolingCompressFileEventReader implements ReliableEventRea
 			this.deletePolicy = deletePolicy;
 			return this;
 		}
+		
+		public Builder deleteCompressFilePolicy(String deleteCompressFilePolicy) {
+			this.deleteCompressFilePolicy = deleteCompressFilePolicy;
+			return this;
+		}
 
 		public Builder inputCharset(String inputCharset) {
 			this.inputCharset = inputCharset;
@@ -862,7 +885,7 @@ public class ReliableSpoolingCompressFileEventReader implements ReliableEventRea
 					annotateFileName, fileNameHeader, annotateBaseName,
 					baseNameHeader, deserializerType, deserializerContext,
 					deletePolicy, inputCharset, decodeErrorPolicy,
-					consumeOrder, recursiveDirectorySearch);
+					consumeOrder, recursiveDirectorySearch,deleteCompressFilePolicy);
 		}
 	}
 

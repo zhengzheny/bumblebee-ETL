@@ -19,7 +19,7 @@ package com.gsta.bigdata.etl.flume;
 
 import org.apache.flume.serialization.DecodeErrorPolicy;
 
-public class SpoolDirectorySourceConfigurationConstants {
+public class SpoolDirectorySourceConstants {
   /** Directory where files are deposited. */
   public static final String SPOOL_DIRECTORY = "spoolDir";
 
