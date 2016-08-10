@@ -150,6 +150,7 @@ public abstract class AbstractInterceptor implements Interceptor {
 			String fileType = getFileType(fileName);
 			ETLProcess process = getProcess(fileType);
 			if (process == null) {
+				logger.warn("fileType=" + fileType + " get null process...");
 				continue;
 			}
 

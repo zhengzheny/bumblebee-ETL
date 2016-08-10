@@ -43,9 +43,15 @@ public class MultiProcessInterceptor extends AbstractInterceptor {
 			return null;
 		}
 		
-		int pos = fileName.lastIndexOf("_");
+		/*int pos = fileName.lastIndexOf("_");
 		if (pos != -1) {
 			return fileName.substring(0, pos).toUpperCase();
+		}*/
+		
+		String deli = "_";
+		String[] fields = fileName.split(deli,-1);
+		if(fields.length >= 3){
+			return (fields[0] + deli + fields[1] + deli + fields[2]).toUpperCase();
 		}
 		
 		return null;

@@ -68,7 +68,7 @@ public class SpoolDirectoryCompressSource extends AbstractSource implements
 	private DecodeErrorPolicy decodeErrorPolicy;
 	private volatile boolean hasFatalError = false;
 	
-	private String deleteCompressFilePolicy;
+	//private String deleteCompressFilePolicy;
 
 	private SourceCounter sourceCounter;
 	ReliableSpoolingCompressFileEventReader reader;
@@ -101,8 +101,8 @@ public class SpoolDirectoryCompressSource extends AbstractSource implements
 					.deletePolicy(deletePolicy).inputCharset(inputCharset)
 					.decodeErrorPolicy(decodeErrorPolicy)
 					.consumeOrder(consumeOrder)
-					.recursiveDirectorySearch(recursiveDirectorySearch)
-					.deleteCompressFilePolicy(deleteCompressFilePolicy).build();
+					.recursiveDirectorySearch(recursiveDirectorySearch).build();
+					//.deleteCompressFilePolicy(deleteCompressFilePolicy).build();
 		} catch (IOException ioe) {
 			throw new FlumeException(
 					"Error instantiating spooling event parser", ioe);
@@ -146,7 +146,7 @@ public class SpoolDirectoryCompressSource extends AbstractSource implements
 		Preconditions.checkState(spoolDirectory != null,
 				"Configuration must specify a spooling directory");
 		
-		deleteCompressFilePolicy = context.getString("deleteCompressFilePolicy",DEFAULT_DELETE_POLICY);
+		//deleteCompressFilePolicy = context.getString("deleteCompressFilePolicy",DEFAULT_DELETE_POLICY);
 
 		completedSuffix = context.getString(SPOOLED_FILE_SUFFIX,
 				DEFAULT_SPOOLED_FILE_SUFFIX);
