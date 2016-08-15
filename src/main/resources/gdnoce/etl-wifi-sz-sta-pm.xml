@@ -1,0 +1,53 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<process id="wifi-sz-ap-pm">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" />
+			<property key="mapperClass"
+				value="com.gsta.bigdata.etl.mapreduce.Vertical2CrossByFileMapper" />
+			<property key="mapred.reduce.tasks" value="0" />
+		</computingFrameworkConfigs>
+		<sourceMetaData type="Vertical2Cross" delimiter=",">
+			<paths>
+				<inputPath path="${inputPath}" />
+			</paths>
+			<fields>
+				<field id="TIME" masterKey="yes" />
+				<field id="devicename" masterKey="yes" />
+				<field id="APMAC"/>
+				<field id="fieldName" />
+				<field id="fieldValue" />
+			</fields>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
+			<values delimiter="|">
+				<field id="TIME" />
+				<field id="devicename" />
+				<field id="APMAC" />
+				<field id="stationcurrapid" />
+				<field id="negotiation_speed" />
+				<field id="stationchannel" />
+				<field id="stationipaddress" />
+				<field id="stationmacaddress " />
+				<field id="stationrxsnr" />
+				<field id="stationrssi" />
+				<field id="stationrxframebytes" />
+				<field id="stationrxframecnt" />
+				<field id="stationssidname" />
+				<field id="stationpowersavemode" />
+				<field id="stationradiomode" />
+				<field id="stationtxframebytes" />
+				<field id="stationtxframecnt" />
+				<field id="stationuptime" />
+				<field id="stationvlanid" />
+				<field id="stationstarttime" />
+				<field id="stationendtime" />
+				<field id="stationfailtime" />
+				<field id="stationap" />
+				<field id="stationfailreason " />
+				<field id="FLAG" />
+			</values>
+		</outputMetaData>
+	</process>
+</etl>

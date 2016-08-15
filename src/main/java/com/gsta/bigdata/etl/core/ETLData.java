@@ -35,6 +35,11 @@ public class ETLData implements Serializable{
 		}
 	}
 	
+	public void addData(HashMap<String, String> map){
+		this.data.putAll(map);
+		this.fieldNames.addAll(map.keySet());
+	}
+	
 	public String getValue(String key){
 		return this.data.get(key);
 	}

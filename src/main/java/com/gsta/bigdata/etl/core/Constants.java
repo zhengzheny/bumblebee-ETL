@@ -37,6 +37,10 @@ public class Constants {
 	public final static String DEFAULT_LKP_DS_TYPE = "flat";
 	public final static String DEFAULT_ENCODING = "utf-8";
 	public final static String DEFAULT_DELIMITER = "\001";
+	public final static String DEFAULT_KEY_DELI = "_";
+	public final static String FIELD_NAME = "fieldName";
+	public final static String FIELD_VALUE = "fieldValue";
+	public final static String FIELD_KEY = "key_";
 	
 	//shell context
 	public final static String SHELL_CTX_RESTART = "restart";

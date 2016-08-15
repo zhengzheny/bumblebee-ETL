@@ -1,0 +1,53 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<process id="wifi-sz-ac-pm">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" />
+			<property key="mapperClass"
+				value="com.gsta.bigdata.etl.mapreduce.Vertical2CrossByKeyMapper" />
+			<property key="mapred.reduce.tasks" value="0" />
+		</computingFrameworkConfigs>
+		<sourceMetaData type="Vertical2Cross" delimiter=",">
+			<paths>
+				<inputPath path="${inputPath}" />
+			</paths>
+			<fields>
+				<field id="TIME" masterKey="yes" />
+				<field id="devicename" masterKey="yes" />
+				<field id="fieldName" />
+				<field id="fieldValue" />
+			</fields>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
+			<values delimiter="|">
+				<field id="TIME" />
+				<field id="devicename" />
+				<field id="ifInNUcastPkts" />
+				<field id="ifInOctets" />
+				<field id="ifInUcastPkts" />
+				<field id="ifOutDiscards" />
+				<field id="ifOutErrors" />
+				<field id="ifOutNUcastPkts" />
+				<field id="ifOutOctets" />
+				<field id="ifOutUcastPkts" />
+				<field id="CpuUsage" />
+				<field id="cpuAvgUsage" />
+				<field id="MemUsage" />
+				<field id="memAvgUsage" />
+				<field id="FlashUsage" />
+				<field id="FlashAvgUsage" />
+				<field id="wirelessACalloc" />
+				<field id="wirelessACdhcpreqsucc" />
+				<field id="wirelessACdhcpreqtry" />
+				<field id="wirelessACflashFree" />
+				<field id="wirelessACOnlineAP" />
+				<field id="wirelessACrxAllBytes" />
+				<field id="wirelessACrxSpeed" />
+				<field id="wirelessACtxAllBytes" />
+				<field id="wirelessACtxSpeed" />
+				<field id="FLAG" />
+			</values>
+		</outputMetaData>
+	</process>
+</etl>
