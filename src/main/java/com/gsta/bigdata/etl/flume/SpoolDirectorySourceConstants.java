@@ -37,8 +37,9 @@ public class SpoolDirectorySourceConstants {
 
   /** Header in which to put the basename of file. */
   public static final String BASENAME_HEADER_KEY = "basenameHeaderKey";
-  public static final String DEFAULT_BASENAME_HEADER_KEY = "basename";
-
+  //public static final String DEFAULT_BASENAME_HEADER_KEY = "basename";
+  public static final String DEFAULT_BASENAME_HEADER_KEY = "key";
+  
   /** Whether to include the basename of a file in a header. */
   public static final String BASENAME_HEADER = "basenameHeader";
   public static final boolean DEFAULT_BASENAME_HEADER = false;

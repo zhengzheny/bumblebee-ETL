@@ -25,7 +25,7 @@ import scala.Tuple2;
 import com.gsta.bigdata.etl.core.ETLData;
 import com.gsta.bigdata.etl.core.ETLProcess;
 import com.gsta.bigdata.etl.core.TransformException;
-import com.gsta.bigdata.etl.core.source.KafkaStream;
+import com.gsta.bigdata.etl.core.source.KafkaSpark;
 import com.gsta.bigdata.etl.core.source.ValidatorException;
 import com.gsta.bigdata.etl.mapreduce.OnlyKeyOutputFormat;
 
@@ -44,7 +44,7 @@ public class SparkKafkaRunner implements IRunner ,Serializable{
 		this.process = process;
 	}
 	
-	private Properties getReceiveKafkaConf(KafkaStream kafkaStream){
+	private Properties getReceiveKafkaConf(KafkaSpark kafkaStream){
 		Properties props = new Properties();
 		props.put("zookeeper.hosts", kafkaStream.getHosts());
 		props.put("zookeeper.port",kafkaStream.getPort());
@@ -66,7 +66,7 @@ public class SparkKafkaRunner implements IRunner ,Serializable{
 		return props;
 	}
 	
-	private void printInfo(KafkaStream kafkaStream) {
+	private void printInfo(KafkaSpark kafkaStream) {
 		logger.info("\nprocessId=" + process.getId() + "\nconfig:"
 				+ kafkaStream.toString() + "\noutput:\n" + "outputPath="
 				+ this.process.getOutputPath() + "\nkafka brokers="
@@ -80,9 +80,9 @@ public class SparkKafkaRunner implements IRunner ,Serializable{
 		if(this.process == null){
 			throw new ETLException("process object is null...");
 		}
-		KafkaStream kafkaStream = null;
-		if (process.getSourceMetaData() instanceof KafkaStream) {
-			kafkaStream = (KafkaStream) process.getSourceMetaData();
+		KafkaSpark kafkaStream = null;
+		if (process.getSourceMetaData() instanceof KafkaSpark) {
+			kafkaStream = (KafkaSpark) process.getSourceMetaData();
 		}
 		if(kafkaStream == null){
 			throw new ETLException("kafkaStream object is null,maybe config is wrong...");
@@ -191,7 +191,7 @@ public class SparkKafkaRunner implements IRunner ,Serializable{
 	
 	@SuppressWarnings("serial")
 	private void writeHdfs(JavaDStream<String> dpis, String path,
-			KafkaStream kafkaStream) {
+			KafkaSpark kafkaStream) {
 		JavaPairDStream<String, String> pairDPIs = dpis
 				.mapToPair(new PairFunction<String, String, String>() {
 					@Override

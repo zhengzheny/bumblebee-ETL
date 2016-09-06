@@ -79,7 +79,7 @@ public class Vertical2Cross extends SimpleFlat {
 		return etlData;
 	}
 	
-	protected String getMasterKey(ETLData etlData) {
+	private String getMasterKey(ETLData etlData) {
 		StringBuffer sb = new StringBuffer();
 
 		for (int i = 0; i < this.masterKeys.size(); i++) {

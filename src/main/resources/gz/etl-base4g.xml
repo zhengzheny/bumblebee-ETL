@@ -9,7 +9,8 @@
 			<property key="outputFormatClass"
 				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" />
 		</computingFrameworkConfigs>
-		<sourceMetaData type="noSettingFieldsFlat" delimiter="\t" wrapper="&quot;"  fieldNum="ge 11">
+		<!-- sourceMetaData type="noSettingFieldsFlat" delimiter="\t" wrapper="&quot;"  fieldNum="ge 11"-->
+		<sourceMetaData type="noSettingFieldsFlat" delimiter="\t" fieldNum="ge 11">
 			<paths>
 				<inputPath path="${inputPath}" />
 			</paths>
@@ -19,10 +20,10 @@
 				<field id="*"/>
 			</values>
 		</outputMetaData>
-		<transforms>
+		<!-- transforms>
 			<transform scope="map">		
 				<function name="delWrapper" input="*" wrapper="&quot;"/>
 			</transform>
-		</transforms>
+		</transforms-->
 	</process>
 </etl>

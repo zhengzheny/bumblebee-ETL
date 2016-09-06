@@ -1,6 +1,6 @@
 <?xml version = "1.0" encoding = "utf-8"?>
 <etl>
-	<process id="wifi-sz-ap-pm">
+	<process id="wifi-sz-sta-pm">
 		<computingFrameworkConfigs>
 			<property key="outputFormatClass"
 				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" />

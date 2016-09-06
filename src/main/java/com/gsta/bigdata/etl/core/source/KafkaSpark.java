@@ -9,7 +9,7 @@ import com.gsta.bigdata.etl.core.Constants;
 import com.gsta.bigdata.etl.core.ContextMgr;
 import com.gsta.bigdata.etl.core.ParseException;
 
-public class KafkaStream extends SimpleFlat {
+public class KafkaSpark extends SimpleFlat {
 	private static final long serialVersionUID = -3695999187190213893L;
 	
 	private String hosts ;	
@@ -36,7 +36,7 @@ public class KafkaStream extends SimpleFlat {
 	private String integral;
 	private String derivative;
 	
-	public KafkaStream() {
+	public KafkaSpark() {
 		super();
 		
 		super.registerChildrenTags(new ChildrenTag(

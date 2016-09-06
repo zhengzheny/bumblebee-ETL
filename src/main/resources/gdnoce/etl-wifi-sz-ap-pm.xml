@@ -33,7 +33,7 @@
 				<field id="ApStationCurAssocSum" />
 				<field id="APUserAuthCurAssocNumber" />
 				<field id="ApStationExDeAuthenAssocSum" />
-				<field id="" />
+				<field id="ApStationReassocSum" />
 				<field id="ApStationReassocSum" />
 				<field id="APAssocFailStatis3NSRCnt " />
 				<field id="APAssocFailStatis3OtherCnt " />
@@ -67,12 +67,11 @@
 				<field id="TxMgtFrameCnt" />
 				<field id="TxDiscardFrameCnt" />
 				<field id="TxDataFrameBytes" />
-				<field id="TxCtrlFrameCnt" />
+				<field id="TxDataFrameCnt" />
 				<field id="TxFrameRetryRatio" />
 				<field id="ethernetUpkbps" />
 				<field id="ethernetDownkbps" />
 				<field id="lastTime" />
-				<field id="RadioStaAssocFailSum" />
 				<field id="total_use_time" />
 				<field id="use_ReAssocTrySum" />
 				<field id="user_ReAssocSuccSum" />

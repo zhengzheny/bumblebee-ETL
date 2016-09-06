@@ -22,7 +22,6 @@ import com.gsta.bigdata.etl.core.ETLProcess;
  */
 public abstract class AbstractInterceptor implements Interceptor {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
-	private final static String HEADER_BASENAME = "basename";
 	
 	private FieldsHeader fieldsHeader;
 	private IFileNameHeader fileNameHeader;
@@ -62,7 +61,8 @@ public abstract class AbstractInterceptor implements Interceptor {
 			return null;
 		}
 
-		String fileName = event.getHeaders().get(HEADER_BASENAME);
+		String fileName = event.getHeaders().get(
+				SpoolDirectorySourceConstants.DEFAULT_BASENAME_HEADER_KEY);
 		String fileType = getFileType(fileName);
 		ETLProcess process = getProcess(fileType);
 		if (process == null) {
@@ -146,7 +146,8 @@ public abstract class AbstractInterceptor implements Interceptor {
 		List<Event> retEvents = new ArrayList<Event>();
 
 		for (Event event : events) {
-			String fileName = event.getHeaders().get(HEADER_BASENAME);
+			String fileName = event.getHeaders().get(
+					SpoolDirectorySourceConstants.DEFAULT_BASENAME_HEADER_KEY);
 			String fileType = getFileType(fileName);
 			ETLProcess process = getProcess(fileType);
 			if (process == null) {

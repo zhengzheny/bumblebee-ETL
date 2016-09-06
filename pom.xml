@@ -157,6 +157,16 @@
             <artifactId>flume-file-channel</artifactId>
             <version>${flume.version}</version>
         </dependency>
+        <dependency>
+			<groupId>org.apache.kafka</groupId>
+			<artifactId>kafka-clients</artifactId>
+			<version>0.10.0.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.kafka</groupId>
+		    <artifactId>kafka-streams</artifactId>
+		    <version>0.10.0.0</version>
+		</dependency>
     </dependencies>
 
 	<repositories>
@@ -201,6 +211,16 @@
 									<groupId>com.google.api.client</groupId>
 						            <artifactId>google-api-client-repackaged-com-google-common-base</artifactId>
 						            <version>1.2.3-alpha</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>org.apache.kafka</groupId>
+						            <artifactId>kafka-clients</artifactId>
+						            <version>0.10.0.0</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>org.apache.kafka</groupId>
+						            <artifactId>kafka-streams</artifactId>
+						            <version>0.10.0.0</version>
 								</artifactItem>
 							</artifactItems>
 							<outputDirectory>lib</outputDirectory>
@@ -253,6 +273,18 @@
                             </descriptors>
                         </configuration>
                         <id>make-assembly-flume</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>${basedir}/src/main/assembly/assembly-kafkastream.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                        <id>make-assembly-kafkastream</id>
                         <phase>package</phase>
                         <goals>
                             <goal>single</goal>

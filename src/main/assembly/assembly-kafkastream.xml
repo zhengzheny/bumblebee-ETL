@@ -2,7 +2,7 @@
 	xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
-	<id>flume</id>
+	<id>kafkastream</id>
 	<includeBaseDirectory>false</includeBaseDirectory>
 	<formats>
 		<format>tar.gz</format>
@@ -12,33 +12,13 @@
 			<directory>${basedir}/src/main/assembly/bin</directory>
 			<outputDirectory>bin/</outputDirectory>
 			<includes>
-				<include>etl-flume.sh</include>
-				<include>etl-kafka.sh</include>
+				<include>etl-kafkastream.sh</include>
 			</includes>
 			<fileMode>0755</fileMode>
 		</fileSet>
 		<fileSet>
-			<directory>${basedir}/src/main/resources/flume</directory>
-			<outputDirectory>conf/</outputDirectory>
-		</fileSet>
-		<fileSet>
-			<directory>${basedir}/src/main/resources/gdnoce</directory>
-			<outputDirectory>conf/gdnoce</outputDirectory>
-			<includes>
-				<include>**/*.xml</include>
-				<include>**/*.properties</include>
-			</includes>
-		</fileSet>
-		<fileSet>
-			<directory>${basedir}/src/main/resources/lteup</directory>
-			<outputDirectory>conf/lteup</outputDirectory>
-			<includes>
-				<include>**/*.*</include>
-			</includes>
-		</fileSet>
-		<fileSet>
 			<directory>${project.build.directory}/</directory>
-			<outputDirectory>plugins.d/FlumeInterceptor/lib</outputDirectory>
+			<outputDirectory>lib/</outputDirectory>
 			<includes>
 				<include>etl-1.0.jar</include>
 			</includes>
@@ -48,8 +28,8 @@
 			<directory>${basedir}/lib</directory>
 			<outputDirectory>lib/</outputDirectory>
 			<includes>
-				<include>google*.jar</include>
-				<include>kafka*.jar</include>
+				<include>kafka-streams*.jar</include>
+				<include>etl-1.0.jar</include>
 			</includes>
 		</fileSet>
 	</fileSets>

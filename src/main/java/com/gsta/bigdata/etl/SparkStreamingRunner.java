@@ -23,7 +23,7 @@ import scala.Tuple2;
 import com.gsta.bigdata.etl.core.ETLData;
 import com.gsta.bigdata.etl.core.ETLProcess;
 import com.gsta.bigdata.etl.core.TransformException;
-import com.gsta.bigdata.etl.core.source.KafkaStream;
+import com.gsta.bigdata.etl.core.source.KafkaSpark;
 import com.gsta.bigdata.etl.core.source.ValidatorException;
 import com.gsta.bigdata.etl.mapreduce.OnlyKeyOutputFormat;
 
@@ -46,8 +46,8 @@ public class SparkStreamingRunner implements IRunner,Serializable {
 		int receivesNum = 1;
 		int partitionsNum = 1;
 		
-		if (process.getSourceMetaData() instanceof KafkaStream) {
-			KafkaStream kafkaStream = (KafkaStream) process.getSourceMetaData();
+		if (process.getSourceMetaData() instanceof KafkaSpark) {
+			KafkaSpark kafkaStream = (KafkaSpark) process.getSourceMetaData();
 			
 			topics = kafkaStream.getTopics();
 			zkroot = kafkaStream.getZkroot();

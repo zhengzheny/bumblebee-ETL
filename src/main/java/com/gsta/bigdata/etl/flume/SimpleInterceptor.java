@@ -59,7 +59,7 @@ public class SimpleInterceptor extends AbstractInterceptor {
 		@Override
 		public Interceptor build() {
 			return new SimpleInterceptor(super.configFilePath,super.configFileName,
-					super.fileNameHeaders, super.headerFields, super.fileCount);
+					super.fileNameHeaderType, super.headerFields, super.fileCount);
 		}
 	}
 }

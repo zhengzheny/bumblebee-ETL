@@ -99,7 +99,7 @@ public class MultiProcessInterceptor extends AbstractInterceptor {
 		@Override
 		public Interceptor build() {
 			return new MultiProcessInterceptor(super.configFilePath,super.configFileName,
-					super.fileNameHeaders, super.headerFields, super.fileCount);
+					super.fileNameHeaderType, super.headerFields, super.fileCount);
 		}
 	}
 }

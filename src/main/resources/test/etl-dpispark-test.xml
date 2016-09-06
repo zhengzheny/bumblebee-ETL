@@ -6,8 +6,8 @@
      
     <!-- process id="dpi" type="sparkStreamingProcess"-->
     <process id="dpi" type="sparkKafkaProcess">
-        <sourceMetaData type="kafkaStream" delimiter="\001" >
-        <!-- sourceMetaData type="kafkaStream" delimiter="\|" -->
+        <sourceMetaData type="KafkaSpark" delimiter="\001" >
+        <!-- sourceMetaData type="KafkaSpark" delimiter="\|" -->
             <!-- kafka brokers="${brokers}" topic="${topics}"/-->
             <!-- kafka zkroot="${zkroot}" topic="${topics}" group="${group}" receivesNum="${receivesNum}" partitionsNum="${partitionsNum}" duration="${duration}"/-->
             <kafka hosts="${hosts}" port="${port}" brokers="${brokers}"
