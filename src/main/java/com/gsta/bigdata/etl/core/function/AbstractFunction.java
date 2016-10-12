@@ -58,6 +58,15 @@ import com.gsta.bigdata.utils.XmlTools;
 		@JsonSubTypes.Type(value = Trim.class, name = "Trim"),
 		@JsonSubTypes.Type(value = LTEUPFlag.class, name = "LTEUPFlag"),
 		@JsonSubTypes.Type(value = LTEUPUePort.class, name = "LTEUPUePort"),
+		@JsonSubTypes.Type(value = RegexpExtract.class, name = "RegexpExtract"),
+		@JsonSubTypes.Type(value = GetWXUIN.class, name = "GetWXUIN"),
+		@JsonSubTypes.Type(value = GetQQ.class, name = "GetQQ"),
+		@JsonSubTypes.Type(value = GetJD.class, name = "GetJD"),
+		@JsonSubTypes.Type(value = GetTaoBao.class, name = "GetTaoBao"),
+		@JsonSubTypes.Type(value = GetWeiBo.class, name = "GetWeiBo"),
+		@JsonSubTypes.Type(value = GetHour.class, name = "GetHour"),
+		@JsonSubTypes.Type(value = GetPathAndQuery.class, name = "GetPathAndQuery"),
+		@JsonSubTypes.Type(value = GetDomain.class, name = "GetDomain"),
 		@JsonSubTypes.Type(value = HostQuery.class, name = "HostQuery")})
 public abstract class AbstractFunction extends AbstractETLObject {
 	private static final long serialVersionUID = 8920066337876631884L;

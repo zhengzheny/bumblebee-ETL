@@ -17,7 +17,7 @@
   RUN_CMD="java "
   RUN_CMD="$RUN_CMD -classpath \"$BIGDATA_CLASSPATH\""
   RUN_CMD="$RUN_CMD -Xmx4G -Xms4G "
-  RUN_CMD="$RUN_CMD com.gsta.bigdata.etl.KafkaStreamRunner $@"
+  RUN_CMD="$RUN_CMD com.gsta.bigdata.etl.ETLRunner $@"
   
   echo $RUN_CMD
   eval $RUN_CMD

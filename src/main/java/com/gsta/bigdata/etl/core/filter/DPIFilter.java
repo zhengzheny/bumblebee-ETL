@@ -94,6 +94,7 @@ public class DPIFilter extends AbstractFilter {
 			return false;
 		}
 		
-		return false;
+		//if has no suffix,return true
+		return true;
 	}
 }

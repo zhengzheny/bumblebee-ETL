@@ -1,0 +1,94 @@
+# pictures
+.gif
+.jpg
+.jpeg
+.bmp
+.png
+.tif
+.tiff
+.ico
+.eps
+.ps
+.wmf
+.fpx
+.cur
+.ani
+.img
+.lwf
+.pcd
+.psp
+.psd
+.tga
+.xbm
+.xpm
+.webp
+
+# web-formats
+.css
+
+# javascript
+.js
+
+# archives/packages
+.arj
+.arc
+.7z
+.cab
+.lzw
+.lha
+.lzh
+.zip
+.rar
+.gz
+.tar
+.tgz
+.sit
+.rpm
+.deb
+.pkg
+.apk
+
+# audio/video
+.rmvb
+.mid
+.midi
+.rmi
+.mpeg
+.mpg
+.mpe
+.mp3
+.mp2
+.mp4
+.aac
+.mov
+.fla
+.flv
+.ra
+.ram
+.rm
+.rmv
+.wma
+.wmv
+.wav
+.wave
+.ogg
+.avi
+.au
+.snd
+.vp8
+.webm
+.swf
+
+# executables
+.exe
+.com
+
+# windows links
+.lnk
+
+# typo3-extensions
+.t3x
+
+# disc-images
+.iso
+.bin

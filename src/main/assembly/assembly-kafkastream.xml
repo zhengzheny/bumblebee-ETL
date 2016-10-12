@@ -17,6 +17,13 @@
 			<fileMode>0755</fileMode>
 		</fileSet>
 		<fileSet>
+			<directory>${basedir}/src/main/resources/kafkastream</directory>
+			<outputDirectory>conf/</outputDirectory>
+			<includes>
+				<include>*</include>
+			</includes>
+		</fileSet>
+		<fileSet>
 			<directory>${project.build.directory}/</directory>
 			<outputDirectory>lib/</outputDirectory>
 			<includes>
@@ -25,11 +32,10 @@
 		</fileSet>
 		<!-- include compile source jar -->
 		<fileSet>
-			<directory>${basedir}/lib</directory>
+			<directory>${basedir}/lib/kafkastream</directory>
 			<outputDirectory>lib/</outputDirectory>
 			<includes>
-				<include>kafka-streams*.jar</include>
-				<include>etl-1.0.jar</include>
+				<include>*.jar</include>
 			</includes>
 		</fileSet>
 	</fileSets>

@@ -208,4 +208,65 @@ public class StringUtils {
         return false;    	
 	}    
 
+    public static boolean isIPV4(String strIP) {
+		if (strIP == null || "".equals(strIP)) {
+			return false;
+		}
+
+		int count = 0;
+		final String letters = "1234567890.";
+		int length = strIP.length();
+		for (int i = 0; i < length; i++) {
+			char c = strIP.charAt(i);
+			if (letters.indexOf(c) == -1) {
+				return false;
+			}
+			if (strIP.charAt(i) == '.') count++;
+		}
+
+		if (count != 3) {
+			return false;
+		}
+
+		String[] parts = new String[4];
+		int first = strIP.indexOf(".");
+		int last = strIP.lastIndexOf(".");
+		parts[0] = strIP.substring(0, first);
+		String subip = strIP.substring(0, last);
+		int sublength = subip.length();
+		int second = subip.lastIndexOf(".");
+		parts[1] = subip.substring(first + 1, second);
+		parts[2] = subip.substring(second + 1, sublength);
+		parts[3] = strIP.substring(last + 1, length);
+
+		for (int i = 0; i < parts.length; i++) {
+			if (parts[i] == null || parts[i].equals("")) {
+				return false;
+			}
+
+			int temp = Integer.parseInt(parts[i]);
+			if (temp < 0 || temp > 255) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+    
+	public static String unicode2ascii(String str) {
+		String[] asciis = str.split("\\\\u");
+		String nativeValue = asciis[0];
+		try {
+			for (int i = 1; i < asciis.length; i++) {
+				String code = asciis[i];
+				nativeValue += (char) Integer.parseInt(code.substring(0, 4), 16);
+				if (code.length() > 4) {
+					nativeValue += code.substring(4, code.length());
+				}
+			}
+		} catch (NumberFormatException e) {
+			return str;
+		}
+		return nativeValue;
+	}
 }

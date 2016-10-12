@@ -146,7 +146,7 @@ public class ETLRunner {
 		}
 		
 		IRunner runner = null;
-		if (process.getType().equals(Constants.DEFAULT_COMPUTING_FRAMEWORK_MR)) {
+		if (process.getType().equalsIgnoreCase(Constants.DEFAULT_COMPUTING_FRAMEWORK_MR)) {
 			//map/reduce computing framework
 			Configuration conf = new Configuration();
 
@@ -155,13 +155,15 @@ public class ETLRunner {
 					context.getValue(Constants.CONTEXT_MONTH, ""));
 
 			runner = new MRRunner(conf, process,writeLog);	
-		}else if(process.getType().equals(Constants.CF_NAME_LOCAL_FILE_PROCESS)){
+		}else if(process.getType().equalsIgnoreCase(Constants.CF_NAME_LOCAL_FILE_PROCESS)){
 			//local file computing framework
 			runner = new LocalFileRunner(process);
-		}else if(process.getType().equals(Constants.CF_NAME_SLICE_LOCAL_FILE_PROCESS)){
+		}else if(process.getType().equalsIgnoreCase(Constants.CF_NAME_SLICE_LOCAL_FILE_PROCESS)){
 			runner = new SliceLocalFileRunner(process);
-		}else if(process.getType().equals(Constants.CF_NAME_SPARK_KAFKA_PROCESS)){
+		}else if(process.getType().equalsIgnoreCase(Constants.CF_NAME_SPARK_KAFKA_PROCESS)){
 			runner = new SparkKafkaRunner(process);
+		}else if(process.getType().equalsIgnoreCase(Constants.CF_NAME_KAFKA_STREAM_PROCESS)){
+			runner = new KafkaStreamRunner(process);
 		}
 
 		try {
