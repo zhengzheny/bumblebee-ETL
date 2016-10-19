@@ -45,8 +45,7 @@ public class GetJD extends AbstractFunction {
 			int idx = vCookie.indexOf("buy_uin=");
 			if (idx > 0) {
 				String qq = vCookie.substring(idx);
-				// if o_cookie is in middle of cookie field,or o_cookie is the
-				// end of cookie field
+				// if buy_uin is in middle of cookie field,or buy_uin is the end of cookie field
 				idx = qq.indexOf(";");
 				if (idx > 0) qq = qq.substring(0, idx);
 				idx = qq.indexOf("=");

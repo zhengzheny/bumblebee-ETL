@@ -75,26 +75,5 @@ public class GetTaoBao extends AbstractFunction {
 			throws ETLException {
 		return null;
 	}
-	
-	public static void test(String name){
-		System.out.println("hello " + name);
-	}
-	
-	public static void main(String[] args){
-		Integer sum = 0,total = 0;
-		//0~7,最多8位
-		for(int i=1; i<9; i++){ 
-			if(i == 1 ){
-				total = 4; 
-			}else if(i ==2){
-				total = total*7; 
-			}else{
-				total *= 8; 
-			}
-			System.out.println("0-7组成" + i + "位数，有：" + total + "个");
-			sum += total;
-		}
-		System.out.println("总计为：" + sum);
-	}
 }
 
