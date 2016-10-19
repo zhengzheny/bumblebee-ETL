@@ -56,6 +56,11 @@
             <artifactId>google-api-client-repackaged-com-google-common-base</artifactId>
             <version>1.2.3-alpha</version>
         </dependency>
+		<dependency>
+			<groupId>com.google.api.client</groupId>
+			<artifactId>google-api-client-util</artifactId>
+			<version>1.2.3-alpha</version>
+		</dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

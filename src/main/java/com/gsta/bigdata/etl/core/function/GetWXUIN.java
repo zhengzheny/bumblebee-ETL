@@ -48,10 +48,11 @@ public class GetWXUIN extends AbstractFunction {
 				String uin = vReferer.substring(idx);
 				if("".equals(uin)) return null;
 				idx = uin.indexOf("&");
-				uin = uin.substring(0, idx);
-				uin = uin.substring(uin.indexOf("=") +1);
-				
-				return uin;
+				if(idx > 0){
+					uin = uin.substring(0, idx);
+					idx = uin.indexOf("=");
+					if(idx >0) return uin.substring(idx +1);
+				}
 			}
 		}
 		
@@ -66,14 +67,12 @@ public class GetWXUIN extends AbstractFunction {
 				String uin = vCookie.substring(idx);
 				if("".equals(uin)) return null;
 				idx = uin.indexOf(";");
-				// if ptui_loginuin is in middle of cookie field,or is the end
-				// of cookie field
+				// if ptui_loginuin is in middle of cookie field,or is the end of cookie field
 				if (idx > 0) {
 					uin = uin.substring(0, idx);
 				}
-				uin = uin.substring(uin.indexOf("=") + 1);
-
-				return uin;
+				idx = uin.indexOf("=");
+				if(idx > 0) return uin.substring(idx + 1);
 			}
 		}
 		

@@ -84,10 +84,13 @@ public class GetWeiBo extends AbstractFunction {
 				if (idx > 0) {
 					sub = sub.substring(0, idx);
 				}
-				sub = sub.substring(sub.indexOf("=") + 1);
-				sub = this.urlDecode.decode(sub);
-
-				return sub;
+				idx = sub.indexOf("=");
+				if(idx >0){
+					sub = sub.substring(idx + 1);
+					sub = this.urlDecode.decode(sub);
+	
+					return sub;
+				}
 			}
 		}
 
@@ -103,10 +106,14 @@ public class GetWeiBo extends AbstractFunction {
 			if("".equals(fieldValue)) return null;
 			
 			idx = fieldValue.indexOf("&");
-			fieldValue = fieldValue.substring(0, idx);
-			fieldValue = fieldValue.substring(fieldValue.indexOf("=") +1);
-			
-			return this.urlDecode.decode(fieldValue);
+			if(idx > 0){
+				fieldValue = fieldValue.substring(0, idx);
+				idx = fieldValue.indexOf("=");
+				if(idx > 0){
+					fieldValue = fieldValue.substring(idx +1);			
+					return this.urlDecode.decode(fieldValue);
+				}
+			}
 		}
 		
 		return null;

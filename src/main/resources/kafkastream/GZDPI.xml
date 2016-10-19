@@ -3,7 +3,7 @@
 	<process id="gz_dpi" type="kafkaStreamProcess">
 		<sourceMetaData type="kafkaStream" delimiter="\001">
 			<kafka>
-				<app_id>kafkaStream1010</app_id>
+				<app_id>kafkaStream1011</app_id>
 				<brokers>192.168.9.80:9091,192.168.9.80:9092,192.168.9.80:9093,192.168.9.80:9094,192.168.9.81:9095,192.168.9.81:9096,192.168.9.81:9097,192.168.9.81:9098</brokers>
 				<client_id>gdnoce</client_id>
 				<zookeeper>192.168.9.17:2181,192.168.9.16:2181,192.168.9.15:2181/kafka0.10</zookeeper>
@@ -14,19 +14,19 @@
 			</kafka>
 			<fields>
 				<field id="ts" type="string" />
-                <field id="ad" type="string" />
-                <field id="srcip" type="string" />
-                <field id="srcport" type="string" />
-                <field id="dstip" type="string" />
-                <field id="dstport" type="string" />
-                <field id="host" type="string" />
-                <field id="url" type="string"  />
-                <field id="ua" type="string" />
-                <field id="cookie" type="string" />
-                <field id="ref" type="string"  />
-                <field id="seq" type="string" />
-                <field id="ack" type="string" />
-                <field id="collectHost"/>
+				<field id="ad" type="string" />
+				<field id="srcip" type="string" />
+				<field id="srcport" type="string" />
+				<field id="dstip" type="string" />
+				<field id="dstport" type="string" />
+				<field id="host" type="string" />
+				<field id="url" type="string" />
+				<field id="ua" type="string" />
+				<field id="cookie" type="string" />
+				<field id="ref" type="string" />
+				<field id="seq" type="string" />
+				<field id="ack" type="string" />
+				<field id="collectHost" />
 			</fields>
 		</sourceMetaData>
 		<outputMetaData>
@@ -53,6 +53,8 @@
 				<field id="weiboname" />
 				<field id="weibonick" />
 				<field id="hour" />
+				<field id="timeStamp" />
+				<field id="day" />
 				<field id="collectHost" />
 			</values>
 		</outputMetaData>
@@ -70,7 +72,11 @@
 					<output id="weiboname" />
 					<output id="weibonick" />
 				</function>
-				<function name="GetHour" timestamp="ts" output="hour" />
+				<function name="GetDPITime" timestamp="ts" formatter="yyyyMMddHHmmss">
+					<output id="hour"/>
+					<output id="timeStamp"/>
+					<output id="day"/>
+				</function>
 				<function name="GetPathAndQuery" host="host" url="url">
 					<output id="path" />
 					<output id="query" />
@@ -79,3 +85,4 @@
 		</transforms>
 	</process>
 </etl>
+			

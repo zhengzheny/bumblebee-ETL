@@ -14,8 +14,8 @@ import java.util.regex.Pattern;
  *
  */
 public class StringUtils {
-	 private static final Pattern charCheckPatn = Pattern.compile("\\s*|\t*|\r*|\n*", Pattern.CASE_INSENSITIVE);
-	 
+	private static final Pattern charCheckPatn = Pattern.compile("\\s*|\t*|\r*|\n*", Pattern.CASE_INSENSITIVE);
+	
 	public static String getPackageName(Class<?> clazz) {
 		String className = clazz.getName();
 		String simpleName = clazz.getSimpleName();
@@ -254,12 +254,18 @@ public class StringUtils {
 	}
     
 	public static String unicode2ascii(String str) {
+		if(str == null || "".equals(str)) return null;
+		
 		String[] asciis = str.split("\\\\u");
+		if(asciis == null || asciis.length <=0) return null;
+
 		String nativeValue = asciis[0];
 		try {
 			for (int i = 1; i < asciis.length; i++) {
 				String code = asciis[i];
-				nativeValue += (char) Integer.parseInt(code.substring(0, 4), 16);
+				if(code.length() == 4){
+					nativeValue += (char) Integer.parseInt(code.substring(0, 4), 16);
+				}
 				if (code.length() > 4) {
 					nativeValue += code.substring(4, code.length());
 				}

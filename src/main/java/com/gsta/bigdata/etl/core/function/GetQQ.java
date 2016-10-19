@@ -45,16 +45,17 @@ public class GetQQ extends AbstractFunction {
 			int idx = vCookie.indexOf("o_cookie=");
 			if (idx > 0) {
 				String qq = vCookie.substring(idx);
-				if("".equals(qq)) return null;
-				
+				if ("".equals(qq)) return null;
+
 				// if o_cookie is in middle of cookie field,or o_cookie is the end of cookie field
 				idx = qq.indexOf(";");
 				if (idx > 0) {
 					qq = qq.substring(0, idx);
 				}
-				qq = qq.substring(qq.indexOf("=") + 1);
-
-				return qq;
+				idx = qq.indexOf("=");
+				if (idx > 0) {
+					return qq.substring(idx + 1);
+				}
 			}
 		}
 

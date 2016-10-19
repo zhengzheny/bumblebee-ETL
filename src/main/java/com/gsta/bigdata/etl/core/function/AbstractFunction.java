@@ -64,7 +64,7 @@ import com.gsta.bigdata.utils.XmlTools;
 		@JsonSubTypes.Type(value = GetJD.class, name = "GetJD"),
 		@JsonSubTypes.Type(value = GetTaoBao.class, name = "GetTaoBao"),
 		@JsonSubTypes.Type(value = GetWeiBo.class, name = "GetWeiBo"),
-		@JsonSubTypes.Type(value = GetHour.class, name = "GetHour"),
+		@JsonSubTypes.Type(value = GetDPITime.class, name = "GetHour"),
 		@JsonSubTypes.Type(value = GetPathAndQuery.class, name = "GetPathAndQuery"),
 		@JsonSubTypes.Type(value = GetDomain.class, name = "GetDomain"),
 		@JsonSubTypes.Type(value = HostQuery.class, name = "HostQuery")})

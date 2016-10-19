@@ -119,6 +119,7 @@ public class Constants {
 	public final static String ATTR_DURATION = "duration";
 	public final static String ATTR_END_POS = "endPos";
 	public final static String ATTR_ERROR_PATH = "errorPath";
+	public final static String ATTR_FORMATTER = "formatter";
 	public final static String ATTR_FETCHSIZE_BYTES = "fetchsizebytes";
 	public final static String ATTR_FILE_PREFIX = "filePrefix";
 	public final static String ATTR_FILE_SUFFIX = "fileSuffix";
