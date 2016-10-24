@@ -74,7 +74,6 @@ public class KafkaStreamRunner implements IRunner ,Serializable{
 				
 				return true;
 			}
-			
 		}).to(kafkaStream.getOutputTopic());
 
 		final KafkaStreams streams = new KafkaStreams(builder, props);

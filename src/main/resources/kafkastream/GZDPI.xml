@@ -3,7 +3,7 @@
 	<process id="gz_dpi" type="kafkaStreamProcess">
 		<sourceMetaData type="kafkaStream" delimiter="\001">
 			<kafka>
-				<app_id>kafkaStream1011</app_id>
+				<app_id>kafkaStream1020</app_id>
 				<brokers>192.168.9.80:9091,192.168.9.80:9092,192.168.9.80:9093,192.168.9.80:9094,192.168.9.81:9095,192.168.9.81:9096,192.168.9.81:9097,192.168.9.81:9098</brokers>
 				<client_id>gdnoce</client_id>
 				<zookeeper>192.168.9.17:2181,192.168.9.16:2181,192.168.9.15:2181/kafka0.10</zookeeper>
@@ -30,28 +30,28 @@
 			</fields>
 		</sourceMetaData>
 		<outputMetaData>
-			<values delimiter="|">
+			<values delimiter="\001">
 				<field id="ts" desc="starttime" />
-				<field id="ad" desc="account" />
+				<field id="ad" desc="account" defaultValue="none"/>
 				<field id="srcip" desc="sourceip" />
 				<field id="srcport" desc="sourceport" />
 				<field id="dstip" desc="destinationip" />
 				<field id="dstport" desc="destinationport" />
-				<field id="url" desc="destinationurl" />
-				<field id="host" />
-				<field id="path" />
-				<field id="query" />
-				<field id="domain" />
-				<field id="ref" desc="referer" />
-				<field id="ua" desc="useragent" />
-				<field id="cookie" />
-				<field id="weixinid" />
-				<field id="qq" />
-				<field id="buy_uin" />
-				<field id="taobao_nick" />
-				<field id="weibosup" />
-				<field id="weiboname" />
-				<field id="weibonick" />
+				<field id="url" desc="destinationurl" defaultValue=""/>
+				<field id="host" defaultValue=""/>
+				<field id="path" defaultValue=""/>
+				<field id="query" defaultValue=""/>
+				<field id="domain" defaultValue=""/>
+				<field id="ref" desc="referer" defaultValue=""/>
+				<field id="ua" desc="useragent" defaultValue=""/>
+				<field id="cookie" defaultValue=""/>
+				<field id="weixinid" defaultValue=""/>
+				<field id="qq" defaultValue=""/>
+				<field id="buy_uin" defaultValue=""/>
+				<field id="taobao_nick" defaultValue=""/>
+				<field id="weibosup" defaultValue=""/>
+				<field id="weiboname" defaultValue=""/>
+				<field id="weibonick" defaultValue=""/>
 				<field id="hour" />
 				<field id="timeStamp" />
 				<field id="day" />

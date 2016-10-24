@@ -137,7 +137,8 @@ public class Field extends AbstractETLObject implements Comparable<Field> {
 		}
 		
 		String strDefaultValue = super.getAttr(Constants.ATTR_DEFAULT_VALUE);
-		if(strDefaultValue != null && !"".equals(strDefaultValue)){
+		//if(strDefaultValue != null && !"".equals(strDefaultValue)){
+		if(strDefaultValue != null ){
 			this.defaultValue = ContextMgr.getValue(strDefaultValue);
 		}
 		

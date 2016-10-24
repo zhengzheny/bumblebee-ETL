@@ -5,4 +5,4 @@ cd $BASEDIR
 
 #bin/flume-ng agent --conf ./conf/ -n etlAgent -f ./conf/flume-mro-zte.conf
 #bin/flume-ng agent --conf ./conf/ -n etlAgent -f ./conf/flume-LTEUP.conf
-bin/flume-ng agent --conf ./conf/ -n etlAgent -f ./conf/flume2kafkaTest.conf
+bin/flume-ng agent --conf ./conf/ -n etlAgent -f ./conf/gzdpiKafka2HDFS.conf

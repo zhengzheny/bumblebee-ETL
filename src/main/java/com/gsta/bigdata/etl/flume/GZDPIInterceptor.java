@@ -15,6 +15,7 @@ public class GZDPIInterceptor implements Interceptor {
 	private String headerFields;
 	private String[] lstFields;
 	private String[] lstHeaderFields;
+	private static final String NotSeeCharDefineInConf = "001";
 	
 	public GZDPIInterceptor(String delimiter, String fields, String headerFields) {
 		super();
@@ -31,6 +32,10 @@ public class GZDPIInterceptor implements Interceptor {
 		
 		if(this.headerFields != null){
 			this.lstHeaderFields = this.headerFields.split(",",-1);
+		}
+		
+		if(NotSeeCharDefineInConf.equals(this.delimiter)){
+			this.delimiter = "\001";
 		}
 	}
 

@@ -23,7 +23,8 @@
 
 # Give Flume more memory and pre-allocate, enable remote monitoring via JMX
 # export JAVA_OPTS="-Xms100m -Xmx2000m -Dcom.sun.management.jmxremote"
-export JAVA_OPTS="-Xms8G -Xmx8G -Dflume.monitoring.type=http -Dflume.monitoring.port=20160 -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=5445 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false"
+#export JAVA_OPTS="-Xms8G -Xmx8G -Dflume.monitoring.type=http -Dflume.monitoring.port=20160 -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=5445 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false"
+export JAVA_OPTS="-Xms8G -Xmx8G "
 
 # Note that the Flume conf directory is always included in the classpath.
 #FLUME_CLASSPATH=""

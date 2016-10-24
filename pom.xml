@@ -182,6 +182,14 @@
 	</repositories>
 
     <build>
+		<resources>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.java</include>
+				</includes>
+			</resource>
+		</resources>
         <plugins>
             <!-- compile source java -->
             <plugin>
@@ -193,6 +201,7 @@
                     <target>1.7</target>
                     <encoding>${app.encoding}</encoding>
                 </configuration>
+                
             </plugin>
             
             <plugin>

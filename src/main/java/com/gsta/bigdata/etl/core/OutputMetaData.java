@@ -36,7 +36,7 @@ public class OutputMetaData extends AbstractETLObject {
 	private String filePrefix;
 	@JsonProperty
 	private String valuesDelimiter = "\\|";
-	//protected static final String NotSeeCharDefineInConf = "001";
+	private static final String NotSeeCharDefineInConf = "001";
 	@JsonProperty
 	private List<Field> valuesFields = new ArrayList<Field>();
 	@JsonProperty
@@ -103,6 +103,9 @@ public class OutputMetaData extends AbstractETLObject {
 				throw new ParseException(e);
 			}
 		}
+		if(NotSeeCharDefineInConf.equals(this.valuesDelimiter)){
+			this.valuesDelimiter = "\001";
+		}
 		
 		// get keys delimiter
 		if (node.getNodeName().equals(Constants.PATH_MAP_OUTPUT_METADATA_KEYS)) {
@@ -116,6 +119,9 @@ public class OutputMetaData extends AbstractETLObject {
 			} catch (XPathExpressionException e) {
 				throw new ParseException(e);
 			}
+		}
+		if(NotSeeCharDefineInConf.equals(this.keysDelimiter)){
+			this.keysDelimiter = "\001";
 		}
 	}
 
