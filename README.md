@@ -11,6 +11,7 @@ bumblebee是一个ETL程序，Java语言编写，主要涉及的是抽取（extr
 	* sliceLocalFile:处理方法类似于localFile，但针对同一个文件，又分成了多个线程进行处理。这种模式主要处理每一行都是独立的内容块，线程之间可以方便拆分，而localFile处理如数据源为xml的内容块，不同线程拆间拆分比较麻烦，故在同一个线程中处理。
 	* spark streaming：在streaming中对数据进行转换和处理。
 	* flume：利用flume的interceptors对数据进行处理。重构了SpoolDirectorySource代码，支持.gz压缩格式。
+	* kafka stream：在kafka stream中队数据进行和转换处理。
 
 ##Adventage
 * 可以快速扩展数据源，数据源可以是单个文件，也可以是目录，目前已经支持的数据源：
