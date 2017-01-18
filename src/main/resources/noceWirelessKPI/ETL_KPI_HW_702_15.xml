@@ -1,0 +1,124 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<process id="ETL_KPI_HW_702_15M">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" />
+			<property key="sourceEncoding" value="GBK" />
+			<property key="mapred.reduce.tasks" value="0" />
+		</computingFrameworkConfigs>
+		<sourceMetaData type="KpiXML">
+			<paths>
+				<inputPath path="${inputPath}" />
+			</paths>
+			<fields>
+				<field id="eNodeBNAME" desc="eNodeB名称" />
+				<field id="LOCALID" desc="本地小区标识" />
+				<field id="CELLNAME" desc="小区名称" />
+				<field id="eNodeBID" desc="eNodeB标识" />
+				<field id="CELLDUPLEX" desc="小区双工模式" />
+				<field id="CELLID" desc="小区标识" />
+				<field id="PUCCH_AVGRESOURS" desc="PUCCH的PRB资源分配的平均值" />
+				<field id="UP_AVGPRB" desc="上行Physical Resource Block被使用的平均个数" />
+				<field id="UP_PD_AVGPRB" desc="上行PUSCH DRB的Physical Resource Block被使用的平均个数" />
+				<field id="UP_PUSCH_AVGPRB" desc="上行PUSCH的Physical Resource Block被使用的平均个数" />
+				<field id="UP_VoIP_PC" desc="上行VoIP业务使用的PDCCH CCE个数" />
+				<field id="UP_AVAILPRB" desc="上行可用的PRB个数" />
+				<field id="UP_DP_AVGPRB" desc="上行预调度所使用的平均PRB资源个数" />
+				<field id="UP_FDP_AVGPRB" desc="上行频选调度所使用的PRB平均个数" />
+				<field id="DW_PD_AVGPRB" desc="下行PDSCH DRB的Physical Resource Block被使用的平均个数" />
+				<field id="DW_AVGPRB" desc="下行Physical Resource Block被使用的平均个数" />
+				<field id="DW_VoIP_PC" desc="下行VoIP业务使用的PDCCH CCE个数" />
+				<field id="DW_AVAILPRB" desc="下行可用的PRB个数" />
+				<field id="DW_FDP_AVGPRB" desc="下行频选调度所使用的PRB平均个数" />
+				<field id="PCA_UPPRB" desc="以本小区为主小区的CA用户所占用掉的下行PRB数量" />
+				<field id="ACA_UPPRB" desc="以本小区为辅小区的CA用户所占用掉的下行PRB数量" />
+				<field id="PUBDCI_PC" desc="公共DCI所占用的PDCCH CCE的个数" />
+				<field id="PDCCH_DW_LV1_DTX" desc="小区PDCCH下行分配中聚合级别为1的DTX次数" />
+				<field id="PDCCH_DW_LV2_DTX" desc="小区PDCCH下行分配中聚合级别为2的DTX次数" />
+				<field id="PDCCH_DW_LV3_DTX" desc="小区PDCCH下行分配中聚合级别为4的DTX次数" />
+				<field id="PDCCH_DW_LV4_DTX" desc="小区PDCCH下行分配中聚合级别为8的DTX次数" />
+				<field id="PDCCH_LV1_DTX" desc="小区PDCCH聚合级别为1的次数" />
+				<field id="PDCCH_LV2_DTX" desc="小区PDCCH聚合级别为2的次数" />
+				<field id="PDCCH_LV3_DTX" desc="小区PDCCH聚合级别为4的次数" />
+				<field id="PDCCH_LV4_DTX" desc="小区PDCCH聚合级别为8的次数" />
+				<field id="UP_STANDARD_CCE" desc="小区上行DCI使用的等效至基准功率的PDCCH的CCE个数" />
+				<field id="UP_FAIL_CCE" desc="小区上行分配CCE失败次数" />
+				<field id="UP_FSIGN_CCE" desc="小区上行初传信令使用的PDCCH的CCE个数" />
+				<field id="UP_EDGE_AVGPRB" desc="小区上行边缘用户PRB资源使用的平均个数" />
+				<field id="DW_STANDARD_CCE" desc="小区下行DCI使用的等效至基准功率的PDCCH的CCE个数" />
+				<field id="DW_FAIL_CCE" desc="小区下行分配CCE失败次数" />
+				<field id="DW_FMCE_CCE" desc="小区下行初传MCE使用的PDCCH的CCE个数" />
+				<field id="DW_FSIGN_CCE" desc="小区下行初传信令使用的PDCCH的CCE个数" />
+				<field id="DW_FDATA_CCE" desc="小区下行初传数据使用的PDCCH的CCE个数" />
+				<field id="DW_EDGE_AVGPRB" desc="小区下行边缘用户PRB资源使用的平均个数" />
+				<field id="DW_CoMP_AVGPRB" desc="小区内下行CoMP调度平均PRB数" />
+				<field id="UP_CoMP_AVGRB" desc="小区内平均上行CoMP调度RB数" />
+				<field id="TA_CCE" desc="小区因为测量TA而使用的PDCCH的CCE个数" />
+				<field id="PDCCH_CHAR1" desc="统计周期内PDCCH符号数为1的次数" />
+				<field id="PDCCH_CHAR2" desc="统计周期内PDCCH符号数为2的次数" />
+				<field id="PDCCH_CHAR3" desc="统计周期内PDCCH符号数为3的次数" />
+				<field id="PDCCH_CHAR4" desc="统计周期内PDCCH符号数为4的次数" />
+				<field id="UP_DCI_CCE" desc="统计周期内上行DCI所使用的PDCCH CCE个数" />
+				<field id="DW_DCI_CCE" desc="统计周期内下行DCI所使用的PDCCH CCE个数" />
+				<field id="AVAIL_CCE" desc="统计周期内可用的PDCCH CCE的个数" />
+			</fields>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
+			<values delimiter="|">
+				<field id="STAT_TIME" />
+				<field id="STAT_PERIOD" />
+				<field id="eNodeBNAME" />
+				<field id="LOCALID" />
+				<field id="CELLNAME" />
+				<field id="eNodeBID" />
+				<field id="CELLDUPLEX" />
+				<field id="CELLID" />
+				<field id="PUCCH_AVGRESOURS" />
+				<field id="UP_AVGPRB" />
+				<field id="UP_PD_AVGPRB" />
+				<field id="UP_PUSCH_AVGPRB" />
+				<field id="UP_VoIP_PC" />
+				<field id="UP_AVAILPRB" />
+				<field id="UP_DP_AVGPRB" />
+				<field id="UP_FDP_AVGPRB" />
+				<field id="DW_PD_AVGPRB" />
+				<field id="DW_AVGPRB" />
+				<field id="DW_VoIP_PC" />
+				<field id="DW_AVAILPRB" />
+				<field id="DW_FDP_AVGPRB" />
+				<field id="PCA_UPPRB" />
+				<field id="ACA_UPPRB" />
+				<field id="PUBDCI_PC" />
+				<field id="PDCCH_DW_LV1_DTX" />
+				<field id="PDCCH_DW_LV2_DTX" />
+				<field id="PDCCH_DW_LV3_DTX" />
+				<field id="PDCCH_DW_LV4_DTX" />
+				<field id="PDCCH_LV1_DTX" />
+				<field id="PDCCH_LV2_DTX" />
+				<field id="PDCCH_LV3_DTX" />
+				<field id="PDCCH_LV4_DTX" />
+				<field id="UP_STANDARD_CCE" />
+				<field id="UP_FAIL_CCE" />
+				<field id="UP_FSIGN_CCE" />
+				<field id="UP_EDGE_AVGPRB" />
+				<field id="DW_STANDARD_CCE" />
+				<field id="DW_FAIL_CCE" />
+				<field id="DW_FMCE_CCE" />
+				<field id="DW_FSIGN_CCE" />
+				<field id="DW_FDATA_CCE" />
+				<field id="DW_EDGE_AVGPRB" />
+				<field id="DW_CoMP_AVGPRB" />
+				<field id="UP_CoMP_AVGRB" />
+				<field id="TA_CCE" />
+				<field id="PDCCH_CHAR1" />
+				<field id="PDCCH_CHAR2" />
+				<field id="PDCCH_CHAR3" />
+				<field id="PDCCH_CHAR4" />
+				<field id="UP_DCI_CCE" />
+				<field id="DW_DCI_CCE" />
+				<field id="AVAIL_CCE" />
+			</values>
+		</outputMetaData>
+	</process>
+</etl>

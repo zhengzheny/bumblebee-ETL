@@ -28,13 +28,13 @@ import com.gsta.bigdata.utils.SourceXmlTool;
 public class KpiXML extends AbstractSourceMetaData {
 	private static final long serialVersionUID = 4972621315058493751L;
 
-	private String beginMt = "<mt>";
-	private String beginMts = "<mts>";
-	private String beginMi = "<mi>";
-	private String beignMoid = "<moid>";
-	private String beginGp = "<gp>";
-	private String beginR = "<r>";
-	private String endMv = "</mv>";
+	private static final String beginMt = "<mt>";
+	private static final  String beginMts = "<mts>";
+	private static final  String beginMi = "<mi>";
+	private static final  String beignMoid = "<moid>";
+	private static final  String beginGp = "<gp>";
+	private static final  String beginR = "<r>";
+	private static final  String endMv = "</mv>";
 
 	private String statTime;
 	private String statPeriod;

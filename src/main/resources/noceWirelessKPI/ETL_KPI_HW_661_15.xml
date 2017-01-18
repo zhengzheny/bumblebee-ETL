@@ -1,0 +1,134 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<process id="ETL_KPI_HW_661_15M">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" />
+			<property key="sourceEncoding" value="GBK" />
+			<property key="mapred.reduce.tasks" value="0" />
+		</computingFrameworkConfigs>
+		<sourceMetaData type="KpiXML">
+			<paths>
+				<inputPath path="${inputPath}" />
+			</paths>
+			<fields>
+				<field id="eNodeBNAME" desc="eNodeB名称" />
+				<field id="LOCALID" desc="本地小区标识" />
+				<field id="CELLNAME" desc="小区名称" />
+				<field id="eNodeBID" desc="eNodeB标识" />
+				<field id="CELLDUPLEX" desc="小区双工模式" />
+				<field id="CELLID" desc="小区标识" />
+				<field id="ERAB_FAIL_eNodeBANRLS" desc="eNodeB主动释放且原因为异常导致的E-RAB建立失败次数" />
+				<field id="ERAB_FAIL_eNodeBNRLS" desc="eNodeB主动释放且原因为正常导致的E-RAB建立失败次数" />
+				<field id="VSERAB_FAIL_PUCCHLACK" desc="PUCCH资源不足导致语音业务E-RAB建立失败次数" />
+				<field id="ERAB_FAIL_SRBRLCOVER" desc="SRB RLC达到最大重传次数导致E-RAB建立失败次数" />
+				<field id="VSERAB_FAIL_SRBRLCOVER" desc="SRB RLC达到最大重传次数导致语音业务E-RAB建立失败次数" />
+				<field id="VSERAB_FAIL_SRSLACK" desc="SRS资源不足导致语音业务E-RAB建立失败次数" />
+				<field id="ERAB_FAIL_UPLACK" desc="上行传输资源不足导致E-RAB建立失败次数" />
+				<field id="VSERAB_FAIL_UPLACK" desc="上行传输资源不足导致语音业务E-RAB建立失败次数" />
+				<field id="ERAB_FAIL_UPLICENLACK" desc="上行流量license不足导致E-RAB建立失败次数" />
+				<field id="VSERAB_FAIL_UPLICENLACK" desc="上行流量license不足导致语音业务E-RAB建立失败次数" />
+				<field id="ERAB_FAIL_UPSRLOW" desc="上行满意率低导致E-RAB建立失败次数" />
+				<field id="ERAB_FAIL_UPSRLOW_PTT" desc="上行满意率低导致PTT业务E-RAB建立失败次数" />
+				<field id="ERAB_FAIL_UPSRLOW_QCI2" desc="上行满意率低导致QCI2业务E-RAB建立失败次数" />
+				<field id="ERAB_FAIL_UPSRLOW_QCI3" desc="上行满意率低导致QCI3业务E-RAB建立失败次数" />
+				<field id="ERAB_FAIL_UPSRLOW_QCI4" desc="上行满意率低导致QCI4业务E-RAB建立失败次数" />
+				<field id="VSERAB_FAIL_UPSRLOW" desc="上行满意率低导致语音业务E-RAB建立失败次数" />
+				<field id="ERAB_FAIL_DWLACK" desc="下行传输资源不足导致E-RAB建立失败次数" />
+				<field id="VSERAB_FAIL_DWLACK" desc="下行传输资源不足导致语音业务E-RAB建立失败次数" />
+				<field id="ERAB_FAIL_DWLICENLACK" desc="下行流量license不足导致E-RAB建立失败次数" />
+				<field id="VSERAB_FAIL_DWLICENLACK" desc="下行流量license不足导致语音业务E-RAB建立失败次数" />
+				<field id="ERAB_FAIL_DWSRLOW" desc="下行满意率低导致E-RAB建立失败次数" />
+				<field id="ERAB_FAIL_DWSRLOW_PTT" desc="下行满意率低导致PTT业务E-RAB建立失败次数" />
+				<field id="ERAB_FAIL_DWSRLOW_QCI5" desc="下行满意率低导致QCI2业务E-RAB建立失败次数" />
+				<field id="ERAB_FAIL_DWSRLOW_QCI6" desc="下行满意率低导致QCI3业务E-RAB建立失败次数" />
+				<field id="ERAB_FAIL_DWSRLOW_QCI7" desc="下行满意率低导致QCI4业务E-RAB建立失败次数" />
+				<field id="VSERAB_FAIL_DWSRLOW" desc="下行满意率低导致语音业务E-RAB建立失败次数" />
+				<field id="ERAB_FAIL_SWCONFLICT" desc="与站内切换冲突导致E-RAB建立失败次数" />
+				<field id="ERAB_FAIL_TL" desc="传输层问题导致E-RAB建立失败次数" />
+				<field id="VSERAB_FAIL_TL" desc="传输层问题导致语音业务E-RAB建立失败次数" />
+				<field id="ERAB_FAIL_TL_OTH" desc="其它传输层问题导致E-RAB建立失败次数" />
+				<field id="VSERAB_FAIL_TL_OTH" desc="其它传输层问题导致语音业务E-RAB建立失败次数" />
+				<field id="ERAB_FAIL_OTH" desc="其它原因导致E-RAB建立失败次数" />
+				<field id="VSERAB_FAIL_OTH" desc="其它原因导致语音业务E-RAB建立失败次数" />
+				<field id="ERAB_FAIL_OTHWL" desc="其它无线层问题导致E-RAB建立失败次数" />
+				<field id="VSERAB_FAIL_OTHWL" desc="其它无线层问题导致语音业务E-RAB建立失败次数" />
+				<field id="ERAB_FAIL_OTHWL_LACKRS" desc="其它无线资源不足导致E-RAB建立失败次数" />
+				<field id="VSERAB_FAIL_OTHWL_LACKRS" desc="其它无线资源不足导致语音业务E-RAB建立失败次数" />
+				<field id="ERAB_FAIL_PUCCHLACK" desc="因为PUCCH资源不足导致的E-RAB建立失败次数" />
+				<field id="ERAB_FAIL_SRSLACK" desc="因为SRS资源不足导致的E-RAB建立失败次数" />
+				<field id="ERAB_FAIL_SMDPFAIL" desc="安全模式配置失败导致E-RAB建立失败次数" />
+				<field id="VSERAB_FAIL_SMDPFAIL" desc="安全模式配置失败导致语音业务E-RAB建立失败次数" />
+				<field id="ERAB_FAIL_WL" desc="无线层问题导致E-RAB建立失败次数" />
+				<field id="VSERAB_FAIL_WL" desc="无线层问题导致语音业务E-RAB建立失败次数" />
+				<field id="ERAB_FAIL_LACKRR" desc="无线资源不足导致E-RAB建立失败次数" />
+				<field id="VSERAB_FAIL_LACKRR" desc="无线资源不足导致语音业务E-RAB建立失败次数" />
+				<field id="ERAB_FAIL_CN" desc="核心网问题导致E-RAB建立失败次数" />
+				<field id="VSERAB_FAIL_CN" desc="核心网问题导致语音业务E-RAB建立失败次数" />
+				<field id="ERAB_FAIL_UERSPOT" desc="等待UE响应超时导致E-RAB建立失败次数" />
+				<field id="VSERAB_FAIL_UERSPOT" desc="等待UE响应超时导致语音业务E-RAB建立失败次数" />
+			</fields>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
+			<values delimiter="|">
+				<field id="STAT_TIME" />
+				<field id="STAT_PERIOD" />
+				<field id="eNodeBNAME" />
+				<field id="LOCALID" />
+				<field id="CELLNAME" />
+				<field id="eNodeBID" />
+				<field id="CELLDUPLEX" />
+				<field id="CELLID" />
+				<field id="ERAB_FAIL_eNodeBANRLS" />
+				<field id="ERAB_FAIL_eNodeBNRLS" />
+				<field id="VSERAB_FAIL_PUCCHLACK" />
+				<field id="ERAB_FAIL_SRBRLCOVER" />
+				<field id="VSERAB_FAIL_SRBRLCOVER" />
+				<field id="VSERAB_FAIL_SRSLACK" />
+				<field id="ERAB_FAIL_UPLACK" />
+				<field id="VSERAB_FAIL_UPLACK" />
+				<field id="ERAB_FAIL_UPLICENLACK" />
+				<field id="VSERAB_FAIL_UPLICENLACK" />
+				<field id="ERAB_FAIL_UPSRLOW" />
+				<field id="ERAB_FAIL_UPSRLOW_PTT" />
+				<field id="ERAB_FAIL_UPSRLOW_QCI2" />
+				<field id="ERAB_FAIL_UPSRLOW_QCI3" />
+				<field id="ERAB_FAIL_UPSRLOW_QCI4" />
+				<field id="VSERAB_FAIL_UPSRLOW" />
+				<field id="ERAB_FAIL_DWLACK" />
+				<field id="VSERAB_FAIL_DWLACK" />
+				<field id="ERAB_FAIL_DWLICENLACK" />
+				<field id="VSERAB_FAIL_DWLICENLACK" />
+				<field id="ERAB_FAIL_DWSRLOW" />
+				<field id="ERAB_FAIL_DWSRLOW_PTT" />
+				<field id="ERAB_FAIL_DWSRLOW_QCI5" />
+				<field id="ERAB_FAIL_DWSRLOW_QCI6" />
+				<field id="ERAB_FAIL_DWSRLOW_QCI7" />
+				<field id="VSERAB_FAIL_DWSRLOW" />
+				<field id="ERAB_FAIL_SWCONFLICT" />
+				<field id="ERAB_FAIL_TL" />
+				<field id="VSERAB_FAIL_TL" />
+				<field id="ERAB_FAIL_TL_OTH" />
+				<field id="VSERAB_FAIL_TL_OTH" />
+				<field id="ERAB_FAIL_OTH" />
+				<field id="VSERAB_FAIL_OTH" />
+				<field id="ERAB_FAIL_OTHWL" />
+				<field id="VSERAB_FAIL_OTHWL" />
+				<field id="ERAB_FAIL_OTHWL_LACKRS" />
+				<field id="VSERAB_FAIL_OTHWL_LACKRS" />
+				<field id="ERAB_FAIL_PUCCHLACK" />
+				<field id="ERAB_FAIL_SRSLACK" />
+				<field id="ERAB_FAIL_SMDPFAIL" />
+				<field id="VSERAB_FAIL_SMDPFAIL" />
+				<field id="ERAB_FAIL_WL" />
+				<field id="VSERAB_FAIL_WL" />
+				<field id="ERAB_FAIL_LACKRR" />
+				<field id="VSERAB_FAIL_LACKRR" />
+				<field id="ERAB_FAIL_CN" />
+				<field id="VSERAB_FAIL_CN" />
+				<field id="ERAB_FAIL_UERSPOT" />
+				<field id="VSERAB_FAIL_UERSPOT" />
+			</values>
+		</outputMetaData>
+	</process>
+</etl>

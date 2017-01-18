@@ -1,0 +1,146 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<process id="ETL_KPI_ZTE_CELLPL">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat"/>
+			<property key="mapred.reduce.tasks" value="0"/>
+		</computingFrameworkConfigs>
+		<sourceMetaData type="zteENODEBXML" >
+			<paths>
+				<inputPath path="${inputPath}"/>
+			</paths>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${outputPath}">
+			<values delimiter="|">
+				<field id="COLLECTTIME" />
+				<field id="STAT_PERIOD" />
+				<field id="ENODEBID" />
+				<field id="CellID" />
+				<field id="C373353900" />
+				<field id="C373353901" />
+				<field id="C373353902" />
+				<field id="C373353903" />
+				<field id="C373353904" />
+				<field id="C373353905" />
+				<field id="C373353906" />
+				<field id="C373353907" />
+				<field id="C373353908" />
+				<field id="C373353909" />
+				<field id="C373353910" />
+				<field id="C373353911" />
+				<field id="C373353912" />
+				<field id="C373353913" />
+				<field id="C373353914" />
+				<field id="C373353915" />
+				<field id="C373353916" />
+				<field id="C373353917" />
+				<field id="C373353918" />
+				<field id="C373353919" />
+				<field id="C373353920" />
+				<field id="C373353921" />
+				<field id="C373353922" />
+				<field id="C373353923" />
+				<field id="C373353924" />
+				<field id="C373353925" />
+				<field id="C373353926" />
+				<field id="C373353927" />
+				<field id="C373353928" />
+				<field id="C373353929" />
+				<field id="C373353930" />
+				<field id="C373353931" />
+				<field id="C373353932" />
+				<field id="C373353933" />
+				<field id="C373353934" />
+				<field id="C373353935" />
+				<field id="C373353936" />
+				<field id="C373353937" />
+				<field id="C373353938" />
+				<field id="C373353939" />
+				<field id="C373353940" />
+				<field id="C373353941" />
+				<field id="C373353942" />
+				<field id="C373353943" />
+				<field id="C373353944" />
+				<field id="C373353947" />
+				<field id="C373353948" />
+				<field id="C373353949" />
+				<field id="C373353950" />
+				<field id="C373353951" />
+				<field id="C373353952" />
+				<field id="C373353953" />
+				<field id="C373353954" />
+				<field id="C373353955" />
+				<field id="C373353956" />
+				<field id="C373353957" />
+				<field id="C373353958" />
+				<field id="C373353959" />
+				<field id="C373353960" />
+				<field id="C373353961" />
+				<field id="C373353962" />
+				<field id="C373353963" />
+				<field id="C373353964" />
+				<field id="C373353965" />
+				<field id="C373353966" />
+				<field id="C373353967" />
+				<field id="C373353968" />
+				<field id="C373353969" />
+				<field id="C373353970" />
+				<field id="C373353971" />
+				<field id="C373353972" />
+				<field id="C373353973" />
+				<field id="C373353974" />
+				<field id="C373353975" />
+				<field id="C373353976" />
+				<field id="C373353977" />
+				<field id="C373353978" />
+				<field id="C373353979" />
+				<field id="C373353980" />
+				<field id="C373353981" />
+				<field id="C373353982" />
+				<field id="C373353983" />
+				<field id="C373353984" />
+				<field id="C373353985" />
+				<field id="C373353986" />
+				<field id="C373353987" />
+				<field id="C373353988" />
+				<field id="C373353989" />
+				<field id="C373353990" />
+				<field id="C373353991" />
+				<field id="C373353992" />
+				<field id="C373353993" />
+				<field id="C373353994" />
+				<field id="C373353995" />
+				<field id="C373353996" />
+				<field id="C373353997" />
+				<field id="C373353998" />
+				<field id="C373353999" />
+				<field id="C373354000" />
+				<field id="C373354001" />
+				<field id="C373354002" />
+				<field id="C373354003" />
+				<field id="C373354004" />
+				<field id="C373354005" />
+				<field id="C373354006" />
+				<field id="C373354007" />
+				<field id="C373354008" />
+				<field id="C373354009" />
+				<field id="C373354010" />
+				<field id="C373354011" />
+				<field id="C373354012" />
+				<field id="C373354013" />
+				<field id="C373354014" />
+				<field id="C373354015" />
+				<field id="C373354016" />
+				<field id="C373354017" />
+				<field id="C373354018" />
+				<field id="C373354019" />
+				<field id="C373354020" />
+				<field id="C373354021" />
+				<field id="C373354022" />
+				<field id="C373354023" />
+
+			</values>
+		</outputMetaData>
+	</process>
+</etl>

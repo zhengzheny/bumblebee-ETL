@@ -1,0 +1,336 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<process id="ETL_KPI_HW_700_H">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" />
+			<property key="sourceEncoding" value="GBK" />
+			<property key="mapred.reduce.tasks" value="0" />
+		</computingFrameworkConfigs>
+		<sourceMetaData type="KpiXML">
+			<paths>
+				<inputPath path="${inputPath}" />
+			</paths>
+			<fields>
+				<field id="eNodeBNAME" desc="eNodeB名称" />
+				<field id="LOCALID" desc="本地小区标识" />
+				<field id="CELLNAME" desc="小区名称" />
+				<field id="eNodeBID" desc="eNodeB标识" />
+				<field id="CELLDUPLEX" desc="小区双工模式" />
+				<field id="CELLID" desc="小区标识" />
+				<field id="REPORT_RANK1" desc="RANK1的上报次数" />
+				<field id="REPORT_RANK2" desc="RANK2的上报次数" />
+				<field id="UE_RPRANK3" desc="UE上报RANK3的次数" />
+				<field id="UE_RPRANK4" desc="UE上报RANK4的次数" />
+				<field id="DW_QAM_CQI0" desc="下行256QAM使能的UE上报全带宽CQI0的次数" />
+				<field id="DW_QAM_CQI10" desc="下行256QAM使能的UE上报全带宽CQI10的次数" />
+				<field id="DW_QAM_CQI11" desc="下行256QAM使能的UE上报全带宽CQI11的次数" />
+				<field id="DW_QAM_CQI12" desc="下行256QAM使能的UE上报全带宽CQI12的次数" />
+				<field id="DW_QAM_CQI13" desc="下行256QAM使能的UE上报全带宽CQI13的次数" />
+				<field id="DW_QAM_CQI14" desc="下行256QAM使能的UE上报全带宽CQI14的次数" />
+				<field id="DW_QAM_CQI15" desc="下行256QAM使能的UE上报全带宽CQI15的次数" />
+				<field id="DW_QAM_CQI1" desc="下行256QAM使能的UE上报全带宽CQI1的次数" />
+				<field id="DW_QAM_CQI2" desc="下行256QAM使能的UE上报全带宽CQI2的次数" />
+				<field id="DW_QAM_CQI3" desc="下行256QAM使能的UE上报全带宽CQI3的次数" />
+				<field id="DW_QAM_CQI4" desc="下行256QAM使能的UE上报全带宽CQI4的次数" />
+				<field id="DW_QAM_CQI5" desc="下行256QAM使能的UE上报全带宽CQI5的次数" />
+				<field id="DW_QAM_CQI6" desc="下行256QAM使能的UE上报全带宽CQI6的次数" />
+				<field id="DW_QAM_CQI7" desc="下行256QAM使能的UE上报全带宽CQI7的次数" />
+				<field id="DW_QAM_CQI8" desc="下行256QAM使能的UE上报全带宽CQI8的次数" />
+				<field id="DW_QAM_CQI9" desc="下行256QAM使能的UE上报全带宽CQI9的次数" />
+				<field id="SCW_FBW_INCYC_CQI0" desc="单码字全带宽周期CQI为0的上报次数" />
+				<field id="SCW_FBW_INCYC_CQI10" desc="单码字全带宽周期CQI为10的上报次数" />
+				<field id="SCW_FBW_INCYC_CQI11" desc="单码字全带宽周期CQI为11的上报次数" />
+				<field id="SCW_FBW_INCYC_CQI12" desc="单码字全带宽周期CQI为12的上报次数" />
+				<field id="SCW_FBW_INCYC_CQI13" desc="单码字全带宽周期CQI为13的上报次数" />
+				<field id="SCW_FBW_INCYC_CQI14" desc="单码字全带宽周期CQI为14的上报次数" />
+				<field id="SCW_FBW_INCYC_CQI15" desc="单码字全带宽周期CQI为15的上报次数" />
+				<field id="SCW_FBW_INCYC_CQI1" desc="单码字全带宽周期CQI为1的上报次数" />
+				<field id="SCW_FBW_INCYC_CQI2" desc="单码字全带宽周期CQI为2的上报次数" />
+				<field id="SCW_FBW_INCYC_CQI3" desc="单码字全带宽周期CQI为3的上报次数" />
+				<field id="SCW_FBW_INCYC_CQI4" desc="单码字全带宽周期CQI为4的上报次数" />
+				<field id="SCW_FBW_INCYC_CQI5" desc="单码字全带宽周期CQI为5的上报次数" />
+				<field id="SCW_FBW_INCYC_CQI6" desc="单码字全带宽周期CQI为6的上报次数" />
+				<field id="SCW_FBW_INCYC_CQI7" desc="单码字全带宽周期CQI为7的上报次数" />
+				<field id="SCW_FBW_INCYC_CQI8" desc="单码字全带宽周期CQI为8的上报次数" />
+				<field id="SCW_FBW_INCYC_CQI9" desc="单码字全带宽周期CQI为9的上报次数" />
+				<field id="SCW_FBW_OUTCYC_CQI0" desc="单码字全带宽非周期CQI为0的上报次数" />
+				<field id="SCW_FBW_OUTCYC_CQI10" desc="单码字全带宽非周期CQI为10的上报次数" />
+				<field id="SCW_FBW_OUTCYC_CQI11" desc="单码字全带宽非周期CQI为11的上报次数" />
+				<field id="SCW_FBW_OUTCYC_CQI12" desc="单码字全带宽非周期CQI为12的上报次数" />
+				<field id="SCW_FBW_OUTCYC_CQI13" desc="单码字全带宽非周期CQI为13的上报次数" />
+				<field id="SCW_FBW_OUTCYC_CQI14" desc="单码字全带宽非周期CQI为14的上报次数" />
+				<field id="SCW_FBW_OUTCYC_CQI15" desc="单码字全带宽非周期CQI为15的上报次数" />
+				<field id="SCW_FBW_OUTCYC_CQI1" desc="单码字全带宽非周期CQI为1的上报次数" />
+				<field id="SCW_FBW_OUTCYC_CQI2" desc="单码字全带宽非周期CQI为2的上报次数" />
+				<field id="SCW_FBW_OUTCYC_CQI3" desc="单码字全带宽非周期CQI为3的上报次数" />
+				<field id="SCW_FBW_OUTCYC_CQI4" desc="单码字全带宽非周期CQI为4的上报次数" />
+				<field id="SCW_FBW_OUTCYC_CQI5" desc="单码字全带宽非周期CQI为5的上报次数" />
+				<field id="SCW_FBW_OUTCYC_CQI6" desc="单码字全带宽非周期CQI为6的上报次数" />
+				<field id="SCW_FBW_OUTCYC_CQI7" desc="单码字全带宽非周期CQI为7的上报次数" />
+				<field id="SCW_FBW_OUTCYC_CQI8" desc="单码字全带宽非周期CQI为8的上报次数" />
+				<field id="SCW_FBW_OUTCYC_CQI9" desc="单码字全带宽非周期CQI为9的上报次数" />
+				<field id="DCW_FBW_CODE0_INCYC_CQI0" desc="双码字全带宽码字0周期CQI为0的上报次数" />
+				<field id="DCW_FBW_CODE0_INCYC_CQI10" desc="双码字全带宽码字0周期CQI为10的上报次数" />
+				<field id="DCW_FBW_CODE0_INCYC_CQI11" desc="双码字全带宽码字0周期CQI为11的上报次数" />
+				<field id="DCW_FBW_CODE0_INCYC_CQI12" desc="双码字全带宽码字0周期CQI为12的上报次数" />
+				<field id="DCW_FBW_CODE0_INCYC_CQI13" desc="双码字全带宽码字0周期CQI为13的上报次数" />
+				<field id="DCW_FBW_CODE0_INCYC_CQI14" desc="双码字全带宽码字0周期CQI为14的上报次数" />
+				<field id="DCW_FBW_CODE0_INCYC_CQI15" desc="双码字全带宽码字0周期CQI为15的上报次数" />
+				<field id="DCW_FBW_CODE0_INCYC_CQI1" desc="双码字全带宽码字0周期CQI为1的上报次数" />
+				<field id="DCW_FBW_CODE0_INCYC_CQI2" desc="双码字全带宽码字0周期CQI为2的上报次数" />
+				<field id="DCW_FBW_CODE0_INCYC_CQI3" desc="双码字全带宽码字0周期CQI为3的上报次数" />
+				<field id="DCW_FBW_CODE0_INCYC_CQI4" desc="双码字全带宽码字0周期CQI为4的上报次数" />
+				<field id="DCW_FBW_CODE0_INCYC_CQI5" desc="双码字全带宽码字0周期CQI为5的上报次数" />
+				<field id="DCW_FBW_CODE0_INCYC_CQI6" desc="双码字全带宽码字0周期CQI为6的上报次数" />
+				<field id="DCW_FBW_CODE0_INCYC_CQI7" desc="双码字全带宽码字0周期CQI为7的上报次数" />
+				<field id="DCW_FBW_CODE0_INCYC_CQI8" desc="双码字全带宽码字0周期CQI为8的上报次数" />
+				<field id="DCW_FBW_CODE0_INCYC_CQI9" desc="双码字全带宽码字0周期CQI为9的上报次数" />
+				<field id="DCW_FBW_CODE0_OUTCYC_CQI0" desc="双码字全带宽码字0非周期CQI为0的上报次数" />
+				<field id="DCW_FBW_CODE0_OUTCYC_CQI10" desc="双码字全带宽码字0非周期CQI为10的上报次数" />
+				<field id="DCW_FBW_CODE0_OUTCYC_CQI11" desc="双码字全带宽码字0非周期CQI为11的上报次数" />
+				<field id="DCW_FBW_CODE0_OUTCYC_CQI12" desc="双码字全带宽码字0非周期CQI为12的上报次数" />
+				<field id="DCW_FBW_CODE0_OUTCYC_CQI13" desc="双码字全带宽码字0非周期CQI为13的上报次数" />
+				<field id="DCW_FBW_CODE0_OUTCYC_CQI14" desc="双码字全带宽码字0非周期CQI为14的上报次数" />
+				<field id="DCW_FBW_CODE0_OUTCYC_CQI15" desc="双码字全带宽码字0非周期CQI为15的上报次数" />
+				<field id="DCW_FBW_CODE0_OUTCYC_CQI1" desc="双码字全带宽码字0非周期CQI为1的上报次数" />
+				<field id="DCW_FBW_CODE0_OUTCYC_CQI2" desc="双码字全带宽码字0非周期CQI为2的上报次数" />
+				<field id="DCW_FBW_CODE0_OUTCYC_CQI3" desc="双码字全带宽码字0非周期CQI为3的上报次数" />
+				<field id="DCW_FBW_CODE0_OUTCYC_CQI4" desc="双码字全带宽码字0非周期CQI为4的上报次数" />
+				<field id="DCW_FBW_CODE0_OUTCYC_CQI5" desc="双码字全带宽码字0非周期CQI为5的上报次数" />
+				<field id="DCW_FBW_CODE0_OUTCYC_CQI6" desc="双码字全带宽码字0非周期CQI为6的上报次数" />
+				<field id="DCW_FBW_CODE0_OUTCYC_CQI7" desc="双码字全带宽码字0非周期CQI为7的上报次数" />
+				<field id="DCW_FBW_CODE0_OUTCYC_CQI8" desc="双码字全带宽码字0非周期CQI为8的上报次数" />
+				<field id="DCW_FBW_CODE0_OUTCYC_CQI9" desc="双码字全带宽码字0非周期CQI为9的上报次数" />
+				<field id="DCW_FBW_CODE1_INCYC_CQI0" desc="双码字全带宽码字1周期CQI为0的上报次数" />
+				<field id="DCW_FBW_CODE1_INCYC_CQI10" desc="双码字全带宽码字1周期CQI为10的上报次数" />
+				<field id="DCW_FBW_CODE1_INCYC_CQI11" desc="双码字全带宽码字1周期CQI为11的上报次数" />
+				<field id="DCW_FBW_CODE1_INCYC_CQI12" desc="双码字全带宽码字1周期CQI为12的上报次数" />
+				<field id="DCW_FBW_CODE1_INCYC_CQI13" desc="双码字全带宽码字1周期CQI为13的上报次数" />
+				<field id="DCW_FBW_CODE1_INCYC_CQI14" desc="双码字全带宽码字1周期CQI为14的上报次数" />
+				<field id="DCW_FBW_CODE1_INCYC_CQI15" desc="双码字全带宽码字1周期CQI为15的上报次数" />
+				<field id="DCW_FBW_CODE1_INCYC_CQI1" desc="双码字全带宽码字1周期CQI为1的上报次数" />
+				<field id="DCW_FBW_CODE1_INCYC_CQI2" desc="双码字全带宽码字1周期CQI为2的上报次数" />
+				<field id="DCW_FBW_CODE1_INCYC_CQI3" desc="双码字全带宽码字1周期CQI为3的上报次数" />
+				<field id="DCW_FBW_CODE1_INCYC_CQI4" desc="双码字全带宽码字1周期CQI为4的上报次数" />
+				<field id="DCW_FBW_CODE1_INCYC_CQI5" desc="双码字全带宽码字1周期CQI为5的上报次数" />
+				<field id="DCW_FBW_CODE1_INCYC_CQI6" desc="双码字全带宽码字1周期CQI为6的上报次数" />
+				<field id="DCW_FBW_CODE1_INCYC_CQI7" desc="双码字全带宽码字1周期CQI为7的上报次数" />
+				<field id="DCW_FBW_CODE1_INCYC_CQI8" desc="双码字全带宽码字1周期CQI为8的上报次数" />
+				<field id="DCW_FBW_CODE1_INCYC_CQI9" desc="双码字全带宽码字1周期CQI为9的上报次数" />
+				<field id="DCW_FBW_CODE1_OUTCYC_CQI0" desc="双码字全带宽码字1非周期CQI为0的上报次数" />
+				<field id="DCW_FBW_CODE1_OUTCYC_CQI10" desc="双码字全带宽码字1非周期CQI为10的上报次数" />
+				<field id="DCW_FBW_CODE1_OUTCYC_CQI11" desc="双码字全带宽码字1非周期CQI为11的上报次数" />
+				<field id="DCW_FBW_CODE1_OUTCYC_CQI12" desc="双码字全带宽码字1非周期CQI为12的上报次数" />
+				<field id="DCW_FBW_CODE1_OUTCYC_CQI13" desc="双码字全带宽码字1非周期CQI为13的上报次数" />
+				<field id="DCW_FBW_CODE1_OUTCYC_CQI14" desc="双码字全带宽码字1非周期CQI为14的上报次数" />
+				<field id="DCW_FBW_CODE1_OUTCYC_CQI15" desc="双码字全带宽码字1非周期CQI为15的上报次数" />
+				<field id="DCW_FBW_CODE1_OUTCYC_CQI1" desc="双码字全带宽码字1非周期CQI为1的上报次数" />
+				<field id="DCW_FBW_CODE1_OUTCYC_CQI2" desc="双码字全带宽码字1非周期CQI为2的上报次数" />
+				<field id="DCW_FBW_CODE1_OUTCYC_CQI3" desc="双码字全带宽码字1非周期CQI为3的上报次数" />
+				<field id="DCW_FBW_CODE1_OUTCYC_CQI4" desc="双码字全带宽码字1非周期CQI为4的上报次数" />
+				<field id="DCW_FBW_CODE1_OUTCYC_CQI5" desc="双码字全带宽码字1非周期CQI为5的上报次数" />
+				<field id="DCW_FBW_CODE1_OUTCYC_CQI6" desc="双码字全带宽码字1非周期CQI为6的上报次数" />
+				<field id="DCW_FBW_CODE1_OUTCYC_CQI7" desc="双码字全带宽码字1非周期CQI为7的上报次数" />
+				<field id="DCW_FBW_CODE1_OUTCYC_CQI8" desc="双码字全带宽码字1非周期CQI为8的上报次数" />
+				<field id="DCW_FBW_CODE1_OUTCYC_CQI9" desc="双码字全带宽码字1非周期CQI为9的上报次数" />
+				<field id="EDGE_REPORT_FBW_CQI" desc="小区边缘用户上报全带宽CQI的次数" />
+				<field id="EDGE_REPORT_FBW_COUNTCQI" desc="小区边缘用户上报全带宽CQI的累加值" />
+				<field id="AP_REPORT_ABS_CQI0" desc="空口上报ABS子帧全带宽CQI为0的次数" />
+				<field id="AP_REPORT_ABS_CQI10" desc="空口上报ABS子帧全带宽CQI为10的次数" />
+				<field id="AP_REPORT_ABS_CQI11" desc="空口上报ABS子帧全带宽CQI为11的次数" />
+				<field id="AP_REPORT_ABS_CQI12" desc="空口上报ABS子帧全带宽CQI为12的次数" />
+				<field id="AP_REPORT_ABS_CQI13" desc="空口上报ABS子帧全带宽CQI为13的次数" />
+				<field id="AP_REPORT_ABS_CQI14" desc="空口上报ABS子帧全带宽CQI为14的次数" />
+				<field id="AP_REPORT_ABS_CQI15" desc="空口上报ABS子帧全带宽CQI为15的次数" />
+				<field id="AP_REPORT_ABS_CQI1" desc="空口上报ABS子帧全带宽CQI为1的次数" />
+				<field id="AP_REPORT_ABS_CQI2" desc="空口上报ABS子帧全带宽CQI为2的次数" />
+				<field id="AP_REPORT_ABS_CQI3" desc="空口上报ABS子帧全带宽CQI为3的次数" />
+				<field id="AP_REPORT_ABS_CQI4" desc="空口上报ABS子帧全带宽CQI为4的次数" />
+				<field id="AP_REPORT_ABS_CQI5" desc="空口上报ABS子帧全带宽CQI为5的次数" />
+				<field id="AP_REPORT_ABS_CQI6" desc="空口上报ABS子帧全带宽CQI为6的次数" />
+				<field id="AP_REPORT_ABS_CQI7" desc="空口上报ABS子帧全带宽CQI为7的次数" />
+				<field id="AP_REPORT_ABS_CQI8" desc="空口上报ABS子帧全带宽CQI为8的次数" />
+				<field id="AP_REPORT_ABS_CQI9" desc="空口上报ABS子帧全带宽CQI为9的次数" />
+				<field id="AP_REPORT_CQI0" desc="空口上报全带宽CQI为0的次数" />
+				<field id="AP_REPORT_CQI10" desc="空口上报全带宽CQI为10的次数" />
+				<field id="AP_REPORT_CQI11" desc="空口上报全带宽CQI为11的次数" />
+				<field id="AP_REPORT_CQI12" desc="空口上报全带宽CQI为12的次数" />
+				<field id="AP_REPORT_CQI13" desc="空口上报全带宽CQI为13的次数" />
+				<field id="AP_REPORT_CQI14" desc="空口上报全带宽CQI为14的次数" />
+				<field id="AP_REPORT_CQI15" desc="空口上报全带宽CQI为15的次数" />
+				<field id="AP_REPORT_CQI1" desc="空口上报全带宽CQI为1的次数" />
+				<field id="AP_REPORT_CQI2" desc="空口上报全带宽CQI为2的次数" />
+				<field id="AP_REPORT_CQI3" desc="空口上报全带宽CQI为3的次数" />
+				<field id="AP_REPORT_CQI4" desc="空口上报全带宽CQI为4的次数" />
+				<field id="AP_REPORT_CQI5" desc="空口上报全带宽CQI为5的次数" />
+				<field id="AP_REPORT_CQI6" desc="空口上报全带宽CQI为6的次数" />
+				<field id="AP_REPORT_CQI7" desc="空口上报全带宽CQI为7的次数" />
+				<field id="AP_REPORT_CQI8" desc="空口上报全带宽CQI为8的次数" />
+				<field id="AP_REPORT_CQI9" desc="空口上报全带宽CQI为9的次数" />
+			</fields>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
+			<values delimiter="|">
+				<field id="STAT_TIME" />
+				<field id="STAT_PERIOD" />
+				<field id="eNodeBNAME" />
+				<field id="LOCALID" />
+				<field id="CELLNAME" />
+				<field id="eNodeBID" />
+				<field id="CELLDUPLEX" />
+				<field id="CELLID" />
+				<field id="REPORT_RANK1" />
+				<field id="REPORT_RANK2" />
+				<field id="UE_RPRANK3" />
+				<field id="UE_RPRANK4" />
+				<field id="DW_QAM_CQI0" />
+				<field id="DW_QAM_CQI10" />
+				<field id="DW_QAM_CQI11" />
+				<field id="DW_QAM_CQI12" />
+				<field id="DW_QAM_CQI13" />
+				<field id="DW_QAM_CQI14" />
+				<field id="DW_QAM_CQI15" />
+				<field id="DW_QAM_CQI1" />
+				<field id="DW_QAM_CQI2" />
+				<field id="DW_QAM_CQI3" />
+				<field id="DW_QAM_CQI4" />
+				<field id="DW_QAM_CQI5" />
+				<field id="DW_QAM_CQI6" />
+				<field id="DW_QAM_CQI7" />
+				<field id="DW_QAM_CQI8" />
+				<field id="DW_QAM_CQI9" />
+				<field id="SCW_FBW_INCYC_CQI0" />
+				<field id="SCW_FBW_INCYC_CQI10" />
+				<field id="SCW_FBW_INCYC_CQI11" />
+				<field id="SCW_FBW_INCYC_CQI12" />
+				<field id="SCW_FBW_INCYC_CQI13" />
+				<field id="SCW_FBW_INCYC_CQI14" />
+				<field id="SCW_FBW_INCYC_CQI15" />
+				<field id="SCW_FBW_INCYC_CQI1" />
+				<field id="SCW_FBW_INCYC_CQI2" />
+				<field id="SCW_FBW_INCYC_CQI3" />
+				<field id="SCW_FBW_INCYC_CQI4" />
+				<field id="SCW_FBW_INCYC_CQI5" />
+				<field id="SCW_FBW_INCYC_CQI6" />
+				<field id="SCW_FBW_INCYC_CQI7" />
+				<field id="SCW_FBW_INCYC_CQI8" />
+				<field id="SCW_FBW_INCYC_CQI9" />
+				<field id="SCW_FBW_OUTCYC_CQI0" />
+				<field id="SCW_FBW_OUTCYC_CQI10" />
+				<field id="SCW_FBW_OUTCYC_CQI11" />
+				<field id="SCW_FBW_OUTCYC_CQI12" />
+				<field id="SCW_FBW_OUTCYC_CQI13" />
+				<field id="SCW_FBW_OUTCYC_CQI14" />
+				<field id="SCW_FBW_OUTCYC_CQI15" />
+				<field id="SCW_FBW_OUTCYC_CQI1" />
+				<field id="SCW_FBW_OUTCYC_CQI2" />
+				<field id="SCW_FBW_OUTCYC_CQI3" />
+				<field id="SCW_FBW_OUTCYC_CQI4" />
+				<field id="SCW_FBW_OUTCYC_CQI5" />
+				<field id="SCW_FBW_OUTCYC_CQI6" />
+				<field id="SCW_FBW_OUTCYC_CQI7" />
+				<field id="SCW_FBW_OUTCYC_CQI8" />
+				<field id="SCW_FBW_OUTCYC_CQI9" />
+				<field id="DCW_FBW_CODE0_INCYC_CQI0" />
+				<field id="DCW_FBW_CODE0_INCYC_CQI10" />
+				<field id="DCW_FBW_CODE0_INCYC_CQI11" />
+				<field id="DCW_FBW_CODE0_INCYC_CQI12" />
+				<field id="DCW_FBW_CODE0_INCYC_CQI13" />
+				<field id="DCW_FBW_CODE0_INCYC_CQI14" />
+				<field id="DCW_FBW_CODE0_INCYC_CQI15" />
+				<field id="DCW_FBW_CODE0_INCYC_CQI1" />
+				<field id="DCW_FBW_CODE0_INCYC_CQI2" />
+				<field id="DCW_FBW_CODE0_INCYC_CQI3" />
+				<field id="DCW_FBW_CODE0_INCYC_CQI4" />
+				<field id="DCW_FBW_CODE0_INCYC_CQI5" />
+				<field id="DCW_FBW_CODE0_INCYC_CQI6" />
+				<field id="DCW_FBW_CODE0_INCYC_CQI7" />
+				<field id="DCW_FBW_CODE0_INCYC_CQI8" />
+				<field id="DCW_FBW_CODE0_INCYC_CQI9" />
+				<field id="DCW_FBW_CODE0_OUTCYC_CQI0" />
+				<field id="DCW_FBW_CODE0_OUTCYC_CQI10" />
+				<field id="DCW_FBW_CODE0_OUTCYC_CQI11" />
+				<field id="DCW_FBW_CODE0_OUTCYC_CQI12" />
+				<field id="DCW_FBW_CODE0_OUTCYC_CQI13" />
+				<field id="DCW_FBW_CODE0_OUTCYC_CQI14" />
+				<field id="DCW_FBW_CODE0_OUTCYC_CQI15" />
+				<field id="DCW_FBW_CODE0_OUTCYC_CQI1" />
+				<field id="DCW_FBW_CODE0_OUTCYC_CQI2" />
+				<field id="DCW_FBW_CODE0_OUTCYC_CQI3" />
+				<field id="DCW_FBW_CODE0_OUTCYC_CQI4" />
+				<field id="DCW_FBW_CODE0_OUTCYC_CQI5" />
+				<field id="DCW_FBW_CODE0_OUTCYC_CQI6" />
+				<field id="DCW_FBW_CODE0_OUTCYC_CQI7" />
+				<field id="DCW_FBW_CODE0_OUTCYC_CQI8" />
+				<field id="DCW_FBW_CODE0_OUTCYC_CQI9" />
+				<field id="DCW_FBW_CODE1_INCYC_CQI0" />
+				<field id="DCW_FBW_CODE1_INCYC_CQI10" />
+				<field id="DCW_FBW_CODE1_INCYC_CQI11" />
+				<field id="DCW_FBW_CODE1_INCYC_CQI12" />
+				<field id="DCW_FBW_CODE1_INCYC_CQI13" />
+				<field id="DCW_FBW_CODE1_INCYC_CQI14" />
+				<field id="DCW_FBW_CODE1_INCYC_CQI15" />
+				<field id="DCW_FBW_CODE1_INCYC_CQI1" />
+				<field id="DCW_FBW_CODE1_INCYC_CQI2" />
+				<field id="DCW_FBW_CODE1_INCYC_CQI3" />
+				<field id="DCW_FBW_CODE1_INCYC_CQI4" />
+				<field id="DCW_FBW_CODE1_INCYC_CQI5" />
+				<field id="DCW_FBW_CODE1_INCYC_CQI6" />
+				<field id="DCW_FBW_CODE1_INCYC_CQI7" />
+				<field id="DCW_FBW_CODE1_INCYC_CQI8" />
+				<field id="DCW_FBW_CODE1_INCYC_CQI9" />
+				<field id="DCW_FBW_CODE1_OUTCYC_CQI0" />
+				<field id="DCW_FBW_CODE1_OUTCYC_CQI10" />
+				<field id="DCW_FBW_CODE1_OUTCYC_CQI11" />
+				<field id="DCW_FBW_CODE1_OUTCYC_CQI12" />
+				<field id="DCW_FBW_CODE1_OUTCYC_CQI13" />
+				<field id="DCW_FBW_CODE1_OUTCYC_CQI14" />
+				<field id="DCW_FBW_CODE1_OUTCYC_CQI15" />
+				<field id="DCW_FBW_CODE1_OUTCYC_CQI1" />
+				<field id="DCW_FBW_CODE1_OUTCYC_CQI2" />
+				<field id="DCW_FBW_CODE1_OUTCYC_CQI3" />
+				<field id="DCW_FBW_CODE1_OUTCYC_CQI4" />
+				<field id="DCW_FBW_CODE1_OUTCYC_CQI5" />
+				<field id="DCW_FBW_CODE1_OUTCYC_CQI6" />
+				<field id="DCW_FBW_CODE1_OUTCYC_CQI7" />
+				<field id="DCW_FBW_CODE1_OUTCYC_CQI8" />
+				<field id="DCW_FBW_CODE1_OUTCYC_CQI9" />
+				<field id="EDGE_REPORT_FBW_CQI" />
+				<field id="EDGE_REPORT_FBW_COUNTCQI" />
+				<field id="AP_REPORT_ABS_CQI0" />
+				<field id="AP_REPORT_ABS_CQI10" />
+				<field id="AP_REPORT_ABS_CQI11" />
+				<field id="AP_REPORT_ABS_CQI12" />
+				<field id="AP_REPORT_ABS_CQI13" />
+				<field id="AP_REPORT_ABS_CQI14" />
+				<field id="AP_REPORT_ABS_CQI15" />
+				<field id="AP_REPORT_ABS_CQI1" />
+				<field id="AP_REPORT_ABS_CQI2" />
+				<field id="AP_REPORT_ABS_CQI3" />
+				<field id="AP_REPORT_ABS_CQI4" />
+				<field id="AP_REPORT_ABS_CQI5" />
+				<field id="AP_REPORT_ABS_CQI6" />
+				<field id="AP_REPORT_ABS_CQI7" />
+				<field id="AP_REPORT_ABS_CQI8" />
+				<field id="AP_REPORT_ABS_CQI9" />
+				<field id="AP_REPORT_CQI0" />
+				<field id="AP_REPORT_CQI10" />
+				<field id="AP_REPORT_CQI11" />
+				<field id="AP_REPORT_CQI12" />
+				<field id="AP_REPORT_CQI13" />
+				<field id="AP_REPORT_CQI14" />
+				<field id="AP_REPORT_CQI15" />
+				<field id="AP_REPORT_CQI1" />
+				<field id="AP_REPORT_CQI2" />
+				<field id="AP_REPORT_CQI3" />
+				<field id="AP_REPORT_CQI4" />
+				<field id="AP_REPORT_CQI5" />
+				<field id="AP_REPORT_CQI6" />
+				<field id="AP_REPORT_CQI7" />
+				<field id="AP_REPORT_CQI8" />
+				<field id="AP_REPORT_CQI9" />
+			</values>
+		</outputMetaData>
+	</process>
+</etl>

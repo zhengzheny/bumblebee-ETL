@@ -1,0 +1,54 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<process id="ETL_KPI_HW_666_15M">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" />
+			<property key="sourceEncoding" value="GBK" />
+			<property key="mapred.reduce.tasks" value="0" />
+		</computingFrameworkConfigs>
+		<sourceMetaData type="KpiXML">
+			<paths>
+				<inputPath path="${inputPath}" />
+			</paths>
+			<fields>
+				<field id="eNodeBNAME" desc="eNodeB名称" />
+				<field id="LOCALID" desc="本地小区标识" />
+				<field id="CELLNAME" desc="小区名称" />
+				<field id="eNodeBID" desc="eNodeB标识" />
+				<field id="CELLDUPLEX" desc="小区双工模式" />
+				<field id="CELLID" desc="小区标识" />
+				<field id="PAGMESS_LOSS_PCHCONG" desc="小区PCH拥塞丢弃的寻呼消息次数" />
+				<field id="CSPAGMESS_S1" desc="小区S1接口接收CS寻呼消息次数" />
+				<field id="PAGMESS_S1" desc="小区S1接口接收寻呼消息次数" />
+				<field id="PAGMESS_SYSALTER_Uu" desc="小区Uu接口因系统消息变更而发送的寻呼消息数" />
+				<field id="PAGORDER_Uu" desc="小区Uu接口寻呼信令个数" />
+				<field id="PAGUSER_Uu" desc="小区Uu接口寻呼用户个数" />
+				<field id="PAGMESS_MME_THA" desc="小区丢弃的MME对用户的寻呼消息的次数" />
+				<field id="PAGRESP_UECSFB" desc="小区收到UE CSFB寻呼响应次数" />
+				<field id="PAGRESP_UE" desc="收到UE寻呼响应次数" />
+			</fields>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
+			<values delimiter="|">
+				<field id="STAT_TIME" />
+				<field id="STAT_PERIOD" />
+				<field id="eNodeBNAME" />
+				<field id="LOCALID" />
+				<field id="CELLNAME" />
+				<field id="eNodeBID" />
+				<field id="CELLDUPLEX" />
+				<field id="CELLID" />
+				<field id="PAGMESS_LOSS_PCHCONG" />
+				<field id="CSPAGMESS_S1" />
+				<field id="PAGMESS_S1" />
+				<field id="PAGMESS_SYSALTER_Uu" />
+				<field id="PAGORDER_Uu" />
+				<field id="PAGUSER_Uu" />
+				<field id="PAGMESS_MME_THA" />
+				<field id="PAGRESP_UECSFB" />
+				<field id="PAGRESP_UE" />
+			</values>
+		</outputMetaData>
+	</process>
+</etl>

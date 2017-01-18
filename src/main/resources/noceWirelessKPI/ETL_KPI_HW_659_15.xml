@@ -1,0 +1,184 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<process id="ETL_KPI_HW_659_15M">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" />
+			<property key="sourceEncoding" value="GBK" />
+			<property key="mapred.reduce.tasks" value="0" />
+		</computingFrameworkConfigs>
+		<sourceMetaData type="KpiXML">
+			<paths>
+				<inputPath path="${inputPath}" />
+			</paths>
+			<fields>
+				<field id="eNodeBNAME" desc="eNodeB名称" />
+				<field id="LOCALID" desc="本地小区标识" />
+				<field id="CELLNAME" desc="小区名称" />
+				<field id="eNodeBID" desc="eNodeB标识" />
+				<field id="CELLDUPLEX" desc="小区双工模式" />
+				<field id="CELLID" desc="小区标识" />
+				<field id="ERAB_AESTB_TOT" desc="E-RAB建立尝试总次数" />
+				<field id="ERAB_ESTB_AVDUR" desc="E-RAB建立平均时长" />
+				<field id="ERAB_VESTB_TOT" desc="E-RAB建立成功总次数" />
+				<field id="ERAB_ESTB_MAXDUR" desc="E-RAB建立最大时长" />
+				<field id="PTT_TO_ERAB_ATOT" desc="PTT业务的切换入E-RAB尝试建立次数" />
+				<field id="PTT_TO_ERAB_VTOT" desc="PTT业务的切换入E-RAB成功建立次数" />
+				<field id="QCI1_ERAB_AESTB_TOT" desc="QCI为1的业务E-RAB建立尝试次数" />
+				<field id="QCI1_ERAB_VESTB_TOT" desc="QCI为1的业务E-RAB建立成功次数" />
+				<field id="QCI1_INITERAB_AESTB_TOT" desc="QCI为1的业务初始E-RAB建立尝试次数" />
+				<field id="QCI1_INITERAB_VESTB_TOT" desc="QCI为1的业务初始E-RAB建立成功次数" />
+				<field id="QCI1_TO_AERAB_TOT" desc="QCI为1的切换入E-RAB尝试建立次数" />
+				<field id="QCI1_TO_VERAB_TOT" desc="QCI为1的切换入E-RAB成功建立次数" />
+				<field id="QCI2_ERAB_AESTB_TOT" desc="QCI为2的业务E-RAB建立尝试次数" />
+				<field id="QCI2_ERAB_VESTB_TOT" desc="QCI为2的业务E-RAB建立成功次数" />
+				<field id="QCI2_INITERAB_AESTB_TOT" desc="QCI为2的业务初始E-RAB建立尝试次数" />
+				<field id="QCI2_INITERAB_VESTB_TOT" desc="QCI为2的业务初始E-RAB建立成功次数" />
+				<field id="QCI2_TO_AERAB_TOT" desc="QCI为2的切换入E-RAB尝试建立次数" />
+				<field id="QCI2_TO_VERAB_TOT" desc="QCI为2的切换入E-RAB成功建立次数" />
+				<field id="QCI3_ERAB_AESTB_TOT" desc="QCI为3的业务E-RAB建立尝试次数" />
+				<field id="QCI3_ERAB_VESTB_TOT" desc="QCI为3的业务E-RAB建立成功次数" />
+				<field id="QCI3_INITERAB_AESTB_TOT" desc="QCI为3的业务初始E-RAB建立尝试次数" />
+				<field id="QCI3_INITERAB_VESTB_TOT" desc="QCI为3的业务初始E-RAB建立成功次数" />
+				<field id="QCI3_TO_AERAB_TOT" desc="QCI为3的切换入E-RAB尝试建立次数" />
+				<field id="QCI3_TO_VERAB_TOT" desc="QCI为3的切换入E-RAB成功建立次数" />
+				<field id="QCI4_ERAB_AESTB_TOT" desc="QCI为4的业务E-RAB建立尝试次数" />
+				<field id="QCI4_ERAB_VESTB_TOT" desc="QCI为4的业务E-RAB建立成功次数" />
+				<field id="QCI4_INITERAB_AESTB_TOT" desc="QCI为4的业务初始E-RAB建立尝试次数" />
+				<field id="QCI4_INITERAB_VESTB_TOT" desc="QCI为4的业务初始E-RAB建立成功次数" />
+				<field id="QCI4_TO_AERAB_TOT" desc="QCI为4的切换入E-RAB尝试建立次数" />
+				<field id="QCI4_TO_VERAB_TOT" desc="QCI为4的切换入E-RAB成功建立次数" />
+				<field id="QCI5_ERAB_AESTB_TOT" desc="QCI为5的业务E-RAB建立尝试次数" />
+				<field id="QCI5_ERAB_VESTB_TOT" desc="QCI为5的业务E-RAB建立成功次数" />
+				<field id="QCI5_INITERAB_AESTB_TOT" desc="QCI为5的业务初始E-RAB建立尝试次数" />
+				<field id="QCI5_INITERAB_VESTB_TOT" desc="QCI为5的业务初始E-RAB建立成功次数" />
+				<field id="QCI5_TO_AERAB_TOT" desc="QCI为5的切换入E-RAB尝试建立次数" />
+				<field id="QCI5_TO_VERAB_TOT" desc="QCI为5的切换入E-RAB成功建立次数" />
+				<field id="QCI6_ERAB_AESTB_TOT" desc="QCI为6的业务E-RAB建立尝试次数" />
+				<field id="QCI6_ERAB_VESTB_TOT" desc="QCI为6的业务E-RAB建立成功次数" />
+				<field id="QCI6_INITERAB_AESTB_TOT" desc="QCI为6的业务初始E-RAB建立尝试次数" />
+				<field id="QCI6_INITERAB_VESTB_TOT" desc="QCI为6的业务初始E-RAB建立成功次数" />
+				<field id="QCI6_TO_AERAB_TOT" desc="QCI为6的切换入E-RAB尝试建立次数" />
+				<field id="QCI6_TO_VERAB_TOT" desc="QCI为6的切换入E-RAB成功建立次数" />
+				<field id="QCI7_ERAB_AESTB_TOT" desc="QCI为7的业务E-RAB建立尝试次数" />
+				<field id="QCI7_ERAB_VESTB_TOT" desc="QCI为7的业务E-RAB建立成功次数" />
+				<field id="QCI7_INITERAB_AESTB_TOT" desc="QCI为7的业务初始E-RAB建立尝试次数" />
+				<field id="QCI7_INITERAB_VESTB_TOT" desc="QCI为7的业务初始E-RAB建立成功次数" />
+				<field id="QCI7_TO_AERAB_TOT" desc="QCI为7的切换入E-RAB尝试建立次数" />
+				<field id="QCI7_TO_VERAB_TOT" desc="QCI为7的切换入E-RAB成功建立次数" />
+				<field id="QCI8_ERAB_AESTB_TOT" desc="QCI为8的业务E-RAB建立尝试次数" />
+				<field id="QCI8_ERAB_VESTB_TOT" desc="QCI为8的业务E-RAB建立成功次数" />
+				<field id="QCI8_INITERAB_AESTB_TOT" desc="QCI为8的业务初始E-RAB建立尝试次数" />
+				<field id="QCI8_INITERAB_VESTB_TOT" desc="QCI为8的业务初始E-RAB建立成功次数" />
+				<field id="QCI8_TO_AERAB_TOT" desc="QCI为8的切换入E-RAB尝试建立次数" />
+				<field id="QCI8_TO_VERAB_TOT" desc="QCI为8的切换入E-RAB成功建立次数" />
+				<field id="QCI9_ERAB_AESTB_TOT" desc="QCI为9的业务E-RAB建立尝试次数" />
+				<field id="QCI9_ERAB_VESTB_TOT" desc="QCI为9的业务E-RAB建立成功次数" />
+				<field id="QCI9_INITERAB_AESTB_TOT" desc="QCI为9的业务初始E-RAB建立尝试次数" />
+				<field id="QCI9_INITERAB_VESTB_TOT" desc="QCI为9的业务初始E-RAB建立成功次数" />
+				<field id="QCI9_TO_AERAB_TOT" desc="QCI为9的切换入E-RAB尝试建立次数" />
+				<field id="QCI9_TO_VERAB_TOT" desc="QCI为9的切换入E-RAB成功建立次数" />
+				<field id="S1_AESTB_TOT" desc="S1信令连接建立尝试次数" />
+				<field id="S1_VESTB_TOT" desc="S1信令连接建立成功次数" />
+				<field id="UE_restore_Att" desc="UE从上行失步态转换为上行同步态E-RAB恢复的尝试次数" />
+				<field id="UE_restore_Succ" desc="UE从上行失步态转换为上行同步态E-RAB恢复的成功次数" />
+				<field id="ERAB_INITESTB_TOT" desc="初始E-RAB建立尝试总次数" />
+				<field id="ERAB_INITESTB_AVDUR" desc="初始E-RAB建立平均时长" />
+				<field id="ERAB_INITVESTB_TOT" desc="初始E-RAB建立成功总次数" />
+				<field id="ERAB_INITESTB_MAXDUR" desc="初始E-RAB建立最大时长" />
+				<field id="CELL_TO_ERAB_ATOT" desc="小区切换入E-RAB尝试建立次数" />
+				<field id="CELL_TO_ERAB_VTOT" desc="小区切换入E-RAB成功建立总次数" />
+				<field id="USER_PTT_AESTB_TOT" desc="用户发起建立PTT业务E-RAB的尝试次数" />
+				<field id="USER_PTT_VESTB_TOT" desc="用户发起建立PTT业务E-RAB的成功次数" />
+				<field id="USER_PTT_INIT_AESTB_TOT" desc="用户发起建立PTT业务初始E-RAB建立尝试次数" />
+				<field id="USER_PTT_INIT_VESTB_TOT" desc="用户发起建立PTT业务的初始E-RAB建立成功次数" />
+			</fields>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
+			<values delimiter="|">
+				<field id="STAT_TIME" />
+				<field id="STAT_PERIOD" />
+				<field id="eNodeBNAME" />
+				<field id="LOCALID" />
+				<field id="CELLNAME" />
+				<field id="eNodeBID" />
+				<field id="CELLDUPLEX" />
+				<field id="CELLID" />
+				<field id="ERAB_AESTB_TOT" />
+				<field id="ERAB_ESTB_AVDUR" />
+				<field id="ERAB_VESTB_TOT" />
+				<field id="ERAB_ESTB_MAXDUR" />
+				<field id="PTT_TO_ERAB_ATOT" />
+				<field id="PTT_TO_ERAB_VTOT" />
+				<field id="QCI1_ERAB_AESTB_TOT" />
+				<field id="QCI1_ERAB_VESTB_TOT" />
+				<field id="QCI1_INITERAB_AESTB_TOT" />
+				<field id="QCI1_INITERAB_VESTB_TOT" />
+				<field id="QCI1_TO_AERAB_TOT" />
+				<field id="QCI1_TO_VERAB_TOT" />
+				<field id="QCI2_ERAB_AESTB_TOT" />
+				<field id="QCI2_ERAB_VESTB_TOT" />
+				<field id="QCI2_INITERAB_AESTB_TOT" />
+				<field id="QCI2_INITERAB_VESTB_TOT" />
+				<field id="QCI2_TO_AERAB_TOT" />
+				<field id="QCI2_TO_VERAB_TOT" />
+				<field id="QCI3_ERAB_AESTB_TOT" />
+				<field id="QCI3_ERAB_VESTB_TOT" />
+				<field id="QCI3_INITERAB_AESTB_TOT" />
+				<field id="QCI3_INITERAB_VESTB_TOT" />
+				<field id="QCI3_TO_AERAB_TOT" />
+				<field id="QCI3_TO_VERAB_TOT" />
+				<field id="QCI4_ERAB_AESTB_TOT" />
+				<field id="QCI4_ERAB_VESTB_TOT" />
+				<field id="QCI4_INITERAB_AESTB_TOT" />
+				<field id="QCI4_INITERAB_VESTB_TOT" />
+				<field id="QCI4_TO_AERAB_TOT" />
+				<field id="QCI4_TO_VERAB_TOT" />
+				<field id="QCI5_ERAB_AESTB_TOT" />
+				<field id="QCI5_ERAB_VESTB_TOT" />
+				<field id="QCI5_INITERAB_AESTB_TOT" />
+				<field id="QCI5_INITERAB_VESTB_TOT" />
+				<field id="QCI5_TO_AERAB_TOT" />
+				<field id="QCI5_TO_VERAB_TOT" />
+				<field id="QCI6_ERAB_AESTB_TOT" />
+				<field id="QCI6_ERAB_VESTB_TOT" />
+				<field id="QCI6_INITERAB_AESTB_TOT" />
+				<field id="QCI6_INITERAB_VESTB_TOT" />
+				<field id="QCI6_TO_AERAB_TOT" />
+				<field id="QCI6_TO_VERAB_TOT" />
+				<field id="QCI7_ERAB_AESTB_TOT" />
+				<field id="QCI7_ERAB_VESTB_TOT" />
+				<field id="QCI7_INITERAB_AESTB_TOT" />
+				<field id="QCI7_INITERAB_VESTB_TOT" />
+				<field id="QCI7_TO_AERAB_TOT" />
+				<field id="QCI7_TO_VERAB_TOT" />
+				<field id="QCI8_ERAB_AESTB_TOT" />
+				<field id="QCI8_ERAB_VESTB_TOT" />
+				<field id="QCI8_INITERAB_AESTB_TOT" />
+				<field id="QCI8_INITERAB_VESTB_TOT" />
+				<field id="QCI8_TO_AERAB_TOT" />
+				<field id="QCI8_TO_VERAB_TOT" />
+				<field id="QCI9_ERAB_AESTB_TOT" />
+				<field id="QCI9_ERAB_VESTB_TOT" />
+				<field id="QCI9_INITERAB_AESTB_TOT" />
+				<field id="QCI9_INITERAB_VESTB_TOT" />
+				<field id="QCI9_TO_AERAB_TOT" />
+				<field id="QCI9_TO_VERAB_TOT" />
+				<field id="S1_AESTB_TOT" />
+				<field id="S1_VESTB_TOT" />
+				<field id="UE_restore_Att" />
+				<field id="UE_restore_Succ" />
+				<field id="ERAB_INITESTB_TOT" />
+				<field id="ERAB_INITESTB_AVDUR" />
+				<field id="ERAB_INITVESTB_TOT" />
+				<field id="ERAB_INITESTB_MAXDUR" />
+				<field id="CELL_TO_ERAB_ATOT" />
+				<field id="CELL_TO_ERAB_VTOT" />
+				<field id="USER_PTT_AESTB_TOT" />
+				<field id="USER_PTT_VESTB_TOT" />
+				<field id="USER_PTT_INIT_AESTB_TOT" />
+				<field id="USER_PTT_INIT_VESTB_TOT" />
+			</values>
+		</outputMetaData>
+	</process>
+</etl>

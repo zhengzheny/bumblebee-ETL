@@ -1,0 +1,36 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<process id="ETL_KPI_HW_695_H">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" />
+			<property key="sourceEncoding" value="GBK" />
+			<property key="mapred.reduce.tasks" value="0" />
+		</computingFrameworkConfigs>
+		<sourceMetaData type="KpiXML">
+			<paths>
+				<inputPath path="${inputPath}" />
+			</paths>
+			<fields>
+				<field id="eNodeBNAME" desc="eNodeB名称" />
+				<field id="S1_ID" desc="S1接口标识" />
+				<field id="eNodeB_ESTS1_ATT" desc="eNodeB建立S1接口的尝试次数" />
+				<field id="eNodeB_ESTS1_SUCC" desc="eNodeB建立S1接口的成功次数" />
+				<field id="HUM_DISABLE" desc="人为因素导致的S1链路不可用时长" />
+				<field id="SYS_DISABLE" desc="系统原因导致的S1链路不可用时长" />
+			</fields>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
+			<values delimiter="|">
+				<field id="STAT_TIME" />
+				<field id="STAT_PERIOD" />
+				<field id="eNodeBNAME" />
+				<field id="S1_ID" />
+				<field id="eNodeB_ESTS1_ATT" />
+				<field id="eNodeB_ESTS1_SUCC" />
+				<field id="HUM_DISABLE" />
+				<field id="SYS_DISABLE" />
+			</values>
+		</outputMetaData>
+	</process>
+</etl>

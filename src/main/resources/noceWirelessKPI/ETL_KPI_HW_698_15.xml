@@ -1,0 +1,336 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<process id="ETL_KPI_HW_698_15M">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" />
+			<property key="sourceEncoding" value="GBK" />
+			<property key="mapred.reduce.tasks" value="0" />
+		</computingFrameworkConfigs>
+		<sourceMetaData type="KpiXML">
+			<paths>
+				<inputPath path="${inputPath}" />
+			</paths>
+			<fields>
+				<field id="eNodeBNAME" desc="eNodeB名称" />
+				<field id="LOCALID" desc="本地小区标识" />
+				<field id="CELLNAME" desc="小区名称" />
+				<field id="eNodeBID" desc="eNodeB标识" />
+				<field id="CELLDUPLEX" desc="小区双工模式" />
+				<field id="CELLID" desc="小区标识" />
+				<field id="PRACH_AVG_INDEX0" desc="PRACH上检测到PRB级别的平均干扰噪声为Index0的次数" />
+				<field id="PRACH_AVG_INDEX10" desc="PRACH上检测到PRB级别的平均干扰噪声为Index10的次数" />
+				<field id="PRACH_AVG_INDEX11" desc="PRACH上检测到PRB级别的平均干扰噪声为Index11的次数" />
+				<field id="PRACH_AVG_INDEX12" desc="PRACH上检测到PRB级别的平均干扰噪声为Index12的次数" />
+				<field id="PRACH_AVG_INDEX13" desc="PRACH上检测到PRB级别的平均干扰噪声为Index13的次数" />
+				<field id="PRACH_AVG_INDEX14" desc="PRACH上检测到PRB级别的平均干扰噪声为Index14的次数" />
+				<field id="PRACH_AVG_INDEX15" desc="PRACH上检测到PRB级别的平均干扰噪声为Index15的次数" />
+				<field id="PRACH_AVG_INDEX1" desc="PRACH上检测到PRB级别的平均干扰噪声为Index1的次数" />
+				<field id="PRACH_AVG_INDEX2" desc="PRACH上检测到PRB级别的平均干扰噪声为Index2的次数" />
+				<field id="PRACH_AVG_INDEX3" desc="PRACH上检测到PRB级别的平均干扰噪声为Index3的次数" />
+				<field id="PRACH_AVG_INDEX4" desc="PRACH上检测到PRB级别的平均干扰噪声为Index4的次数" />
+				<field id="PRACH_AVG_INDEX5" desc="PRACH上检测到PRB级别的平均干扰噪声为Index5的次数" />
+				<field id="PRACH_AVG_INDEX6" desc="PRACH上检测到PRB级别的平均干扰噪声为Index6的次数" />
+				<field id="PRACH_AVG_INDEX7" desc="PRACH上检测到PRB级别的平均干扰噪声为Index7的次数" />
+				<field id="PRACH_AVG_INDEX8" desc="PRACH上检测到PRB级别的平均干扰噪声为Index8的次数" />
+				<field id="PRACH_AVG_INDEX9" desc="PRACH上检测到PRB级别的平均干扰噪声为Index9的次数" />
+				<field id="PUCCH_INDEX0" desc="PUCCH上检测到PRB级别的干扰噪声为Index0的次数" />
+				<field id="PUCCH_INDEX10" desc="PUCCH上检测到PRB级别的干扰噪声为Index10的次数" />
+				<field id="PUCCH_INDEX11" desc="PUCCH上检测到PRB级别的干扰噪声为Index11的次数" />
+				<field id="PUCCH_INDEX12" desc="PUCCH上检测到PRB级别的干扰噪声为Index12的次数" />
+				<field id="PUCCH_INDEX13" desc="PUCCH上检测到PRB级别的干扰噪声为Index13的次数" />
+				<field id="PUCCH_INDEX14" desc="PUCCH上检测到PRB级别的干扰噪声为Index14的次数" />
+				<field id="PUCCH_INDEX15" desc="PUCCH上检测到PRB级别的干扰噪声为Index15的次数" />
+				<field id="PUCCH_INDEX1" desc="PUCCH上检测到PRB级别的干扰噪声为Index1的次数" />
+				<field id="PUCCH_INDEX2" desc="PUCCH上检测到PRB级别的干扰噪声为Index2的次数" />
+				<field id="PUCCH_INDEX3" desc="PUCCH上检测到PRB级别的干扰噪声为Index3的次数" />
+				<field id="PUCCH_INDEX4" desc="PUCCH上检测到PRB级别的干扰噪声为Index4的次数" />
+				<field id="PUCCH_INDEX5" desc="PUCCH上检测到PRB级别的干扰噪声为Index5的次数" />
+				<field id="PUCCH_INDEX6" desc="PUCCH上检测到PRB级别的干扰噪声为Index6的次数" />
+				<field id="PUCCH_INDEX7" desc="PUCCH上检测到PRB级别的干扰噪声为Index7的次数" />
+				<field id="PUCCH_INDEX8" desc="PUCCH上检测到PRB级别的干扰噪声为Index8的次数" />
+				<field id="PUCCH_INDEX9" desc="PUCCH上检测到PRB级别的干扰噪声为Index9的次数" />
+				<field id="PUCCH_AVRSSI_INDEX0" desc="PUCCH上检测到PRB级别的平均RSSI为Index0的次数" />
+				<field id="PUCCH_AVRSSI_INDEX10" desc="PUCCH上检测到PRB级别的平均RSSI为Index10的次数" />
+				<field id="PUCCH_AVRSSI_INDEX11" desc="PUCCH上检测到PRB级别的平均RSSI为Index11的次数" />
+				<field id="PUCCH_AVRSSI_INDEX12" desc="PUCCH上检测到PRB级别的平均RSSI为Index12的次数" />
+				<field id="PUCCH_AVRSSI_INDEX13" desc="PUCCH上检测到PRB级别的平均RSSI为Index13的次数" />
+				<field id="PUCCH_AVRSSI_INDEX14" desc="PUCCH上检测到PRB级别的平均RSSI为Index14的次数" />
+				<field id="PUCCH_AVRSSI_INDEX15" desc="PUCCH上检测到PRB级别的平均RSSI为Index15的次数" />
+				<field id="PUCCH_AVRSSI_INDEX16" desc="PUCCH上检测到PRB级别的平均RSSI为Index16的次数" />
+				<field id="PUCCH_AVRSSI_INDEX17" desc="PUCCH上检测到PRB级别的平均RSSI为Index17的次数" />
+				<field id="PUCCH_AVRSSI_INDEX18" desc="PUCCH上检测到PRB级别的平均RSSI为Index18的次数" />
+				<field id="PUCCH_AVRSSI_INDEX19" desc="PUCCH上检测到PRB级别的平均RSSI为Index19的次数" />
+				<field id="PUCCH_AVRSSI_INDEX1" desc="PUCCH上检测到PRB级别的平均RSSI为Index1的次数" />
+				<field id="PUCCH_AVRSSI_INDEX20" desc="PUCCH上检测到PRB级别的平均RSSI为Index20的次数" />
+				<field id="PUCCH_AVRSSI_INDEX21" desc="PUCCH上检测到PRB级别的平均RSSI为Index21的次数" />
+				<field id="PUCCH_AVRSSI_INDEX2" desc="PUCCH上检测到PRB级别的平均RSSI为Index2的次数" />
+				<field id="PUCCH_AVRSSI_INDEX3" desc="PUCCH上检测到PRB级别的平均RSSI为Index3的次数" />
+				<field id="PUCCH_AVRSSI_INDEX4" desc="PUCCH上检测到PRB级别的平均RSSI为Index4的次数" />
+				<field id="PUCCH_AVRSSI_INDEX5" desc="PUCCH上检测到PRB级别的平均RSSI为Index5的次数" />
+				<field id="PUCCH_AVRSSI_INDEX6" desc="PUCCH上检测到PRB级别的平均RSSI为Index6的次数" />
+				<field id="PUCCH_AVRSSI_INDEX7" desc="PUCCH上检测到PRB级别的平均RSSI为Index7的次数" />
+				<field id="PUCCH_AVRSSI_INDEX8" desc="PUCCH上检测到PRB级别的平均RSSI为Index8的次数" />
+				<field id="PUCCH_AVRSSI_INDEX9" desc="PUCCH上检测到PRB级别的平均RSSI为Index9的次数" />
+				<field id="PUCCH_RSRP_INDEX0" desc="PUCCH上检测到用户级别的RSRP为Index0的次数" />
+				<field id="PUCCH_RSRP_INDEX10" desc="PUCCH上检测到用户级别的RSRP为Index10的次数" />
+				<field id="PUCCH_RSRP_INDEX11" desc="PUCCH上检测到用户级别的RSRP为Index11的次数" />
+				<field id="PUCCH_RSRP_INDEX12" desc="PUCCH上检测到用户级别的RSRP为Index12的次数" />
+				<field id="PUCCH_RSRP_INDEX13" desc="PUCCH上检测到用户级别的RSRP为Index13的次数" />
+				<field id="PUCCH_RSRP_INDEX14" desc="PUCCH上检测到用户级别的RSRP为Index14的次数" />
+				<field id="PUCCH_RSRP_INDEX15" desc="PUCCH上检测到用户级别的RSRP为Index15的次数" />
+				<field id="PUCCH_RSRP_INDEX16" desc="PUCCH上检测到用户级别的RSRP为Index16的次数" />
+				<field id="PUCCH_RSRP_INDEX17" desc="PUCCH上检测到用户级别的RSRP为Index17的次数" />
+				<field id="PUCCH_RSRP_INDEX18" desc="PUCCH上检测到用户级别的RSRP为Index18的次数" />
+				<field id="PUCCH_RSRP_INDEX19" desc="PUCCH上检测到用户级别的RSRP为Index19的次数" />
+				<field id="PUCCH_RSRP_INDEX1" desc="PUCCH上检测到用户级别的RSRP为Index1的次数" />
+				<field id="PUCCH_RSRP_INDEX20" desc="PUCCH上检测到用户级别的RSRP为Index20的次数" />
+				<field id="PUCCH_RSRP_INDEX21" desc="PUCCH上检测到用户级别的RSRP为Index21的次数" />
+				<field id="PUCCH_RSRP_INDEX22" desc="PUCCH上检测到用户级别的RSRP为Index22的次数" />
+				<field id="PUCCH_RSRP_INDEX23" desc="PUCCH上检测到用户级别的RSRP为Index23的次数" />
+				<field id="PUCCH_RSRP_INDEX2" desc="PUCCH上检测到用户级别的RSRP为Index2的次数" />
+				<field id="PUCCH_RSRP_INDEX3" desc="PUCCH上检测到用户级别的RSRP为Index3的次数" />
+				<field id="PUCCH_RSRP_INDEX4" desc="PUCCH上检测到用户级别的RSRP为Index4的次数" />
+				<field id="PUCCH_RSRP_INDEX5" desc="PUCCH上检测到用户级别的RSRP为Index5的次数" />
+				<field id="PUCCH_RSRP_INDEX6" desc="PUCCH上检测到用户级别的RSRP为Index6的次数" />
+				<field id="PUCCH_RSRP_INDEX7" desc="PUCCH上检测到用户级别的RSRP为Index7的次数" />
+				<field id="PUCCH_RSRP_INDEX8" desc="PUCCH上检测到用户级别的RSRP为Index8的次数" />
+				<field id="PUCCH_RSRP_INDEX9" desc="PUCCH上检测到用户级别的RSRP为Index9的次数" />
+				<field id="PUSCH_PRB_NOISE_INDEX0" desc="PUSCH上检测到PRB级别的干扰噪声为Index0的次数" />
+				<field id="PUSCH_PRB_NOISE_INDEX10" desc="PUSCH上检测到PRB级别的干扰噪声为Index10的次数" />
+				<field id="PUSCH_PRB_NOISE_INDEX11" desc="PUSCH上检测到PRB级别的干扰噪声为Index11的次数" />
+				<field id="PUSCH_PRB_NOISE_INDEX12" desc="PUSCH上检测到PRB级别的干扰噪声为Index12的次数" />
+				<field id="PUSCH_PRB_NOISE_INDEX13" desc="PUSCH上检测到PRB级别的干扰噪声为Index13的次数" />
+				<field id="PUSCH_PRB_NOISE_INDEX14" desc="PUSCH上检测到PRB级别的干扰噪声为Index14的次数" />
+				<field id="PUSCH_PRB_NOISE_INDEX15" desc="PUSCH上检测到PRB级别的干扰噪声为Index15的次数" />
+				<field id="PUSCH_PRB_NOISE_INDEX1" desc="PUSCH上检测到PRB级别的干扰噪声为Index1的次数" />
+				<field id="PUSCH_PRB_NOISE_INDEX2" desc="PUSCH上检测到PRB级别的干扰噪声为Index2的次数" />
+				<field id="PUSCH_PRB_NOISE_INDEX3" desc="PUSCH上检测到PRB级别的干扰噪声为Index3的次数" />
+				<field id="PUSCH_PRB_NOISE_INDEX4" desc="PUSCH上检测到PRB级别的干扰噪声为Index4的次数" />
+				<field id="PUSCH_PRB_NOISE_INDEX5" desc="PUSCH上检测到PRB级别的干扰噪声为Index5的次数" />
+				<field id="PUSCH_PRB_NOISE_INDEX6" desc="PUSCH上检测到PRB级别的干扰噪声为Index6的次数" />
+				<field id="PUSCH_PRB_NOISE_INDEX7" desc="PUSCH上检测到PRB级别的干扰噪声为Index7的次数" />
+				<field id="PUSCH_PRB_NOISE_INDEX8" desc="PUSCH上检测到PRB级别的干扰噪声为Index8的次数" />
+				<field id="PUSCH_PRB_NOISE_INDEX9" desc="PUSCH上检测到PRB级别的干扰噪声为Index9的次数" />
+				<field id="PUSCH_PRB_RSSI_INDEX0" desc="PUSCH上检测到PRB级别的平均RSSI为Index0的次数" />
+				<field id="PUSCH_PRB_RSSI_INDEX10" desc="PUSCH上检测到PRB级别的平均RSSI为Index10的次数" />
+				<field id="PUSCH_PRB_RSSI_INDEX11" desc="PUSCH上检测到PRB级别的平均RSSI为Index11的次数" />
+				<field id="PUSCH_PRB_RSSI_INDEX12" desc="PUSCH上检测到PRB级别的平均RSSI为Index12的次数" />
+				<field id="PUSCH_PRB_RSSI_INDEX13" desc="PUSCH上检测到PRB级别的平均RSSI为Index13的次数" />
+				<field id="PUSCH_PRB_RSSI_INDEX14" desc="PUSCH上检测到PRB级别的平均RSSI为Index14的次数" />
+				<field id="PUSCH_PRB_RSSI_INDEX15" desc="PUSCH上检测到PRB级别的平均RSSI为Index15的次数" />
+				<field id="PUSCH_PRB_RSSI_INDEX16" desc="PUSCH上检测到PRB级别的平均RSSI为Index16的次数" />
+				<field id="PUSCH_PRB_RSSI_INDEX17" desc="PUSCH上检测到PRB级别的平均RSSI为Index17的次数" />
+				<field id="PUSCH_PRB_RSSI_INDEX18" desc="PUSCH上检测到PRB级别的平均RSSI为Index18的次数" />
+				<field id="PUSCH_PRB_RSSI_INDEX19" desc="PUSCH上检测到PRB级别的平均RSSI为Index19的次数" />
+				<field id="PUSCH_PRB_RSSI_INDEX1" desc="PUSCH上检测到PRB级别的平均RSSI为Index1的次数" />
+				<field id="PUSCH_PRB_RSSI_INDEX20" desc="PUSCH上检测到PRB级别的平均RSSI为Index20的次数" />
+				<field id="PUSCH_PRB_RSSI_INDEX21" desc="PUSCH上检测到PRB级别的平均RSSI为Index21的次数" />
+				<field id="PUSCH_PRB_RSSI_INDEX2" desc="PUSCH上检测到PRB级别的平均RSSI为Index2的次数" />
+				<field id="PUSCH_PRB_RSSI_INDEX3" desc="PUSCH上检测到PRB级别的平均RSSI为Index3的次数" />
+				<field id="PUSCH_PRB_RSSI_INDEX4" desc="PUSCH上检测到PRB级别的平均RSSI为Index4的次数" />
+				<field id="PUSCH_PRB_RSSI_INDEX5" desc="PUSCH上检测到PRB级别的平均RSSI为Index5的次数" />
+				<field id="PUSCH_PRB_RSSI_INDEX6" desc="PUSCH上检测到PRB级别的平均RSSI为Index6的次数" />
+				<field id="PUSCH_PRB_RSSI_INDEX7" desc="PUSCH上检测到PRB级别的平均RSSI为Index7的次数" />
+				<field id="PUSCH_PRB_RSSI_INDEX8" desc="PUSCH上检测到PRB级别的平均RSSI为Index8的次数" />
+				<field id="PUSCH_PRB_RSSI_INDEX9" desc="PUSCH上检测到PRB级别的平均RSSI为Index9的次数" />
+				<field id="PUSCH_RSRP_INDEX0" desc="PUSCH上检测到用户级别的RSRP为Index0的次数" />
+				<field id="PUSCH_RSRP_INDEX10" desc="PUSCH上检测到用户级别的RSRP为Index10的次数" />
+				<field id="PUSCH_RSRP_INDEX11" desc="PUSCH上检测到用户级别的RSRP为Index11的次数" />
+				<field id="PUSCH_RSRP_INDEX12" desc="PUSCH上检测到用户级别的RSRP为Index12的次数" />
+				<field id="PUSCH_RSRP_INDEX13" desc="PUSCH上检测到用户级别的RSRP为Index13的次数" />
+				<field id="PUSCH_RSRP_INDEX14" desc="PUSCH上检测到用户级别的RSRP为Index14的次数" />
+				<field id="PUSCH_RSRP_INDEX15" desc="PUSCH上检测到用户级别的RSRP为Index15的次数" />
+				<field id="PUSCH_RSRP_INDEX16" desc="PUSCH上检测到用户级别的RSRP为Index16的次数" />
+				<field id="PUSCH_RSRP_INDEX17" desc="PUSCH上检测到用户级别的RSRP为Index17的次数" />
+				<field id="PUSCH_RSRP_INDEX18" desc="PUSCH上检测到用户级别的RSRP为Index18的次数" />
+				<field id="PUSCH_RSRP_INDEX19" desc="PUSCH上检测到用户级别的RSRP为Index19的次数" />
+				<field id="PUSCH_RSRP_INDEX1" desc="PUSCH上检测到用户级别的RSRP为Index1的次数" />
+				<field id="PUSCH_RSRP_INDEX20" desc="PUSCH上检测到用户级别的RSRP为Index20的次数" />
+				<field id="PUSCH_RSRP_INDEX21" desc="PUSCH上检测到用户级别的RSRP为Index21的次数" />
+				<field id="PUSCH_RSRP_INDEX22" desc="PUSCH上检测到用户级别的RSRP为Index22的次数" />
+				<field id="PUSCH_RSRP_INDEX23" desc="PUSCH上检测到用户级别的RSRP为Index23的次数" />
+				<field id="PUSCH_RSRP_INDEX2" desc="PUSCH上检测到用户级别的RSRP为Index2的次数" />
+				<field id="PUSCH_RSRP_INDEX3" desc="PUSCH上检测到用户级别的RSRP为Index3的次数" />
+				<field id="PUSCH_RSRP_INDEX4" desc="PUSCH上检测到用户级别的RSRP为Index4的次数" />
+				<field id="PUSCH_RSRP_INDEX5" desc="PUSCH上检测到用户级别的RSRP为Index5的次数" />
+				<field id="PUSCH_RSRP_INDEX6" desc="PUSCH上检测到用户级别的RSRP为Index6的次数" />
+				<field id="PUSCH_RSRP_INDEX7" desc="PUSCH上检测到用户级别的RSRP为Index7的次数" />
+				<field id="PUSCH_RSRP_INDEX8" desc="PUSCH上检测到用户级别的RSRP为Index8的次数" />
+				<field id="PUSCH_RSRP_INDEX9" desc="PUSCH上检测到用户级别的RSRP为Index9的次数" />
+				<field id="UpPTS_AVG" desc="UpPTS干扰平均值" />
+				<field id="UP1RF0C_POWER" desc="倒数第1个上行子帧的第0个符号的接收功率" />
+				<field id="UP1RF11C_POWER" desc="倒数第1个上行子帧的第11个符号的接收功率(extendCP是第9)" />
+				<field id="BASEDW_ATPW_AVG" desc="基站下行实际发射功率的平均值" />
+				<field id="BASEDW_ATPW_MAX" desc="基站下行实际发射功率的最大值" />
+				<field id="UP1F0C_POWER" desc="第1个上行子帧的第0个符号功率" />
+				<field id="UP1F6C_POWER" desc="第1个上行子帧的第6个符号的接收功率(extendCP是第4)" />
+				<field id="UPPRB_IFN_AVG" desc="系统上行每个PRB上检测到的干扰噪声的平均值" />
+				<field id="UPPRB_IFN_MAX" desc="系统上行每个PRB上检测到的干扰噪声的最大值" />
+				<field id="UPPRB_IFN_MIN" desc="系统上行每个PRB上检测到的干扰噪声的最小值" />
+			</fields>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
+			<values delimiter="|">
+				<field id="STAT_TIME" />
+				<field id="STAT_PERIOD" />
+				<field id="eNodeBNAME" />
+				<field id="LOCALID" />
+				<field id="CELLNAME" />
+				<field id="eNodeBID" />
+				<field id="CELLDUPLEX" />
+				<field id="CELLID" />
+				<field id="PRACH_AVG_INDEX0" />
+				<field id="PRACH_AVG_INDEX10" />
+				<field id="PRACH_AVG_INDEX11" />
+				<field id="PRACH_AVG_INDEX12" />
+				<field id="PRACH_AVG_INDEX13" />
+				<field id="PRACH_AVG_INDEX14" />
+				<field id="PRACH_AVG_INDEX15" />
+				<field id="PRACH_AVG_INDEX1" />
+				<field id="PRACH_AVG_INDEX2" />
+				<field id="PRACH_AVG_INDEX3" />
+				<field id="PRACH_AVG_INDEX4" />
+				<field id="PRACH_AVG_INDEX5" />
+				<field id="PRACH_AVG_INDEX6" />
+				<field id="PRACH_AVG_INDEX7" />
+				<field id="PRACH_AVG_INDEX8" />
+				<field id="PRACH_AVG_INDEX9" />
+				<field id="PUCCH_INDEX0" />
+				<field id="PUCCH_INDEX10" />
+				<field id="PUCCH_INDEX11" />
+				<field id="PUCCH_INDEX12" />
+				<field id="PUCCH_INDEX13" />
+				<field id="PUCCH_INDEX14" />
+				<field id="PUCCH_INDEX15" />
+				<field id="PUCCH_INDEX1" />
+				<field id="PUCCH_INDEX2" />
+				<field id="PUCCH_INDEX3" />
+				<field id="PUCCH_INDEX4" />
+				<field id="PUCCH_INDEX5" />
+				<field id="PUCCH_INDEX6" />
+				<field id="PUCCH_INDEX7" />
+				<field id="PUCCH_INDEX8" />
+				<field id="PUCCH_INDEX9" />
+				<field id="PUCCH_AVRSSI_INDEX0" />
+				<field id="PUCCH_AVRSSI_INDEX10" />
+				<field id="PUCCH_AVRSSI_INDEX11" />
+				<field id="PUCCH_AVRSSI_INDEX12" />
+				<field id="PUCCH_AVRSSI_INDEX13" />
+				<field id="PUCCH_AVRSSI_INDEX14" />
+				<field id="PUCCH_AVRSSI_INDEX15" />
+				<field id="PUCCH_AVRSSI_INDEX16" />
+				<field id="PUCCH_AVRSSI_INDEX17" />
+				<field id="PUCCH_AVRSSI_INDEX18" />
+				<field id="PUCCH_AVRSSI_INDEX19" />
+				<field id="PUCCH_AVRSSI_INDEX1" />
+				<field id="PUCCH_AVRSSI_INDEX20" />
+				<field id="PUCCH_AVRSSI_INDEX21" />
+				<field id="PUCCH_AVRSSI_INDEX2" />
+				<field id="PUCCH_AVRSSI_INDEX3" />
+				<field id="PUCCH_AVRSSI_INDEX4" />
+				<field id="PUCCH_AVRSSI_INDEX5" />
+				<field id="PUCCH_AVRSSI_INDEX6" />
+				<field id="PUCCH_AVRSSI_INDEX7" />
+				<field id="PUCCH_AVRSSI_INDEX8" />
+				<field id="PUCCH_AVRSSI_INDEX9" />
+				<field id="PUCCH_RSRP_INDEX0" />
+				<field id="PUCCH_RSRP_INDEX10" />
+				<field id="PUCCH_RSRP_INDEX11" />
+				<field id="PUCCH_RSRP_INDEX12" />
+				<field id="PUCCH_RSRP_INDEX13" />
+				<field id="PUCCH_RSRP_INDEX14" />
+				<field id="PUCCH_RSRP_INDEX15" />
+				<field id="PUCCH_RSRP_INDEX16" />
+				<field id="PUCCH_RSRP_INDEX17" />
+				<field id="PUCCH_RSRP_INDEX18" />
+				<field id="PUCCH_RSRP_INDEX19" />
+				<field id="PUCCH_RSRP_INDEX1" />
+				<field id="PUCCH_RSRP_INDEX20" />
+				<field id="PUCCH_RSRP_INDEX21" />
+				<field id="PUCCH_RSRP_INDEX22" />
+				<field id="PUCCH_RSRP_INDEX23" />
+				<field id="PUCCH_RSRP_INDEX2" />
+				<field id="PUCCH_RSRP_INDEX3" />
+				<field id="PUCCH_RSRP_INDEX4" />
+				<field id="PUCCH_RSRP_INDEX5" />
+				<field id="PUCCH_RSRP_INDEX6" />
+				<field id="PUCCH_RSRP_INDEX7" />
+				<field id="PUCCH_RSRP_INDEX8" />
+				<field id="PUCCH_RSRP_INDEX9" />
+				<field id="PUSCH_PRB_NOISE_INDEX0" />
+				<field id="PUSCH_PRB_NOISE_INDEX10" />
+				<field id="PUSCH_PRB_NOISE_INDEX11" />
+				<field id="PUSCH_PRB_NOISE_INDEX12" />
+				<field id="PUSCH_PRB_NOISE_INDEX13" />
+				<field id="PUSCH_PRB_NOISE_INDEX14" />
+				<field id="PUSCH_PRB_NOISE_INDEX15" />
+				<field id="PUSCH_PRB_NOISE_INDEX1" />
+				<field id="PUSCH_PRB_NOISE_INDEX2" />
+				<field id="PUSCH_PRB_NOISE_INDEX3" />
+				<field id="PUSCH_PRB_NOISE_INDEX4" />
+				<field id="PUSCH_PRB_NOISE_INDEX5" />
+				<field id="PUSCH_PRB_NOISE_INDEX6" />
+				<field id="PUSCH_PRB_NOISE_INDEX7" />
+				<field id="PUSCH_PRB_NOISE_INDEX8" />
+				<field id="PUSCH_PRB_NOISE_INDEX9" />
+				<field id="PUSCH_PRB_RSSI_INDEX0" />
+				<field id="PUSCH_PRB_RSSI_INDEX10" />
+				<field id="PUSCH_PRB_RSSI_INDEX11" />
+				<field id="PUSCH_PRB_RSSI_INDEX12" />
+				<field id="PUSCH_PRB_RSSI_INDEX13" />
+				<field id="PUSCH_PRB_RSSI_INDEX14" />
+				<field id="PUSCH_PRB_RSSI_INDEX15" />
+				<field id="PUSCH_PRB_RSSI_INDEX16" />
+				<field id="PUSCH_PRB_RSSI_INDEX17" />
+				<field id="PUSCH_PRB_RSSI_INDEX18" />
+				<field id="PUSCH_PRB_RSSI_INDEX19" />
+				<field id="PUSCH_PRB_RSSI_INDEX1" />
+				<field id="PUSCH_PRB_RSSI_INDEX20" />
+				<field id="PUSCH_PRB_RSSI_INDEX21" />
+				<field id="PUSCH_PRB_RSSI_INDEX2" />
+				<field id="PUSCH_PRB_RSSI_INDEX3" />
+				<field id="PUSCH_PRB_RSSI_INDEX4" />
+				<field id="PUSCH_PRB_RSSI_INDEX5" />
+				<field id="PUSCH_PRB_RSSI_INDEX6" />
+				<field id="PUSCH_PRB_RSSI_INDEX7" />
+				<field id="PUSCH_PRB_RSSI_INDEX8" />
+				<field id="PUSCH_PRB_RSSI_INDEX9" />
+				<field id="PUSCH_RSRP_INDEX0" />
+				<field id="PUSCH_RSRP_INDEX10" />
+				<field id="PUSCH_RSRP_INDEX11" />
+				<field id="PUSCH_RSRP_INDEX12" />
+				<field id="PUSCH_RSRP_INDEX13" />
+				<field id="PUSCH_RSRP_INDEX14" />
+				<field id="PUSCH_RSRP_INDEX15" />
+				<field id="PUSCH_RSRP_INDEX16" />
+				<field id="PUSCH_RSRP_INDEX17" />
+				<field id="PUSCH_RSRP_INDEX18" />
+				<field id="PUSCH_RSRP_INDEX19" />
+				<field id="PUSCH_RSRP_INDEX1" />
+				<field id="PUSCH_RSRP_INDEX20" />
+				<field id="PUSCH_RSRP_INDEX21" />
+				<field id="PUSCH_RSRP_INDEX22" />
+				<field id="PUSCH_RSRP_INDEX23" />
+				<field id="PUSCH_RSRP_INDEX2" />
+				<field id="PUSCH_RSRP_INDEX3" />
+				<field id="PUSCH_RSRP_INDEX4" />
+				<field id="PUSCH_RSRP_INDEX5" />
+				<field id="PUSCH_RSRP_INDEX6" />
+				<field id="PUSCH_RSRP_INDEX7" />
+				<field id="PUSCH_RSRP_INDEX8" />
+				<field id="PUSCH_RSRP_INDEX9" />
+				<field id="UpPTS_AVG" />
+				<field id="UP1RF0C_POWER" />
+				<field id="UP1RF11C_POWER" />
+				<field id="BASEDW_ATPW_AVG" />
+				<field id="BASEDW_ATPW_MAX" />
+				<field id="UP1F0C_POWER" />
+				<field id="UP1F6C_POWER" />
+				<field id="UPPRB_IFN_AVG" />
+				<field id="UPPRB_IFN_MAX" />
+				<field id="UPPRB_IFN_MIN" />
+			</values>
+		</outputMetaData>
+	</process>
+</etl>

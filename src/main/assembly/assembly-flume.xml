@@ -13,7 +13,6 @@
 			<outputDirectory>bin/</outputDirectory>
 			<includes>
 				<include>etl-flume.sh</include>
-				<include>etl-kafka.sh</include>
 			</includes>
 			<fileMode>0755</fileMode>
 		</fileSet>
@@ -22,18 +21,11 @@
 			<outputDirectory>conf/</outputDirectory>
 		</fileSet>
 		<fileSet>
-			<directory>${basedir}/src/main/resources/gdnoce</directory>
-			<outputDirectory>conf/gdnoce</outputDirectory>
+			<directory>${basedir}/src/main/resources/noceWirelessKPI</directory>
+			<outputDirectory>conf/noceWirelessKPI</outputDirectory>
 			<includes>
 				<include>**/*.xml</include>
 				<include>**/*.properties</include>
-			</includes>
-		</fileSet>
-		<fileSet>
-			<directory>${basedir}/src/main/resources/lteup</directory>
-			<outputDirectory>conf/lteup</outputDirectory>
-			<includes>
-				<include>**/*.*</include>
 			</includes>
 		</fileSet>
 		<fileSet>
@@ -49,7 +41,7 @@
 			<outputDirectory>lib/</outputDirectory>
 			<includes>
 				<include>google*.jar</include>
-				<include>kafka*.jar</include>
+				<include>kafka*0.10.1.1.jar</include>
 			</includes>
 		</fileSet>
 	</fileSets>

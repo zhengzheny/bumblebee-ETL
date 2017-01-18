@@ -1,0 +1,362 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<process id="ETL_KPI_HW_660_15M">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" />
+			<property key="sourceEncoding" value="GBK" />
+			<property key="mapred.reduce.tasks" value="0" />
+		</computingFrameworkConfigs>
+		<sourceMetaData type="KpiXML">
+			<paths>
+				<inputPath path="${inputPath}" />
+			</paths>
+			<fields>
+				<field id="eNodeBNAME" desc="eNodeB名称" />
+				<field id="LOCALID" desc="本地小区标识" />
+				<field id="CELLNAME" desc="小区名称" />
+				<field id="eNodeBID" desc="eNodeB标识" />
+				<field id="CELLDUPLEX" desc="小区双工模式" />
+				<field id="CELLID" desc="小区标识" />
+				<field id="DR_ERAB_ANRLS" desc="DRB RLC复位导致的激活的E-RAB异常释放次数" />
+				<field id="eNodeB_ERAB_RLS" desc="eNodeB发起的E-RAB释放总次数" />
+				<field id="eNodeB_ERAB_RLS_QCI1" desc="eNodeB发起的QCI为1的E-RAB释放次数" />
+				<field id="eNodeB_ERAB_RLS_QCI2" desc="eNodeB发起的QCI为2的E-RAB释放次数" />
+				<field id="eNodeB_ERAB_RLS_QCI3" desc="eNodeB发起的QCI为3的E-RAB释放次数" />
+				<field id="eNodeB_ERAB_RLS_QCI4" desc="eNodeB发起的QCI为4的E-RAB释放次数" />
+				<field id="eNodeB_ERAB_RLS_QCI5" desc="eNodeB发起的QCI为5的E-RAB释放次数" />
+				<field id="eNodeB_ERAB_RLS_QCI6" desc="eNodeB发起的QCI为6的E-RAB释放次数" />
+				<field id="eNodeB_ERAB_RLS_QCI7" desc="eNodeB发起的QCI为7的E-RAB释放次数" />
+				<field id="eNodeB_ERAB_RLS_QCI8" desc="eNodeB发起的QCI为8的E-RAB释放次数" />
+				<field id="eNodeB_ERAB_RLS_QCI9" desc="eNodeB发起的QCI为9的E-RAB释放次数" />
+				<field id="eNodeB_ERAB_SRRLS" desc="eNodeB发起的S1 RESET导致的E-RAB异常释放总次数" />
+				<field id="eNodeB_ERAB_SRRLS_QCI1" desc="eNodeB发起的S1 RESET导致的QCI为1的E-RAB异常释放次数" />
+				<field id="eNodeB_ERAB_SRRLS_QCI2" desc="eNodeB发起的S1 RESET导致的QCI为2的E-RAB异常释放次数" />
+				<field id="eNodeB_ERAB_SRRLS_QCI3" desc="eNodeB发起的S1 RESET导致的QCI为3的E-RAB异常释放次数" />
+				<field id="eNodeB_ERAB_SRRLS_QCI4" desc="eNodeB发起的S1 RESET导致的QCI为4的E-RAB异常释放次数" />
+				<field id="eNodeB_ERAB_SRRLS_QCI5" desc="eNodeB发起的S1 RESET导致的QCI为5的E-RAB异常释放次数" />
+				<field id="eNodeB_ERAB_SRRLS_QCI6" desc="eNodeB发起的S1 RESET导致的QCI为6的E-RAB异常释放次数" />
+				<field id="eNodeB_ERAB_SRRLS_QCI7" desc="eNodeB发起的S1 RESET导致的QCI为7的E-RAB异常释放次数" />
+				<field id="eNodeB_ERAB_SRRLS_QCI8" desc="eNodeB发起的S1 RESET导致的QCI为8的E-RAB异常释放次数" />
+				<field id="eNodeB_ERAB_SRRLS_QCI9" desc="eNodeB发起的S1 RESET导致的QCI为9的E-RAB异常释放次数" />
+				<field id="eNodeB_ERAB_UIRLS" desc="eNodeB发起的原因为User Inactivity的E-RAB释放次数" />
+				<field id="eNodeB_ERAB_ANRLS" desc="eNodeB触发的E-RAB异常释放总次数" />
+				<field id="eNodeB_ERAB_ANRLS_QCI1" desc="eNodeB触发的QCI为1的业务E-RAB异常释放次数" />
+				<field id="eNodeB_ERAB_ANRLS_QCI2" desc="eNodeB触发的QCI为2的业务E-RAB异常释放次数" />
+				<field id="eNodeB_ERAB_ANRLS_QCI3" desc="eNodeB触发的QCI为3的业务E-RAB异常释放次数" />
+				<field id="eNodeB_ERAB_ANRLS_QCI4" desc="eNodeB触发的QCI为4的业务E-RAB异常释放次数" />
+				<field id="eNodeB_ERAB_ANRLS_QCI5" desc="eNodeB触发的QCI为5的业务E-RAB异常释放次数" />
+				<field id="eNodeB_ERAB_ANRLS_QCI6" desc="eNodeB触发的QCI为6的业务E-RAB异常释放次数" />
+				<field id="eNodeB_ERAB_ANRLS_QCI7" desc="eNodeB触发的QCI为7的业务E-RAB异常释放次数" />
+				<field id="eNodeB_ERAB_ANRLS_QCI8" desc="eNodeB触发的QCI为8的业务E-RAB异常释放次数" />
+				<field id="eNodeB_ERAB_ANRLS_QCI9" desc="eNodeB触发的QCI为9的业务E-RAB异常释放次数" />
+				<field id="ERAB_ANRLS" desc="E-RAB异常释放总次数" />
+				<field id="ERAB_NRLS" desc="E-RAB正常释放总次数" />
+				<field id="MME_ERAB_RLS" desc="MME发起的E-RAB释放总次数" />
+				<field id="MME_ERAB_RLS_QCI1" desc="MME发起的QCI为1的E-RAB释放次数" />
+				<field id="MME_ERAB_RLS_QCI2" desc="MME发起的QCI为2的E-RAB释放次数" />
+				<field id="MME_ERAB_RLS_QCI3" desc="MME发起的QCI为3的E-RAB释放次数" />
+				<field id="MME_ERAB_RLS_QCI4" desc="MME发起的QCI为4的E-RAB释放次数" />
+				<field id="MME_ERAB_RLS_QCI5" desc="MME发起的QCI为5的E-RAB释放次数" />
+				<field id="MME_ERAB_RLS_QCI6" desc="MME发起的QCI为6的E-RAB释放次数" />
+				<field id="MME_ERAB_RLS_QCI7" desc="MME发起的QCI为7的E-RAB释放次数" />
+				<field id="MME_ERAB_RLS_QCI8" desc="MME发起的QCI为8的E-RAB释放次数" />
+				<field id="MME_ERAB_RLS_QCI9" desc="MME发起的QCI为9的E-RAB释放次数" />
+				<field id="MME_ERAB_SRRLS" desc="MME发起的S1 RESET导致的E-RAB异常释放总次数" />
+				<field id="MME_ERAB_SRRLS_QCI1" desc="MME发起的S1 RESET导致的QCI为1的E-RAB异常释放次数" />
+				<field id="MME_ERAB_SRRLS_QCI2" desc="MME发起的S1 RESET导致的QCI为2的E-RAB异常释放次数" />
+				<field id="MME_ERAB_SRRLS_QCI3" desc="MME发起的S1 RESET导致的QCI为3的E-RAB异常释放次数" />
+				<field id="MME_ERAB_SRRLS_QCI4" desc="MME发起的S1 RESET导致的QCI为4的E-RAB异常释放次数" />
+				<field id="MME_ERAB_SRRLS_QCI5" desc="MME发起的S1 RESET导致的QCI为5的E-RAB异常释放次数" />
+				<field id="MME_ERAB_SRRLS_QCI6" desc="MME发起的S1 RESET导致的QCI为6的E-RAB异常释放次数" />
+				<field id="MME_ERAB_SRRLS_QCI7" desc="MME发起的S1 RESET导致的QCI为7的E-RAB异常释放次数" />
+				<field id="MME_ERAB_SRRLS_QCI8" desc="MME发起的S1 RESET导致的QCI为8的E-RAB异常释放次数" />
+				<field id="MME_ERAB_SRRLS_QCI9" desc="MME发起的S1 RESET导致的QCI为9的E-RAB异常释放次数" />
+				<field id="PTT_ERAB_ANRLS" desc="PTT业务E-RAB异常释放次数" />
+				<field id="ERAB_ANRLS_QCI1" desc="QCI为1的业务E-RAB异常释放次数" />
+				<field id="ERAB_NRLS_QCI1" desc="QCI为1的业务E-RAB正常释放次数" />
+				<field id="ERAB_REMAIN_QCI1" desc="QCI为1的遗留E-RAB个数" />
+				<field id="ERAB_ANRLS_QCI2" desc="QCI为2的业务E-RAB异常释放次数" />
+				<field id="ERAB_NRLS_QCI2" desc="QCI为2的业务E-RAB正常释放次数" />
+				<field id="ERAB_REMAIN_QCI2" desc="QCI为2的遗留E-RAB个数" />
+				<field id="ERAB_ANRLS_QCI3" desc="QCI为3的业务E-RAB异常释放次数" />
+				<field id="ERAB_NRLS_QCI3" desc="QCI为3的业务E-RAB正常释放次数" />
+				<field id="ERAB_REMAIN_QCI3" desc="QCI为3的遗留E-RAB个数" />
+				<field id="ERAB_ANRLS_QCI4" desc="QCI为4的业务E-RAB异常释放次数" />
+				<field id="ERAB_NRLS_QCI4" desc="QCI为4的业务E-RAB正常释放次数" />
+				<field id="ERAB_REMAIN_QCI4" desc="QCI为4的遗留E-RAB个数" />
+				<field id="ERAB_ANRLS_QCI5" desc="QCI为5的业务E-RAB异常释放次数" />
+				<field id="ERAB_NRLS_QCI5" desc="QCI为5的业务E-RAB正常释放次数" />
+				<field id="ERAB_REMAIN_QCI5" desc="QCI为5的遗留E-RAB个数" />
+				<field id="ERAB_ANRLS_QCI6" desc="QCI为6的业务E-RAB异常释放次数" />
+				<field id="ERAB_NRLS_QCI6" desc="QCI为6的业务E-RAB正常释放次数" />
+				<field id="ERAB_REMAIN_QCI6" desc="QCI为6的遗留E-RAB个数" />
+				<field id="ERAB_ANRLS_QCI7" desc="QCI为7的业务E-RAB异常释放次数" />
+				<field id="ERAB_NRLS_QCI7" desc="QCI为7的业务E-RAB正常释放次数" />
+				<field id="ERAB_REMAIN_QCI7" desc="QCI为7的遗留E-RAB个数" />
+				<field id="ERAB_ANRLS_QCI8" desc="QCI为8的业务E-RAB异常释放次数" />
+				<field id="ERAB_NRLS_QCI8" desc="QCI为8的业务E-RAB正常释放次数" />
+				<field id="ERAB_REMAIN_QCI8" desc="QCI为8的遗留E-RAB个数" />
+				<field id="ERAB_ANRLS_QCI9" desc="QCI为9的业务E-RAB异常释放次数" />
+				<field id="ERAB_NRLS_QCI9" desc="QCI为9的业务E-RAB正常释放次数" />
+				<field id="ERAB_REMAIN_QCI9" desc="QCI为9的遗留E-RAB个数" />
+				<field id="ERAB_ANRLS_SRB_RLC" desc="SRB RLC复位导致的激活的E-RAB异常释放次数" />
+				<field id="ERAB_ANRLS_SRBOVER" desc="SRB达到最大重传次数导致的激活的语音业务E-RAB异常释放次数" />
+				<field id="ERAB_ANRLS_UEREPLYTO" desc="UE Reply超时导致的激活的语音业务E-RAB异常释放次数" />
+				<field id="ERAB_RLS_UPASY" desc="UE在上行失步状态的E-RAB释放总个数" />
+				<field id="ERAB_UPSTAT_SWITCH" desc="上行同步态转换为上行失步态UE的E-RAB总个数" />
+				<field id="VSERAB_ANRLS_UPWC" desc="上行弱覆盖导致的激活的语音业务E-RAB异常释放次数" />
+				<field id="ERAB_ANRLS_UPRESYN" desc="上行重同步失败导致的激活的E-RAB异常释放次数" />
+				<field id="ERAB_ANRLS_TL" desc="传输层问题导致的E-RAB异常释放次数" />
+				<field id="VSERAB_ANRLS_TL" desc="传输层问题导致的激活的语音业务E-RAB异常释放次数" />
+				<field id="ERAB_ANRLS_TLRP" desc="传输资源被抢占导致的激活的E-RAB异常释放次数" />
+				<field id="VSERAB_ANRLS_TLRP" desc="传输资源被抢占导致的激活的语音业务E-RAB异常释放次数" />
+				<field id="ERAB_ANRLS_TLROL" desc="传输资源过载导致的激活的E-RAB异常释放次数" />
+				<field id="VSERAB_ANRLS_TLROL" desc="传输资源过载导致的激活的语音业务E-RAB异常释放次数" />
+				<field id="ERAB_ANRLS_TLOTH" desc="其它传输层问题导致的激活的E-RAB异常释放次数" />
+				<field id="VSERAB_ANRLS_TLOTH" desc="其它传输层问题导致的激活的语音业务E-RAB异常释放次数" />
+				<field id="ERAB_ANRLS_OTH" desc="其它原因导致的激活的E-RAB异常释放次数" />
+				<field id="VSERAB_ANRLS_OTH" desc="其它原因导致的激活的语音业务E-RAB异常释放次数" />
+				<field id="ERAB_ANRLS_OTHWL" desc="其它无线网络层问题导致的激活的E-RAB异常释放次数" />
+				<field id="VSERAB_ANRLS_OTHWL" desc="其它无线网络层问题导致的激活的语音业务E-RAB异常释放次数" />
+				<field id="ERAB_ANRLS_OTHRCONG" desc="其它无线资源拥塞问题导致的激活的E-RAB异常释放次数" />
+				<field id="VSERAB_ANRLS_OTHRCONG" desc="其它无线资源拥塞问题导致的激活的语音业务E-RAB异常释放次数" />
+				<field id="ERAB_ANRLS_SWITCHPTT" desc="切换出PTT业务的E-RAB异常释放次数" />
+				<field id="ERAB_NRLS_SWITCHPTT" desc="切换出PTT业务的E-RAB正常释放次数" />
+				<field id="ERAB_ANRLS_SWITCHQCI1" desc="切换出QCI为1的E-RAB异常释放次数" />
+				<field id="ERAB_NRLS_SWITCHQCI1" desc="切换出QCI为1的E-RAB正常释放次数" />
+				<field id="ERAB_ANRLS_SWITCHQCI2" desc="切换出QCI为2的E-RAB异常释放次数" />
+				<field id="ERAB_NRLS_SWITCHQCI2" desc="切换出QCI为2的E-RAB正常释放次数" />
+				<field id="ERAB_ANRLS_SWITCHQCI3" desc="切换出QCI为3的E-RAB异常释放次数" />
+				<field id="ERAB_NRLS_SWITCHQCI3" desc="切换出QCI为3的E-RAB正常释放次数" />
+				<field id="ERAB_ANRLS_SWITCHQCI4" desc="切换出QCI为4的E-RAB异常释放次数" />
+				<field id="ERAB_NRLS_SWITCHQCI4" desc="切换出QCI为4的E-RAB正常释放次数" />
+				<field id="ERAB_ANRLS_SWITCHQCI5" desc="切换出QCI为5的E-RAB异常释放次数" />
+				<field id="ERAB_NRLS_SWITCHQCI5" desc="切换出QCI为5的E-RAB正常释放次数" />
+				<field id="ERAB_ANRLS_SWITCHQCI6" desc="切换出QCI为6的E-RAB异常释放次数" />
+				<field id="ERAB_NRLS_SWITCHQCI6" desc="切换出QCI为6的E-RAB正常释放次数" />
+				<field id="ERAB_ANRLS_SWITCHQCI7" desc="切换出QCI为7的E-RAB异常释放次数" />
+				<field id="ERAB_NRLS_SWITCHQCI7" desc="切换出QCI为7的E-RAB正常释放次数" />
+				<field id="ERAB_ANRLS_SWITCHQCI8" desc="切换出QCI为8的E-RAB异常释放次数" />
+				<field id="ERAB_NRLS_SWITCHQCI8" desc="切换出QCI为8的E-RAB正常释放次数" />
+				<field id="ERAB_ANRLS_SWITCHQCI9" desc="切换出QCI为9的E-RAB异常释放次数" />
+				<field id="ERAB_NRLS_SWITCHQCI9" desc="切换出QCI为9的E-RAB正常释放次数" />
+				<field id="ERAB_ANRLS_MME_SWITCH" desc="切换执行过程中MME发起的E-RAB异常释放总次数" />
+				<field id="ERAB_ANRLS_MME_SWITCHQCI1" desc="切换执行过程中MME发起的QCI为1的E-RAB异常释放次数" />
+				<field id="ERAB_ANRLS_MME_SWITCHQCI2" desc="切换执行过程中MME发起的QCI为2的E-RAB异常释放次数" />
+				<field id="ERAB_ANRLS_MME_SWITCHQCI3" desc="切换执行过程中MME发起的QCI为3的E-RAB异常释放次数" />
+				<field id="ERAB_ANRLS_MME_SWITCHQCI4" desc="切换执行过程中MME发起的QCI为4的E-RAB异常释放次数" />
+				<field id="ERAB_ANRLS_MME_SWITCHQCI5" desc="切换执行过程中MME发起的QCI为5的E-RAB异常释放次数" />
+				<field id="ERAB_ANRLS_MME_SWITCHQCI6" desc="切换执行过程中MME发起的QCI为6的E-RAB异常释放次数" />
+				<field id="ERAB_ANRLS_MME_SWITCHQCI7" desc="切换执行过程中MME发起的QCI为7的E-RAB异常释放次数" />
+				<field id="ERAB_ANRLS_MME_SWITCHQCI8" desc="切换执行过程中MME发起的QCI为8的E-RAB异常释放次数" />
+				<field id="ERAB_ANRLS_MME_SWITCHQCI9" desc="切换执行过程中MME发起的QCI为9的E-RAB异常释放次数" />
+				<field id="ERAB_ANRLS_SWITCHFAIL" desc="切换流程失败导致E-RAB异常释放次数" />
+				<field id="VSERAB_ANRLS_SWITCHFAIL" desc="切换流程失败导致的激活的语音业务E-RAB异常释放次数" />
+				<field id="ERAB_NRLS_PTT" desc="小区PTT业务的E-RAB正常释放次数" />
+				<field id="ERAB_ANRLS_SWITCH" desc="小区切换出E-RAB异常释放总次数" />
+				<field id="ERAB_NRLS_SWITCH" desc="小区切换出E-RAB正常释放总次数" />
+				<field id="ERAB_ANRLS_WL" desc="无线层问题导致的E-RAB异常释放次数" />
+				<field id="VSERAB_ANRLS_WL" desc="无线层问题导致的激活的语音业务E-RAB异常释放次数" />
+				<field id="ERAB_ANRLS_WLCONG" desc="无线网络拥塞导致的E-RAB异常释放次数" />
+				<field id="VSERAB_ANRLS_WLCONG" desc="无线网络拥塞导致的激活的语音业务E-RAB异常释放次数" />
+				<field id="ERAB_ANRLS_WLRP" desc="无线资源被抢占导致的激活的E-RAB异常释放次数" />
+				<field id="VSERAB_ANRLS_WLRP" desc="无线资源被抢占导致的激活的语音业务E-RAB异常释放次数" />
+				<field id="ERAB_ANRLS_WLROL" desc="无线资源过载导致的激活的E-RAB异常释放次数" />
+				<field id="VSERAB_ANRLS_WLROL" desc="无线资源过载导致的激活的语音业务E-RAB异常释放次数" />
+				<field id="ERAB_ANRLS_CNQCI2" desc="核心网触发QCI为2的激活的E-RAB异常释放次数" />
+				<field id="ERAB_ANRLS_CNQCI3" desc="核心网触发QCI为3的激活的E-RAB异常释放次数" />
+				<field id="ERAB_ANRLS_CNQCI4" desc="核心网触发QCI为4的激活的E-RAB异常释放次数" />
+				<field id="ERAB_ANRLS_CNQCI5" desc="核心网触发QCI为5的激活的E-RAB异常释放次数" />
+				<field id="ERAB_ANRLS_CNQCI6" desc="核心网触发QCI为6的激活的E-RAB异常释放次数" />
+				<field id="ERAB_ANRLS_CNQCI7" desc="核心网触发QCI为7的激活的E-RAB异常释放次数" />
+				<field id="ERAB_ANRLS_CNQCI8" desc="核心网触发QCI为8的激活的E-RAB异常释放次数" />
+				<field id="ERAB_ANRLS_CNQCI9" desc="核心网触发QCI为9的激活的E-RAB异常释放次数" />
+				<field id="ERAB_ANRLS_CNEGR" desc="核心网触发的释放原因为Release due to E-UTRAN Generated Reason的激活的E-RAB异常释放次数" />
+				<field id="VSERAB_ANRLS_CNEGR" desc="核心网触发的释放原因为Release due to E-UTRAN Generated Reason的激活的语音业务E-RAB异常释放次数" />
+				<field id="ERAB_ANRLS_CN" desc="核心网问题导致E-RAB异常释放总次数" />
+				<field id="ERAB_ANRLS_CNACT" desc="核心网问题导致的激活的E-RAB异常释放次数" />
+				<field id="VSERAB_ANRLS_CNACT" desc="核心网问题导致的激活的语音业务E-RAB异常释放次数" />
+				<field id="VSERAB_ANRLS_CN" desc="核心网问题导致的语音业务E-RAB异常释放总次数" />
+				<field id="ERAB_ANRLS_APFAIL" desc="空口过程失败导致的激活的E-RAB异常释放次数" />
+				<field id="ERAB_REMAIN" desc="遗留E-RAB总个数" />
+				<field id="ERAB_ANRLS_RESYNVS" desc="重同步失败导致的激活的语音业务E-RAB异常释放次数" />
+			</fields>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
+			<values delimiter="|">
+				<field id="STAT_TIME" />
+				<field id="STAT_PERIOD" />
+				<field id="eNodeBNAME" />
+				<field id="LOCALID" />
+				<field id="CELLNAME" />
+				<field id="eNodeBID" />
+				<field id="CELLDUPLEX" />
+				<field id="CELLID" />
+				<field id="DR_ERAB_ANRLS" />
+				<field id="eNodeB_ERAB_RLS" />
+				<field id="eNodeB_ERAB_RLS_QCI1" />
+				<field id="eNodeB_ERAB_RLS_QCI2" />
+				<field id="eNodeB_ERAB_RLS_QCI3" />
+				<field id="eNodeB_ERAB_RLS_QCI4" />
+				<field id="eNodeB_ERAB_RLS_QCI5" />
+				<field id="eNodeB_ERAB_RLS_QCI6" />
+				<field id="eNodeB_ERAB_RLS_QCI7" />
+				<field id="eNodeB_ERAB_RLS_QCI8" />
+				<field id="eNodeB_ERAB_RLS_QCI9" />
+				<field id="eNodeB_ERAB_SRRLS" />
+				<field id="eNodeB_ERAB_SRRLS_QCI1" />
+				<field id="eNodeB_ERAB_SRRLS_QCI2" />
+				<field id="eNodeB_ERAB_SRRLS_QCI3" />
+				<field id="eNodeB_ERAB_SRRLS_QCI4" />
+				<field id="eNodeB_ERAB_SRRLS_QCI5" />
+				<field id="eNodeB_ERAB_SRRLS_QCI6" />
+				<field id="eNodeB_ERAB_SRRLS_QCI7" />
+				<field id="eNodeB_ERAB_SRRLS_QCI8" />
+				<field id="eNodeB_ERAB_SRRLS_QCI9" />
+				<field id="eNodeB_ERAB_UIRLS" />
+				<field id="eNodeB_ERAB_ANRLS" />
+				<field id="eNodeB_ERAB_ANRLS_QCI1" />
+				<field id="eNodeB_ERAB_ANRLS_QCI2" />
+				<field id="eNodeB_ERAB_ANRLS_QCI3" />
+				<field id="eNodeB_ERAB_ANRLS_QCI4" />
+				<field id="eNodeB_ERAB_ANRLS_QCI5" />
+				<field id="eNodeB_ERAB_ANRLS_QCI6" />
+				<field id="eNodeB_ERAB_ANRLS_QCI7" />
+				<field id="eNodeB_ERAB_ANRLS_QCI8" />
+				<field id="eNodeB_ERAB_ANRLS_QCI9" />
+				<field id="ERAB_ANRLS" />
+				<field id="ERAB_NRLS" />
+				<field id="MME_ERAB_RLS" />
+				<field id="MME_ERAB_RLS_QCI1" />
+				<field id="MME_ERAB_RLS_QCI2" />
+				<field id="MME_ERAB_RLS_QCI3" />
+				<field id="MME_ERAB_RLS_QCI4" />
+				<field id="MME_ERAB_RLS_QCI5" />
+				<field id="MME_ERAB_RLS_QCI6" />
+				<field id="MME_ERAB_RLS_QCI7" />
+				<field id="MME_ERAB_RLS_QCI8" />
+				<field id="MME_ERAB_RLS_QCI9" />
+				<field id="MME_ERAB_SRRLS" />
+				<field id="MME_ERAB_SRRLS_QCI1" />
+				<field id="MME_ERAB_SRRLS_QCI2" />
+				<field id="MME_ERAB_SRRLS_QCI3" />
+				<field id="MME_ERAB_SRRLS_QCI4" />
+				<field id="MME_ERAB_SRRLS_QCI5" />
+				<field id="MME_ERAB_SRRLS_QCI6" />
+				<field id="MME_ERAB_SRRLS_QCI7" />
+				<field id="MME_ERAB_SRRLS_QCI8" />
+				<field id="MME_ERAB_SRRLS_QCI9" />
+				<field id="PTT_ERAB_ANRLS" />
+				<field id="ERAB_ANRLS_QCI1" />
+				<field id="ERAB_NRLS_QCI1" />
+				<field id="ERAB_REMAIN_QCI1" />
+				<field id="ERAB_ANRLS_QCI2" />
+				<field id="ERAB_NRLS_QCI2" />
+				<field id="ERAB_REMAIN_QCI2" />
+				<field id="ERAB_ANRLS_QCI3" />
+				<field id="ERAB_NRLS_QCI3" />
+				<field id="ERAB_REMAIN_QCI3" />
+				<field id="ERAB_ANRLS_QCI4" />
+				<field id="ERAB_NRLS_QCI4" />
+				<field id="ERAB_REMAIN_QCI4" />
+				<field id="ERAB_ANRLS_QCI5" />
+				<field id="ERAB_NRLS_QCI5" />
+				<field id="ERAB_REMAIN_QCI5" />
+				<field id="ERAB_ANRLS_QCI6" />
+				<field id="ERAB_NRLS_QCI6" />
+				<field id="ERAB_REMAIN_QCI6" />
+				<field id="ERAB_ANRLS_QCI7" />
+				<field id="ERAB_NRLS_QCI7" />
+				<field id="ERAB_REMAIN_QCI7" />
+				<field id="ERAB_ANRLS_QCI8" />
+				<field id="ERAB_NRLS_QCI8" />
+				<field id="ERAB_REMAIN_QCI8" />
+				<field id="ERAB_ANRLS_QCI9" />
+				<field id="ERAB_NRLS_QCI9" />
+				<field id="ERAB_REMAIN_QCI9" />
+				<field id="ERAB_ANRLS_SRB_RLC" />
+				<field id="ERAB_ANRLS_SRBOVER" />
+				<field id="ERAB_ANRLS_UEREPLYTO" />
+				<field id="ERAB_RLS_UPASY" />
+				<field id="ERAB_UPSTAT_SWITCH" />
+				<field id="VSERAB_ANRLS_UPWC" />
+				<field id="ERAB_ANRLS_UPRESYN" />
+				<field id="ERAB_ANRLS_TL" />
+				<field id="VSERAB_ANRLS_TL" />
+				<field id="ERAB_ANRLS_TLRP" />
+				<field id="VSERAB_ANRLS_TLRP" />
+				<field id="ERAB_ANRLS_TLROL" />
+				<field id="VSERAB_ANRLS_TLROL" />
+				<field id="ERAB_ANRLS_TLOTH" />
+				<field id="VSERAB_ANRLS_TLOTH" />
+				<field id="ERAB_ANRLS_OTH" />
+				<field id="VSERAB_ANRLS_OTH" />
+				<field id="ERAB_ANRLS_OTHWL" />
+				<field id="VSERAB_ANRLS_OTHWL" />
+				<field id="ERAB_ANRLS_OTHRCONG" />
+				<field id="VSERAB_ANRLS_OTHRCONG" />
+				<field id="ERAB_ANRLS_SWITCHPTT" />
+				<field id="ERAB_NRLS_SWITCHPTT" />
+				<field id="ERAB_ANRLS_SWITCHQCI1" />
+				<field id="ERAB_NRLS_SWITCHQCI1" />
+				<field id="ERAB_ANRLS_SWITCHQCI2" />
+				<field id="ERAB_NRLS_SWITCHQCI2" />
+				<field id="ERAB_ANRLS_SWITCHQCI3" />
+				<field id="ERAB_NRLS_SWITCHQCI3" />
+				<field id="ERAB_ANRLS_SWITCHQCI4" />
+				<field id="ERAB_NRLS_SWITCHQCI4" />
+				<field id="ERAB_ANRLS_SWITCHQCI5" />
+				<field id="ERAB_NRLS_SWITCHQCI5" />
+				<field id="ERAB_ANRLS_SWITCHQCI6" />
+				<field id="ERAB_NRLS_SWITCHQCI6" />
+				<field id="ERAB_ANRLS_SWITCHQCI7" />
+				<field id="ERAB_NRLS_SWITCHQCI7" />
+				<field id="ERAB_ANRLS_SWITCHQCI8" />
+				<field id="ERAB_NRLS_SWITCHQCI8" />
+				<field id="ERAB_ANRLS_SWITCHQCI9" />
+				<field id="ERAB_NRLS_SWITCHQCI9" />
+				<field id="ERAB_ANRLS_MME_SWITCH" />
+				<field id="ERAB_ANRLS_MME_SWITCHQCI1" />
+				<field id="ERAB_ANRLS_MME_SWITCHQCI2" />
+				<field id="ERAB_ANRLS_MME_SWITCHQCI3" />
+				<field id="ERAB_ANRLS_MME_SWITCHQCI4" />
+				<field id="ERAB_ANRLS_MME_SWITCHQCI5" />
+				<field id="ERAB_ANRLS_MME_SWITCHQCI6" />
+				<field id="ERAB_ANRLS_MME_SWITCHQCI7" />
+				<field id="ERAB_ANRLS_MME_SWITCHQCI8" />
+				<field id="ERAB_ANRLS_MME_SWITCHQCI9" />
+				<field id="ERAB_ANRLS_SWITCHFAIL" />
+				<field id="VSERAB_ANRLS_SWITCHFAIL" />
+				<field id="ERAB_NRLS_PTT" />
+				<field id="ERAB_ANRLS_SWITCH" />
+				<field id="ERAB_NRLS_SWITCH" />
+				<field id="ERAB_ANRLS_WL" />
+				<field id="VSERAB_ANRLS_WL" />
+				<field id="ERAB_ANRLS_WLCONG" />
+				<field id="VSERAB_ANRLS_WLCONG" />
+				<field id="ERAB_ANRLS_WLRP" />
+				<field id="VSERAB_ANRLS_WLRP" />
+				<field id="ERAB_ANRLS_WLROL" />
+				<field id="VSERAB_ANRLS_WLROL" />
+				<field id="ERAB_ANRLS_CNQCI2" />
+				<field id="ERAB_ANRLS_CNQCI3" />
+				<field id="ERAB_ANRLS_CNQCI4" />
+				<field id="ERAB_ANRLS_CNQCI5" />
+				<field id="ERAB_ANRLS_CNQCI6" />
+				<field id="ERAB_ANRLS_CNQCI7" />
+				<field id="ERAB_ANRLS_CNQCI8" />
+				<field id="ERAB_ANRLS_CNQCI9" />
+				<field id="ERAB_ANRLS_CNEGR" />
+				<field id="VSERAB_ANRLS_CNEGR" />
+				<field id="ERAB_ANRLS_CN" />
+				<field id="ERAB_ANRLS_CNACT" />
+				<field id="VSERAB_ANRLS_CNACT" />
+				<field id="VSERAB_ANRLS_CN" />
+				<field id="ERAB_ANRLS_APFAIL" />
+				<field id="ERAB_REMAIN" />
+				<field id="ERAB_ANRLS_RESYNVS" />
+			</values>
+		</outputMetaData>
+	</process>
+</etl>

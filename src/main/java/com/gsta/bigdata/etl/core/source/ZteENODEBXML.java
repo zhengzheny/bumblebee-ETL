@@ -26,10 +26,12 @@ import com.gsta.bigdata.utils.SourceXmlTool;
 public class ZteENODEBXML extends AbstractSourceMetaData {
 	private static final long serialVersionUID = 4972621315058493751L;
 
-	private String beginMeasData = "<measData>";
-	private String beginMeasCollec = "<measCollec";
+	private static final String beginMeasData = "<measData>";
+	private static final String beginMeasCollec = "<measCollec";
+	private static final String repPeriod = "<repPeriod";
 
 	private String beginTime;
+	private String stat_period;
 	private ETLData etlData = new ETLData();
 	private String[] types;
 
@@ -42,6 +44,7 @@ public class ZteENODEBXML extends AbstractSourceMetaData {
 
 	private static final String ATTR_BEGINTIME = "beginTime";
 	private static final String ATTR_MEASOBJLDN = "measObjLdn";
+	private static final String ATTR_DURATION = "duration";
 
 	private static final String TAG_MEASTYPES = "measTypes";
 	private static final String TAG_MEASRESULTS = "measResults";
@@ -50,7 +53,13 @@ public class ZteENODEBXML extends AbstractSourceMetaData {
 	private static final String FIELD_SBNID = "SBNID";
 	private static final String FIELD_ENODEBID = "ENODEBID";
 	private static final String FIELD_CELLID = "CellID";
-
+	private static final String FIELD_STAT_PERIOD = "STAT_PERIOD";
+	
+	private static final String FIELD_RACKID = "RackID";
+	private static final String FIELD_SHELFID = "ShelfID";
+	private static final String FIELD_SLOTID = "SlotID";
+	private static final String FIELD_CHANNELID = "ChannelID";
+	
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	public ZteENODEBXML() {
@@ -88,6 +97,11 @@ public class ZteENODEBXML extends AbstractSourceMetaData {
 							+ " format error");
 				}
 			}
+		}
+		
+		if(line.trim().startsWith(repPeriod)){
+			stat_period = SourceXmlTool.getAttrValue(line, ATTR_DURATION);
+			etlData.addData(FIELD_STAT_PERIOD, stat_period);
 		}
 
 		String measObjLdn = SourceXmlTool.getAttrValue(line, ATTR_MEASOBJLDN);
@@ -146,7 +160,15 @@ public class ZteENODEBXML extends AbstractSourceMetaData {
 				this.etlData.addData(FIELD_ENODEBID, obj[1]);
 			} else if (FIELD_CELLID.equals(obj[0])) {
 				this.etlData.addData(FIELD_CELLID, obj[1]);
-			}
+			} else if (FIELD_RACKID.equals(obj[0])) {
+				this.etlData.addData(FIELD_RACKID, obj[1]);
+			} else if (FIELD_SHELFID.equals(obj[0])) {
+				this.etlData.addData(FIELD_SHELFID, obj[1]);
+			} else if (FIELD_SLOTID.equals(obj[0])) {
+				this.etlData.addData(FIELD_SLOTID, obj[1]);
+			} else if (FIELD_CHANNELID.equals(obj[0])) {
+				this.etlData.addData(FIELD_CHANNELID, obj[1]);
+			} 
 		}
 	}
 

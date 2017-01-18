@@ -1,0 +1,72 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<process id="ETL_KPI_HW_729_H">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" />
+			<property key="sourceEncoding" value="GBK" />
+			<property key="mapred.reduce.tasks" value="0" />
+		</computingFrameworkConfigs>
+		<sourceMetaData type="KpiXML">
+			<paths>
+				<inputPath path="${inputPath}" />
+			</paths>
+			<fields>
+				<field id="eNodeBNAME" desc="eNodeB名称" />
+				<field id="LOCALID" desc="本地小区标识" />
+				<field id="CELLNAME" desc="小区名称" />
+				<field id="eNodeBID" desc="eNodeB标识" />
+				<field id="CELLDUPLEX" desc="小区双工模式" />
+				<field id="CELLID" desc="小区标识" />
+				<field id="eNodeB_SR_RLS" desc="eNodeB发起的S1 RESET导致的UE Context释放次数" />
+				<field id="eNodeB_UERLS" desc="eNodeB发起的UE Context释放次数" />
+				<field id="eNodeB_UL_UERLS" desc="eNodeB发起的原因为UE LOST的UE Context释放次数" />
+				<field id="eNodeB_UI_UERLS" desc="eNodeB发起的原因为User Inactivity的UE Context释放次数" />
+				<field id="eNodeB_UWC_UEARLS" desc="eNodeB发起的原因为上行弱覆盖的UE Context异常释放次数" />
+				<field id="eNodeB_SF_UERLS" desc="eNodeB发起的原因为切换失败的UE Context释放次数" />
+				<field id="eNodeB_WIRELESS_UERLS" desc="eNodeB发起的原因为无线层问题的UE Context释放次数" />
+				<field id="MME_SR_UERLS" desc="MME发起的S1 RESET导致的UE Context释放次数" />
+				<field id="MME_UEARLS" desc="MME发起的UE Context异常释放次数" />
+				<field id="MME_UERLS" desc="MME发起的UE Context释放次数" />
+				<field id="MME_HA_UEARLS" desc="MME发起的有数传的UE Context异常释放次数" />
+				<field id="UEARLS" desc="UE Context异常释放次数" />
+				<field id="HA_UEARLS" desc="UE Context有数传的异常释放次数" />
+				<field id="UERLS" desc="UE Context正常释放次数" />
+				<field id="UE_CTRLS" desc="UE高速移动导致上下文释放次数" />
+				<field id="MME_NR_UERLS" desc="原因为Normal Release的MME发起释放UE Context次数" />
+				<field id="GERAN_CTRLS" desc="在对GERAN系统测量的过程中上下文释放的次数" />
+				<field id="WCDMA_CTRLS" desc="在对WCDMA系统测量的过程中上下文释放的次数" />
+			</fields>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
+			<values delimiter="|">
+				<field id="STAT_TIME" />
+				<field id="STAT_PERIOD" />
+				<field id="eNodeBNAME" />
+				<field id="LOCALID" />
+				<field id="CELLNAME" />
+				<field id="eNodeBID" />
+				<field id="CELLDUPLEX" />
+				<field id="CELLID" />
+				<field id="eNodeB_SR_RLS" />
+				<field id="eNodeB_UERLS" />
+				<field id="eNodeB_UL_UERLS" />
+				<field id="eNodeB_UI_UERLS" />
+				<field id="eNodeB_UWC_UEARLS" />
+				<field id="eNodeB_SF_UERLS" />
+				<field id="eNodeB_WIRELESS_UERLS" />
+				<field id="MME_SR_UERLS" />
+				<field id="MME_UEARLS" />
+				<field id="MME_UERLS" />
+				<field id="MME_HA_UEARLS" />
+				<field id="UEARLS" />
+				<field id="HA_UEARLS" />
+				<field id="UERLS" />
+				<field id="UE_CTRLS" />
+				<field id="MME_NR_UERLS" />
+				<field id="GERAN_CTRLS" />
+				<field id="WCDMA_CTRLS" />
+			</values>
+		</outputMetaData>
+	</process>
+</etl>

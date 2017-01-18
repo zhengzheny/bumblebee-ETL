@@ -1,0 +1,60 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<process id="ETL_KPI_HW_683_15M">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" />
+			<property key="sourceEncoding" value="GBK" />
+			<property key="mapred.reduce.tasks" value="0" />
+		</computingFrameworkConfigs>
+		<sourceMetaData type="KpiXML">
+			<paths>
+				<inputPath path="${inputPath}" />
+			</paths>
+			<fields>
+				<field id="eNodeBNAME" desc="eNodeB名称" />
+				<field id="LOCALID" desc="本地小区标识" />
+				<field id="CELLNAME" desc="小区名称" />
+				<field id="eNodeBID" desc="eNodeB标识" />
+				<field id="CELLDUPLEX" desc="小区双工模式" />
+				<field id="CELLID" desc="小区标识" />
+				<field id="MMEOL_SEND_RRCCR" desc="MME过载导致的发送RRC Connection Reject消息次数" />
+				<field id="RRCCON_REFUSE" desc="RRC连接拒绝次数" />
+				<field id="RRCCONFAIL_UENONRESP" desc="UE无应答而导致RRC连接建立失败次数" />
+				<field id="RRCCONFAIL_OTH" desc="其它原因导致的RRC连接建立被拒绝的次数" />
+				<field id="RRCCONFAIL_OTHR_DITSFAIL" desc="其它资源分配失败而导致RRC连接建立失败的次数" />
+				<field id="RRCCONFAIL_PUCCHR_DITSFAIL" desc="因为PUCCH资源分配失败而导致RRC连接建立失败的次数" />
+				<field id="RRCCONFAIL_SRSR_DITSFAIL" desc="因为SRS资源分配失败而导致RRC连接建立失败的次数" />
+				<field id="RRCCONREQ_LOSS_FC" desc="流控导致的RRC Connection Request 消息丢弃次数" />
+				<field id="RRCRBREQ_LOSS_FC" desc="流控导致的RRC重建请求消息丢弃次数" />
+				<field id="RRCCONREJ_FC" desc="流控导致的发送RRC Connection Reject消息次数" />
+				<field id="RRCCONFAIL_USERLIMIT" desc="用户数规格受限导致的RRC连接建立失败次数" />
+				<field id="RRCCONFAIL_RAF" desc="资源分配失败而导致RRC连接建立失败次数" />
+			</fields>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
+			<values delimiter="|">
+				<field id="STAT_TIME" />
+				<field id="STAT_PERIOD" />
+				<field id="eNodeBNAME" />
+				<field id="LOCALID" />
+				<field id="CELLNAME" />
+				<field id="eNodeBID" />
+				<field id="CELLDUPLEX" />
+				<field id="CELLID" />
+				<field id="MMEOL_SEND_RRCCR" />
+				<field id="RRCCON_REFUSE" />
+				<field id="RRCCONFAIL_UENONRESP" />
+				<field id="RRCCONFAIL_OTH" />
+				<field id="RRCCONFAIL_OTHR_DITSFAIL" />
+				<field id="RRCCONFAIL_PUCCHR_DITSFAIL" />
+				<field id="RRCCONFAIL_SRSR_DITSFAIL" />
+				<field id="RRCCONREQ_LOSS_FC" />
+				<field id="RRCRBREQ_LOSS_FC" />
+				<field id="RRCCONREJ_FC" />
+				<field id="RRCCONFAIL_USERLIMIT" />
+				<field id="RRCCONFAIL_RAF" />
+			</values>
+		</outputMetaData>
+	</process>
+</etl>

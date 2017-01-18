@@ -1,0 +1,116 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<process id="ETL_KPI_HW_694_15M">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" />
+			<property key="sourceEncoding" value="GBK" />
+			<property key="mapred.reduce.tasks" value="0" />
+		</computingFrameworkConfigs>
+		<sourceMetaData type="KpiXML">
+			<paths>
+				<inputPath path="${inputPath}" />
+			</paths>
+			<fields>
+				<field id="eNodeBNAME" desc="eNodeB名称" />
+				<field id="LOCALID" desc="本地小区标识" />
+				<field id="CELLNAME" desc="小区名称" />
+				<field id="eNodeBID" desc="eNodeB标识" />
+				<field id="CELLDUPLEX" desc="小区双工模式" />
+				<field id="CELLID" desc="小区标识" />
+				<field id="cDTRUE_UEIR" desc="contentionDetected为TRUE的UEInformationResponse接收次数" />
+				<field id="SWITCH_NCMPERA_MESS3" desc="切换触发的非竞争RA过程的消息3接收次数" />
+				<field id="RA_TOT_PRETRAN1" desc="前导传输次数为1的随机接入过程的次数" />
+				<field id="RA_TOT_PRETRAN2" desc="前导传输次数为2的随机接入过程的次数" />
+				<field id="RA_TOT_PRETRAN3" desc="前导传输次数为3的随机接入过程的次数" />
+				<field id="RA_TOT_PRETRAN4" desc="前导传输次数为4的随机接入过程的次数" />
+				<field id="RA_TOT_PRETRAN5AND6" desc="前导传输次数为5、6的随机接入过程的次数" />
+				<field id="RA_TOT_PRETRAN7AND8" desc="前导传输次数为7、8的随机接入过程的次数" />
+				<field id="RA_TOT_PRETRAN9AND10" desc="前导传输次数为9、10的随机接入过程的次数" />
+				<field id="GPA_CR_CMPE_PREAMBLE" desc="基于PDCCH 方式下竞争Preamble的Contention Resolution发送次数（Group A）" />
+				<field id="GPB_CR_CMPE_PREAMBLE" desc="基于PDCCH 方式下竞争Preamble的Contention Resolution发送次数（Group B）" />
+				<field id="SWITCH_RESP_PREMESS" desc="小区因为切换引起的对专用前导消息响应的次数" />
+				<field id="SWITCH_RECV_PREMESS" desc="小区因为切换引起的接收到专用前导消息的次数" />
+				<field id="SEND_UE_RESP" desc="小区接收到专用前导消息后，发送了响应消息给UE的次数" />
+				<field id="RECV_PREMESS" desc="小区接收到专用前导消息的次数" />
+				<field id="RECVGPA_SEND_UE_RESP" desc="小区接收到属于Group A的Preamble消息后，发送了响应消息给UE的次数" />
+				<field id="RECVGPA_RESP_SUCC" desc="小区接收到属于Group A的Preamble消息后，最终回应了成功的contention resolution消息的次数" />
+				<field id="RECVGPA" desc="小区接收到属于Group A的Preamble消息的次数" />
+				<field id="RECVGPB_SEND_UE_RESP" desc="小区接收到属于Group B的Preamble消息后，发送了响应消息给UE的次数" />
+				<field id="RECVGPB_RESP_SUCC" desc="小区接收到属于Group B的Preamble消息后，最终回应了成功的contention resolution消息的次数" />
+				<field id="RECVGPB" desc="小区接收到属于Group B的Preamble消息的次数" />
+				<field id="UEIR_RACH_RECV" desc="携带RACH信息的UEInformationResponse接收次数" />
+				<field id="TAIN0_RA_TOT" desc="用户随机接入时TA值在区间0范围的接入次数" />
+				<field id="TAIN10_RA_TOT" desc="用户随机接入时TA值在区间10范围的接入次数" />
+				<field id="TAIN11_RA_TOT" desc="用户随机接入时TA值在区间11范围的接入次数" />
+				<field id="TAIN1_RA_TOT" desc="用户随机接入时TA值在区间1范围的接入次数" />
+				<field id="TAIN2_RA_TOT" desc="用户随机接入时TA值在区间2范围的接入次数" />
+				<field id="TAIN3_RA_TOT" desc="用户随机接入时TA值在区间3范围的接入次数" />
+				<field id="TAIN4_RA_TOT" desc="用户随机接入时TA值在区间4范围的接入次数" />
+				<field id="TAIN5_RA_TOT" desc="用户随机接入时TA值在区间5范围的接入次数" />
+				<field id="TAIN6_RA_TOT" desc="用户随机接入时TA值在区间6范围的接入次数" />
+				<field id="TAIN7_RA_TOT" desc="用户随机接入时TA值在区间7范围的接入次数" />
+				<field id="TAIN8_RA_TOT" desc="用户随机接入时TA值在区间8范围的接入次数" />
+				<field id="TAIN9_RA_TOT" desc="用户随机接入时TA值在区间9范围的接入次数" />
+				<field id="CMPE_PREAMBLE_MAXRECV" desc="竞争Preamble最大接收次数" />
+				<field id="CMPE_PREAMBLE_GPALOSS" desc="竞争Preamble根据TA丢弃次数（Group A）" />
+				<field id="CMPE_PREAMBLE_GPBLOSS" desc="竞争Preamble根据TA丢弃次数（Group B）" />
+				<field id="NCMPE_PREAMBLE_DIST" desc="非竞争Preamble分配次数" />
+				<field id="NCMPE_PREAMBLE_MAXDEMAND" desc="非竞争Preamble最大需求次数" />
+				<field id="NCMPE_PREAMBLE_DEMAND" desc="非竞争Preamble需求次数" />
+			</fields>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
+			<values delimiter="|">
+				<field id="STAT_TIME" />
+				<field id="STAT_PERIOD" />
+				<field id="eNodeBNAME" />
+				<field id="LOCALID" />
+				<field id="CELLNAME" />
+				<field id="eNodeBID" />
+				<field id="CELLDUPLEX" />
+				<field id="CELLID" />
+				<field id="cDTRUE_UEIR" />
+				<field id="SWITCH_NCMPERA_MESS3" />
+				<field id="RA_TOT_PRETRAN1" />
+				<field id="RA_TOT_PRETRAN2" />
+				<field id="RA_TOT_PRETRAN3" />
+				<field id="RA_TOT_PRETRAN4" />
+				<field id="RA_TOT_PRETRAN5AND6" />
+				<field id="RA_TOT_PRETRAN7AND8" />
+				<field id="RA_TOT_PRETRAN9AND10" />
+				<field id="GPA_CR_CMPE_PREAMBLE" />
+				<field id="GPB_CR_CMPE_PREAMBLE" />
+				<field id="SWITCH_RESP_PREMESS" />
+				<field id="SWITCH_RECV_PREMESS" />
+				<field id="SEND_UE_RESP" />
+				<field id="RECV_PREMESS" />
+				<field id="RECVGPA_SEND_UE_RESP" />
+				<field id="RECVGPA_RESP_SUCC" />
+				<field id="RECVGPA" />
+				<field id="RECVGPB_SEND_UE_RESP" />
+				<field id="RECVGPB_RESP_SUCC" />
+				<field id="RECVGPB" />
+				<field id="UEIR_RACH_RECV" />
+				<field id="TAIN0_RA_TOT" />
+				<field id="TAIN10_RA_TOT" />
+				<field id="TAIN11_RA_TOT" />
+				<field id="TAIN1_RA_TOT" />
+				<field id="TAIN2_RA_TOT" />
+				<field id="TAIN3_RA_TOT" />
+				<field id="TAIN4_RA_TOT" />
+				<field id="TAIN5_RA_TOT" />
+				<field id="TAIN6_RA_TOT" />
+				<field id="TAIN7_RA_TOT" />
+				<field id="TAIN8_RA_TOT" />
+				<field id="TAIN9_RA_TOT" />
+				<field id="CMPE_PREAMBLE_MAXRECV" />
+				<field id="CMPE_PREAMBLE_GPALOSS" />
+				<field id="CMPE_PREAMBLE_GPBLOSS" />
+				<field id="NCMPE_PREAMBLE_DIST" />
+				<field id="NCMPE_PREAMBLE_MAXDEMAND" />
+				<field id="NCMPE_PREAMBLE_DEMAND" />
+			</values>
+		</outputMetaData>
+	</process>
+</etl>

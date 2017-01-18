@@ -1,0 +1,144 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<process id="ETL_KPI_HW_722_15M">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" />
+			<property key="sourceEncoding" value="GBK" />
+			<property key="mapred.reduce.tasks" value="0" />
+		</computingFrameworkConfigs>
+		<sourceMetaData type="KpiXML">
+			<paths>
+				<inputPath path="${inputPath}" />
+			</paths>
+			<fields>
+				<field id="eNodeBNAME" desc="eNodeB名称" />
+				<field id="LOCALID" desc="本地小区标识" />
+				<field id="CELLNAME" desc="小区名称" />
+				<field id="eNodeBID" desc="eNodeB标识" />
+				<field id="CELLDUPLEX" desc="小区双工模式" />
+				<field id="CELLID" desc="小区标识" />
+				<field id="DRB_UPPALS_QCI1" desc="小区QCI为1的DRB业务PDCP SDU上行丢弃的总包数" />
+				<field id="DRB_UPEXRCPA_QCI1" desc="小区QCI为1的DRB业务PDCP SDU上行期望收到的总包数" />
+				<field id="DRB_DWAP_PALS_QCI1" desc="小区QCI为1的DRB业务PDCP SDU下行空口丢弃的总包数" />
+				<field id="DRB_DWAP_SDPA_QCI1" desc="小区QCI为1的DRB业务PDCP SDU下行空口发送的总包数" />
+				<field id="DRB_DWSDPA_QCI1" desc="小区QCI为1的DRB业务下行发送的PDCP SDU的包数" />
+				<field id="DRB_DW_DELAY_QCI1" desc="小区QCI为1的DRB业务下行数据包处理总时延" />
+				<field id="DRB_UPPALS_QCI2" desc="小区QCI为2的DRB业务PDCP SDU上行丢弃的总包数" />
+				<field id="DRB_UPEXRCPA_QCI2" desc="小区QCI为2的DRB业务PDCP SDU上行期望收到的总包数" />
+				<field id="DRB_DWAP_PALS_QCI2" desc="小区QCI为2的DRB业务PDCP SDU下行空口丢弃的总包数" />
+				<field id="DRB_DWAP_SDPA_QCI2" desc="小区QCI为2的DRB业务PDCP SDU下行空口发送的总包数" />
+				<field id="DRB_DWSDPA_QCI2" desc="小区QCI为2的DRB业务下行发送的PDCP SDU的包数" />
+				<field id="DRB_DW_DELAY_QCI2" desc="小区QCI为2的DRB业务下行数据包处理总时延" />
+				<field id="DRB_UPPALS_QCI3" desc="小区QCI为3的DRB业务PDCP SDU上行丢弃的总包数" />
+				<field id="DRB_UPEXRCPA_QCI3" desc="小区QCI为3的DRB业务PDCP SDU上行期望收到的总包数" />
+				<field id="DRB_DWAP_PALS_QCI3" desc="小区QCI为3的DRB业务PDCP SDU下行空口丢弃的总包数" />
+				<field id="DRB_DWAP_SDPA_QCI3" desc="小区QCI为3的DRB业务PDCP SDU下行空口发送的总包数" />
+				<field id="DRB_DWSDPA_QCI3" desc="小区QCI为3的DRB业务下行发送的PDCP SDU的包数" />
+				<field id="DRB_DW_DELAY_QCI3" desc="小区QCI为3的DRB业务下行数据包处理总时延" />
+				<field id="DRB_UPPALS_QCI4" desc="小区QCI为4的DRB业务PDCP SDU上行丢弃的总包数" />
+				<field id="DRB_UPEXRCPA_QCI4" desc="小区QCI为4的DRB业务PDCP SDU上行期望收到的总包数" />
+				<field id="DRB_DWAP_PALS_QCI4" desc="小区QCI为4的DRB业务PDCP SDU下行空口丢弃的总包数" />
+				<field id="DRB_DWAP_SDPA_QCI4" desc="小区QCI为4的DRB业务PDCP SDU下行空口发送的总包数" />
+				<field id="DRB_DWSDPA_QCI4" desc="小区QCI为4的DRB业务下行发送的PDCP SDU的包数" />
+				<field id="DRB_DW_DELAY_QCI4" desc="小区QCI为4的DRB业务下行数据包处理总时延" />
+				<field id="DRB_UPPALS_QCI5" desc="小区QCI为5的DRB业务PDCP SDU上行丢弃的总包数" />
+				<field id="DRB_UPEXRCPA_QCI5" desc="小区QCI为5的DRB业务PDCP SDU上行期望收到的总包数" />
+				<field id="DRB_DWAP_PALS_QCI5" desc="小区QCI为5的DRB业务PDCP SDU下行空口丢弃的总包数" />
+				<field id="DRB_DWAP_SDPA_QCI5" desc="小区QCI为5的DRB业务PDCP SDU下行空口发送的总包数" />
+				<field id="DRB_DWSDPA_QCI5" desc="小区QCI为5的DRB业务下行发送的PDCP SDU的包数" />
+				<field id="DRB_DW_DELAY_QCI5" desc="小区QCI为5的DRB业务下行数据包处理总时延" />
+				<field id="DRB_UPPALS_QCI6" desc="小区QCI为6的DRB业务PDCP SDU上行丢弃的总包数" />
+				<field id="DRB_UPEXRCPA_QCI6" desc="小区QCI为6的DRB业务PDCP SDU上行期望收到的总包数" />
+				<field id="DRB_DWAP_PALS_QCI6" desc="小区QCI为6的DRB业务PDCP SDU下行空口丢弃的总包数" />
+				<field id="DRB_DWAP_SDPA_QCI6" desc="小区QCI为6的DRB业务PDCP SDU下行空口发送的总包数" />
+				<field id="DRB_DWSDPA_QCI6" desc="小区QCI为6的DRB业务下行发送的PDCP SDU的包数" />
+				<field id="DRB_DW_DELAY_QCI6" desc="小区QCI为6的DRB业务下行数据包处理总时延" />
+				<field id="DRB_UPPALS_QCI7" desc="小区QCI为7的DRB业务PDCP SDU上行丢弃的总包数" />
+				<field id="DRB_UPEXRCPA_QCI7" desc="小区QCI为7的DRB业务PDCP SDU上行期望收到的总包数" />
+				<field id="DRB_DWAP_PALS_QCI7" desc="小区QCI为7的DRB业务PDCP SDU下行空口丢弃的总包数" />
+				<field id="DRB_DWAP_SDPA_QCI7" desc="小区QCI为7的DRB业务PDCP SDU下行空口发送的总包数" />
+				<field id="DRB_DWSDPA_QCI7" desc="小区QCI为7的DRB业务下行发送的PDCP SDU的包数" />
+				<field id="DRB_DW_DELAY_QCI7" desc="小区QCI为7的DRB业务下行数据包处理总时延" />
+				<field id="DRB_UPPALS_QCI8" desc="小区QCI为8的DRB业务PDCP SDU上行丢弃的总包数" />
+				<field id="DRB_UPEXRCPA_QCI8" desc="小区QCI为8的DRB业务PDCP SDU上行期望收到的总包数" />
+				<field id="DRB_DWAP_PALS_QCI8" desc="小区QCI为8的DRB业务PDCP SDU下行空口丢弃的总包数" />
+				<field id="DRB_DWAP_SDPA_QCI8" desc="小区QCI为8的DRB业务PDCP SDU下行空口发送的总包数" />
+				<field id="DRB_DWSDPA_QCI8" desc="小区QCI为8的DRB业务下行发送的PDCP SDU的包数" />
+				<field id="DRB_DW_DELAY_QCI8" desc="小区QCI为8的DRB业务下行数据包处理总时延" />
+				<field id="DRB_UPPALS_QCI9" desc="小区QCI为9的DRB业务PDCP SDU上行丢弃的总包数" />
+				<field id="DRB_UPEXRCPA_QCI9" desc="小区QCI为9的DRB业务PDCP SDU上行期望收到的总包数" />
+				<field id="DRB_DWAP_PALS_QCI9" desc="小区QCI为9的DRB业务PDCP SDU下行空口丢弃的总包数" />
+				<field id="DRB_DWAP_SDPA_QCI9" desc="小区QCI为9的DRB业务PDCP SDU下行空口发送的总包数" />
+				<field id="DRB_DWSDPA_QCI9" desc="小区QCI为9的DRB业务下行发送的PDCP SDU的包数" />
+				<field id="DRB_DW_DELAY_QCI9" desc="小区QCI为9的DRB业务下行数据包处理总时延" />
+			</fields>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
+			<values delimiter="|">
+				<field id="STAT_TIME" />
+				<field id="STAT_PERIOD" />
+				<field id="eNodeBNAME" />
+				<field id="LOCALID" />
+				<field id="CELLNAME" />
+				<field id="eNodeBID" />
+				<field id="CELLDUPLEX" />
+				<field id="CELLID" />
+				<field id="DRB_UPPALS_QCI1" />
+				<field id="DRB_UPEXRCPA_QCI1" />
+				<field id="DRB_DWAP_PALS_QCI1" />
+				<field id="DRB_DWAP_SDPA_QCI1" />
+				<field id="DRB_DWSDPA_QCI1" />
+				<field id="DRB_DW_DELAY_QCI1" />
+				<field id="DRB_UPPALS_QCI2" />
+				<field id="DRB_UPEXRCPA_QCI2" />
+				<field id="DRB_DWAP_PALS_QCI2" />
+				<field id="DRB_DWAP_SDPA_QCI2" />
+				<field id="DRB_DWSDPA_QCI2" />
+				<field id="DRB_DW_DELAY_QCI2" />
+				<field id="DRB_UPPALS_QCI3" />
+				<field id="DRB_UPEXRCPA_QCI3" />
+				<field id="DRB_DWAP_PALS_QCI3" />
+				<field id="DRB_DWAP_SDPA_QCI3" />
+				<field id="DRB_DWSDPA_QCI3" />
+				<field id="DRB_DW_DELAY_QCI3" />
+				<field id="DRB_UPPALS_QCI4" />
+				<field id="DRB_UPEXRCPA_QCI4" />
+				<field id="DRB_DWAP_PALS_QCI4" />
+				<field id="DRB_DWAP_SDPA_QCI4" />
+				<field id="DRB_DWSDPA_QCI4" />
+				<field id="DRB_DW_DELAY_QCI4" />
+				<field id="DRB_UPPALS_QCI5" />
+				<field id="DRB_UPEXRCPA_QCI5" />
+				<field id="DRB_DWAP_PALS_QCI5" />
+				<field id="DRB_DWAP_SDPA_QCI5" />
+				<field id="DRB_DWSDPA_QCI5" />
+				<field id="DRB_DW_DELAY_QCI5" />
+				<field id="DRB_UPPALS_QCI6" />
+				<field id="DRB_UPEXRCPA_QCI6" />
+				<field id="DRB_DWAP_PALS_QCI6" />
+				<field id="DRB_DWAP_SDPA_QCI6" />
+				<field id="DRB_DWSDPA_QCI6" />
+				<field id="DRB_DW_DELAY_QCI6" />
+				<field id="DRB_UPPALS_QCI7" />
+				<field id="DRB_UPEXRCPA_QCI7" />
+				<field id="DRB_DWAP_PALS_QCI7" />
+				<field id="DRB_DWAP_SDPA_QCI7" />
+				<field id="DRB_DWSDPA_QCI7" />
+				<field id="DRB_DW_DELAY_QCI7" />
+				<field id="DRB_UPPALS_QCI8" />
+				<field id="DRB_UPEXRCPA_QCI8" />
+				<field id="DRB_DWAP_PALS_QCI8" />
+				<field id="DRB_DWAP_SDPA_QCI8" />
+				<field id="DRB_DWSDPA_QCI8" />
+				<field id="DRB_DW_DELAY_QCI8" />
+				<field id="DRB_UPPALS_QCI9" />
+				<field id="DRB_UPEXRCPA_QCI9" />
+				<field id="DRB_DWAP_PALS_QCI9" />
+				<field id="DRB_DWAP_SDPA_QCI9" />
+				<field id="DRB_DWSDPA_QCI9" />
+				<field id="DRB_DW_DELAY_QCI9" />
+			</values>
+		</outputMetaData>
+	</process>
+</etl>

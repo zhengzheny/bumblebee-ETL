@@ -1,0 +1,354 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<process id="ETL_KPI_HW_664_15M">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" />
+			<property key="sourceEncoding" value="GBK" />
+			<property key="mapred.reduce.tasks" value="0" />
+		</computingFrameworkConfigs>
+		<sourceMetaData type="KpiXML">
+			<paths>
+				<inputPath path="${inputPath}" />
+			</paths>
+			<fields>
+				<field id="eNodeBNAME" desc="eNodeB名称" />
+				<field id="LOCALID" desc="本地小区标识" />
+				<field id="CELLNAME" desc="小区名称" />
+				<field id="eNodeBID" desc="eNodeB标识" />
+				<field id="CELLDUPLEX" desc="小区双工模式" />
+				<field id="CELLID" desc="小区标识" />
+				<field id="SRB_SSINGAL_SDUBIT" desc="PDCP层小区级的SRB上成功发送信令的SDU比特总量" />
+				<field id="SRB_RSINGAL_SDUBIT" desc="PDCP层小区级的SRB上成功接收信令的SDU比特总量" />
+				<field id="PDCP_UPTP_QCI1" desc="QCI为1的业务PDCP上行总吞吐量" />
+				<field id="PDCP_DWTP_QCI1" desc="QCI为1的业务PDCP下行总吞吐量" />
+				<field id="PDCP_DWDS_DUR_QCI1" desc="QCI为1的业务PDCP发送下行数据的时长" />
+				<field id="PDCP_UPTP_MAX_QCI1" desc="QCI为1的业务PDCP层上行最大总吞吐量" />
+				<field id="PDCP_DWTP_MAX_QCI1" desc="QCI为1的业务PDCP层下行最大总吞吐量" />
+				<field id="PDCP_UPDR_DUR_QCI1" desc="QCI为1的业务PDCP接收上行数据的时长" />
+				<field id="PDCP_UPTP_QCI2" desc="QCI为2的业务PDCP上行总吞吐量" />
+				<field id="PDCP_DWTP_QCI2" desc="QCI为2的业务PDCP下行总吞吐量" />
+				<field id="PDCP_DWDS_DUR_QCI2" desc="QCI为2的业务PDCP发送下行数据的时长" />
+				<field id="PDCP_UPTP_MAX_QCI2" desc="QCI为2的业务PDCP层上行最大总吞吐量" />
+				<field id="PDCP_DWTP_MAX_QCI2" desc="QCI为2的业务PDCP层下行最大总吞吐量" />
+				<field id="PDCP_UPDR_DUR_QCI2" desc="QCI为2的业务PDCP接收上行数据的时长" />
+				<field id="PDCP_UPTP_QCI3" desc="QCI为3的业务PDCP上行总吞吐量" />
+				<field id="PDCP_DWTP_QCI3" desc="QCI为3的业务PDCP下行总吞吐量" />
+				<field id="PDCP_DWDS_DUR_QCI3" desc="QCI为3的业务PDCP发送下行数据的时长" />
+				<field id="PDCP_UPTP_MAX_QCI3" desc="QCI为3的业务PDCP层上行最大总吞吐量" />
+				<field id="PDCP_DWTP_MAX_QCI3" desc="QCI为3的业务PDCP层下行最大总吞吐量" />
+				<field id="PDCP_UPDR_DUR_QCI3" desc="QCI为3的业务PDCP接收上行数据的时长" />
+				<field id="PDCP_UPTP_QCI4" desc="QCI为4的业务PDCP上行总吞吐量" />
+				<field id="PDCP_DWTP_QCI4" desc="QCI为4的业务PDCP下行总吞吐量" />
+				<field id="PDCP_DWDS_DUR_QCI4" desc="QCI为4的业务PDCP发送下行数据的时长" />
+				<field id="PDCP_UPTP_MAX_QCI4" desc="QCI为4的业务PDCP层上行最大总吞吐量" />
+				<field id="PDCP_DWTP_MAX_QCI4" desc="QCI为4的业务PDCP层下行最大总吞吐量" />
+				<field id="PDCP_UPDR_DUR_QCI4" desc="QCI为4的业务PDCP接收上行数据的时长" />
+				<field id="PDCP_UPTP_QCI5" desc="QCI为5的业务PDCP上行总吞吐量" />
+				<field id="PDCP_DWTP_QCI5" desc="QCI为5的业务PDCP下行总吞吐量" />
+				<field id="PDCP_DWDS_DUR_QCI5" desc="QCI为5的业务PDCP发送下行数据的时长" />
+				<field id="PDCP_UPTP_MAX_QCI5" desc="QCI为5的业务PDCP层上行最大总吞吐量" />
+				<field id="PDCP_DWTP_MAX_QCI5" desc="QCI为5的业务PDCP层下行最大总吞吐量" />
+				<field id="PDCP_UPDR_DUR_QCI5" desc="QCI为5的业务PDCP接收上行数据的时长" />
+				<field id="PDCP_UPTP_QCI65" desc="QCI为65的业务PDCP上行总吞吐量" />
+				<field id="PDCP_DWTP_QCI65" desc="QCI为65的业务PDCP下行总吞吐量" />
+				<field id="PDCP_DWDS_DUR_QCI65" desc="QCI为65的业务PDCP发送下行数据的时长" />
+				<field id="PDCP_UPDR_DUR_QCI65" desc="QCI为65的业务PDCP接收上行数据的时长" />
+				<field id="PDCP_UPTP_QCI66" desc="QCI为66的业务PDCP上行总吞吐量" />
+				<field id="PDCP_DWTP_QCI66" desc="QCI为66的业务PDCP下行总吞吐量" />
+				<field id="PDCP_DWDS_DUR_QCI66" desc="QCI为66的业务PDCP发送下行数据的时长" />
+				<field id="PDCP_UPDR_DUR_QCI66" desc="QCI为66的业务PDCP接收上行数据的时长" />
+				<field id="PDCP_UPTP_QCI69" desc="QCI为69的业务PDCP上行总吞吐量" />
+				<field id="PDCP_DWTP_QCI69" desc="QCI为69的业务PDCP下行总吞吐量" />
+				<field id="PDCP_DWDS_DUR_QCI69" desc="QCI为69的业务PDCP发送下行数据的时长" />
+				<field id="PDCP_UPDR_DUR_QCI69" desc="QCI为69的业务PDCP接收上行数据的时长" />
+				<field id="PDCP_UPTP_QCI6" desc="QCI为6的业务PDCP上行总吞吐量" />
+				<field id="PDCP_DWTP_QCI6" desc="QCI为6的业务PDCP下行总吞吐量" />
+				<field id="PDCP_DWDS_DUR_QCI6" desc="QCI为6的业务PDCP发送下行数据的时长" />
+				<field id="PDCP_UPTP_MAX_QCI6" desc="QCI为6的业务PDCP层上行最大总吞吐量" />
+				<field id="PDCP_DWTP_MAX_QCI6" desc="QCI为6的业务PDCP层下行最大总吞吐量" />
+				<field id="PDCP_UPDR_DUR_QCI6" desc="QCI为6的业务PDCP接收上行数据的时长" />
+				<field id="PDCP_UPTP_QCI70" desc="QCI为70的业务PDCP上行总吞吐量" />
+				<field id="PDCP_DWTP_QCI70" desc="QCI为70的业务PDCP下行总吞吐量" />
+				<field id="PDCP_DWDS_DUR_QCI70" desc="QCI为70的业务PDCP发送下行数据的时长" />
+				<field id="PDCP_UPDR_DUR_QCI70" desc="QCI为70的业务PDCP接收上行数据的时长" />
+				<field id="PDCP_UPTP_QCI7" desc="QCI为7的业务PDCP上行总吞吐量" />
+				<field id="PDCP_DWTP_QCI7" desc="QCI为7的业务PDCP下行总吞吐量" />
+				<field id="PDCP_DWDS_DUR_QCI7" desc="QCI为7的业务PDCP发送下行数据的时长" />
+				<field id="PDCP_UPTP_MAX_QCI7" desc="QCI为7的业务PDCP层上行最大总吞吐量" />
+				<field id="PDCP_DWTP_MAX_QCI7" desc="QCI为7的业务PDCP层下行最大总吞吐量" />
+				<field id="PDCP_UPDR_DUR_QCI7" desc="QCI为7的业务PDCP接收上行数据的时长" />
+				<field id="PDCP_UPTP_QCI8" desc="QCI为8的业务PDCP上行总吞吐量" />
+				<field id="PDCP_DWTP_QCI8" desc="QCI为8的业务PDCP下行总吞吐量" />
+				<field id="PDCP_DWDS_DUR_QCI8" desc="QCI为8的业务PDCP发送下行数据的时长" />
+				<field id="PDCP_UPTP_MAX_QCI8" desc="QCI为8的业务PDCP层上行最大总吞吐量" />
+				<field id="PDCP_DWTP_MAX_QCI8" desc="QCI为8的业务PDCP层下行最大总吞吐量" />
+				<field id="PDCP_UPDR_DUR_QCI8" desc="QCI为8的业务PDCP接收上行数据的时长" />
+				<field id="PDCP_UPTP_QCI9" desc="QCI为9的业务PDCP上行总吞吐量" />
+				<field id="PDCP_DWTP_QCI9" desc="QCI为9的业务PDCP下行总吞吐量" />
+				<field id="PDCP_DWDS_DUR_QCI9" desc="QCI为9的业务PDCP发送下行数据的时长" />
+				<field id="PDCP_UPTP_MAX_QCI9" desc="QCI为9的业务PDCP层上行最大总吞吐量" />
+				<field id="PDCP_DWTP_MAX_QCI9" desc="QCI为9的业务PDCP层下行最大总吞吐量" />
+				<field id="PDCP_UPDR_DUR_QCI9" desc="QCI为9的业务PDCP接收上行数据的时长" />
+				<field id="SFNCELL_UPTP" desc="SFN小区上行独立调度用户的上行总吞吐量" />
+				<field id="SFNCELL_DWTP" desc="SFN小区下行独立调度用户的下行总吞吐量" />
+				<field id="PDCP_UPTP_PACKSCH" desc="上行小包调度的PDCP吞吐量" />
+				<field id="PDCP_DWTP_PCELL_3CCCA" desc="以本小区为PCell的3CC CA用户所产生的下行PDCP总吞吐量（SCC都处于激活态）" />
+				<field id="PDCP_UPTP_PCELL_CA" desc="以本小区为PCell的CA用户所产生的上行PDCP总吞吐量（SCC都处于激活态）" />
+				<field id="PDCP_UPTP_PECLL_FDDANDTDDCA" desc="以本小区为PCell的FDD+TDD CA用户所产生的上行PDCP总吞吐量（SCC都处于激活态）" />
+				<field id="PDCP_DWTP_MTYCACHE_QCI1" desc="使QCI为1的业务缓存为空的最后一个TTI所传的下行PDCP吞吐量" />
+				<field id="PDCP_DWTP_MTYCACHE_QCI2" desc="使QCI为2的业务缓存为空的最后一个TTI所传的下行PDCP吞吐量" />
+				<field id="PDCP_DWTP_MTYCACHE_QCI3" desc="使QCI为3的业务缓存为空的最后一个TTI所传的下行PDCP吞吐量" />
+				<field id="PDCP_DWTP_MTYCACHE_QCI4" desc="使QCI为4的业务缓存为空的最后一个TTI所传的下行PDCP吞吐量" />
+				<field id="PDCP_DWTP_MTYCACHE_QCI5" desc="使QCI为5的业务缓存为空的最后一个TTI所传的下行PDCP吞吐量" />
+				<field id="PDCP_DWTP_MTYCACHE_QCI6" desc="使QCI为6的业务缓存为空的最后一个TTI所传的下行PDCP吞吐量" />
+				<field id="PDCP_DWTP_MTYCACHE_QCI7" desc="使QCI为7的业务缓存为空的最后一个TTI所传的下行PDCP吞吐量" />
+				<field id="PDCP_DWTP_MTYCACHE_QCI8" desc="使QCI为8的业务缓存为空的最后一个TTI所传的下行PDCP吞吐量" />
+				<field id="PDCP_DWTP_MTYCACHE_QCI9" desc="使QCI为9的业务缓存为空的最后一个TTI所传的下行PDCP吞吐量" />
+				<field id="PDCP_UPTP_UEMTYCACHE" desc="使UE缓存为空的最后一个TTI所传的上行PDCP吞吐量" />
+				<field id="PDCP_DWTP_MTYCACHE" desc="使缓存为空的最后一个TTI所传的下行PDCP吞吐量" />
+				<field id="PDCP_DWSDATA_DUR" desc="小区PDCP发送下行数据的总时长" />
+				<field id="PDCP_DWSDATA_CAUSER_DUR" desc="小区PDCP层CA激活用户发送下行数据的总时长" />
+				<field id="PDCP_DWSDATA_CAUSER_TP" desc="小区PDCP层CA激活用户所发送的下行数据的总吞吐量" />
+				<field id="PDCP_UP_SSUSER_TP" desc="小区PDCP层UMTS/LTE共享频谱用户的上行总吞吐量" />
+				<field id="PDCP_UPTDATA_SSUSER_DUR" desc="小区PDCP层UMTS/LTE共享频谱用户的上行数据传输总时长" />
+				<field id="PDCP_UPREVSIGN_AVGRATE" desc="小区PDCP层上行接收信令的平均速率" />
+				<field id="PDCP_DWTRMSIGN_AVGRATE" desc="小区PDCP层下行发送信令的平均速率" />
+				<field id="PDCP_DWTRMDATA_TP" desc="小区PDCP层所发送的下行数据的总吞吐量" />
+				<field id="PDCP_DWTRM_EDGEDATA_TP" desc="小区PDCP层所发送的下行边缘用户数据的总吞吐量" />
+				<field id="PDCP_DWTRM_EDGEDATA_DUR" desc="小区PDCP层所发送的下行边缘用户数据的总时长" />
+				<field id="PDCP_UPREVDATA_TP" desc="小区PDCP层所接收到的上行数据的总吞吐量" />
+				<field id="PDCP_UPREV_EDGEDATA_TP" desc="小区PDCP层所接收到的上行边缘用户数据的总吞吐量" />
+				<field id="PDCP_UPREV_EDGEDATA_DUR" desc="小区PDCP层所接收到的上行边缘用户数据的总时长" />
+				<field id="PDCP_UPREVDATA_DUR" desc="小区PDCP接收上行数据的总时长" />
+				<field id="PDCP_REVEDGE_UPDATA_DUR" desc="小区PDCP接收边缘用户的上行数传总时长" />
+				<field id="PDCP_DWREV_EDGEDATA_DUR" desc="小区PDCP接收边缘用户的下行数传总时长" />
+				<field id="PDCP_DATATR_DUR_QCI1" desc="小区QCI为1的业务有数据传输总时长" />
+				<field id="PDCP_DATATR_DUR_QCI1_PRE" desc="小区QCI为1的业务有数据传输总时长(100ms精度)" />
+				<field id="PDCP_DATATR_DUR_QCI2" desc="小区QCI为2的业务有数据传输总时长" />
+				<field id="PDCP_DATATR_DUR_QCI2_PRE" desc="小区QCI为2的业务有数据传输总时长(100ms精度)" />
+				<field id="PDCP_DATATR_DUR_QCI3" desc="小区QCI为3的业务有数据传输总时长" />
+				<field id="PDCP_DATATR_DUR_QCI3_PRE" desc="小区QCI为3的业务有数据传输总时长(100ms精度)" />
+				<field id="PDCP_DATATR_DUR_QCI4" desc="小区QCI为4的业务有数据传输总时长" />
+				<field id="PDCP_DATATR_DUR_QCI4_PRE" desc="小区QCI为4的业务有数据传输总时长(100ms精度)" />
+				<field id="PDCP_DATATR_DUR_QCI5" desc="小区QCI为5的业务有数据传输总时长" />
+				<field id="PDCP_DATATR_DUR_QCI5_PRE" desc="小区QCI为5的业务有数据传输总时长(100ms精度)" />
+				<field id="PDCP_DATATR_DUR_QCI6" desc="小区QCI为6的业务有数据传输总时长" />
+				<field id="PDCP_DATATR_DUR_QCI6_PRE" desc="小区QCI为6的业务有数据传输总时长(100ms精度)" />
+				<field id="PDCP_DATATR_DUR_QCI7" desc="小区QCI为7的业务有数据传输总时长" />
+				<field id="PDCP_DATATR_DUR_QCI7_PRE" desc="小区QCI为7的业务有数据传输总时长(100ms精度)" />
+				<field id="PDCP_DATATR_DUR_QCI8" desc="小区QCI为8的业务有数据传输总时长" />
+				<field id="PDCP_DATATR_DUR_QCI8_PRE" desc="小区QCI为8的业务有数据传输总时长(100ms精度)" />
+				<field id="PDCP_DATATR_DUR_QCI9" desc="小区QCI为9的业务有数据传输总时长" />
+				<field id="PDCP_DATATR_DUR_QCI9_PRE" desc="小区QCI为9的业务有数据传输总时长(100ms精度)" />
+				<field id="DATATR_DUR_UE" desc="小区UE有数据传输总时长" />
+				<field id="DATATR_DUR_UE_PRE" desc="小区UE有数据传输总时长(100ms精度)" />
+				<field id="UP_DATATR_DUR" desc="小区上行有数据传输总时长" />
+				<field id="UP_DATATR_DUR_PRE" desc="小区上行有数据传输总时长(1ms精度)" />
+				<field id="PDCP_DWDUR_3CCCA" desc="小区下行3CC CA激活用户PDCP下行数据总时长" />
+				<field id="PDCP_DWTP_4CCCA" desc="小区下行4CC CA激活用户PDCP下行总吞吐量" />
+				<field id="PDCP_DWDUR_4CCCA" desc="小区下行4CC CA激活用户PDCP下行数据总时长" />
+				<field id="PDCP_UPTP_FT3CCCA" desc="小区下行FDD+TDD 3CC CA激活用户PDCP下行总吞吐量" />
+				<field id="PDCP_UPDUR_FT3CCCA" desc="小区下行FDD+TDD 3CC CA激活用户PDCP下行数据总时长" />
+				<field id="PDCP_UPTP_FT4CCCA" desc="小区下行FDD+TDD 4CC CA激活用户PDCP下行总吞吐量" />
+				<field id="PDCP_UPDUR_FT4CCCA" desc="小区下行FDD+TDD 4CC CA激活用户PDCP下行数据总时长" />
+				<field id="PDCP_UPTP_FTCA" desc="小区下行FDD+TDD CA激活用户PDCP下行总吞吐量" />
+				<field id="PDCP_UPDUR_FTCA" desc="小区下行FDD+TDD CA激活用户PDCP下行数据总时长" />
+				<field id="PDCP_UPDUR_LLCA" desc="小区下行LTE+LAA CA激活用户PDCP下行数据总时长" />
+				<field id="DW_DATATR_DUR" desc="小区下行有数据传输总时长" />
+				<field id="DW_DATATR_DUR_PRE1" desc="小区下行有数据传输总时长(1ms精度)" />
+				<field id="DW_DATATR_DUR_PRE100" desc="小区业务有数据传输总时长(100ms精度)" />
+				<field id="PDCP_DWDUR_LDLCA" desc="小区内下行宽松时延的站间CA激活用户PDCP发送下行数据总时长" />
+				<field id="PDCP_DWTP_LDLCA" desc="小区内下行宽松时延的站间CA用户所产生的PDCP下行总吞吐量" />
+				<field id="PDCP_DWSDUTP_LLCA" desc="小区范围内LTE+LAA CA激活用户在PDCP层下行SDU数据的总吞吐量" />
+				<field id="PDCP_UPTP_MAX" desc="所有业务PDCP层上行最大总吞吐量" />
+				<field id="PDCP_DWTP_MAX" desc="所有业务PDCP层下行最大总吞吐量" />
+				<field id="DWDUR_MTYCACHE_DEQCI1" desc="扣除使QCI为1的下行缓存为空的最后一个TTI之后的数传时长" />
+				<field id="DWDUR_MTYCACHE_DEQCI2" desc="扣除使QCI为2的下行缓存为空的最后一个TTI之后的数传时长" />
+				<field id="DWDUR_MTYCACHE_DEQCI3" desc="扣除使QCI为3的下行缓存为空的最后一个TTI之后的数传时长" />
+				<field id="DWDUR_MTYCACHE_DEQCI4" desc="扣除使QCI为4的下行缓存为空的最后一个TTI之后的数传时长" />
+				<field id="DWDUR_MTYCACHE_DEQCI5" desc="扣除使QCI为5的下行缓存为空的最后一个TTI之后的数传时长" />
+				<field id="DWDUR_MTYCACHE_DEQCI6" desc="扣除使QCI为6的下行缓存为空的最后一个TTI之后的数传时长" />
+				<field id="DWDUR_MTYCACHE_DEQCI7" desc="扣除使QCI为7的下行缓存为空的最后一个TTI之后的数传时长" />
+				<field id="DWDUR_MTYCACHE_DEQCI8" desc="扣除使QCI为8的下行缓存为空的最后一个TTI之后的数传时长" />
+				<field id="DWDUR_MTYCACHE_DEQCI9" desc="扣除使QCI为9的下行缓存为空的最后一个TTI之后的数传时长" />
+				<field id="DWDUR_DEMTYCACHE_UE" desc="扣除使UE缓存为空的最后一个TTI之后的上行数传时长" />
+				<field id="DWDUR_DEMTYCACHE" desc="扣除使下行缓存为空的最后一个TTI之后的数传时长" />
+				<field id="UPDUR_DEPASCH" desc="扣除小包调度之后的上行数传时长" />
+				<field id="UPDUR_DELASTTTI" desc="扣除特定Last TTI小包的调度之后的上行数传时长" />
+				<field id="PDCP_UPTP_LASTTTI" desc="特定Last TTI小包的调度所传的上行PDCP吞吐量" />
+			</fields>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
+			<values delimiter="|">
+				<field id="STAT_TIME" />
+				<field id="STAT_PERIOD" />
+				<field id="eNodeBNAME" />
+				<field id="LOCALID" />
+				<field id="CELLNAME" />
+				<field id="eNodeBID" />
+				<field id="CELLDUPLEX" />
+				<field id="CELLID" />
+				<field id="SRB_SSINGAL_SDUBIT" />
+				<field id="SRB_RSINGAL_SDUBIT" />
+				<field id="PDCP_UPTP_QCI1" />
+				<field id="PDCP_DWTP_QCI1" />
+				<field id="PDCP_DWDS_DUR_QCI1" />
+				<field id="PDCP_UPTP_MAX_QCI1" />
+				<field id="PDCP_DWTP_MAX_QCI1" />
+				<field id="PDCP_UPDR_DUR_QCI1" />
+				<field id="PDCP_UPTP_QCI2" />
+				<field id="PDCP_DWTP_QCI2" />
+				<field id="PDCP_DWDS_DUR_QCI2" />
+				<field id="PDCP_UPTP_MAX_QCI2" />
+				<field id="PDCP_DWTP_MAX_QCI2" />
+				<field id="PDCP_UPDR_DUR_QCI2" />
+				<field id="PDCP_UPTP_QCI3" />
+				<field id="PDCP_DWTP_QCI3" />
+				<field id="PDCP_DWDS_DUR_QCI3" />
+				<field id="PDCP_UPTP_MAX_QCI3" />
+				<field id="PDCP_DWTP_MAX_QCI3" />
+				<field id="PDCP_UPDR_DUR_QCI3" />
+				<field id="PDCP_UPTP_QCI4" />
+				<field id="PDCP_DWTP_QCI4" />
+				<field id="PDCP_DWDS_DUR_QCI4" />
+				<field id="PDCP_UPTP_MAX_QCI4" />
+				<field id="PDCP_DWTP_MAX_QCI4" />
+				<field id="PDCP_UPDR_DUR_QCI4" />
+				<field id="PDCP_UPTP_QCI5" />
+				<field id="PDCP_DWTP_QCI5" />
+				<field id="PDCP_DWDS_DUR_QCI5" />
+				<field id="PDCP_UPTP_MAX_QCI5" />
+				<field id="PDCP_DWTP_MAX_QCI5" />
+				<field id="PDCP_UPDR_DUR_QCI5" />
+				<field id="PDCP_UPTP_QCI65" />
+				<field id="PDCP_DWTP_QCI65" />
+				<field id="PDCP_DWDS_DUR_QCI65" />
+				<field id="PDCP_UPDR_DUR_QCI65" />
+				<field id="PDCP_UPTP_QCI66" />
+				<field id="PDCP_DWTP_QCI66" />
+				<field id="PDCP_DWDS_DUR_QCI66" />
+				<field id="PDCP_UPDR_DUR_QCI66" />
+				<field id="PDCP_UPTP_QCI69" />
+				<field id="PDCP_DWTP_QCI69" />
+				<field id="PDCP_DWDS_DUR_QCI69" />
+				<field id="PDCP_UPDR_DUR_QCI69" />
+				<field id="PDCP_UPTP_QCI6" />
+				<field id="PDCP_DWTP_QCI6" />
+				<field id="PDCP_DWDS_DUR_QCI6" />
+				<field id="PDCP_UPTP_MAX_QCI6" />
+				<field id="PDCP_DWTP_MAX_QCI6" />
+				<field id="PDCP_UPDR_DUR_QCI6" />
+				<field id="PDCP_UPTP_QCI70" />
+				<field id="PDCP_DWTP_QCI70" />
+				<field id="PDCP_DWDS_DUR_QCI70" />
+				<field id="PDCP_UPDR_DUR_QCI70" />
+				<field id="PDCP_UPTP_QCI7" />
+				<field id="PDCP_DWTP_QCI7" />
+				<field id="PDCP_DWDS_DUR_QCI7" />
+				<field id="PDCP_UPTP_MAX_QCI7" />
+				<field id="PDCP_DWTP_MAX_QCI7" />
+				<field id="PDCP_UPDR_DUR_QCI7" />
+				<field id="PDCP_UPTP_QCI8" />
+				<field id="PDCP_DWTP_QCI8" />
+				<field id="PDCP_DWDS_DUR_QCI8" />
+				<field id="PDCP_UPTP_MAX_QCI8" />
+				<field id="PDCP_DWTP_MAX_QCI8" />
+				<field id="PDCP_UPDR_DUR_QCI8" />
+				<field id="PDCP_UPTP_QCI9" />
+				<field id="PDCP_DWTP_QCI9" />
+				<field id="PDCP_DWDS_DUR_QCI9" />
+				<field id="PDCP_UPTP_MAX_QCI9" />
+				<field id="PDCP_DWTP_MAX_QCI9" />
+				<field id="PDCP_UPDR_DUR_QCI9" />
+				<field id="SFNCELL_UPTP" />
+				<field id="SFNCELL_DWTP" />
+				<field id="PDCP_UPTP_PACKSCH" />
+				<field id="PDCP_DWTP_PCELL_3CCCA" />
+				<field id="PDCP_UPTP_PCELL_CA" />
+				<field id="PDCP_UPTP_PECLL_FDDANDTDDCA" />
+				<field id="PDCP_DWTP_MTYCACHE_QCI1" />
+				<field id="PDCP_DWTP_MTYCACHE_QCI2" />
+				<field id="PDCP_DWTP_MTYCACHE_QCI3" />
+				<field id="PDCP_DWTP_MTYCACHE_QCI4" />
+				<field id="PDCP_DWTP_MTYCACHE_QCI5" />
+				<field id="PDCP_DWTP_MTYCACHE_QCI6" />
+				<field id="PDCP_DWTP_MTYCACHE_QCI7" />
+				<field id="PDCP_DWTP_MTYCACHE_QCI8" />
+				<field id="PDCP_DWTP_MTYCACHE_QCI9" />
+				<field id="PDCP_UPTP_UEMTYCACHE" />
+				<field id="PDCP_DWTP_MTYCACHE" />
+				<field id="PDCP_DWSDATA_DUR" />
+				<field id="PDCP_DWSDATA_CAUSER_DUR" />
+				<field id="PDCP_DWSDATA_CAUSER_TP" />
+				<field id="PDCP_UP_SSUSER_TP" />
+				<field id="PDCP_UPTDATA_SSUSER_DUR" />
+				<field id="PDCP_UPREVSIGN_AVGRATE" />
+				<field id="PDCP_DWTRMSIGN_AVGRATE" />
+				<field id="PDCP_DWTRMDATA_TP" />
+				<field id="PDCP_DWTRM_EDGEDATA_TP" />
+				<field id="PDCP_DWTRM_EDGEDATA_DUR" />
+				<field id="PDCP_UPREVDATA_TP" />
+				<field id="PDCP_UPREV_EDGEDATA_TP" />
+				<field id="PDCP_UPREV_EDGEDATA_DUR" />
+				<field id="PDCP_UPREVDATA_DUR" />
+				<field id="PDCP_REVEDGE_UPDATA_DUR" />
+				<field id="PDCP_DWREV_EDGEDATA_DUR" />
+				<field id="PDCP_DATATR_DUR_QCI1" />
+				<field id="PDCP_DATATR_DUR_QCI1_PRE" />
+				<field id="PDCP_DATATR_DUR_QCI2" />
+				<field id="PDCP_DATATR_DUR_QCI2_PRE" />
+				<field id="PDCP_DATATR_DUR_QCI3" />
+				<field id="PDCP_DATATR_DUR_QCI3_PRE" />
+				<field id="PDCP_DATATR_DUR_QCI4" />
+				<field id="PDCP_DATATR_DUR_QCI4_PRE" />
+				<field id="PDCP_DATATR_DUR_QCI5" />
+				<field id="PDCP_DATATR_DUR_QCI5_PRE" />
+				<field id="PDCP_DATATR_DUR_QCI6" />
+				<field id="PDCP_DATATR_DUR_QCI6_PRE" />
+				<field id="PDCP_DATATR_DUR_QCI7" />
+				<field id="PDCP_DATATR_DUR_QCI7_PRE" />
+				<field id="PDCP_DATATR_DUR_QCI8" />
+				<field id="PDCP_DATATR_DUR_QCI8_PRE" />
+				<field id="PDCP_DATATR_DUR_QCI9" />
+				<field id="PDCP_DATATR_DUR_QCI9_PRE" />
+				<field id="DATATR_DUR_UE" />
+				<field id="DATATR_DUR_UE_PRE" />
+				<field id="UP_DATATR_DUR" />
+				<field id="UP_DATATR_DUR_PRE" />
+				<field id="PDCP_DWDUR_3CCCA" />
+				<field id="PDCP_DWTP_4CCCA" />
+				<field id="PDCP_DWDUR_4CCCA" />
+				<field id="PDCP_UPTP_FT3CCCA" />
+				<field id="PDCP_UPDUR_FT3CCCA" />
+				<field id="PDCP_UPTP_FT4CCCA" />
+				<field id="PDCP_UPDUR_FT4CCCA" />
+				<field id="PDCP_UPTP_FTCA" />
+				<field id="PDCP_UPDUR_FTCA" />
+				<field id="PDCP_UPDUR_LLCA" />
+				<field id="DW_DATATR_DUR" />
+				<field id="DW_DATATR_DUR_PRE1" />
+				<field id="DW_DATATR_DUR_PRE100" />
+				<field id="PDCP_DWDUR_LDLCA" />
+				<field id="PDCP_DWTP_LDLCA" />
+				<field id="PDCP_DWSDUTP_LLCA" />
+				<field id="PDCP_UPTP_MAX" />
+				<field id="PDCP_DWTP_MAX" />
+				<field id="DWDUR_MTYCACHE_DEQCI1" />
+				<field id="DWDUR_MTYCACHE_DEQCI2" />
+				<field id="DWDUR_MTYCACHE_DEQCI3" />
+				<field id="DWDUR_MTYCACHE_DEQCI4" />
+				<field id="DWDUR_MTYCACHE_DEQCI5" />
+				<field id="DWDUR_MTYCACHE_DEQCI6" />
+				<field id="DWDUR_MTYCACHE_DEQCI7" />
+				<field id="DWDUR_MTYCACHE_DEQCI8" />
+				<field id="DWDUR_MTYCACHE_DEQCI9" />
+				<field id="DWDUR_DEMTYCACHE_UE" />
+				<field id="DWDUR_DEMTYCACHE" />
+				<field id="UPDUR_DEPASCH" />
+				<field id="UPDUR_DELASTTTI" />
+				<field id="PDCP_UPTP_LASTTTI" />
+			</values>
+		</outputMetaData>
+	</process>
+</etl>

@@ -1,0 +1,64 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<process id="ETL_KPI_ZTE_CELLCQI">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat"/>
+			<property key="mapred.reduce.tasks" value="0"/>
+		</computingFrameworkConfigs>
+		<sourceMetaData type="zteENODEBXML" >
+			<paths>
+				<inputPath path="${inputPath}"/>
+			</paths>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${outputPath}">
+			<values delimiter="|">
+				<field id="COLLECTTIME" />
+				<field id="STAT_PERIOD" />
+				<field id="ENODEBID" />
+				<field id="CellID" />
+				<field id="C373434700" />
+				<field id="C373434701" />
+				<field id="C373434702" />
+				<field id="C373434703" />
+				<field id="C373434704" />
+				<field id="C373434705" />
+				<field id="C373434706" />
+				<field id="C373434707" />
+				<field id="C373434708" />
+				<field id="C373434709" />
+				<field id="C373434710" />
+				<field id="C373434711" />
+				<field id="C373434712" />
+				<field id="C373434713" />
+				<field id="C373434714" />
+				<field id="C373434715" />
+				<field id="C373434716" />
+				<field id="C373434717" />
+				<field id="C373434718" />
+				<field id="C373434719" />
+				<field id="C373434720" />
+				<field id="C373434721" />
+				<field id="C373434722" />
+				<field id="C373434723" />
+				<field id="C373434724" />
+				<field id="C373434725" />
+				<field id="C373434726" />
+				<field id="C373434727" />
+				<field id="C373434728" />
+				<field id="C373434729" />
+				<field id="C373434730" />
+				<field id="C373434731" />
+				<field id="C373434732" />
+				<field id="C373434733" />
+				<field id="C373434734" />
+				<field id="C373434735" />
+				<field id="C373434736" />
+				<field id="C373434737" />
+				<field id="C373434738" />
+				<field id="C373434739" />
+				<field id="C373434740" />
+			</values>
+		</outputMetaData>
+	</process>
+</etl>

@@ -1,0 +1,24 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<process id="ETL_KPI_ZTE_ENBS1X2INF">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat"/>
+			<property key="mapred.reduce.tasks" value="0"/>
+		</computingFrameworkConfigs>
+		<sourceMetaData type="zteENODEBXML" >
+			<paths>
+				<inputPath path="${inputPath}"/>
+			</paths>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${outputPath}">
+			<values delimiter="|">
+				<field id="COLLECTTIME" />
+				<field id="STAT_PERIOD" />
+				<field id="ENODEBID" />
+				<field id="C374000534" />
+				<field id="C374000535" />
+			</values>
+		</outputMetaData>
+	</process>
+</etl>
