@@ -4,8 +4,8 @@
 		<sourceMetaData type="kafkaStream" delimiter="\001">
 			<kafka>
 				<!--  kafka stream -->
-				<app_id>gzdpistream1226</app_id>
-				<brokers>kfk80:9091,kfk80:9092,kfk80:9093,kfk80:9094,kfk81:9091,kfk81:9092,kfk81:9093,kfk81:9094,kfk82:9091,kfk82:9092,kfk82:9093,kfk82:9094</brokers>
+				<app_id>gzdpistream0123</app_id>
+				<brokers>kfk80:9091,kfk80:9092,kfk80:9093,kfk80:9094,kfk81:9091,kfk81:9092,kfk81:9093,kfk81:9094,kfk82:9091,kfk82:9092,kfk82:9093,kfk82:9094,kfk67:9091,kfk67:9092,kfk67:9093,kfk67:9094,kfk72:9091,kfk72:9092,kfk72:9093,kfk72:9094</brokers>
 				<client_id>gz</client_id>
 				<zookeeper>192.168.9.80:2181,192.168.9.81:2181,192.168.9.82:2181/kafka-normal</zookeeper>
 				<inputTopic>gzdpi</inputTopic>
@@ -33,13 +33,13 @@
 				<field id="srcport" type="string" />
 				<field id="dstip" type="string" />
 				<field id="dstport" type="string" />
-				<field id="host" type="string" />
 				<field id="url" type="string" />
+				<field id="host" type="string" />
+				<field id="path" type="string" />
+				<field id="query" type="string" />
+				<field id="ref" type="string" />
 				<field id="ua" type="string" />
 				<field id="cookie" type="string" />
-				<field id="ref" type="string" />
-				<field id="seq" type="string" />
-				<field id="ack" type="string" />
 				<field id="collectHost" />
 			</fields>
 		</sourceMetaData>
@@ -51,7 +51,7 @@
 				<field id="srcport" desc="sourceport" />
 				<field id="dstip" desc="destinationip" />
 				<field id="dstport" desc="destinationport" />
-				<field id="url" desc="destinationurl" defaultValue=""/>
+				<field id="newurl" desc="destinationurl" defaultValue=""/>
 				<field id="host" defaultValue=""/>
 				<field id="path" defaultValue=""/>
 				<field id="query" defaultValue=""/>
@@ -91,10 +91,11 @@
 					<output id="timeStamp"/>
 					<output id="day"/>
 				</function>
-				<function name="GetPathAndQuery" host="host" url="url">
+				<!-- function name="GetPathAndQuery" host="host" url="url">
 					<output id="path" />
 					<output id="query" />
-				</function>
+				</function-->
+				<function name="MergeURL" host="host"  url="url" output="newurl"/>
 			</transform>
 		</transforms>
 	</process>

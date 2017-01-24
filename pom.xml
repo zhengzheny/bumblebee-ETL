@@ -221,16 +221,6 @@
 						            <artifactId>google-api-client-repackaged-com-google-common-base</artifactId>
 						            <version>1.2.3-alpha</version>
 								</artifactItem>
-								<artifactItem>
-									<groupId>org.apache.kafka</groupId>
-						            <artifactId>kafka-clients</artifactId>
-						            <version>0.10.0.0</version>
-								</artifactItem>
-								<artifactItem>
-									<groupId>org.apache.kafka</groupId>
-						            <artifactId>kafka-streams</artifactId>
-						            <version>0.10.0.0</version>
-								</artifactItem>
 							</artifactItems>
 							<outputDirectory>lib</outputDirectory>
 						</configuration>

@@ -1,6 +1,6 @@
 count=`/usr/local/jdk1.8.0_45/bin/jps -l | grep ETL | wc -l`
 curr=`date +"%Y-%m-%d %H:%M:%S"`
-if [ $count -lt 16 ]
+if [ $count -lt 12 ]
 then
     ((c=16-$count))
     for((i=0;i<$c;i++))

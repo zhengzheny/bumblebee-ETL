@@ -24,6 +24,18 @@
 			</includes>
 		</fileSet>
 		<fileSet>
+			<directory>${basedir}/src/main/assembly/bin</directory>
+			<outputDirectory>./</outputDirectory>
+			<includes>
+				<include>autobroker.sh</include>
+				<include>autostartstream.sh</include>
+				<include>startStream.sh</include>
+				<include>stopStream.sh</include>
+				<include>cron</include>
+			</includes>
+			<fileMode>0755</fileMode>
+		</fileSet>
+		<fileSet>
 			<directory>${project.build.directory}/</directory>
 			<outputDirectory>lib/</outputDirectory>
 			<includes>

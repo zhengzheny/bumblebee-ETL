@@ -67,6 +67,7 @@ import com.gsta.bigdata.utils.XmlTools;
 		@JsonSubTypes.Type(value = GetDPITime.class, name = "GetHour"),
 		@JsonSubTypes.Type(value = GetPathAndQuery.class, name = "GetPathAndQuery"),
 		@JsonSubTypes.Type(value = GetDomain.class, name = "GetDomain"),
+		@JsonSubTypes.Type(value = MergeURL.class, name = "MergeURL"),
 		@JsonSubTypes.Type(value = HostQuery.class, name = "HostQuery")})
 public abstract class AbstractFunction extends AbstractETLObject {
 	private static final long serialVersionUID = 8920066337876631884L;
