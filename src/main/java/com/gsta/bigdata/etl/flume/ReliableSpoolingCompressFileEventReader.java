@@ -466,7 +466,9 @@ public class ReliableSpoolingCompressFileEventReader implements ReliableEventRea
 		logger.info("Preparing to move file {} to {}", fileToRoll, dest);
 
 		// Before renaming, check whether destination file name exists
-		if (dest.exists() && PlatformDetect.isWindows()) {
+		//tianxq fix,ignore any platform
+		//if (dest.exists() && PlatformDetect.isWindows()) {
+		if (dest.exists()) {
 			/*
 			 * If we are here, it means the completed file already exists. In
 			 * almost every case this means the user is violating an assumption
@@ -491,13 +493,13 @@ public class ReliableSpoolingCompressFileEventReader implements ReliableEventRea
 			}
 
 			// Dest file exists and not on windows
-		} else if (dest.exists()) {
+		}/* else if (dest.exists()) {
 			String message = "File name has been re-used with different"
 					+ " files. Spooling assumptions violated for " + dest;
 			throw new IllegalStateException(message);
 
 			// Destination file does not already exist. We are good to go!
-		} else {
+		} */else {
 			boolean renamed = fileToRoll.renameTo(dest);
 			if (renamed) {
 				logger.debug("Successfully rolled file {} to {}", fileToRoll,
