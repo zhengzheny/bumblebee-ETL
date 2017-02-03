@@ -36,7 +36,7 @@ import org.apache.flume.serialization.DurablePositionTracker;
 import org.apache.flume.serialization.EventDeserializer;
 import org.apache.flume.serialization.EventDeserializerFactory;
 import org.apache.flume.serialization.PositionTracker;
-import org.apache.flume.serialization.ResettableFileInputStream;
+//import org.apache.flume.serialization.ResettableFileInputStream;
 //import org.apache.flume.serialization.ResettableFileInputStream;
 import org.apache.flume.serialization.ResettableInputStream;
 

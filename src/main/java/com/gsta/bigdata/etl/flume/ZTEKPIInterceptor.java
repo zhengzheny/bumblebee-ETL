@@ -78,8 +78,5 @@ public class ZTEKPIInterceptor extends AbstractKPIInterceptor {
 		ZTEKPIInterceptor kpi = new ZTEKPIInterceptor(null,null);
 		System.out.println(kpi.getTypeFromSource(fileName));
 		System.out.println(kpi.parseHeadersBySource(fileName));
-		
-		String url = "http://st.browser.vivo.com.cn/blockDancing?u=1501004d41473247430598684c0a5100&imei=864510020848944&app_version=10010&elapsedtime=82849805&model=vivo+X3L&cs=0&app_package=com.android.browser&cfrom=155";
-		System.out.println(url.substring("http://".length()));
 	}
 }

@@ -110,11 +110,17 @@ public class ZteENODEBXML extends AbstractSourceMetaData {
 		String measTypes = SourceXmlTool.getTagValue(line, TAG_MEASTYPES);
 		if (StringUtils.isNotBlank(measTypes)) {
 			this.types = measTypes.split(" ");
+			if(this.types == null || this.types.length ==0){
+				throw new ETLException(line + " has null " + TAG_MEASTYPES);
+			}
 		}
 
 		String measResults = SourceXmlTool.getTagValue(line, TAG_MEASRESULTS);
 		if (StringUtils.isNotBlank(measResults)) {
 			String[] values = measResults.split(" ");
+			if(values == null || values.length == 0){
+				throw new ETLException(line + " has null " + TAG_MEASRESULTS);
+			}
 			if (this.types.length != values.length) {
 				throw new ETLException("measObjLdn:" + measObjLdn
 						+ ",measTypes size=" + this.types.length
