@@ -1,5 +1,9 @@
 package com.gsta.bigdata.etl.flume;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.RuntimeMXBean;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,13 +19,17 @@ public class GZDPIInterceptor implements Interceptor {
 	private String headerFields;
 	private String[] lstFields;
 	private String[] lstHeaderFields;
+	private boolean processIdFlag;
+	private String processId;
 	private static final String NotSeeCharDefineInConf = "001";
+	public static final String PROCESSID_FIELD = "processId";
 	
-	public GZDPIInterceptor(String delimiter, String fields, String headerFields) {
+	public GZDPIInterceptor(String delimiter, String fields, String headerFields,boolean processIdFlag) {
 		super();
 		this.delimiter = delimiter;
 		this.fields = fields;
 		this.headerFields = headerFields;
+		this.processIdFlag = processIdFlag;
 	}
 
 	@Override
@@ -37,6 +45,27 @@ public class GZDPIInterceptor implements Interceptor {
 		if(NotSeeCharDefineInConf.equals(this.delimiter)){
 			this.delimiter = "\001";
 		}
+		
+		this.processId = this.getLastIp() + "." + this.getProcessID();
+	}
+	
+	private int getProcessID() {
+		RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
+
+		return Integer.valueOf(runtimeMXBean.getName().split("@")[0]).intValue();
+	}
+	
+	private String getLastIp(){
+		try {
+			InetAddress addr = InetAddress.getLocalHost();
+			String ip = addr.getHostAddress().toString();
+			ip = ip.substring(ip.lastIndexOf(".") + 1, ip.length());
+			return ip;
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+		
+		return "-1";
 	}
 
 	@Override
@@ -60,6 +89,10 @@ public class GZDPIInterceptor implements Interceptor {
 			for (String header : this.lstHeaderFields) {
 				event.getHeaders().put(header, data.get(header));
 			}
+		}
+		
+		if(this.processIdFlag){
+			event.getHeaders().put(PROCESSID_FIELD, this.processId);
 		}
 
 		return event;
@@ -88,17 +121,19 @@ public class GZDPIInterceptor implements Interceptor {
 		private String delimiter;
 		private String fields;
 		private String headerFields;
+		private boolean processIdFlag;
 		
 		@Override
 		public void configure(Context context) {
 			this.delimiter = context.getString("delimiter");
 			this.fields = context.getString("fields");
 			this.headerFields = context.getString("headerFields");
+			this.processIdFlag = context.getBoolean(PROCESSID_FIELD);
 		}
 
 		@Override
 		public Interceptor build() {
-			return new GZDPIInterceptor(this.delimiter, this.fields, this.headerFields);
+			return new GZDPIInterceptor(this.delimiter, this.fields, this.headerFields,this.processIdFlag);
 		}  
 	}
 }
