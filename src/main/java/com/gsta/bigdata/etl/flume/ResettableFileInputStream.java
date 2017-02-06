@@ -286,9 +286,9 @@ public class ResettableFileInputStream extends ResettableInputStream
 
     CoderResult res = decoder.decode(buf, charBuf, isEndOfInput);
     if (res.isMalformed() || res.isUnmappable()) {
-      //res.throwException();
-      logger.error("file " + this.file.getName() + ",occur error:" + res.toString());
-      return -1;
+      res.throwException();
+      //logger.error("file " + this.file.getName() + ",occur error:" + res.toString());
+      //return -1;
     }
 
     int delta = buf.position() - start;
