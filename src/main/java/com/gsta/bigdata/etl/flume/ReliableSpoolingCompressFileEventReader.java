@@ -23,6 +23,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Charsets;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import com.google.common.io.Files;
 
 import org.apache.flume.Context;
@@ -36,22 +37,17 @@ import org.apache.flume.serialization.DurablePositionTracker;
 import org.apache.flume.serialization.EventDeserializer;
 import org.apache.flume.serialization.EventDeserializerFactory;
 import org.apache.flume.serialization.PositionTracker;
-//import org.apache.flume.serialization.ResettableFileInputStream;
-//import org.apache.flume.serialization.ResettableFileInputStream;
 import org.apache.flume.serialization.ResettableInputStream;
 
 import com.gsta.bigdata.etl.flume.SpoolDirectorySourceConstants;
 import com.gsta.bigdata.etl.flume.SpoolDirectorySourceConstants.ConsumeOrder;
 
-import org.apache.flume.tools.PlatformDetect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileFilter;
-//import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-//import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -60,7 +56,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
-//import java.util.zip.GZIPInputStream;
 
 /**
  * <p/>
@@ -340,8 +335,15 @@ public class ReliableSpoolingCompressFileEventReader implements ReliableEventRea
 		}
 
 		EventDeserializer des = currentFile.get().getDeserializer();
-		List<Event> events = des.readEvents(numEvents);
-
+		//List<Event> events = des.readEvents(numEvents);
+		//fix by tianxq
+		List<Event> events = Lists.newLinkedList();
+		try{
+			events = des.readEvents(numEvents);
+		}catch(IOException e){
+			logger.error("file=" + currentFile.get().getFile().getName());
+		}
+		
 		/*
 		 * It's possible that the last read took us just up to a file boundary.
 		 * If so, try to roll to the next file, if there is one. Loop until
@@ -416,12 +418,16 @@ public class ReliableSpoolingCompressFileEventReader implements ReliableEventRea
 		if (fileToRoll.lastModified() != currentFile.get().getLastModified()) {
 			String message = "File has been modified since being read: "
 					+ fileToRoll;
-			throw new IllegalStateException(message);
+			//throw new IllegalStateException(message);
+			//fix by tianxq
+			logger.error(message);
 		}
 		if (fileToRoll.length() != currentFile.get().getLength()) {
 			String message = "File has changed size since being read: "
 					+ fileToRoll;
-			throw new IllegalStateException(message);
+			//throw new IllegalStateException(message);
+			//fix by tianxq
+			logger.error(message);
 		}
 
 		/*
