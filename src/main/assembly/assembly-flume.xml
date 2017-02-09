@@ -13,15 +13,10 @@
 			<outputDirectory>bin/</outputDirectory>
 			<includes>
 				<include>etl-flume.sh</include>
-			</includes>
-			<fileMode>0755</fileMode>
-		</fileSet>
-		<fileSet>
-			<directory>${basedir}/src/main/assembly/bin</directory>
-			<outputDirectory>./</outputDirectory>
-			<includes>
+				<include>fileDispatcher.sh</include>
+				<include>runFlumeAgent.sh</include>
+				<include>killFlume.sh</include>
 				<include>startflume.sh</include>
-				<include>stopflume.sh</include>
 			</includes>
 			<fileMode>0755</fileMode>
 		</fileSet>

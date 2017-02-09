@@ -1,4 +1,7 @@
-count=`/usr/local/jdk1.8.0_45/bin/jps -l | grep ETL | wc -l`
+BASEDIR=`dirname "$0"`/..
+cd $BASEDIR
+  
+count=`jps -l | grep ETL | wc -l`
 if [ $count -lt 12 ]
 then
     ((c=12-$count))
