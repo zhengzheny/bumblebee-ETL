@@ -25,7 +25,7 @@ if [ ! -d "$workPath" ]
 then
   mkdir -p $workPath
 fi
-
+k=0 
 for((i=0;i<$flumeAgentNum;i++))
 do
   path="$workPath/$type$i"
@@ -44,16 +44,17 @@ do
 	  i=0
 	  for file in $files
 	  do
-	    ((j=$i % $flumeAgentNum))
+	    ((j=$k % $flumeAgentNum))
 	    mv $srcPath/$file  $workPath/$type$j/$file$tempSuffix
 	    mv $workPath/$type$j/$file$tempSuffix $workPath/$type$j/$file
 	    ((i++))
+	    ((k++))
 	  done
 	  
 	  if [ $i -gt 0 ] 
 	  then
 	    t=`date "+%Y-%m-%d %H:%M:%S"`
-	    echo "$t successfule move $i files from source dir to work dir"
+	    echo "$t successfule move $i files from source dir to work dir,total $k files"
 	  fi
 	fi
   
