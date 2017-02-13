@@ -322,6 +322,7 @@ public class ReliableSpoolingCompressFileEventReader implements ReliableEventRea
 						+ "commit is outstanding.");
 			}
 			logger.info("Last read was never committed - resetting mark position.");
+			logger.info("file=" + this.currentFile.get().getFile().getName());
 			currentFile.get().getDeserializer().reset();
 		} else {
 			// Check if new files have arrived since last call
@@ -341,7 +342,9 @@ public class ReliableSpoolingCompressFileEventReader implements ReliableEventRea
 		try{
 			events = des.readEvents(numEvents);
 		}catch(IOException e){
-			logger.error("file=" + currentFile.get().getFile().getName());
+			logger.error("file=" + currentFile.get().getFile().getName() + ",occur error:" + e.toString());
+			//discard this file and deal with next file
+			events.clear();
 		}
 		
 		/*

@@ -73,7 +73,7 @@ public class LineDeserializer implements EventDeserializer {
   public Event readEvent() throws IOException {
     ensureOpen();
     String line = readLine();
-   
+    
     if (line == null) {
       return null;
     } else {
