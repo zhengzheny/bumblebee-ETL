@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package com.gsta.bigdata.etl.flume;
+package com.gsta.bigdata.etl.flume.sources;
 
 import com.google.common.collect.Lists;
 

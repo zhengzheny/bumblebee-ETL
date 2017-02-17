@@ -15,7 +15,7 @@
  * the License.
  */
 
-package com.gsta.bigdata.etl.flume;
+package com.gsta.bigdata.etl.flume.sources;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
@@ -42,7 +42,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.flume.source.AbstractSource;
 
-import static com.gsta.bigdata.etl.flume.SpoolDirectorySourceConstants.*;
+import static com.gsta.bigdata.etl.flume.sources.SpoolDirectorySourceConstants.*;
 
 public class SpoolDirectoryCompressSource extends AbstractSource implements
 		Configurable, EventDrivenSource {

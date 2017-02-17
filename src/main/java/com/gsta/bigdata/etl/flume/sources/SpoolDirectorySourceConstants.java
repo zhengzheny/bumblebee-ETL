@@ -15,7 +15,7 @@
  * the License.
  */
 
-package com.gsta.bigdata.etl.flume;
+package com.gsta.bigdata.etl.flume.sources;
 
 import org.apache.flume.serialization.DecodeErrorPolicy;
 

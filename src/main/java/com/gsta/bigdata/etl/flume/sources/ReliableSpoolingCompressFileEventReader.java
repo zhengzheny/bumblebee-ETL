@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package com.gsta.bigdata.etl.flume;
+package com.gsta.bigdata.etl.flume.sources;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Charsets;
@@ -39,8 +39,8 @@ import org.apache.flume.serialization.EventDeserializerFactory;
 import org.apache.flume.serialization.PositionTracker;
 import org.apache.flume.serialization.ResettableInputStream;
 
-import com.gsta.bigdata.etl.flume.SpoolDirectorySourceConstants;
-import com.gsta.bigdata.etl.flume.SpoolDirectorySourceConstants.ConsumeOrder;
+import com.gsta.bigdata.etl.flume.sources.SpoolDirectorySourceConstants;
+import com.gsta.bigdata.etl.flume.sources.SpoolDirectorySourceConstants.ConsumeOrder;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

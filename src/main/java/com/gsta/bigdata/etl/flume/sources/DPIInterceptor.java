@@ -1,4 +1,4 @@
-package com.gsta.bigdata.etl.flume;
+package com.gsta.bigdata.etl.flume.sources;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

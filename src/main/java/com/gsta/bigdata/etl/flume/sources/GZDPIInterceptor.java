@@ -1,4 +1,4 @@
-package com.gsta.bigdata.etl.flume;
+package com.gsta.bigdata.etl.flume.sources;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;

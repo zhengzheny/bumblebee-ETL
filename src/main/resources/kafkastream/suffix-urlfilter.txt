@@ -92,3 +92,20 @@
 # disc-images
 .iso
 .bin
+
+#cc add 2017-2-16
+.api
+.asmx
+.bat
+.doc
+.docx
+.dot
+.ipa
+.pdf
+.pic
+.rtf
+.txt
+.xls
+.xlsx
+.ppt
+.pptx

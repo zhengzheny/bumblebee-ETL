@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package com.gsta.bigdata.etl.flume;
+package com.gsta.bigdata.etl.flume.sources;
 
 import com.google.common.base.Charsets;
 
@@ -36,11 +36,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
-import java.nio.channels.FileChannel;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CoderResult;
 import java.nio.charset.CodingErrorAction;
+import java.util.zip.GZIPInputStream;
 
 /**
  * <p>This class makes the following assumptions:</p>
@@ -90,10 +92,10 @@ import java.nio.charset.CodingErrorAction;
  */
 @InterfaceAudience.Private
 @InterfaceStability.Evolving
-public class ResettableFileInputStream extends ResettableInputStream
+public class ResettableGZFileInputStream extends ResettableInputStream
     implements RemoteMarkable, LengthMeasurable {
 
-  Logger logger = LoggerFactory.getLogger(ResettableFileInputStream.class);
+  Logger logger = LoggerFactory.getLogger(ResettableGZFileInputStream.class);
 
   public static final int DEFAULT_BUF_SIZE = 16384;
 
@@ -108,7 +110,7 @@ public class ResettableFileInputStream extends ResettableInputStream
   private final File file;
   private final PositionTracker tracker;
   private final FileInputStream in;
-  private final FileChannel chan;
+  //private final FileChannel chan;
   private final ByteBuffer buf;
   private final CharBuffer charBuf;
   private final byte[] byteBuf;
@@ -116,7 +118,9 @@ public class ResettableFileInputStream extends ResettableInputStream
   private final CharsetDecoder decoder;
   private long position;
   private long syncPosition;
+  @SuppressWarnings("unused")
   private int maxCharWidth;
+  private ReadableByteChannel byteChannel;
 
 
   /**
@@ -125,7 +129,7 @@ public class ResettableFileInputStream extends ResettableInputStream
   private boolean hasLowSurrogate = false;
 
   /**
-   * A low surrogate character read from a surrogate pair.
+   * A low surrrgate character read from a surrogate pair.
    * When a surrogate pair is found, the high (first) surrogate pair
    * is returned upon a call to {@link #read()},
    * while the low (second) surrogate remains stored in memory,
@@ -144,7 +148,7 @@ public class ResettableFileInputStream extends ResettableInputStream
    * @throws FileNotFoundException If the file to read does not exist
    * @throws IOException If the position reported by the tracker cannot be sought
    */
-  public ResettableFileInputStream(File file, PositionTracker tracker)
+  public ResettableGZFileInputStream(File file, PositionTracker tracker)
       throws IOException {
     this(file, tracker, DEFAULT_BUF_SIZE, Charsets.UTF_8, DecodeErrorPolicy.FAIL);
   }
@@ -172,13 +176,17 @@ public class ResettableFileInputStream extends ResettableInputStream
    * @throws FileNotFoundException If the file to read does not exist
    * @throws IOException If the position reported by the tracker cannot be sought
    */
-  public ResettableFileInputStream(File file, PositionTracker tracker,
+  public ResettableGZFileInputStream(File file, PositionTracker tracker,
       int bufSize, Charset charset, DecodeErrorPolicy decodeErrorPolicy)
       throws IOException {
     this.file = file;
     this.tracker = tracker;
+    
     this.in = new FileInputStream(file);
-    this.chan = in.getChannel();
+    GZIPInputStream gis = new GZIPInputStream(Channels.newInputStream(this.in.getChannel()));
+    //this.chan = in.getChannel();
+    this.byteChannel = Channels.newChannel(gis);
+    
     this.buf = ByteBuffer.allocateDirect(Math.max(bufSize, MIN_BUF_SIZE));
     buf.flip();
     this.byteBuf = new byte[1]; // single byte
@@ -269,7 +277,8 @@ public class ResettableFileInputStream extends ResettableInputStream
     // The decoder can have issues with multi-byte characters.
     // This check ensures that there are at least maxCharWidth bytes in the buffer
     // before reaching EOF.
-    if (buf.remaining() < maxCharWidth) {
+    //if (buf.remaining() < maxCharWidth) {
+    if (buf.remaining() <= 0) {
       buf.clear();
       buf.flip();
       refillBuf();
@@ -288,7 +297,7 @@ public class ResettableFileInputStream extends ResettableInputStream
     if (res.isMalformed() || res.isUnmappable()) {
       res.throwException();
     }
-
+    
     int delta = buf.position() - start;
 
     charBuf.flip();
@@ -336,13 +345,13 @@ public class ResettableFileInputStream extends ResettableInputStream
     // end of file
     incrPosition(delta, false);
     return -1;
-
   }
-
+  
   private void refillBuf() throws IOException {
     buf.compact();
-    chan.position(position); // ensure we read from the proper offset
-    chan.read(buf);
+    //chan.position(position); // ensure we read from the proper offset
+    //chan.read(buf);
+    this.byteChannel.read(buf);
     buf.flip();
   }
 
@@ -400,7 +409,7 @@ public class ResettableFileInputStream extends ResettableInputStream
     decoder.reset();
 
     // perform underlying file seek
-    chan.position(newPos);
+    //chan.position(newPos);
 
     // reset position pointers
     position = syncPosition = newPos;
