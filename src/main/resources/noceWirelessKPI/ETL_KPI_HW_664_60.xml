@@ -1,0 +1,48 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<process id="ETL_KPI_HW_664_H">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" />
+			<property key="sourceEncoding" value="GBK" />
+			<property key="mapred.reduce.tasks" value="0" />
+		</computingFrameworkConfigs>
+		<sourceMetaData type="KpiXML">
+			<paths>
+				<inputPath path="${inputPath}" />
+			</paths>
+			<fields>
+				<field id="eNodeBNAME" desc="eNodeB名称" />
+				<field id="LOCALID" desc="本地小区标识" />
+				<field id="CELLNAME" desc="小区名称" />
+				<field id="eNodeBID" desc="eNodeB标识" />
+				<field id="CELLDUPLEX" desc="小区双工模式" />
+				<field id="CELLID" desc="小区标识" />
+				<field id="PDCP_DWTRMDATA_TP" desc="小区PDCP层所发送的下行数据的总吞吐量" />
+				<field id="PDCP_UPREVDATA_TP" desc="小区PDCP层所接收到的上行数据的总吞吐量" />
+				<field id="PDCP_UPTP_UEMTYCACHE" desc="使UE缓存为空的最后一个TTI所传的上行PDCP吞吐量" />
+				<field id="PDCP_DWTP_MTYCACHE" desc="使缓存为空的最后一个TTI所传的下行PDCP吞吐量" />
+				<field id="DWDUR_DEMTYCACHE_UE" desc="扣除使UE缓存为空的最后一个TTI之后的上行数传时长" />
+				<field id="DWDUR_DEMTYCACHE" desc="扣除使下行缓存为空的最后一个TTI之后的数传时长" />
+</fields>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
+			<values delimiter="|">
+				<field id="STAT_TIME" />
+				<field id="STAT_PERIOD" />
+				<field id="eNodeBNAME" />
+				<field id="LOCALID" />
+				<field id="CELLNAME" />
+				<field id="eNodeBID" />
+				<field id="CELLDUPLEX" />
+				<field id="CELLID" />
+				<field id="PDCP_DWTRMDATA_TP" />
+				<field id="PDCP_UPREVDATA_TP" />
+				<field id="PDCP_UPTP_UEMTYCACHE" />
+				<field id="PDCP_DWTP_MTYCACHE" />
+				<field id="DWDUR_DEMTYCACHE_UE" />
+				<field id="DWDUR_DEMTYCACHE" />
+			</values>
+		</outputMetaData>
+	</process>
+</etl>

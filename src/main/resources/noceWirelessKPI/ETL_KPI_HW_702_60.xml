@@ -1,0 +1,52 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<process id="ETL_KPI_HW_702_H">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat" />
+			<property key="sourceEncoding" value="GBK" />
+			<property key="mapred.reduce.tasks" value="0" />
+		</computingFrameworkConfigs>
+		<sourceMetaData type="KpiXML">
+			<paths>
+				<inputPath path="${inputPath}" />
+			</paths>
+			<fields>
+				<field id="eNodeBNAME" desc="eNodeB名称" />
+				<field id="LOCALID" desc="本地小区标识" />
+				<field id="CELLNAME" desc="小区名称" />
+				<field id="eNodeBID" desc="eNodeB标识" />
+				<field id="CELLDUPLEX" desc="小区双工模式" />
+				<field id="CELLID" desc="小区标识" />
+				<field id="DW_AVGPRB" desc="下行Physical Resource Block被使用的平均个数" />
+				<field id="DW_AVAILPRB" desc="下行可用的PRB个数" />
+				<field id="UP_PUSCH_AVGPRB" desc="上行PUSCH的Physical Resource Block被使用的平均个数" />
+				<field id="UP_AVAILPRB" desc="上行可用的PRB个数" />
+				<field id="UP_DCI_CCE" desc="统计周期内上行DCI所使用的PDCCH CCE个数" />
+				<field id="DW_DCI_CCE" desc="统计周期内下行DCI所使用的PDCCH CCE个数" />
+				<field id="PUBDCI_PC" desc="公共DCI所占用的PDCCH CCE的个数" />
+				<field id="AVAIL_CCE" desc="统计周期内可用的PDCCH CCE的个数" />
+			</fields>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${errorPath}">
+			<values delimiter="|">
+				<field id="STAT_TIME" />
+				<field id="STAT_PERIOD" />
+				<field id="eNodeBNAME" />
+				<field id="LOCALID" />
+				<field id="CELLNAME" />
+				<field id="eNodeBID" />
+				<field id="CELLDUPLEX" />
+				<field id="CELLID" />
+				<field id="DW_AVGPRB" />
+				<field id="DW_AVAILPRB" />
+				<field id="UP_PUSCH_AVGPRB" />
+				<field id="UP_AVAILPRB" />
+				<field id="UP_DCI_CCE" />
+				<field id="DW_DCI_CCE" />
+				<field id="PUBDCI_PC" />
+				<field id="AVAIL_CCE" />
+			</values>
+		</outputMetaData>
+	</process>
+</etl>
