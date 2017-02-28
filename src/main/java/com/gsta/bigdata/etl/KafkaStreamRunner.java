@@ -71,6 +71,11 @@ public class KafkaStreamRunner implements IRunner ,Serializable{
 		props.put(ConsumerConfig.MAX_PARTITION_FETCH_BYTES_CONFIG, kafkaStream.getMax_partition_fetch_bytes());
 		props.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, kafkaStream.getMax_poll_records());
 		
+		props.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG,kafkaStream.getSession_timeout_ms());
+		props.put(ConsumerConfig.HEARTBEAT_INTERVAL_MS_CONFIG,kafkaStream.getHeartbeat_interval_ms());
+		props.put(StreamsConfig.COMMIT_INTERVAL_MS_CONFIG,kafkaStream.getCommit_interval_ms());
+		props.put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG,kafkaStream.getMax_poll_interval_ms());
+		
 		
 		KStreamBuilder builder = new KStreamBuilder();
 		KStream<String, String> source = builder.stream(kafkaStream.getInputTopic());

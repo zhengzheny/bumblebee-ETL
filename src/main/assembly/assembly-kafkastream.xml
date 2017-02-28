@@ -20,17 +20,18 @@
 			<directory>${basedir}/src/main/resources/kafkastream</directory>
 			<outputDirectory>conf/</outputDirectory>
 			<includes>
-				<include>*</include>
+				<include>GZDPI.xml</include>
+				<include>log4j.properties</include>
+				<include>suffix-urlfilter.txt</include>
 			</includes>
 		</fileSet>
 		<fileSet>
 			<directory>${basedir}/src/main/assembly/bin</directory>
 			<outputDirectory>./</outputDirectory>
 			<includes>
-				<include>autobroker.sh</include>
-				<include>autostartstream.sh</include>
-				<include>startStream.sh</include>
-				<include>stopStream.sh</include>
+				<include>autogzbroker.sh</include>
+				<include>startgzStream.sh</include>
+				<include>stopgzStream.sh</include>
 				<include>cron</include>
 			</includes>
 			<fileMode>0755</fileMode>

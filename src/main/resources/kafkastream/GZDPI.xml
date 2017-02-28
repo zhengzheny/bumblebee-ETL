@@ -4,22 +4,26 @@
 		<sourceMetaData type="kafkaStream" delimiter="\001">
 			<kafka>
 				<!--  kafka stream -->
-				<app_id>gzdpistream0123</app_id>
-				<brokers>kfk80:9091,kfk80:9092,kfk80:9093,kfk80:9094,kfk81:9091,kfk81:9092,kfk81:9093,kfk81:9094,kfk82:9091,kfk82:9092,kfk82:9093,kfk82:9094,kfk67:9091,kfk67:9092,kfk67:9093,kfk67:9094,kfk72:9091,kfk72:9092,kfk72:9093,kfk72:9094</brokers>
+				<app_id>gzdpistream20170224</app_id>
+				<brokers>kfk67:9091,kfk67:9092,kfk69:9091,kfk69:9092,kfk70:9091,kfk70:9092,kfk71:9091,kfk71:9092,kfk72:9091,kfk72:9092</brokers>
 				<client_id>gz</client_id>
-				<zookeeper>192.168.9.80:2181,192.168.9.81:2181,192.168.9.82:2181/kafka-normal</zookeeper>
+				<zookeeper>kfk70:2181,kfk71:2181,kfk72:2181/kafka</zookeeper>
 				<inputTopic>gzdpi</inputTopic>
 				<outputTopic>dpistream</outputTopic>
 				<buffered_records_per_partition>2000</buffered_records_per_partition>
 				<num.stream.threads>1</num.stream.threads>
 				<poll.ms>100</poll.ms>
-				<state.dir>/home/kafkastream/state</state.dir>
+				<state.dir>STATE_DIR</state.dir>
 				<cache.max.bytes.buffering>10485760</cache.max.bytes.buffering>
 				<timestamp_extractor>org.apache.kafka.streams.processor.WallclockTimestampExtractor</timestamp_extractor>
 				<!--  consumer -->
 				<auto_offset_reset>latest</auto_offset_reset>
 				<max.partition.fetch.bytes>2097152</max.partition.fetch.bytes>
 				<max.poll.records>500</max.poll.records>
+				<session.timeout.ms>90000</session.timeout.ms>
+				<heartbeat.interval.ms>40000</heartbeat.interval.ms>
+				<commit.interval.ms>30000</commit.interval.ms>
+				<max.poll.interval.ms>300000</max.poll.interval.ms>
 				<!-- producer -->
 				<acks>0</acks>
 				<batch.size>16384</batch.size>

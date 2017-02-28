@@ -33,6 +33,10 @@ public class KafkaStream extends SimpleFlat {
 	private String max_request_size;
 	private String max_partition_fetch_bytes;
 	private String max_poll_records;
+	private String session_timeout_ms;
+	private String heartbeat_interval_ms;
+	private String commit_interval_ms;
+	private String max_poll_interval_ms;
 	
 	private final static String APP_ID = "app_id";
 	private final static String BROKERS = "brokers";
@@ -53,6 +57,10 @@ public class KafkaStream extends SimpleFlat {
 	private final static String MAX_REQUEST_SIZE = "max.request.size";
 	private final static String MAX_PARTITION_FETCH_BYTES = "max.partition.fetch.bytes";
 	private final static String MAX_POLL_RECORDS = "max.poll.records";
+	private final static String SESSION_TIMEOUT_MS = "session.timeout.ms";
+	private final static String HEARTBEAT_INTERVAL_MS = "heartbeat.interval.ms";
+	private final static String COMMIT_INTERVAL_MS = "commit.interval.ms";
+	private final static String MAX_POLL_INTERVAL_MS = "max.poll.interval.ms";
 	
 	public KafkaStream() {
 		super();
@@ -134,6 +142,18 @@ public class KafkaStream extends SimpleFlat {
 							break;
 						case MAX_POLL_RECORDS:
 							this.max_poll_records = value;
+							break;
+						case SESSION_TIMEOUT_MS:
+							this.session_timeout_ms = value;
+							break;
+						case HEARTBEAT_INTERVAL_MS:
+							this.heartbeat_interval_ms= value;
+							break;
+						case COMMIT_INTERVAL_MS:
+							this.commit_interval_ms= value;
+							break;
+						case MAX_POLL_INTERVAL_MS:
+							this.max_poll_interval_ms= value;
 							break;
 						}
 					} catch (XPathExpressionException e) {
@@ -218,5 +238,21 @@ public class KafkaStream extends SimpleFlat {
 
 	public String getTimestamp_extractor() {
 		return timestamp_extractor;
+	}
+
+	public String getSession_timeout_ms() {
+		return session_timeout_ms;
+	}
+	
+	public String getHeartbeat_interval_ms() {
+		return heartbeat_interval_ms;
+	}
+
+	public String getCommit_interval_ms() {
+		return commit_interval_ms;
+	}
+
+	public String getMax_poll_interval_ms() {
+		return max_poll_interval_ms;
 	}
 }

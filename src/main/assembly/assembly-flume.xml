@@ -16,13 +16,21 @@
 				<include>fileDispatcher.sh</include>
 				<include>runFlumeAgent.sh</include>
 				<include>killFlume.sh</include>
-				<include>startflume.sh</include>
 			</includes>
 			<fileMode>0755</fileMode>
 		</fileSet>
 		<fileSet>
 			<directory>${basedir}/src/main/resources/flume</directory>
 			<outputDirectory>conf/</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>${basedir}/src/main/assembly/bin</directory>
+			<outputDirectory>./</outputDirectory>
+			<includes>
+				<include>startgzflume.sh</include>
+				<include>stopgzflume.sh</include>
+			</includes>
+			<fileMode>0755</fileMode>
 		</fileSet>
 		<fileSet>
 			<directory>${basedir}/src/main/resources/noceWirelessKPI</directory>
@@ -45,8 +53,6 @@
 			<outputDirectory>lib/</outputDirectory>
 			<includes>
 				<include>google*.jar</include>
-				<!-- must use flume self kafka-clients-0.9.0.1.jar -->
-				<!--include>kafka*0.10.1.1.jar</include-->
 			</includes>
 		</fileSet>
 	</fileSets>
