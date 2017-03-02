@@ -498,7 +498,16 @@ public class ReliableSpoolingCompressFileEventReader implements ReliableEventRea
 			} else {
 				String message = "File name has been re-used with different"
 						+ " files. Spooling assumptions violated for " + dest;
-				throw new IllegalStateException(message);
+				//throw new IllegalStateException(message);
+				
+				//tianxq fix
+				logger.error(message + " ,delete it...");
+				boolean deleted = fileToRoll.delete();
+				if (!deleted) {
+					logger.error("Unable to delete file "
+							+ fileToRoll.getAbsolutePath()
+							+ ". It will likely be ingested another time.");
+				}
 			}
 
 			// Dest file exists and not on windows
