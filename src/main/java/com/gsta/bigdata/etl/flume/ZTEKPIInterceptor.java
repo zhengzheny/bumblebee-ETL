@@ -1,4 +1,4 @@
-package com.gsta.bigdata.etl.flume.sources;
+package com.gsta.bigdata.etl.flume;
 
 import java.util.HashMap;
 import java.util.Map;

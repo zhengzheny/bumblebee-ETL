@@ -1,4 +1,4 @@
-package com.gsta.bigdata.etl.flume.sources;
+package com.gsta.bigdata.etl.flume;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,6 +12,8 @@ import org.apache.flume.Event;
 import org.apache.flume.interceptor.Interceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.gsta.bigdata.etl.flume.sources.SpoolDirectorySourceConstants;
 
 public class DPIInterceptor implements Interceptor {
 	private String delimiter;
@@ -176,6 +178,7 @@ public class DPIInterceptor implements Interceptor {
 		ctx.put("fields", "2,3,10,13");
 		ctx.put("headerName", "key");
 		ctx.put("keyField", "3");
+		ctx.put("kafkaPartitions", "3");
 		
 		DPIInterceptor.Builder builder = new DPIInterceptor.Builder();
 		builder.configure(ctx);
@@ -183,7 +186,7 @@ public class DPIInterceptor implements Interceptor {
 		DPIInterceptor i = (DPIInterceptor)builder.build();
 		i.initialize();
 		Event event = new org.apache.flume.event.SimpleEvent();
-		event.getHeaders().put("key", "f_8_S1udns-Guangdong-20161107190754.txt.gz");
+		event.getHeaders().put("key", "f_1_S1uhttp-Guangdong-20170301000038.txt");
 		event.setBody(s.getBytes());
 		i.intercept(event);
 		System.out.println(new String(event.getBody()));

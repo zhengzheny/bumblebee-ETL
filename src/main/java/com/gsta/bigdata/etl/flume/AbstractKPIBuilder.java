@@ -1,4 +1,4 @@
-package com.gsta.bigdata.etl.flume.sources;
+package com.gsta.bigdata.etl.flume;
 
 import org.apache.flume.Context;
 import org.apache.flume.interceptor.Interceptor;

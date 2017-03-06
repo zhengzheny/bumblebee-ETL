@@ -1,4 +1,4 @@
-package com.gsta.bigdata.etl.flume.sources;
+package com.gsta.bigdata.etl.flume;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,6 +14,7 @@ import org.w3c.dom.Element;
 import com.gsta.bigdata.etl.ETLRunner;
 import com.gsta.bigdata.etl.core.ETLData;
 import com.gsta.bigdata.etl.core.ETLProcess;
+import com.gsta.bigdata.etl.flume.sources.SpoolDirectorySourceConstants;
 
 public abstract class AbstractKPIInterceptor implements Interceptor {
 	private final Logger logger = LoggerFactory.getLogger(getClass());

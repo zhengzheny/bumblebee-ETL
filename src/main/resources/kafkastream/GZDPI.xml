@@ -37,6 +37,7 @@
 				<field id="srcport" type="string" />
 				<field id="dstip" type="string" />
 				<field id="dstport" type="string" />
+				<field id="seqno" type="string" />
 				<field id="url" type="string" />
 				<field id="host" type="string" />
 				<field id="path" type="string" />
@@ -74,6 +75,7 @@
 				<field id="timeStamp" />
 				<field id="day" />
 				<field id="collectHost" />
+				<field id="seqno" />
 			</values>
 		</outputMetaData>
 		<transforms>
