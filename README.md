@@ -55,6 +55,3 @@ bumblebee是一个ETL程序，Java语言编写，主要涉及的是抽取（extr
 	* 56.33 GB文件，记录数5.6亿，做分割符转换，耗时465秒
 *Flume取决于agent性能 
 
-##Contributors 
-* 田熙清  531013850@qq.com
-* 韩二明  283741965@qq.com
