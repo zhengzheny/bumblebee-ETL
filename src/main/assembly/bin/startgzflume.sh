@@ -8,9 +8,9 @@ totalCount=$1
 configPath=./conf/instance/
 if [ ! -d "$configPath" ]
 then
-	mkdir -p $configPath
+  mkdir -p $configPath
 else
-	rm -f $configPath/*
+  rm -f $configPath/*
 fi
 
 count=`jps -l | grep org.apache.flume.node.Application | wc -l`
@@ -21,7 +21,7 @@ then
     do
         logConf=$configPath/log4j$i.properties
         log="/home/flumelogs/flume$i.log"
-	      sed "s:GSTA_LOG_FILE_NAME:${log}:g" ./conf/log4j.properties > $logConf
+        sed "s:GSTA_LOG_FILE_NAME:${log}:g" ./conf/log4j.properties > $logConf
         nohup bin/etl-flume.sh ./conf/gzdpiKafka2HDFS.conf -Dlog4j.configuration=file:$logConf  &
         echo "start $i  flume agent..."
     done

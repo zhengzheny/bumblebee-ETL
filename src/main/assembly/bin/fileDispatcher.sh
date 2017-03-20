@@ -40,23 +40,23 @@ do
   files=`ls -l $srcPath/*.$sourceFileSuffix 2>&1`
   if [[ ! $files =~ "No such file" ]]
   then
-  	files=`ls -l $srcPath/*.$sourceFileSuffix| grep -v total| awk -F'/' '{print $NF}' |awk '{print $NF}'`
-	  i=0
-	  for file in $files
-	  do
-	    ((j=$k % $flumeAgentNum))
-	    mv $srcPath/$file  $workPath/$type$j/$file$tempSuffix
-	    mv $workPath/$type$j/$file$tempSuffix $workPath/$type$j/$file
-	    ((i++))
-	    ((k++))
-	  done
-	  
-	  if [ $i -gt 0 ] 
-	  then
-	    t=`date "+%Y-%m-%d %H:%M:%S"`
-	    echo "$t successfule move $i files from source dir to work dir,total $k files"
-	  fi
-	fi
+    files=`ls -l $srcPath/*.$sourceFileSuffix| grep -v total| awk -F'/' '{print $NF}' |awk '{print $NF}'`
+    i=0
+    for file in $files
+    do
+      ((j=$k % $flumeAgentNum))
+      mv $srcPath/$file  $workPath/$type$j/$file$tempSuffix
+      mv $workPath/$type$j/$file$tempSuffix $workPath/$type$j/$file
+      ((i++))
+      ((k++))
+    done
+    
+    if [ $i -gt 0 ] 
+    then
+      t=`date "+%Y-%m-%d %H:%M:%S"`
+      echo "$t successfule move $i files from source dir to work dir,total $k files"
+    fi
+  fi
   
   sleep 30
 done

@@ -186,7 +186,7 @@ public class DPIInterceptor implements Interceptor {
 		DPIInterceptor i = (DPIInterceptor)builder.build();
 		i.initialize();
 		Event event = new org.apache.flume.event.SimpleEvent();
-		event.getHeaders().put("key", "f_1_S1uhttp-Guangdong-20170301000038.txt");
+		event.getHeaders().put("key", "f_500_S1uhttp-Guangdong-2017032008563104.txt.gz");
 		event.setBody(s.getBytes());
 		i.intercept(event);
 		System.out.println(new String(event.getBody()));

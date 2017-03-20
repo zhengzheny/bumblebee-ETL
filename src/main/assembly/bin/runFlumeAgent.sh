@@ -23,26 +23,26 @@ logPath=/data/logs/$type
 
 if [ ! -d "$configPath" ]
 then
-	mkdir -p $configPath
+  mkdir -p $configPath
 else
-	rm -f $configPath/*
+  rm -f $configPath/*
 fi
 
 if [ ! -d "$logPath" ]
 then
-	mkdir -p $logPath
+  mkdir -p $logPath
 fi
 
 for((i=0;i<$flumeAgentNum;i++))
 do
-	srcPath="$workPath/$type$i"
-	config=$configPath/$type$i.conf
-	sed "s:GSTA_SOURCE_SPOOL_DIR:${srcPath}:g" $configFile > $config
-	
-	log=$logPath/$type$i.log
-	logConf=$configPath/$type$i.log4j.properties
-	sed "s:GSTA_LOG_FILE_NAME:${log}:g" $logFile > $logConf
+  srcPath="$workPath/$type$i"
+  config=$configPath/$type$i.conf
+  sed "s:GSTA_SOURCE_SPOOL_DIR:${srcPath}:g" $configFile > $config
+  
+  log=$logPath/$type$i.log
+  logConf=$configPath/$type$i.log4j.properties
+  sed "s:GSTA_LOG_FILE_NAME:${log}:g" $logFile > $logConf
 
-	nohup bin/etl-flume.sh $config -Dlog4j.configuration=file:$logConf &
+  nohup bin/etl-flume.sh $config -Dlog4j.configuration=file:$logConf &
 
 done
