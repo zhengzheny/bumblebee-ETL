@@ -28,7 +28,7 @@ public class DPIInterceptor implements Interceptor {
 	private Random random = new Random();
 	
 	public DPIInterceptor(String delimiter, int[] fields, int keyField,
-			String headerName,int kafkaPartitions) {
+			String headerName,int kafkaPartitions,String fileNameSimpleDateFormat) {
 		super();
 		this.delimiter = delimiter;
 		this.fields = fields;
@@ -39,6 +39,10 @@ public class DPIInterceptor implements Interceptor {
 		this.outputDelimiter = StringEscapeUtils.unescapeJava(this.delimiter);
 		if (NotSeeCharDefineInConf.equals(this.delimiter)) {
 			this.delimiter = "\001";
+		}
+		
+		if(fileNameSimpleDateFormat != null){
+			this.sdf = new SimpleDateFormat(fileNameSimpleDateFormat);
 		}
 	}
 
@@ -141,6 +145,7 @@ public class DPIInterceptor implements Interceptor {
 		private int[] fields;
 		private int keyField;
 		private int kafkaPartitions = 256;
+		private String fileNameSimpleDateFormat;
 
 		@Override
 		public void configure(Context context) {
@@ -162,16 +167,20 @@ public class DPIInterceptor implements Interceptor {
 			}
 			
 			this.kafkaPartitions = Integer.parseInt(context.getString("kafkaPartitions"));
+			this.fileNameSimpleDateFormat = context.getString("fileNameSimpleDateFormat");
+			if(this.fileNameSimpleDateFormat == null){
+				this.fileNameSimpleDateFormat = "yyyyMMddHHmmss";
+			}
 		}
 
 		@Override
 		public Interceptor build() {
 			return new DPIInterceptor(this.delimiter, this.fields,
-					this.keyField, this.headerName,this.kafkaPartitions);
+					this.keyField, this.headerName,this.kafkaPartitions,this.fileNameSimpleDateFormat);
 		}
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ParseException {
 		String s = "1|4601104310583|8618125640|8679310927614|CTNET|163.177.81.139|80|100.85.92.123|39915|8.128.0.205|115.169.194.37|115.169.132.149|4601186B4930|460117A5C|46011|6|18|205|20161024095948|20161024095948|0|0|748|0|1|20161023014337|5|5008000000000000000000000|1|8.142.65.45|2152|2152|1286736896|61140717||||||||100.85.92.123|39915|0|163.177.81.139|80|1|0|0|0|0|0|0|0|0|0|0|0|0|0|1|MicroMessenger Client|szextshort.weixin.qq.com/mmtls/32be6ba0|szextshort.weixin.qq.com|szextshort.weixin.qq.com|474|application/octet-stream|0||5|-2|0|0|1477274388418|1477274388418||1477274388418|1477274388418||||3||7235434166285||||||99|";
 		Context ctx = new Context();
 		ctx.put("delimiter", "\\|");
@@ -191,5 +200,8 @@ public class DPIInterceptor implements Interceptor {
 		i.intercept(event);
 		System.out.println(new String(event.getBody()));
 		System.out.println(event.getHeaders());
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSS");
+		System.out.println(sdf.parse("2017032013063404").getTime());
 	}
 }
