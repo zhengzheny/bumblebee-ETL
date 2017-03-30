@@ -100,7 +100,7 @@ public class DPIInterceptor implements Interceptor {
 				try {
 					line = line + this.outputDelimiter + this.sdf.parse(ts).getTime();
 				} catch (ParseException e) {
-					logger.warn("parse filename=" + fileName + ",occur " + e.getMessage());
+					logger.error("parse filename=" + fileName + ",occur " + e.getMessage());
 				}
 			}else{
 				line = line + this.outputDelimiter + System.currentTimeMillis();
