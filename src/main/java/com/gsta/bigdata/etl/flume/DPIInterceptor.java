@@ -95,6 +95,8 @@ public class DPIInterceptor implements Interceptor {
 			int idx2 = fileName.indexOf(".");
 			if(idx1 >0 && idx2 >0){
 				String ts = fileName.substring(idx1+1, idx2);
+				//由于数据源文件名来回变,有时候是20170330111133,有时候是2017033010394601,统一取前14位
+				if(ts.length() >=14)  ts = ts.substring(0, 14);
 				try {
 					line = line + this.outputDelimiter + this.sdf.parse(ts).getTime();
 				} catch (ParseException e) {
@@ -200,8 +202,5 @@ public class DPIInterceptor implements Interceptor {
 		i.intercept(event);
 		System.out.println(new String(event.getBody()));
 		System.out.println(event.getHeaders());
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSS");
-		System.out.println(sdf.parse("2017032013063404").getTime());
 	}
 }

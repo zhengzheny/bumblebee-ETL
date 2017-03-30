@@ -81,7 +81,6 @@
 		<transforms>
 			<transform>
 				<filter name="DPIFilter" urlSuffixFile="conf/suffix-urlfilter.txt" />
-				<!-- function name="RegexpExtract" input="ref" output="weixin" regexp="^http://weixin.qq.com/.*uin=(\\\d+).*" index="1"/ -->
 				<function name="GetWXUIN" referer="ref" cookie="cookie" host="host" output="weixinid" />
 				<function name="GetDomain" host="host" output="domain" />
 				<function name="GetQQ" host="host" cookie="cookie" output="qq" />
@@ -97,10 +96,6 @@
 					<output id="timeStamp"/>
 					<output id="day"/>
 				</function>
-				<!-- function name="GetPathAndQuery" host="host" url="url">
-					<output id="path" />
-					<output id="query" />
-				</function-->
 				<function name="MergeURL" host="host"  url="url" output="newurl"/>
 			</transform>
 		</transforms>
