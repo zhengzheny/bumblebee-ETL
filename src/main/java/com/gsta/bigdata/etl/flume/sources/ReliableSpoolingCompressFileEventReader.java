@@ -93,6 +93,7 @@ public class ReliableSpoolingCompressFileEventReader implements ReliableEventRea
 
 	static final String metaFileName = ".flumespool-main.meta";
 	private final String GZIP_FILE_EXTENSION = ".gz";
+	private final String TAR_FILE_EXTENSION = ".tar.gz";
 	private final File spoolDirectory;
 	private final String completedSuffix;
 	private final String deserializerType;
@@ -718,7 +719,7 @@ public class ReliableSpoolingCompressFileEventReader implements ReliableEventRea
 	 * Opens a file for consuming
 	 * 
 	 * @param file
-	 * @return {@link #FileInfo} for the file to consume or absent option if the
+	 * @return  for the file to consume or absent option if the
 	 *         file does not exists or readable.
 	 */
 	private Optional<FileInfo> openFile(File file) {
@@ -740,11 +741,15 @@ public class ReliableSpoolingCompressFileEventReader implements ReliableEventRea
 					tracker.getTarget(), nextPath);
 
 			ResettableInputStream in = null;
-			if (file != null && file.getName().endsWith(GZIP_FILE_EXTENSION)) {
+			if (file != null && file.getName().contains(TAR_FILE_EXTENSION)){
+				in = new ResettableTarFileInputStream(file,tracker,
+						ResettableFileInputStream.DEFAULT_BUF_SIZE,
+						inputCharset, decodeErrorPolicy);
+			}else if (file != null && file.getName().endsWith(GZIP_FILE_EXTENSION)) {
 				in = new ResettableGZFileInputStream(file, tracker,
 						ResettableFileInputStream.DEFAULT_BUF_SIZE,
 						inputCharset, decodeErrorPolicy);
-			} else {
+			}else {
 				in = new ResettableFileInputStream(file, tracker,
 						ResettableFileInputStream.DEFAULT_BUF_SIZE,
 						inputCharset, decodeErrorPolicy);
