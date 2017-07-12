@@ -6,6 +6,7 @@
 				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat"/>
 			<property key="mapred.reduce.tasks" value="0"/>
 		</computingFrameworkConfigs>
+		<!-- com.gsta.bigdata.source.MroXML 类是解析Mro XML文件，parseLine方法把原始xml解析成ETLData结构 -->
 		<sourceMetaData type="MroXML" >
 			<paths>
 				<inputPath path="${inputPath}"/>
