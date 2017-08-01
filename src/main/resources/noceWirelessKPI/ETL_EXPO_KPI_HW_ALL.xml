@@ -1,0 +1,132 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+	<process id="ETL_EXPO_KPI_HW_ALL">
+		<computingFrameworkConfigs>
+			<property key="outputFormatClass"
+				value="com.gsta.bigdata.etl.mapreduce.OnlyValueOutputFormat"/>
+			<property key="mapred.reduce.tasks" value="0"/>
+		</computingFrameworkConfigs>
+		<sourceMetaData type="HwExpokpiXML" >
+			<paths>
+				<inputPath path="${inputPath}"/>
+			</paths>
+		</sourceMetaData>
+		<outputMetaData outputPath="${outputPath}" errorPath="${outputPath}">
+			<values delimiter="|">
+				<field id="STAT_TIME" />
+				<field id="STAT_PERIOD" />
+				<field id="ENODEBID" />
+				<field id="CELLID" />
+				<field id="ENODEBNAME" />
+				<field id="CELLNAME" />
+				<field id="1526726740" />
+				<field id="1526728764" />
+				<field id="1526728303" />
+				<field id="1526728304" />
+				<field id="1526728305" />
+				<field id="1526727215" />
+				<field id="1526727218" />
+				<field id="1526727221" />
+				<field id="1526726884" />
+				<field id="1526728222" />
+				<field id="1526728223" />
+				<field id="1526728225" />
+				<field id="1526728226" />
+				<field id="1526728358" />
+				<field id="1526728224" />
+				<field id="1526726659" />
+				<field id="1526728269" />
+				<field id="1526726658" />
+				<field id="1526727084" />
+				<field id="1526727085" />
+				<field id="1526728228" />
+				<field id="1526728227" />
+				<field id="1526727545" />
+				<field id="1526727544" />
+				<field id="1526728279" />
+				<field id="1526728278" />
+				<field id="1526726717" />
+				<field id="1526728276" />
+				<field id="1526728277" />
+				<field id="1526728280" />
+				<field id="1526727547" />
+				<field id="1526727546" />
+				<field id="1526728282" />
+				<field id="1526728284" />
+				<field id="1526728291" />
+				<field id="1526728292" />
+				<field id="1526728283" />
+				<field id="1526727396" />
+				<field id="1526727406" />
+				<field id="1526727407" />
+				<field id="1526727408" />
+				<field id="1526727409" />
+				<field id="1526727410" />
+				<field id="1526727411" />
+				<field id="1526727397" />
+				<field id="1526727398" />
+				<field id="1526727399" />
+				<field id="1526727400" />
+				<field id="1526727401" />
+				<field id="1526727402" />
+				<field id="1526727403" />
+				<field id="1526727404" />
+				<field id="1526727405" />
+				<field id="1526728298" />
+				<field id="1526728261" />
+				<field id="1526728259" />
+				<field id="1526729049" />
+				<field id="1526729005" />
+				<field id="1526727907" />
+				<field id="1526727910" />
+				<field id="1526727913" />
+				<field id="1526727916" />
+				<field id="1526727919" />
+				<field id="1526727922" />
+				<field id="1526727925" />
+				<field id="1526727928" />
+				<field id="1526727931" />
+				<field id="1526728433" />
+				<field id="1526728434" />
+				<field id="1526728765" />
+				<field id="1526728217" />
+				<field id="1526728218" />
+				<field id="1526728220" />
+				<field id="1526728221" />
+				<field id="1526728357" />
+				<field id="1526728219" />
+				<field id="1526729050" />
+				<field id="1526729015" />
+				<field id="1526727908" />
+				<field id="1526727911" />
+				<field id="1526727914" />
+				<field id="1526727917" />
+				<field id="1526727920" />
+				<field id="1526727923" />
+				<field id="1526727926" />
+				<field id="1526727929" />
+				<field id="1526727932" />
+				<field id="1526728975" />
+				<field id="1526727002" />
+				<field id="1526727005" />
+				<field id="1526727265" />
+				<field id="1526727268" />
+				<field id="1526727003" />
+				<field id="1526727006" />
+				<field id="1526727266" />
+				<field id="1526727269" />
+				<field id="1526727264" />
+				<field id="1526727267" />
+				<field id="1526727379" />
+				<field id="1526728976" />
+				<field id="1526726997" />
+				<field id="1526727000" />
+				<field id="1526726996" />
+				<field id="1526726999" />
+				<field id="1526728298" />
+				<field id="1526727189" />
+				<field id="1526727188" />
+			</values>
+		</outputMetaData>
+	</process>
+</etl>

@@ -20,7 +20,6 @@ package com.gsta.bigdata.etl.flume.sources;
 
 import com.google.common.collect.Lists;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
-import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.flume.Context;
 import org.apache.flume.Event;
 import org.apache.flume.annotations.InterfaceAudience;
@@ -35,8 +34,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
-import java.nio.charset.MalformedInputException;
-import java.nio.charset.UnmappableCharacterException;
 import java.util.List;
 
 /**
@@ -67,21 +64,27 @@ public class TarGZLineDeserializer implements EventDeserializer {
   //文件读取缓冲区
   private BufferedReader bufReader;
 
-  TarGZLineDeserializer(Context context, ResettableInputStream in) {
+  TarGZLineDeserializer(Context context, ResettableInputStream in, String inputCharset) {
     this.in = (ResettableTarFileInputStream)in;
 
     //初始化第一个entry
     try {
       this.tarArchiveEntry = this.in.getTarIs().getNextTarEntry();
-      logger.info("file name is " + this.tarArchiveEntry.getName());
+      String fileName = this.tarArchiveEntry.getName();
+//      fileName = new String(fileName.getBytes(),"gbk");
+      logger.info("file name is " + fileName);
     } catch (IOException e) {
       e.printStackTrace();
     }
 
-    bufReader = new BufferedReader(new InputStreamReader(this.in.getTarIs()));
+    try {
+      bufReader = new BufferedReader(new InputStreamReader(this.in.getTarIs(), inputCharset));
+    }catch (java.io.UnsupportedEncodingException e){
+      e.printStackTrace();
+    }
 
     this.outputCharset = Charset.forName(
-        context.getString(OUT_CHARSET_KEY, CHARSET_DFLT));
+            context.getString(OUT_CHARSET_KEY, CHARSET_DFLT));
     this.maxLineLength = context.getInteger(MAXLINE_KEY, MAXLINE_DFLT);
     this.isOpen = true;
   }
@@ -95,9 +98,11 @@ public class TarGZLineDeserializer implements EventDeserializer {
   public Event readEvent() throws IOException {
     ensureOpen();
     String line = readLine();
+
     if (line == null) {
       return null;
     } else {
+      //line=new String(line.getBytes("gbk"),"utf-8");
       return EventBuilder.withBody(line, outputCharset);
     }
   }
@@ -158,7 +163,7 @@ public class TarGZLineDeserializer implements EventDeserializer {
       this.tarArchiveEntry = this.in.getTarIs().getNextTarEntry();
       if(this.tarArchiveEntry != null) {
         logger.info("file name is " + this.tarArchiveEntry.getName());
-       }else{
+      }else{
         logger.info("finish read tar.gz file");
         this.isEndFile = true;
         return null;
@@ -172,7 +177,7 @@ public class TarGZLineDeserializer implements EventDeserializer {
       //换压缩包的下一个文件
       this.tarArchiveEntry = this.in.getTarIs().getNextTarEntry();
       if(this.tarArchiveEntry != null) {
-          logger.info("file name is " + this.tarArchiveEntry.getName());
+        logger.info("file name is " + this.tarArchiveEntry.getName());
       }
       return null;
     }
@@ -182,7 +187,8 @@ public class TarGZLineDeserializer implements EventDeserializer {
 
     @Override
     public EventDeserializer build(Context context, ResettableInputStream in) {
-      return new TarGZLineDeserializer(context, in);
+      String inputCharset = context.getString("inputCharset");
+      return new TarGZLineDeserializer(context, in,inputCharset);
     }
 
   }
