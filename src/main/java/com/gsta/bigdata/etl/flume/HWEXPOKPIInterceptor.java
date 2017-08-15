@@ -1,5 +1,6 @@
 package com.gsta.bigdata.etl.flume;
 
+import com.gsta.bigdata.etl.ETLException;
 import com.gsta.bigdata.etl.core.ETLData;
 import com.gsta.bigdata.etl.core.ETLProcess;
 import com.gsta.bigdata.etl.flume.sources.SpoolDirectorySourceConstants;
@@ -39,7 +40,7 @@ public class HWEXPOKPIInterceptor extends AbstractKPIInterceptor {
 //					return key.substring(0, pos);
 //			}
 //		}
-
+//        logger.info( "Targz file name is:"+fileName);
         return "ALL";
     }
 
@@ -51,8 +52,8 @@ public class HWEXPOKPIInterceptor extends AbstractKPIInterceptor {
         Map<String, String> headers = new HashMap<String, String>();
 
         boolean flag = false;
-        String d = fileName.substring(6, 14);
-        String h = fileName.substring(15, 19);
+        String d=fileName.split("_")[2].substring(0,8);
+        String h=fileName.split("\\.")[1].substring(0,4);
         headers.put(HEADER_KPI_DATE, d+h);
 //        headers.put(HEADER_KPI_HOUR, h);
         flag = true;
@@ -90,13 +91,13 @@ public class HWEXPOKPIInterceptor extends AbstractKPIInterceptor {
         String sb="";
        try {
             List<ETLData> datalist = process.parseLine(line);
-            if (datalist != null) {
-            System.out.println("list size" + datalist.size());
+            if (datalist != null&&datalist.size()>0) {
+//            System.out.println("list size" + datalist.size());
                 for (ETLData data : datalist) {
                     if (data != null) {
                         process.onTransform(data);
                         output = process.getOutputValue(data);
-                       System.out.println(output);
+//                       System.out.println(output);
                         sb=sb+output+"\n";
                     }
                 }
@@ -110,8 +111,8 @@ public class HWEXPOKPIInterceptor extends AbstractKPIInterceptor {
                 return event;
 
             }
-        } catch (Exception e) {
-            logger.error("dataline=" + line + ",error:" + e.getMessage());
+        } catch (StringIndexOutOfBoundsException | ETLException e) {
+           logger.error("dataline=" + line + ",error:" + e.getMessage());
         }
         return null;
     }
