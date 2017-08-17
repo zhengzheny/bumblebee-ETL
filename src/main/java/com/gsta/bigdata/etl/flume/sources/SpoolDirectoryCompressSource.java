@@ -32,11 +32,10 @@ import org.apache.flume.serialization.DecodeErrorPolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
-import java.util.HashMap;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -64,7 +63,7 @@ public class SpoolDirectoryCompressSource extends AbstractSource implements
 	private String deserializerType;
 	private Context deserializerContext;
 	private String deletePolicy;
-	protected static String inputCharset;
+	private String inputCharset;
 	private DecodeErrorPolicy decodeErrorPolicy;
 	private volatile boolean hasFatalError = false;
 	
@@ -79,7 +78,6 @@ public class SpoolDirectoryCompressSource extends AbstractSource implements
 	private ConsumeOrder consumeOrder;
 	private int pollDelay;
 	private boolean recursiveDirectorySearch;
-
 
 	@Override
 	public synchronized void start() {
@@ -244,13 +242,7 @@ public class SpoolDirectoryCompressSource extends AbstractSource implements
 			int backoffInterval = 250;
 			try {
 				while (!Thread.interrupted()) {
-					List<Event> events =null;
-					try {
-						events = reader.readEvents(batchSize);
-					}catch (IOException e){
-						logger.error("reader.readEvents has problem:"+e.getMessage());
-						break;
-					}
+					List<Event> events = reader.readEvents(batchSize);
 					if (events.isEmpty()) {
 						break;
 					}
