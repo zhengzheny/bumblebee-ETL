@@ -58,7 +58,7 @@ public class HwExpokpiXML extends AbstractSourceMetaData {
 	private static final String FIELD_ENODEBNAME = "eNodeB名称";
 	private static final String FIELD_CELLNAME = "小区名称";
 	private static final String FIELD_ENODEBID = "eNodeB标识";
-	private static final String FIELD_CELLID = "小区标识";
+	private static final String FIELD_CELLID = "本地小区标识";
 	private static final String FIELD_STAT_PERIOD = "STAT_PERIOD";
 
     private static final List<String> measInfoIds= new ArrayList<String>(Arrays.asList ("1526726702","1526726694",
@@ -106,14 +106,14 @@ public class HwExpokpiXML extends AbstractSourceMetaData {
 		for (String objLdn : objLdns) {
 			String[] obj = objLdn.split("=");
 //			logger.info("objs:"+obj[0]);
-			if (FIELD_ENODEBID .equals(obj[0])) {
+            if (FIELD_ENODEBID .equals(obj[0])) {
 //                this.etlData.addData("ENODEBID", obj[1]);
                 MeasObjLdns.add(obj[1]);
-				ecgi = obj[1];
-			} else if (FIELD_CELLID .equals(obj[0])) {
+                ecgi = obj[1] +ecgi;
+            } else if (FIELD_CELLID.equals(obj[0])) {
 //                this.etlData.addData("CELLID", obj[1]);
                 MeasObjLdns.add(obj[1]);
-				ecgi = ecgi +obj[1];
+                ecgi = obj[1];
 			} else if (obj[0].contains(FIELD_ENODEBNAME)) {
 //                this.etlData.addData("ENODEBNAME", obj[1]);
                 MeasObjLdns.add(obj[1]);
@@ -123,6 +123,9 @@ public class HwExpokpiXML extends AbstractSourceMetaData {
                 MeasObjLdns.add(obj[1]);
 			}
 		}
+		if(MeasObjLdns.size()<4){
+		    logger.error("MeasObjLdns is"+MeasObjLdns+",source:"+measObjLdn);
+        }
         MeasObjLdns.add(ecgi);
 		return MeasObjLdns;
 	}
@@ -133,6 +136,8 @@ public class HwExpokpiXML extends AbstractSourceMetaData {
         if (line.contains(beginMeasData)) {
 //            etlData.clear();
             mapEtl.clear();
+            flag=false;
+            eNodeBFlag=false;
         }
 //		STAT_TIME
         if (line.trim().startsWith(beginMeasCollec)) {
@@ -169,9 +174,7 @@ public class HwExpokpiXML extends AbstractSourceMetaData {
         if (flag) {
 //		STAT_PERIOD
             if (line.trim().startsWith(repPeriod)) {
-                stat_period = SourceXmlTool.getAttrValue(line, ATTR_DURATION);
-                int period = Integer.valueOf(stat_period.substring(2, 6)) / 3600;
-                stat_period = String.valueOf(period) + "h";
+                stat_period = SourceXmlTool.getAttrValue(line, ATTR_DURATION).substring(2, 6);
 //                this.etlData.addData(FIELD_STAT_PERIOD, stat_period);
 //                this.etlData.addData("STAT_TIME", this.beginTime);
             }

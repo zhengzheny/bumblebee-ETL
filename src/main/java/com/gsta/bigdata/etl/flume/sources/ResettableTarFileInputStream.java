@@ -181,8 +181,8 @@ public class ResettableTarFileInputStream extends ResettableInputStream
       throws IOException {
     this.file = file;
     this.tracker = tracker;
-    
     this.in = new FileInputStream(file);
+    
     this.tarIs = new TarArchiveInputStream(
             new GzipCompressorInputStream(this.in));
 
