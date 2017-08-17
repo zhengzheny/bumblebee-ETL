@@ -19,8 +19,6 @@
 package com.gsta.bigdata.etl.flume.sources;
 
 import com.google.common.base.Charsets;
-import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
-import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 import org.apache.flume.annotations.InterfaceAudience;
 import org.apache.flume.annotations.InterfaceStability;
 import org.apache.flume.serialization.*;
@@ -39,7 +37,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CoderResult;
 import java.nio.charset.CodingErrorAction;
-import java.util.zip.GZIPInputStream;
+import java.util.zip.ZipInputStream;
 
 /**
  * <p>This class makes the following assumptions:</p>
@@ -89,13 +87,12 @@ import java.util.zip.GZIPInputStream;
  */
 @InterfaceAudience.Private
 @InterfaceStability.Evolving
-public class ResettableTarFileInputStream extends ResettableInputStream
-    implements RemoteMarkable, LengthMeasurable {
+public class ResettableZipFileInputStream extends ResettableInputStream
+        implements RemoteMarkable, LengthMeasurable {
 
-  Logger logger = LoggerFactory.getLogger(ResettableTarFileInputStream.class);
+  Logger logger = LoggerFactory.getLogger(ResettableZipFileInputStream.class);
 
-  //added by tianxq
-  private final TarArchiveInputStream tarIs;
+  private final ZipInputStream zipIs;
 
   public static final int DEFAULT_BUF_SIZE = 16384;
 
@@ -148,8 +145,8 @@ public class ResettableTarFileInputStream extends ResettableInputStream
    * @throws FileNotFoundException If the file to read does not exist
    * @throws IOException If the position reported by the tracker cannot be sought
    */
-  public ResettableTarFileInputStream(File file, PositionTracker tracker)
-      throws IOException {
+  public ResettableZipFileInputStream(File file, PositionTracker tracker)
+          throws IOException {
     this(file, tracker, DEFAULT_BUF_SIZE, Charsets.UTF_8, DecodeErrorPolicy.FAIL);
   }
 
@@ -176,18 +173,17 @@ public class ResettableTarFileInputStream extends ResettableInputStream
    * @throws FileNotFoundException If the file to read does not exist
    * @throws IOException If the position reported by the tracker cannot be sought
    */
-  public ResettableTarFileInputStream(File file, PositionTracker tracker,
+  public ResettableZipFileInputStream(File file, PositionTracker tracker,
                                       int bufSize, Charset charset, DecodeErrorPolicy decodeErrorPolicy)
-      throws IOException {
+          throws IOException {
     this.file = file;
     this.tracker = tracker;
-    
-    this.in = new FileInputStream(file);
-    this.tarIs = new TarArchiveInputStream(
-            new GzipCompressorInputStream(this.in));
 
-    this.byteChannel = Channels.newChannel(tarIs);
-    
+    this.in = new FileInputStream(file);
+    this.zipIs = new ZipInputStream(this.in);
+
+    this.byteChannel = Channels.newChannel(zipIs);
+
     this.buf = ByteBuffer.allocateDirect(Math.max(bufSize, MIN_BUF_SIZE));
     buf.flip();
     this.byteBuf = new byte[1]; // single byte
@@ -223,7 +219,7 @@ public class ResettableTarFileInputStream extends ResettableInputStream
         break;
       default:
         throw new IllegalArgumentException(
-            "Unexpected value for decode error policy: " + decodeErrorPolicy);
+                "Unexpected value for decode error policy: " + decodeErrorPolicy);
     }
     decoder.onMalformedInput(errorAction);
     decoder.onUnmappableCharacter(errorAction);
@@ -231,16 +227,16 @@ public class ResettableTarFileInputStream extends ResettableInputStream
     seek(tracker.getPosition());
   }
 
-    public TarArchiveInputStream getTarIs() {
-        return tarIs;
-    }
+  public ZipInputStream getZipIs() {
+    return zipIs;
+  }
 
-    @Override
+  @Override
   public synchronized int read() throws IOException {
     int len = read(byteBuf, 0, 1);
     if (len == -1) {
       return -1;
-    // len == 0 should never happen
+      // len == 0 should never happen
     } else if (len == 0) {
       return -1;
     } else {
@@ -302,7 +298,7 @@ public class ResettableTarFileInputStream extends ResettableInputStream
     if (res.isMalformed() || res.isUnmappable()) {
       res.throwException();
     }
-    
+
     int delta = buf.position() - start;
 
     charBuf.flip();
@@ -336,7 +332,7 @@ public class ResettableTarFileInputStream extends ResettableInputStream
         if (!Character.isHighSurrogate(highSurrogate) || !Character.isLowSurrogate(lowSurrogate)) {
           // This should only happen in case of bad sequences (dangling surrogate, etc.)
           logger.warn("Decoded a pair of chars, but it does not seem to be a surrogate pair: {} {}",
-                      (int)highSurrogate, (int)lowSurrogate);
+                  (int)highSurrogate, (int)lowSurrogate);
         }
         hasLowSurrogate = true;
         // consider the pair as a single unit and increment position normally
@@ -351,7 +347,7 @@ public class ResettableTarFileInputStream extends ResettableInputStream
     incrPosition(delta, false);
     return -1;
   }
-  
+
   private void refillBuf() throws IOException {
     buf.compact();
     //chan.position(position); // ensure we read from the proper offset

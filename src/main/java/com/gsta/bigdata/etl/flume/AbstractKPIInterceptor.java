@@ -20,7 +20,7 @@ public abstract class AbstractKPIInterceptor implements Interceptor {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	protected String configFilePath;
 	private String[] types;
-	private Map<String, ETLProcess> processes = new HashMap<String, ETLProcess>();
+	protected Map<String, ETLProcess> processes = new HashMap<String, ETLProcess>();
 	
 	protected final static String HEADER_TYPE = "type";
 	protected final static String HEADER_KPI_DATE = "kd";
