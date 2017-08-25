@@ -45,7 +45,10 @@ import com.gsta.bigdata.etl.flume.sources.SpoolDirectorySourceConstants.ConsumeO
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -89,9 +92,9 @@ public class ReliableSpoolingCompressFileEventReader implements ReliableEventRea
 			.getLogger(ReliableSpoolingCompressFileEventReader.class);
 
 	static final String metaFileName = ".flumespool-main.meta";
+	private final String ZIP_FILE_EXTENSION = ".zip";
 	private final String GZIP_FILE_EXTENSION = ".gz";
 	private final String TAR_FILE_EXTENSION = ".tar.gz";
-	private final String HW_TAR_FILE_EXTENSION = ".done";
 	private final File spoolDirectory;
 	private final String completedSuffix;
 	private final String deserializerType;
@@ -340,7 +343,7 @@ public class ReliableSpoolingCompressFileEventReader implements ReliableEventRea
 		List<Event> events = Lists.newLinkedList();
 		try{
 			events = des.readEvents(numEvents);
-		} catch(IOException e){
+		}catch(IOException e){
 			logger.error("file=" + currentFile.get().getFile().getName() + ",occur error:" + e.toString());
 			//discard this file and deal with next file
 			events.clear();
@@ -574,7 +577,7 @@ public class ReliableSpoolingCompressFileEventReader implements ReliableEventRea
 	 * the directory listing to amortize retreival cost, and return any arbitary
 	 * file from the directory.
 	 */
-	private Optional<FileInfo> getNextFile() throws IOException{
+	private Optional<FileInfo> getNextFile() {
 		List<File> candidateFiles = Collections.emptyList();
 
 		if (consumeOrder != ConsumeOrder.RANDOM || candidateFileIter == null
@@ -720,7 +723,7 @@ public class ReliableSpoolingCompressFileEventReader implements ReliableEventRea
 	 * @return  for the file to consume or absent option if the
 	 *         file does not exists or readable.
 	 */
-	private Optional<FileInfo> openFile(File file) throws IOException{
+	private Optional<FileInfo> openFile(File file) {
 		try {
 			// roll the meta file, if needed
 			String nextPath = file.getPath();
@@ -742,6 +745,10 @@ public class ReliableSpoolingCompressFileEventReader implements ReliableEventRea
 			if (file != null && (file.getName().contains(TAR_FILE_EXTENSION)&&file.getName().contains(HW_TAR_FILE_EXTENSION))){
 				logger.info("Targz file name is:"+file.getName());
 				in = new ResettableTarFileInputStream(file,tracker,
+						ResettableFileInputStream.DEFAULT_BUF_SIZE,
+						inputCharset, decodeErrorPolicy);
+			}else if (file != null && file.getName().endsWith(ZIP_FILE_EXTENSION)) {
+				in = new ResettableZipFileInputStream(file, tracker,
 						ResettableFileInputStream.DEFAULT_BUF_SIZE,
 						inputCharset, decodeErrorPolicy);
 			}else if (file != null && file.getName().endsWith(GZIP_FILE_EXTENSION)) {
