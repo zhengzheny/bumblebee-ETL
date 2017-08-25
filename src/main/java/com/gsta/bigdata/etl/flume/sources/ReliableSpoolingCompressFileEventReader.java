@@ -434,7 +434,7 @@ public class ReliableSpoolingCompressFileEventReader implements ReliableEventRea
 
 		/*
 		 * if (deletePolicy.equalsIgnoreCase(DeletePolicy.NEVER.name())) {
-		 * rollCurrentFile(fileToRoll); } else if
+		 * rollCurrentFile(fileToRoll); } else ifResettableTarFileInputStream
 		 * (deletePolicy.equalsIgnoreCase(DeletePolicy.IMMEDIATE.name())) {
 		 * deleteCurrentFile(fileToRoll); } else { // TODO: implement delay in
 		 * the future throw new
@@ -740,6 +740,7 @@ public class ReliableSpoolingCompressFileEventReader implements ReliableEventRea
 
 			ResettableInputStream in = null;
 			if (file != null && (file.getName().contains(TAR_FILE_EXTENSION)&&file.getName().contains(HW_TAR_FILE_EXTENSION))){
+				logger.info("Targz file name is:"+file.getName());
 				in = new ResettableTarFileInputStream(file,tracker,
 						ResettableFileInputStream.DEFAULT_BUF_SIZE,
 						inputCharset, decodeErrorPolicy);
