@@ -38,7 +38,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 /**
- * A deserializer that parses text lines from a file.
+ * 处理第一层是.zip文件，下面是未压缩文件
  */
 @InterfaceAudience.Private
 @InterfaceStability.Evolving
@@ -140,6 +140,9 @@ public class ZipLineDeserializer implements EventDeserializer {
             in.close();
             isOpen = false;
         }
+
+        //buffered reader 不用关闭，里面会自动关闭input stream
+        //if(bufReader != null) bufReader.close();
     }
 
     private void ensureOpen() {

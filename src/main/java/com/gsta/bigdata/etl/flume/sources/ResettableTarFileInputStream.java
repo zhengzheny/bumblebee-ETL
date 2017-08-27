@@ -182,9 +182,9 @@ public class ResettableTarFileInputStream extends ResettableInputStream
     this.file = file;
     this.tracker = tracker;
     this.in = new FileInputStream(file);
-    
+
     this.tarIs = new TarArchiveInputStream(
-            new GzipCompressorInputStream(this.in));
+            new GzipCompressorInputStream(this.in),SpoolDirectoryCompressSource.inputCharset);
 
     this.byteChannel = Channels.newChannel(tarIs);
     

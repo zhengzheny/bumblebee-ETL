@@ -180,7 +180,8 @@ public class ResettableZipFileInputStream extends ResettableInputStream
     this.tracker = tracker;
 
     this.in = new FileInputStream(file);
-    this.zipIs = new ZipInputStream(this.in);
+    this.zipIs = new ZipInputStream(this.in,
+            Charset.forName(SpoolDirectoryCompressSource.inputCharset));
 
     this.byteChannel = Channels.newChannel(zipIs);
 

@@ -20,6 +20,8 @@ package com.gsta.bigdata.etl.flume.sources;
 
 import com.google.common.collect.Lists;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
+import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
+import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 import org.apache.flume.Context;
 import org.apache.flume.Event;
 import org.apache.flume.annotations.InterfaceAudience;
@@ -30,14 +32,15 @@ import org.apache.flume.serialization.ResettableInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.util.List;
+import java.util.zip.GZIPInputStream;
+
+import static org.apache.hadoop.yarn.webapp.hamlet.HamletSpec.InputType.file;
 
 /**
- * A deserializer that parses text lines from a file.
+ * 第一层是tar.gz，中间可以是目录，目录下面是普通文件
  */
 @InterfaceAudience.Private
 @InterfaceStability.Evolving
@@ -71,7 +74,6 @@ public class TarGZLineDeserializer implements EventDeserializer {
     try {
       this.tarArchiveEntry = this.in.getTarIs().getNextTarEntry();
       String fileName = this.tarArchiveEntry.getName();
-//      fileName = new String(fileName.getBytes(),"gbk");
       logger.info("file name is " + fileName);
     } catch (IOException e) {
       e.printStackTrace();
@@ -147,6 +149,9 @@ public class TarGZLineDeserializer implements EventDeserializer {
       in.close();
       isOpen = false;
     }
+
+    //buffered reader 不用关闭，里面会自动关闭input stream
+    //if(bufReader != null) bufReader.close();
   }
 
   private void ensureOpen() {
@@ -193,4 +198,29 @@ public class TarGZLineDeserializer implements EventDeserializer {
 
   }
 
+  public static void main(String[] args) {
+    File file = new File("D:\\github\\bumblebee-ETL\\doc\\LTE_MRGZ_HUAWEI_132.122.151.91_201708030930_201708030945_001.tar.gz.COMPLETED");
+    try {
+      TarArchiveInputStream tais =
+              new TarArchiveInputStream(
+                      new GzipCompressorInputStream(new FileInputStream(file)), "utf-8");
+
+      TarArchiveEntry tarArchiveEntry ;
+      while ((tarArchiveEntry=tais.getNextTarEntry()) != null) {
+        if(tarArchiveEntry.isDirectory()) continue;
+
+        System.out.println(tarArchiveEntry.getName());
+        /*BufferedReader bufReader = new BufferedReader(
+                new InputStreamReader(tais, "utf-8"));*/
+        BufferedReader bufReader = new BufferedReader(
+                new InputStreamReader(new GZIPInputStream(tais), "utf-8"));
+        String line ;
+        while((line = bufReader.readLine()) != null){
+          System.out.println(line);
+        }
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
 }

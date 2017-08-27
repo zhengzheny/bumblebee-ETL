@@ -1,0 +1,95 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<etl>
+    <process id="flume-mro-huawei">
+        <computingFrameworkConfigs/>
+
+        <sourceMetaData type="FlumeMro" parseType="ERS"/>
+
+        <outputMetaData>
+            <keys/>
+            <values delimiter="|">
+                <field id="startTime"/>
+                <field id="endTime"/>
+                <field id="TimeStamp"/>
+                <field id="ENODEID"/>
+                <field id="CELLID" defaultValue=""/>
+                <field id="MmeGroupId" defaultValue=""/>
+                <field id="MmeUeS1apId" defaultValue=""/>
+                <field id="MmeCode" defaultValue=""/>
+                <field id="MR_LteScRSRP" defaultValue=""/>
+                <field id="MR_LteNcRSRP1" defaultValue=""/>
+                <field id="MR_LteNcRSRP2" defaultValue=""/>
+                <field id="MR_LteNcRSRP3" defaultValue=""/>
+                <field id="MR_LteNcRSRP4" defaultValue=""/>
+                <field id="MR_LteNcRSRP5" defaultValue=""/>
+                <field id="MR_LteScRSRQ" defaultValue=""/>
+                <field id="MR_LteNcRSRQ1" defaultValue=""/>
+                <field id="MR_LteNcRSRQ2" defaultValue=""/>
+                <field id="MR_LteNcRSRQ3" defaultValue=""/>
+                <field id="MR_LteNcRSRQ4" defaultValue=""/>
+                <field id="MR_LteNcRSRQ5" defaultValue=""/>
+                <field id="MR_LteScTadv" defaultValue=""/>
+                <field id="MR_LteScPHR" defaultValue=""/>
+                <field id="MR_LteScAOA" defaultValue=""/>
+                <field id="MR_LteScSinrUL" defaultValue=""/>
+                <field id="MR_LteScEarfcn" defaultValue=""/>
+                <field id="MR_LteScPci" defaultValue=""/>
+                <field id="MR_LteNcEarfcn1" defaultValue=""/>
+                <field id="MR_LteNcEarfcn2" defaultValue=""/>
+                <field id="MR_LteNcEarfcn3" defaultValue=""/>
+                <field id="MR_LteNcEarfcn4" defaultValue=""/>
+                <field id="MR_LteNcEarfcn5" defaultValue=""/>
+                <field id="MR_LteNcPci1" defaultValue=""/>
+                <field id="MR_LteNcPci2" defaultValue=""/>
+                <field id="MR_LteNcPci3" defaultValue=""/>
+                <field id="MR_LteNcPci4" defaultValue=""/>
+                <field id="MR_LteNcPci5" defaultValue=""/>
+                <field id="MR_LteHRPDNcPilotStrength" defaultValue=""/>
+                <field id="MR_LteCDMANcPilotStrength" defaultValue=""/>
+                <field id="MR_LteSceNBRxTxTimeDiff" defaultValue=""/>
+                <field id="MR_LteScRTTD" defaultValue=""/>
+                <field id="MR_LteScRIP" defaultValue=""/>
+                <field id="MR_LteScPlrULQci1" defaultValue=""/>
+                <field id="MR_LteScPlrULQci2" defaultValue=""/>
+                <field id="MR_LteScPlrULQci3" defaultValue=""/>
+                <field id="MR_LteScPlrULQci4" defaultValue=""/>
+                <field id="MR_LteScPlrULQci5" defaultValue=""/>
+                <field id="MR_LteScPlrULQci6" defaultValue=""/>
+                <field id="MR_LteScPlrULQci7" defaultValue=""/>
+                <field id="MR_LteScPlrULQci8" defaultValue=""/>
+                <field id="MR_LteScPlrULQci9" defaultValue=""/>
+                <field id="MR_LteScPlrDLQci1" defaultValue=""/>
+                <field id="MR_LteScPlrDLQci2" defaultValue=""/>
+                <field id="MR_LteScPlrDLQci3" defaultValue=""/>
+                <field id="MR_LteScPlrDLQci4" defaultValue=""/>
+                <field id="MR_LteScPlrDLQci5" defaultValue=""/>
+                <field id="MR_LteScPlrDLQci6" defaultValue=""/>
+                <field id="MR_LteScPlrDLQci7" defaultValue=""/>
+                <field id="MR_LteScPlrDLQci8" defaultValue=""/>
+                <field id="MR_LteScPlrDLQci9" defaultValue=""/>
+                <field id="MR_GsmNcellBcc" defaultValue=""/>
+                <field id="MR_GsmNcellBcch" defaultValue=""/>
+                <field id="MR_GsmNcellCarrierRSSI" defaultValue=""/>
+                <field id="MR_GsmNcellNcc" defaultValue=""/>
+                <field id="MR_LteFddNcEarfcn" defaultValue=""/>
+                <field id="MR_LteFddNcPci" defaultValue=""/>
+                <field id="MR_LteFddNcRSRP" defaultValue=""/>
+                <field id="MR_LteFddNcRSRQ" defaultValue=""/>
+                <field id="MR_LteScCgi" defaultValue=""/>
+                <field id="MR_LteScPDSCHPRBNum" defaultValue=""/>
+                <field id="MR_LteScPUSCHPRBNum" defaultValue=""/>
+                <field id="MR_LteScRI1" defaultValue=""/>
+                <field id="MR_LteScRI2" defaultValue=""/>
+                <field id="MR_LteScRI4" defaultValue=""/>
+                <field id="MR_LteScRI8" defaultValue=""/>
+                <field id="MR_LteScUeRxTxTD" defaultValue=""/>
+                <field id="MR_LteSceEuRxTxTD" defaultValue=""/>
+                <field id="MR_LteTddNcEarfcn" defaultValue=""/>
+                <field id="MR_LteTddNcPci" defaultValue=""/>
+                <field id="MR_LteTddNcRSRP" defaultValue=""/>
+                <field id="MR_LteTddNcRSRQ" defaultValue=""/>
+                <field id="FLAG"/>
+            </values>
+        </outputMetaData>
+    </process>
+</etl>
