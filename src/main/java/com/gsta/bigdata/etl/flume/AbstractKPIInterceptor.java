@@ -35,6 +35,7 @@ public abstract class AbstractKPIInterceptor implements Interceptor {
 	}
 
 	@Override
+//	读取各种xml配置文件到processes
 	public void initialize() {
 		if (this.configFilePath == null || this.types == null
 				|| this.types.length <= 0) {

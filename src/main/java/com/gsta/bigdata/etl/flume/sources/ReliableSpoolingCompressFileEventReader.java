@@ -740,7 +740,7 @@ public class ReliableSpoolingCompressFileEventReader implements ReliableEventRea
 					tracker.getTarget(), nextPath);
 
 			ResettableInputStream in = null;
-			//适配华为dpi的tar.gz
+
 			if (file != null && (file.getName().contains(TAR_FILE_EXTENSION)&&file.getName().contains(HW_TAR_FILE_EXTENSION))){
 				logger.info("Targz file name is:"+file.getName());
 				in = new ResettableTarFileInputStream(file,tracker,
