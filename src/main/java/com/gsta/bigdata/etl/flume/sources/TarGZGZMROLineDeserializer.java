@@ -37,18 +37,15 @@ import java.nio.charset.Charset;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
 
-import static org.apache.hadoop.yarn.webapp.hamlet.HamletSpec.InputType.file;
-
 /**
- * 第一层是tar.gz，中间可以是目录，目录下面是普通文件
+ * 第一层是.tar.gz文件，下面是目录，目录下面又是.gz
  */
 @InterfaceAudience.Private
 @InterfaceStability.Evolving
-public class TarGZLineDeserializer implements EventDeserializer {
+public class TarGZGZMROLineDeserializer implements EventDeserializer {
 
-  private static final Logger logger = LoggerFactory.getLogger(TarGZLineDeserializer.class);
+  private static final Logger logger = LoggerFactory.getLogger(TarGZGZMROLineDeserializer.class);
 
-  //update by tianxq 201.6.11
   private final ResettableTarFileInputStream in;
   private TarArchiveEntry tarArchiveEntry = null;
 
@@ -66,24 +63,15 @@ public class TarGZLineDeserializer implements EventDeserializer {
   private boolean isEndFile = false;
   //文件读取缓冲区
   private BufferedReader bufReader;
+  private  String inputCharset;
 
-  TarGZLineDeserializer(Context context, ResettableInputStream in, String inputCharset) {
+  //只处理MRO文件
+  public static final String MRO_FILE_NAME = "_MRO_";
+
+  TarGZGZMROLineDeserializer(Context context, ResettableInputStream in, String inputCharset) {
     this.in = (ResettableTarFileInputStream)in;
 
-    //初始化第一个entry
-    try {
-      this.tarArchiveEntry = this.in.getTarIs().getNextTarEntry();
-      String fileName = this.tarArchiveEntry.getName();
-      logger.info("file name is " + fileName);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-    try {
-      bufReader = new BufferedReader(new InputStreamReader(this.in.getTarIs(), inputCharset));
-    }catch (java.io.UnsupportedEncodingException e){
-      e.printStackTrace();
-    }
+    this.inputCharset = inputCharset;
 
     this.outputCharset = Charset.forName(
             context.getString(OUT_CHARSET_KEY, CHARSET_DFLT));
@@ -160,31 +148,55 @@ public class TarGZLineDeserializer implements EventDeserializer {
     }
   }
 
-  // TODO: consider not returning a final character that is a high surrogate
-  // when truncating
   private String readLine() throws IOException {
+    if(this.isEndFile)  return null;
+
+    if(bufReader != null){
+      String line = this.bufReader.readLine();
+      if(line != null) {
+        return line;
+      }else{
+        //换压缩包的下一个文件
+        this.tarArchiveEntry = this.in.getTarIs().getNextTarEntry();
+        if(this.tarArchiveEntry != null && !this.tarArchiveEntry.isDirectory()
+                && this.tarArchiveEntry.getName().contains(MRO_FILE_NAME)) {
+          bufReader = new BufferedReader(new InputStreamReader(
+                  new GZIPInputStream(this.in.getTarIs()), inputCharset));
+          logger.info("file name is " + this.tarArchiveEntry.getName());
+        }else if(this.tarArchiveEntry == null){
+          logger.info("finish read tar.gz file");
+          this.isEndFile = true;
+        }
+      }
+    }else {
+      getNextFile();
+    }
+
+    return null;
+  }
+
+  private void getNextFile() throws IOException{
     //如果是目录忽略掉
     if(this.tarArchiveEntry == null || this.tarArchiveEntry.isDirectory()){
       this.tarArchiveEntry = this.in.getTarIs().getNextTarEntry();
       if(this.tarArchiveEntry != null) {
-        logger.info("file name is " + this.tarArchiveEntry.getName());
+        //考虑多层目录情况
+        while (this.tarArchiveEntry.isDirectory()){
+          logger.info("file name is " + this.tarArchiveEntry.getName());
+          this.tarArchiveEntry = this.in.getTarIs().getNextTarEntry();
+        }
+
+        String fileName = this.tarArchiveEntry.getName();
+
+        if(!this.tarArchiveEntry.isDirectory() && fileName.contains(MRO_FILE_NAME)) {
+          bufReader = new BufferedReader(new InputStreamReader(
+                  new GZIPInputStream(this.in.getTarIs()), inputCharset));
+          logger.info("file name is " + fileName);
+        }
       }else{
         logger.info("finish read tar.gz file");
         this.isEndFile = true;
-        return null;
       }
-    }
-
-    String line = this.bufReader.readLine();
-    if(line != null) {
-      return line;
-    }else{
-      //换压缩包的下一个文件
-      this.tarArchiveEntry = this.in.getTarIs().getNextTarEntry();
-      if(this.tarArchiveEntry != null) {
-        logger.info("file name is " + this.tarArchiveEntry.getName());
-      }
-      return null;
     }
   }
 
@@ -193,13 +205,13 @@ public class TarGZLineDeserializer implements EventDeserializer {
     @Override
     public EventDeserializer build(Context context, ResettableInputStream in) {
       String inputCharset = context.getString("inputCharset");
-      return new TarGZLineDeserializer(context, in,inputCharset);
+      return new TarGZGZMROLineDeserializer(context, in,inputCharset);
     }
 
   }
 
   public static void main(String[] args) {
-    File file = new File("D:\\github\\bumblebee-ETL\\doc\\LTE_MRGZ_HUAWEI_132.122.151.91_201708030930_201708030945_001.tar.gz.COMPLETED");
+    File file = new File("D:\\github\\bumblebee-ETL\\doc\\LTE_MRGZ_HUAWEI_132.122.151.91_201708030930_201708030945_001.tar.gz");
     try {
       TarArchiveInputStream tais =
               new TarArchiveInputStream(
@@ -216,7 +228,7 @@ public class TarGZLineDeserializer implements EventDeserializer {
                 new InputStreamReader(new GZIPInputStream(tais), "utf-8"));
         String line ;
         while((line = bufReader.readLine()) != null){
-          System.out.println(line);
+        //  System.out.println(line);
         }
       }
     } catch (IOException e) {
