@@ -741,13 +741,7 @@ public class ReliableSpoolingCompressFileEventReader implements ReliableEventRea
 
 			ResettableInputStream in = null;
 
-			if (file != null && (file.getName().contains(TAR_FILE_EXTENSION)&&file.getName().contains(HW_TAR_FILE_EXTENSION))){
-				logger.info("Targz file name is:"+file.getName());
-				in = new ResettableTarFileInputStream(file,tracker,
-						ResettableFileInputStream.DEFAULT_BUF_SIZE,
-						inputCharset, decodeErrorPolicy);
-			}else if (file != null && (file.getName().contains(TAR_FILE_EXTENSION))){
-				//普通的tar.gz
+			if (file != null && (file.getName().contains(TAR_FILE_EXTENSION))){
 				logger.info("Targz file name is:"+file.getName());
 				in = new ResettableTarFileInputStream(file,tracker,
 						ResettableFileInputStream.DEFAULT_BUF_SIZE,
