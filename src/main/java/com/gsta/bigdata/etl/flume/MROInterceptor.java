@@ -12,6 +12,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.RuntimeMXBean;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.*;
 
 /**
@@ -72,11 +76,14 @@ public class MROInterceptor implements Interceptor {
                 String enodeid = etlDataList.get(0).getValue(MroXmlParser.ENODEID);
                 String startTime = etlDataList.get(0).getValue(MroXmlParser.STARTTIME);
                 String[] t = getPartitionTime(startTime);
-
+                String ppid = String.valueOf(getProcessID());
+                String ip = getLastIp();
                 Map<String, String> headers = event.getHeaders();
                 headers.put("pid",getPartitionId(enodeid));
                 headers.put("day",t[0]);
                 headers.put("hour",t[1]);
+                headers.put("ip",ip);
+                headers.put("ppid",ppid);
 
                 return event;
             }
@@ -85,6 +92,25 @@ public class MROInterceptor implements Interceptor {
         }
 
         return null;
+    }
+
+    private int getProcessID() {
+        RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
+
+        return Integer.valueOf(runtimeMXBean.getName().split("@")[0]).intValue();
+    }
+
+    private String getLastIp(){
+        try {
+            InetAddress addr = InetAddress.getLocalHost();
+            String ip = addr.getHostAddress().toString();
+            ip = ip.substring(ip.lastIndexOf(".") + 1, ip.length());
+            return ip;
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+
+        return "-1";
     }
 
     private String[] getPartitionTime(String startTime){
