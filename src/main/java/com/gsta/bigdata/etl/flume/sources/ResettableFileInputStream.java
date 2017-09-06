@@ -107,7 +107,7 @@ public class ResettableFileInputStream extends ResettableInputStream
 
   private final File file;
   private final PositionTracker tracker;
-  private final FileInputStream in;
+  protected final FileInputStream in;
   private final FileChannel chan;
   private final ByteBuffer buf;
   private final CharBuffer charBuf;

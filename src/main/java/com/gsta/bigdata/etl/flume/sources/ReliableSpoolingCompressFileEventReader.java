@@ -142,7 +142,6 @@ public class ReliableSpoolingCompressFileEventReader implements ReliableEventRea
 		Preconditions.checkNotNull(deserializerType);
 		Preconditions.checkNotNull(deserializerContext);
 		Preconditions.checkNotNull(deletePolicy);
-		//Preconditions.checkNotNull(deleteCompressFilePolicy);
 		Preconditions.checkNotNull(inputCharset);
 
 		// validate delete policy
@@ -152,13 +151,6 @@ public class ReliableSpoolingCompressFileEventReader implements ReliableEventRea
 			throw new IllegalArgumentException("Delete policies other than "
 					+ "NEVER and IMMEDIATE are not yet supported");
 		}
-		
-		/*if (!deleteCompressFilePolicy.equalsIgnoreCase(DeletePolicy.NEVER.name())
-				&& !deleteCompressFilePolicy
-						.equalsIgnoreCase(DeletePolicy.IMMEDIATE.name())) {
-			throw new IllegalArgumentException("Delete compress file policies other than "
-					+ "NEVER and IMMEDIATE are not yet supported");
-		}*/
 
 		if (logger.isDebugEnabled()) {
 			logger.debug("Initializing {} with directory={}, metaDir={}, "
@@ -256,6 +248,11 @@ public class ReliableSpoolingCompressFileEventReader implements ReliableEventRea
 			String fileName = candidate.getName();
 			if (fileName.endsWith(completedSuffix) || fileName.startsWith(".")
 					|| ignorePattern.matcher(fileName).matches()) {
+				return false;
+			}
+
+			//增加候选文件长度为0的过滤
+			if(candidate.length() <= 0){
 				return false;
 			}
 
@@ -415,7 +412,10 @@ public class ReliableSpoolingCompressFileEventReader implements ReliableEventRea
 		File fileToRoll = new File(currentFile.get().getFile()
 				.getAbsolutePath());
 
-		currentFile.get().getDeserializer().close();
+		EventDeserializer eventDeserializer = currentFile.get().getDeserializer();
+		if(eventDeserializer != null) {
+			eventDeserializer.close();
+		}
 
 		// Verify that spooling assumptions hold
 		if (fileToRoll.lastModified() != currentFile.get().getLastModified()) {
@@ -433,25 +433,10 @@ public class ReliableSpoolingCompressFileEventReader implements ReliableEventRea
 			logger.error(message);
 		}
 
-		/*
-		 * if (deletePolicy.equalsIgnoreCase(DeletePolicy.NEVER.name())) {
-		 * rollCurrentFile(fileToRoll); } else ifResettableTarFileInputStream
-		 * (deletePolicy.equalsIgnoreCase(DeletePolicy.IMMEDIATE.name())) {
-		 * deleteCurrentFile(fileToRoll); } else { // TODO: implement delay in
-		 * the future throw new
-		 * IllegalArgumentException("Unsupported delete policy: " +
-		 * deletePolicy); }
-		 */
 		applyRetentionPolicy(fileToRoll);
 	}
 
 	private void applyRetentionPolicy(File fileToRoll) throws IOException {
-		// delete compress file(.gz)
-		/*if (deleteCompressFilePolicy.equalsIgnoreCase(DeletePolicy.IMMEDIATE
-				.name()) && fileToRoll.getName().endsWith(GZIP_FILE_EXTENSION)) {
-			deleteCurrentFile(fileToRoll);
-		}*/
-
 		if (deletePolicy.equalsIgnoreCase(DeletePolicy.NEVER.name())) {
 			rollCurrentFile(fileToRoll);
 		} else if (deletePolicy.equalsIgnoreCase(DeletePolicy.IMMEDIATE.name())) {
@@ -591,24 +576,6 @@ public class ReliableSpoolingCompressFileEventReader implements ReliableEventRea
 		}
 		
 		File selectedFile = candidateFileIter.next();
-		
-		//unzip compress file
-		/*String fileName = selectedFile.getName();
-		if (fileName.endsWith(GZIP_FILE_EXTENSION)) {
-			long start = System.currentTimeMillis();
-			unzipfile(selectedFile);
-			long end = System.currentTimeMillis();
-			logger.info("unzip file:" + fileName + ",cost time " + (end-start)/1000 + " s.");
-			try {
-				// apply it for the .gz file the files after unzip will be
-				// handled by retireCurrentFile() flow
-				applyRetentionPolicy(selectedFile);
-			} catch (IOException e) {
-				e.printStackTrace();
-			} finally {
-				return Optional.absent();
-			}
-		}*/
 
 		if (consumeOrder == ConsumeOrder.RANDOM) { // Selected file is random.
 			return openFile(selectedFile);
@@ -643,70 +610,6 @@ public class ReliableSpoolingCompressFileEventReader implements ReliableEventRea
 		return openFile(selectedFile);
 	}
 
-	/*private String getUnzippedFileName(String zippedFileName) {
-		String unzippedFileName = zippedFileName;
-		if (zippedFileName != null) {
-			// if (!StringUtils.isBlank(zippedFileName)) {
-			// String fileName = StringUtils.substringBeforeLast(zippedFileName,
-			// GZIP_FILE_EXTENSION);
-			String fileName = zippedFileName.substring(0,
-					zippedFileName.indexOf(GZIP_FILE_EXTENSION));
-			unzippedFileName = fileName;
-		}
-
-		return unzippedFileName;
-	}
-
-	private void unzipfile(File zippedFile) {
-		String unzippedFileDirPath = zippedFile.getParent();
-		byte[] buffer = new byte[1024];
-		GZIPInputStream gzis = null;
-		FileOutputStream out = null;
-
-		if (zippedFile.exists()) {
-			try {
-				String unzippedFileName = getUnzippedFileName(zippedFile
-						.getName());
-				gzis = new GZIPInputStream(new FileInputStream(zippedFile));
-				out = new FileOutputStream(unzippedFileDirPath + "/"
-						+ unzippedFileName);
-				logger.debug("Started unzip process ");
-				int length;
-				length = gzis.read(buffer);
-				while (length > 0) {
-					out.write(buffer, 0, length);
-					length = gzis.read(buffer);
-				}
-				gzis.close();
-				out.close();
-				logger.debug("Completed unzip process ");
-				logger.debug(" After unzipping the file is {}",
-						unzippedFileName);
-
-			} catch (IOException ex) {
-				logger.error(" Error in unzip file {} ", ex.getMessage());
-			} finally {
-				if (gzis != null) {
-					try {
-						gzis.close();
-					} catch (IOException e) {
-						logger.error("Error in closing resource {} ",
-								e.getMessage());
-					}
-				}
-				if (out != null) {
-					try {
-						out.close();
-					} catch (IOException e) {
-						logger.error("Error in closing resource {} ",
-								e.getMessage());
-					}
-				}
-			}
-
-		}
-	}*/
-
 	private File smallerLexicographical(File f1, File f2) {
 		if (f1.getName().compareTo(f2.getName()) < 0) {
 			return f1;
@@ -740,8 +643,8 @@ public class ReliableSpoolingCompressFileEventReader implements ReliableEventRea
 					tracker.getTarget(), nextPath);
 
 			ResettableInputStream in = null;
-
 			if (file != null && (file.getName().contains(TAR_FILE_EXTENSION))){
+				//普通的tar.gz
 				logger.info("Targz file name is:"+file.getName());
 				in = new ResettableTarFileInputStream(file,tracker,
 						ResettableFileInputStream.DEFAULT_BUF_SIZE,
@@ -770,8 +673,41 @@ public class ReliableSpoolingCompressFileEventReader implements ReliableEventRea
 			logger.warn("Could not find file: " + file, e);
 			return Optional.absent();
 		} catch (IOException e) {
-			logger.error("Exception opening file: " + file, e);
+			logger.warn("Exception opening file: " + file, e);
+			//如果文件格式有问题，直接改名
+			renameErrorFile(file);
+
 			return Optional.absent();
+		}
+	}
+
+	private void renameErrorFile(File fileToRoll) throws IOException {
+		File dest = new File(fileToRoll.getPath() + completedSuffix);
+		logger.info("Preparing to move file {} to {}", fileToRoll, dest);
+
+		if (dest.exists()) {
+			boolean deleted = fileToRoll.delete();
+			logger.info("dest exist,delete source file {} {}",fileToRoll,deleted);
+		}else {
+			//直接改名，由于元数据没有产生，无需删除元数据
+			boolean renamed = fileToRoll.renameTo(dest);
+			if (renamed) {
+				logger.debug("Successfully rolled file {} to {}", fileToRoll,dest);
+			} else {
+				/*
+				 * If we are here then the file cannot be renamed for a reason
+				 * other than that the destination file exists (actually, that
+				 * remains possible w/ small probability due to TOC-TOU
+				 * conditions).
+				 */
+				String message = "Unable to move "
+						+ fileToRoll
+						+ " to "
+						+ dest
+						+ ". This will likely cause duplicate events. Please verify that "
+						+ "flume has sufficient permissions to perform these operations.";
+				throw new FlumeException(message);
+			}
 		}
 	}
 
@@ -933,5 +869,4 @@ public class ReliableSpoolingCompressFileEventReader implements ReliableEventRea
 					);
 		}
 	}
-
 }

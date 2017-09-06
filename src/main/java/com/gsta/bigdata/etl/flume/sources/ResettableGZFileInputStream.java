@@ -183,9 +183,15 @@ public class ResettableGZFileInputStream extends ResettableInputStream
     this.tracker = tracker;
     
     this.in = new FileInputStream(file);
-    GZIPInputStream gis = new GZIPInputStream(Channels.newInputStream(this.in.getChannel()));
-    //this.chan = in.getChannel();
-    this.byteChannel = Channels.newChannel(gis);
+    try {
+      GZIPInputStream gis = new GZIPInputStream(Channels.newInputStream(this.in.getChannel()));
+      //this.chan = in.getChannel();
+      this.byteChannel = Channels.newChannel(gis);
+    }catch(IOException e){
+      //要关闭，否则没法对源文件改名
+      this.in.close();
+      throw e;
+    }
     
     this.buf = ByteBuffer.allocateDirect(Math.max(bufSize, MIN_BUF_SIZE));
     buf.flip();
