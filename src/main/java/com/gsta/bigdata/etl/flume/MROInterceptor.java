@@ -66,7 +66,9 @@ public class MROInterceptor implements Interceptor {
                 this.etlProcess.onTransform(data);
                 //按照配置文件中的输出字段进行格式化输出
                 String output = this.etlProcess.getOutputValue(data);
-                sb.append(output).append("\n");
+                if (!output.isEmpty()){
+                    sb.append(output).append("\n");
+                }
 
             }
             if (sb.length() > 0) {

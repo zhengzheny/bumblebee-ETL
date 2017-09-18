@@ -32,7 +32,7 @@ if [ ! -d "$logPath" ]
 then
   mkdir -p $logPath
 fi
-
+port=20160
 for((i=0;i<$flumeAgentNum;i++))
 do
   srcPath="$workPath/$type$i"
@@ -42,7 +42,7 @@ do
   log=$logPath/$type$i.log
   logConf=$configPath/$type$i.log4j.properties
   sed "s:GSTA_LOG_FILE_NAME:${log}:g" $logFile > $logConf
-
-  nohup bin/etl-flume.sh $config -Dlog4j.configuration=file:$logConf &
+  ((port++))
+  nohup bin/etl-flume.sh $config -Dflume.monitoring.type=http -Dflume.monitoring.port=${port} -Dlog4j.configuration=file:$logConf &
 
 done
